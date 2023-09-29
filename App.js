@@ -10,12 +10,22 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // screens testing
 // 1. HomeScreen
 function HomeScreen({ navigation, route }) {
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={() => setCount((c) => c + 1)} title="Update count" />
+      ),
+    });
+
     if (route.params?.post) {
       // Post updated, do something with `route.params.post`
       // For example, send the post to the server
     }
-  }, [route.params?.post]);
+  }, [route.params?.post, navigation]);
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -32,6 +42,7 @@ function HomeScreen({ navigation, route }) {
         onPress={() => navigation.navigate("CreatePost")}
       />
       <Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
+      <Text>Count: {count}</Text>
     </View>
   );
 }
@@ -111,7 +122,14 @@ export default function App() {
           },
         }}
       >
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={({ navigation, route }) => ({
+            // Add a placeholder button without the `onPress` to avoid flicker
+            headerRight: () => <Button title="Update count" />,
+          })}
+        />
         <Stack.Screen
           name="Details"
           component={DetailsScreen}
