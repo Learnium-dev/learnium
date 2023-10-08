@@ -1,156 +1,76 @@
-// react imports
-import { useState, useEffect } from "react";
-// react native imports
-import { StyleSheet, Text, View, Button, TextInput, Image } from "react-native";
-
 // react navigation imports
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-// screens testing
-// 1. HomeScreen
-function HomeScreen({ navigation, route }) {
-  const [count, setCount] = useState(0);
+// screens
+// screens - study
+import Study from "./src/screens/BottomTabScreens/Study";
+import AllMaterials from "./src/screens/BottomTabScreens/Study/AllMaterials";
+import CreateNewMaterial from "./src/screens/BottomTabScreens/Study/CreateNewMaterial";
+import KeyTopic from "./src/screens/BottomTabScreens/Study/KeyTopic";
+import NextDayPlan from "./src/screens/BottomTabScreens/Study/NextDayPlan";
 
-  useEffect(() => {
-    // Use `setOptions` to update the button that we previously specified
-    // Now the button includes an `onPress` handler to update the count
-    navigation.setOptions({
-      headerRight: () => (
-        <Button onPress={() => setCount((c) => c + 1)} title="Update count" />
-      ),
-    });
+// screens - progress
+import Progress from "./src/screens/BottomTabScreens/Progress";
 
-    if (route.params?.post) {
-      // Post updated, do something with `route.params.post`
-      // For example, send the post to the server
-    }
-  }, [route.params?.post, navigation]);
+// screens - daily
+import Daily from "./src/screens/BottomTabScreens/Daily";
+
+// screens - account
+import Account from "./src/screens/BottomTabScreens/Account";
+
+// tab bottom navigator
+function TabBottomNavigator() {
+  const Tab = createBottomTabNavigator();
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate("Details")}
+    <Tab.Navigator>
+      <Tab.Screen
+        name="StudyMain"
+        component={StudyStackNavigator}
+        options={{ headerShown: false }}
       />
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate("Profile", { name: "Johnny" })}
+      <Tab.Screen
+        name="Progress"
+        component={Progress}
+        options={{ headerShown: false }}
       />
-      <Button
-        title="Create question"
-        onPress={() => navigation.navigate("CreatePost")}
+      <Tab.Screen
+        name="Daily"
+        component={Daily}
+        options={{ headerShown: false }}
       />
-      <Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
-      <Text>Count: {count}</Text>
-    </View>
+      <Tab.Screen
+        name="Account"
+        component={Account}
+        options={{ headerShown: false }}
+      />
+    </Tab.Navigator>
   );
 }
 
-function CreatePostScreen({ navigation, route }) {
-  const [postText, setPostText] = useState("");
-
+// study stack navigator
+const StudyStack = createNativeStackNavigator();
+function StudyStackNavigator() {
   return (
-    <>
-      <TextInput
-        multiline
-        placeholder="What's on your mind?"
-        style={{ height: 200, padding: 10, backgroundColor: "white" }}
-        value={postText}
-        onChangeText={setPostText}
+    <StudyStack.Navigator>
+      <StudyStack.Screen name="Study" component={Study} />
+      <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
+      <StudyStack.Screen name="KeyTopic" component={KeyTopic} />
+      <StudyStack.Screen name="NextDayPlan" component={NextDayPlan} />
+      <StudyStack.Screen
+        name="CreateNewMaterial"
+        component={CreateNewMaterial}
       />
-      <Button
-        title="Done"
-        onPress={() => {
-          // Pass and merge params back to home screen
-          navigation.navigate({
-            name: "Home",
-            params: { post: postText },
-            merge: true,
-          });
-        }}
-      />
-    </>
-  );
-}
-
-// 2. DetailsScreen
-function DetailsScreen({ route, navigation }) {
-  /* 2. Get the param */
-  const { itemId, otherParam } = route.params;
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Details Screen</Text>
-      <Text>itemId: {JSON.stringify(itemId)}</Text>
-      <Text>otherParam: {JSON.stringify(otherParam)}</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() =>
-          navigation.push("Details", {
-            itemId: Math.floor(Math.random() * 100),
-          })
-        }
-      />
-      <Button title="Go to Home" onPress={() => navigation.navigate("Home")} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-}
-
-// 3. ProfileScreen
-function ProfileScreen({ navigation, route }) {
-  return (
-    <View>
-      <Text>This is {route.params.name}'s profile</Text>
-    </View>
+    </StudyStack.Navigator>
   );
 }
 
 export default function Navigation() {
-  const Stack = createNativeStackNavigator();
-
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#f4511e",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      >
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={({ navigation, route }) => ({
-            // Add a placeholder button without the `onPress` to avoid flicker
-            headerRight: () => <Button title="Update count" />,
-          })}
-        />
-        <Stack.Screen
-          name="Details"
-          component={DetailsScreen}
-          initialParams={{ itemId: 42 }}
-        />
-        <Stack.Screen name="CreatePost" component={CreatePostScreen} />
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={({ route }) => ({ title: route.params.name })}
-        />
-      </Stack.Navigator>
+      <TabBottomNavigator />
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

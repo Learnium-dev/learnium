@@ -1,3 +1,7 @@
+// gesture handlers
+import "react-native-gesture-handler";
+
+// navigation root component
 import Navigation from "./navigation";
 
 // redux imports
