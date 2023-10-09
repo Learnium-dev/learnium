@@ -4,28 +4,57 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 // react hooks
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // pdf reader
-import * as DocumentPicker from "expo-document-picker";
+import * as DocumentPicker from "expo-document-picker"
 import * as FileSystem from "expo-file-system";
+
+// axios
+import axios from "axios";
 
 const Study = () => {
   const { navigate } = useNavigation();
   const [pdfContent, setPdfContent] = useState("");
 
+  useEffect(() => {
+    fetchTestData();
+  }, []);
+
   const handleUploadPDF = async () => {
     try {
       const res = await DocumentPicker.getDocumentAsync();
       console.log(res);
-      const pdfUri = res.assets[0].uri;
-      const pdfBase64 = await FileSystem.readAsStringAsync(pdfUri, {
-        encoding: "base64",
+
+      const formData = new FormData();
+      formData.append('pdf', {
+        uri: res.assets[0].uri,
+        name: res.assets[0].name,
+        type: res.assets[0].mimeType
+      })
+
+      const response = await axios.post('http://192.168.1.139:3000/upload-pdf', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
-      console.log("this is the pdfBas64", pdfBase64);
-      // setPdfContent(pdfBase64);
+
+      console.log("this is the result: ", response?.data?.text)
+      const resultText = response?.data?.text;
+      setPdfContent(resultText);
     } catch (error) {
       console.log(error?.message);
+    }
+  };
+
+  const fetchTestData = async () => {
+    try {
+      console.log("before")
+      const response = await axios.get(`http://192.168.1.139:3000/`);
+      console.log("this is the data: ", response.data)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
     }
   };
 
@@ -33,7 +62,7 @@ const Study = () => {
     <View style={styles.container}>
       <Text>Study</Text>
       <Pressable
-        onPress={handleUploadPDF}
+      onPress={handleUploadPDF}
         style={{
           padding: 20,
           backgroundColor: "#000",
