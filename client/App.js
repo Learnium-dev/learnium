@@ -136,3 +136,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+
+
+
+// !dev branch from Oct9 18.54
+
+// // gesture handlers
+// import "react-native-gesture-handler";
+
+// // navigation root component
+// import Navigation from "./navigation";
+
+// // redux imports
+// import { Provider } from "react-redux";
+// import { store } from "./store";
+
+// export default function App() {
+//   return (
+//     <Provider store={store}>
+//       <Navigation />
+//     </Provider>
+//   );
+// }
