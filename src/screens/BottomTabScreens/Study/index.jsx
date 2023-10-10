@@ -33,15 +33,17 @@ const Study = () => {
         type: res.assets[0].mimeType
       })
 
-      const response = await axios.post('http://192.168.1.139:3000/upload-pdf', formData, {
+      const response = await axios.post('http://172.16.227.80:3000/upload-pdf', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      console.log("this is the result: ", response?.data?.text)
-      const resultText = response?.data?.text;
-      setPdfContent(resultText);
+      console.log(response.data);
+
+      // console.log("this is the result: ", response?.data?.text)
+      // const resultText = response?.data?.text;
+      // setPdfContent(resultText);
     } catch (error) {
       console.log(error?.message);
     }
@@ -50,7 +52,7 @@ const Study = () => {
   const fetchTestData = async () => {
     try {
       console.log("before")
-      const response = await axios.get(`http://192.168.1.139:3000/`);
+      const response = await axios.get(`http://172.16.227.80:3000/`);
       console.log("this is the data: ", response.data)
     } catch (error) {
       console.error('Error fetching data:', error);
