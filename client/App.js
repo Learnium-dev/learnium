@@ -7,34 +7,12 @@ import { StyleSheet, Text, View, Button, TextInput, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-// screens testing
-// 1. HomeScreen
-function HomeScreen({ navigation, route }) {
-  useEffect(() => {
-    if (route.params?.post) {
-      // Post updated, do something with `route.params.post`
-      // For example, send the post to the server
-    }
-  }, [route.params?.post]);
+// import screens
+import HomeScreen from "./src/screen/HomeScreen";
+import UploadScreen from "./src/screen/UploadScreen";
 
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate("Details")}
-      />
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate("Profile", { name: "Johnny" })}
-      />
-      <Button
-        title="Create question"
-        onPress={() => navigation.navigate("CreatePost")}
-      />
-      <Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
-    </View>
-  );
-}
+// screens testing
+// !to remove to screens folder as their own components
 
 function CreatePostScreen({ navigation, route }) {
   const [postText, setPostText] = useState("");
@@ -111,7 +89,8 @@ export default function App() {
           },
         }}
       >
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="UploadScreen" component={UploadScreen} />
         <Stack.Screen
           name="Details"
           component={DetailsScreen}
