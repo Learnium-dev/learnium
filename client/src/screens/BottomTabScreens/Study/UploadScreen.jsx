@@ -1,9 +1,5 @@
 import { View, Text, TextInput, Button, TextInputBase } from "react-native";
-import React from "react";
 import { useState } from "react";
-
-// import dotenv from "dotenv";
-// dotenv.config();
 
 const UploadScreen = () => {
   const [article, setArticle] = useState({});
@@ -58,8 +54,8 @@ const UploadScreen = () => {
   };
 
   console.log("responseData", responseData);
-//   console.log("responseData.content.summary", responseData?.content);
-//   console.log("responseData.role", responseData?.role);
+  //   console.log("responseData.content.summary", responseData?.content);
+  //   console.log("responseData.role", responseData?.role);
   console.log(typeof responseData);
 
   return (
@@ -70,14 +66,12 @@ const UploadScreen = () => {
       <Text>{isLoading ? "Loading..." : "done"}</Text>
       <Text>summary</Text>
       <Text>{responseData?.summary}</Text>
-      <Text style={{fontWeight:"bold"}}>This is key topic</Text>
+      <Text style={{ fontWeight: "bold" }}>This is key topic</Text>
       {responseData?.keyTopic.map((item, index) => {
         return (
           <View key={index}>
-            
-            <Text style={{fontWeight:"bold"}}>{item}</Text>
+            <Text style={{ fontWeight: "bold" }}>{item}</Text>
             {/* <Text>This is key topic</Text> */}
-           
           </View>
         );
       })}

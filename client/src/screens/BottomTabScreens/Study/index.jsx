@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 
 // pdf reader
-import * as DocumentPicker from "expo-document-picker"
+import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 
 // axios
@@ -27,23 +27,23 @@ const Study = () => {
       console.log(res);
 
       const formData = new FormData();
-      formData.append('pdf', {
+      formData.append("pdf", {
         uri: res.assets[0].uri,
         name: res.assets[0].name,
-        type: res.assets[0].mimeType
-      })
-
-      const response = await axios.post('http://172.16.227.80:3000/upload-pdf', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        type: res.assets[0].mimeType,
       });
 
-      console.log(response.data);
+      const response = await axios.post(
+        "http://172.16.227.80:3000/upload-pdf",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      // console.log("this is the result: ", response?.data?.text)
-      // const resultText = response?.data?.text;
-      // setPdfContent(resultText);
+      console.log(response.data);
     } catch (error) {
       console.log(error?.message);
     }
@@ -51,11 +51,11 @@ const Study = () => {
 
   const fetchTestData = async () => {
     try {
-      console.log("before")
+      console.log("before");
       const response = await axios.get(`http://172.16.227.80:3000/`);
-      console.log("this is the data: ", response.data)
+      console.log("this is the data: ", response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
       throw error;
     }
   };
@@ -64,7 +64,7 @@ const Study = () => {
     <View style={styles.container}>
       <Text>Study</Text>
       <Pressable
-      onPress={handleUploadPDF}
+        onPress={handleUploadPDF}
         style={{
           padding: 20,
           backgroundColor: "#000",
@@ -78,6 +78,12 @@ const Study = () => {
         </Text>
       </Pressable>
       <Text>{pdfContent}</Text>
+      <Pressable
+        style={{ marginBottom: 20 }}
+        onPress={() => navigate("UploadScreen")}
+      >
+        <Text>Go to UploadScreen</Text>
+      </Pressable>
       <Pressable
         style={{ marginBottom: 20 }}
         onPress={() => navigate("KeyTopic")}
