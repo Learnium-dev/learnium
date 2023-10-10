@@ -34,7 +34,7 @@ const Study = () => {
       });
 
       const response = await axios.post(
-        "http://172.16.227.80:3000/upload-pdf",
+        "http://192.168.1.139:3000/upload-pdf",
         formData,
         {
           headers: {

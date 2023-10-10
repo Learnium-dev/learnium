@@ -1,6 +1,6 @@
-import { OpenAI } from "openai";
+const OpenAI = require("openai");
 
-export const uploadContent = async (req, res) => {
+const uploadContent = async (req, res) => {
   
 //   const result = req.body;
 //   res.send(result);
@@ -61,3 +61,5 @@ export const uploadContent = async (req, res) => {
     res.status(500).json({ error: "Database Error" });
   }
 };
+
+module.exports = uploadContent;

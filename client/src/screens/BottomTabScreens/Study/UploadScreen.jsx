@@ -2,7 +2,7 @@ import { View, Text, TextInput, Button, TextInputBase } from "react-native";
 import { useState } from "react";
 
 const UploadScreen = () => {
-  const [article, setArticle] = useState({});
+  const [article, setArticle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [responseData, setResponseData] = useState(null);
 
