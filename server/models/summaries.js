@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Summary Schema
-const summarySchema = new Schema({
+const summarySchema = mongoose.Schema({  
     keytopicid: {
       type: mongoose.ObjectId,
       ref: "keytopics",
