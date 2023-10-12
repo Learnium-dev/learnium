@@ -17,10 +17,6 @@ const Study = () => {
   const { navigate } = useNavigation();
   const [pdfContent, setPdfContent] = useState("");
 
-  useEffect(() => {
-    fetchTestData();
-  }, []);
-
   const handleUploadPDF = async () => {
     try {
       const res = await DocumentPicker.getDocumentAsync();
@@ -46,17 +42,6 @@ const Study = () => {
       console.log(response.data);
     } catch (error) {
       console.log(error?.message);
-    }
-  };
-
-  const fetchTestData = async () => {
-    try {
-      console.log("before");
-      const response = await axios.get(`http://172.16.227.80:3000/`);
-      console.log("this is the data: ", response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      throw error;
     }
   };
 

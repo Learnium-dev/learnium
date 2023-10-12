@@ -111,7 +111,7 @@ const FlashCardsContainer = ({ flashcards, closeSheet }) => {
             style={{
               textAlign: "center",
               fontWeight: "700",
-              fontSize: "18",
+              fontSize: 18,
               marginBottom: 10,
             }}
           >
@@ -124,7 +124,7 @@ const FlashCardsContainer = ({ flashcards, closeSheet }) => {
             style={{
               textAlign: "center",
               fontWeight: "700",
-              fontSize: "18",
+              fontSize: 18,
               marginBottom: 10,
             }}
           >
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   topicTitle: {
-    textAlign: "top",
+    textAlign: "auto",
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 100,
