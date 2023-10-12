@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Summary Schema
+// Summary  Schema
 const summarySchema = mongoose.Schema({  
     keytopicid: {
       type: mongoose.ObjectId,
