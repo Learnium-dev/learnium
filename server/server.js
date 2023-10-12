@@ -3,7 +3,7 @@ const router = require("./routes/router.js");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-// EVR ..
+// EVR .
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const app = express();
