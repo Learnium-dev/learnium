@@ -33,9 +33,9 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      // "eas": {
-      //   "projectId": "7b1cc452-58c4-49d2-bda4-103696b20a1c"
-      // }
+      "eas": {
+        "projectId": "7b1cc452-58c4-49d2-bda4-103696b20a1c"
+      }
     },
     "owner": "mariocc22"
   }
