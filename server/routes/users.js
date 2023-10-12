@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const bycryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // Calling User Model
 const {usermodel} = require('../models/users');
@@ -13,7 +15,7 @@ router.get(`/`, async (req, res)=>{
         filter = {email: req.query.email}
     }
 
-    const allUsers = await usermodel.find(filter);
+    const allUsers = await usermodel.find(filter).select('-passwordhash');
 
     if(!allUsers){
         res.status(500).json({
@@ -26,7 +28,7 @@ router.get(`/`, async (req, res)=>{
 
 // GET - Find by Id
 router.get(`/:id`, async (req, res)=>{
-    const user = await usermodel.findById(req.params.id);
+    const user = await usermodel.findById(req.params.id).select('-passwordhash');
 
     if(!user){
         res.status(500).json({
@@ -46,6 +48,7 @@ router.put(`/:id`, async (req, res)=>{
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             notification: req.body.notification,
+            passwordhash: bycryptjs.hashSync(req.body.password,10),
         },
         {
             new: true
@@ -60,6 +63,32 @@ router.put(`/:id`, async (req, res)=>{
     res.status(200).send(updateUser);
 })
 
+// POST Login
+router.post(`/login`,async (req, res)=>{
+    const user = await usermodel.findOne({email: req.body.email})
+    const secret = process.env.SECRET;
+
+    if(!user){
+        return res.status(400).send('User not found');
+    }
+        
+    // Comparing password
+    if(user && bycryptjs.compareSync(req.body.password, user.passwordhash)){
+        const token = jwt.sign(
+            {
+                userId: user.id 
+            },
+            secret,
+            {expiresIn: '1d'}
+        );
+
+        return res.status(200).send({user: user.email, token: token});
+        //return res.status(200).send('User authenticated');
+    } else{
+        return res.status(400).send('Password is wrong');
+    }
+})
+
 // POST
 router.post(`/`,(req, res)=>{
 
@@ -68,6 +97,7 @@ router.post(`/`,(req, res)=>{
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         notification: req.body.notification,
+        passwordhash: bycryptjs.hashSync(req.body.password,10),
     }) 
 
     newuser.save().then((createuser => {

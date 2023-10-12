@@ -20,6 +20,10 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  passwordhash:{
+    type: String,
+    required: [true, "Password is required"],
+  }
 });
 
 // Model
