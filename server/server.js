@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const app = express();
+const authJwt = require('./helpers/jwt.js');
 require('dotenv/config');
 
 const api = process.env.API_URL;
@@ -28,6 +29,7 @@ const detailsRouter = require('./routes/details');
 // Middleware
 app.use(express.json());
 app.use(morgan('tiny'));
+app.use(authJwt());
 
 // Calling APIs
 // Quiz
