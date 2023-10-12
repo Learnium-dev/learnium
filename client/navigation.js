@@ -2,6 +2,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 // screens
 // screens - study
@@ -71,8 +72,10 @@ function StudyStackNavigator() {
 
 export default function Navigation() {
   return (
-    <NavigationContainer>
-      <TabBottomNavigator />
-    </NavigationContainer>
+    <BottomSheetModalProvider>
+      <NavigationContainer>
+        <TabBottomNavigator />
+      </NavigationContainer>
+    </BottomSheetModalProvider>
   );
 }
