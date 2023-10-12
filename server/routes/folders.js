@@ -5,7 +5,14 @@ const {foldermodel} = require('../models/folders');
 
 // GET
 router.get(`/`, async (req, res)=>{
-    const folderList = await foldermodel.find();
+
+    // Filter by User Id
+    let filter = {};
+    if(req.query.userid){
+        filter = {userid: req.query.userid}
+    }
+
+    const folderList = await foldermodel.find(filter);
 
     if(!folderList){
         res.status(500).json({

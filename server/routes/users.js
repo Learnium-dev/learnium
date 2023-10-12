@@ -6,7 +6,14 @@ const {usermodel} = require('../models/users');
 
 // GET
 router.get(`/`, async (req, res)=>{
-    const allUsers = await usermodel.find();
+
+    // Filter by Email
+    let filter = {};
+    if(req.query.email){
+        filter = {email: req.query.email}
+    }
+
+    const allUsers = await usermodel.find(filter);
 
     if(!allUsers){
         res.status(500).json({
