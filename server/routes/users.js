@@ -14,7 +14,6 @@ router.get(`/`, async (req, res)=>{
     if(req.query.email){
         filter = {email: req.query.email}
     }
-
     const allUsers = await usermodel.find(filter).select('-passwordhash');
 
     if(!allUsers){
