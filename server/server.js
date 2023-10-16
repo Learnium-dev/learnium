@@ -29,7 +29,7 @@ const detailsRouter = require('./routes/details');
 // Middleware
 app.use(express.json());
 app.use(morgan('tiny'));
-app.use(authJwt());
+// app.use(authJwt());
 
 // Calling APIs
 // Quiz
