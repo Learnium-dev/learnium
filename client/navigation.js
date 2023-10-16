@@ -44,11 +44,11 @@ function TabBottomNavigator() {
         component={Daily}
         options={{ headerShown: false }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Account"
         component={Account}
         options={{ headerShown: false }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
@@ -75,9 +75,9 @@ function StudyStackNavigator() {
 export default function Navigation() {
   return (
     <BottomSheetModalProvider>
-      <NavigationContainer>
+      {/* <NavigationContainer> */}
         <TabBottomNavigator />
-      </NavigationContainer>
+      {/* </NavigationContainer> */}
     </BottomSheetModalProvider>
   );
 }
