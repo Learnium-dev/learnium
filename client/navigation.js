@@ -6,12 +6,13 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 // screens
 // screens - study
-import Study from "./src/screens/BottomTabScreens/Study/index"
+import Study from "./src/screens/BottomTabScreens/Study/index";
 import AllMaterials from "./src/screens/BottomTabScreens/Study/AllMaterials";
 import CreateNewMaterial from "./src/screens/BottomTabScreens/Study/CreateNewMaterial";
 import KeyTopic from "./src/screens/BottomTabScreens/Study/KeyTopic";
 import NextDayPlan from "./src/screens/BottomTabScreens/Study/NextDayPlan";
 import UploadScreen from "./src/screens/BottomTabScreens/Study/UploadScreen";
+import CreateContent from "./src/screens/BottomTabScreens/Study/CreateContent";
 
 // screens - progress
 import Progress from "./src/screens/BottomTabScreens/Progress";
@@ -58,6 +59,7 @@ function StudyStackNavigator() {
   return (
     <StudyStack.Navigator>
       <StudyStack.Screen name="Study" component={Study} />
+      <StudyStack.Screen name="CreateContent" component={CreateContent} />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
       <StudyStack.Screen name="KeyTopic" component={KeyTopic} />
