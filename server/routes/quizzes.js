@@ -5,7 +5,14 @@ const {quizmodel} = require('../models/quizzes');
 
 // GET
 router.get(`/`, async (req, res)=>{
-    const quizzesList = await quizmodel.find();
+
+    // Filter by DueDate
+    let filter = {};
+    if(req.query.duedate){
+        filter = { duedate: { $gte: req.query.duedate}}
+    }
+
+    const quizzesList = await quizmodel.find(filter).populate('keytopicid').sort({ duedate: 1 });
 
     if(!quizzesList){
         res.status(500).json({
@@ -28,6 +35,26 @@ router.get(`/:id`, async (req, res)=>{
     }
     res.status(200).send(quizzesList);
 })
+
+// GET - Find by duedate
+// router.get(`/duedate`,async (req, res)=>{
+//     // Filter by User Id
+//     let filter = {};
+//     if(req.query.userid){
+//         filter = {userid: req.query.userid}
+//     }
+
+//     const folderList = await foldermodel.find(filter);
+//     // const quizzesList = await quizmodel.find({ duedate: { $gte: req.body.duedate}}).populate('keytopicid');
+
+//     // if(!quizzesList){
+//     //     res.status(500).json({
+//     //         success:false,
+//     //         message:'There are no Quizzes'
+//     //     })
+//     // }
+//     // res.status(200).send(quizzesList);
+// })
 
 // UPDATE
 router.put(`/:id`, async (req, res)=>{
