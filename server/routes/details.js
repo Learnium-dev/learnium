@@ -78,6 +78,19 @@ router.get(`/:id`, async (req, res)=>{
     res.status(200).send(detailList);
 })
 
+// GET - Find by QuizId
+router.get(`/dailyQuestion/:id`, async (req, res)=>{
+  const detailList = await detailmodel.findOne({quizid: req.params.id});
+
+  if(!detailList){
+      res.status(500).json({
+          success:false,
+          message:'The Details could not be found'
+      })
+  }
+  res.status(200).send(detailList);
+})
+
 // UPDATE
 router.put(`/:id`, async (req, res)=>{
     const updateDetails = await detailmodel.findByIdAndUpdate(

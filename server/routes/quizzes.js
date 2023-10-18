@@ -26,7 +26,6 @@ router.get(`/`, async (req, res)=>{
 // GET - Find by Id
 router.get(`/:id`, async (req, res)=>{
     const quizzesList = await quizmodel.findById(req.params.id);
-
     if(!quizzesList){
         res.status(500).json({
             success:false,
@@ -70,7 +69,6 @@ router.put(`/:id`, async (req, res)=>{
         {
             new: true
         });
-
     if(!updateQuiz){
         res.status(400).json({
             success:false,
@@ -79,10 +77,8 @@ router.put(`/:id`, async (req, res)=>{
     }
     res.status(200).send(updateQuiz);
 })
-
 // POST
 router.post(`/`,(req, res)=>{
-
     const newquiz = new quizmodel({
         keytopicid: req.body.keytopicid,
         materialid: req.body.materialid,
@@ -90,7 +86,6 @@ router.post(`/`,(req, res)=>{
         duedate: req.body.duedate,
         progress: req.body.progress
     }) 
-
     newquiz.save().then((createquiz => {
         res.status(201).json(createquiz)
     })).catch((err)=>{
@@ -100,7 +95,6 @@ router.post(`/`,(req, res)=>{
         })
     })
 })
-
 // DELETE
 router.delete('/:id',(req,res)=>{
     quizmodel.findByIdAndRemove(req.params.id).then(deleteQuiz => {
@@ -122,5 +116,4 @@ router.delete('/:id',(req,res)=>{
         })
     })
 })
-
 module.exports = router;
