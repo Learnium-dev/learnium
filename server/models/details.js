@@ -20,38 +20,14 @@ const detailSchema = mongoose.Schema({
         default: false,
     },
     answer: {
-        1: {
-            type: String,
-        },
-        2: {
-            type: String,
-        },
-        3: {
-            type: String,
-        }
+        type: [String]
     },
     question: {
-        1: {
-            type: String,
-        },
-        2: {
-            type: String,
-        },
-        3: {
-            type: String,
-        }
+        type: [String]
     },
     correctanswer: {
-        1: {
-            type: String,
-        },
-        2: {
-            type: String,
-        },
-        3: {
-            type: String,
-        }
-    },
+        type: [String]
+    }
 });
 
 // Model

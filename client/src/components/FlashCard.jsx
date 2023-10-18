@@ -1,40 +1,67 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import QuestionFirstView from "../layout/QuestionFirstView";
+import AnswerFirstView from "../layout/AnswerFirstView";
 
-const FlashCard = ({ card, next, previous, onCardChange }) => {
-  console.log("card.difficult:", card.difficult);
-  const [showAnswer, setShowAnswer] = useState(false);
+const FlashCard = ({ card, next, previous, markValid, questionFirst }) => {
+
+  // Details object from the details array
+  // How to get the question and answer from here?
+  const details = card.details[0];
+  console.log('Flashcard details: ', details)
+
+  const [isFlipped, setIsFlipped] = useState(false);
   const [instructionText, setInstructionText] = useState(
     "Tap to See the Answer"
   );
 
   // Check if the card is marked as difficult and render the difficulty mark
-  const difficultyMark = card.difficult ? (
+  const difficultyMark = details.isvalid ? (
     <View style={styles.difficultyMark}>
       <Text style={styles.difficultyMarkText}>Difficult</Text>
     </View>
   ) : null;
 
   useEffect(() => {
-    if (showAnswer) {
+    if (isFlipped) {
       setInstructionText("Tap to See the Question");
     } else {
       setInstructionText("Tap to See the Answer");
     }
-  }, [showAnswer]);
+  }, [isFlipped]);
 
-  function toggleAnswer() {
-    setShowAnswer(!showAnswer);
+  const flipCard = () => {
+    setIsFlipped(!isFlipped);
+  }
+
+  const handleSubmitAnswer = (answer) => {
+    console.log('Answer submitted: ', answer);
+    // Save the answer to the database
+    
+    // Flip the card
+    flipCard();
   }
 
   return (
-    <TouchableOpacity style={styles.container} onPress={toggleAnswer}>
+    <TouchableOpacity style={styles.container} onPress={flipCard}>
       {difficultyMark}
-      <Text style={styles.textContainer}>
-        {showAnswer ? card.answer : card.question}
-      </Text>
+
+      { questionFirst ?
+        <QuestionFirstView isFlipped={isFlipped} details={details} /> :
+        <AnswerFirstView isFlipped={isFlipped} details={details} onSubmitAnswer={handleSubmitAnswer} />
+      }
+
       <Text style={styles.instructions}>{instructionText}</Text>
+
+      {!isFlipped && (
+        <TouchableOpacity onPress={() => markValid(card)}>
+          <Text style={styles.difficultButtonText}>
+            Mark this Flash Card as Difficult
+          </Text>
+        </TouchableOpacity>
+      )}
+
       <View style={styles.topButtonsContainer}>
         <TouchableOpacity onPress={previous}>
           <View>
@@ -47,13 +74,7 @@ const FlashCard = ({ card, next, previous, onCardChange }) => {
           </View>
         </TouchableOpacity>
       </View>
-      {!showAnswer && !card.difficult && (
-        <TouchableOpacity onPress={() => onCardChange(card)}>
-          <Text style={styles.difficultButtonText}>
-            Mark this Flash Card as Difficult
-          </Text>
-        </TouchableOpacity>
-      )}
+
     </TouchableOpacity>
   );
 };

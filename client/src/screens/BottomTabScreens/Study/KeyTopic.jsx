@@ -3,34 +3,6 @@ import { useState, useRef, useMemo, useCallback } from 'react';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import FlashCardsContainer from '../../../containers/FlashCardsContainer';
 
-const dummyCards = [
-  {
-    answer: "E-commerce, cloud computing, and digital streaming",
-    question: "What does Amazon specialize in?",
-    difficult: false,
-  },
-  {
-    answer: "Jeff Bezos in 1994",
-    question: "Who founded Amazon and when?",
-    difficult: false,
-  },
-  {
-    answer: "Bellevue, Washington",
-    question: "Where was Amazon founded?",
-    difficult: false,
-  },
-  {
-    answer: "Zoox, Amazon Lab126, and Kuiper Systems among others",
-    question: "What are some of Amazon’s subsidiaries?",
-    difficult: false,
-  },
-  {
-    answer: "Books",
-    question: "What was Amazon initially an online marketplace for?",
-    difficult: false,
-  },
-];
-
 const KeyTopic = (props) => {
 
   const bottomSheetModalRef = useRef(null);
@@ -56,7 +28,7 @@ const KeyTopic = (props) => {
           index={0}
           snapPoints={snapPoints}
         >
-          <FlashCardsContainer flashcards={dummyCards} closeSheet={closeBottomSheet} />
+          <FlashCardsContainer keytopicid={''} closeSheet={closeBottomSheet} />
         </BottomSheetModal>
       </View>
 
