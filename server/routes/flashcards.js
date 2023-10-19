@@ -5,7 +5,9 @@ const {flashcardmodel} = require('../models/flashcards');
 
 // GET
 router.get(`/`, async (req, res)=>{
-    const flashcardList = await flashcardmodel.find();
+    const flashcardList = await flashcardmodel
+        .find({ keytopicid: req.query.keytopicid })
+        .populate('details'); // each flashcard will contain related details as array of objects
 
     if(!flashcardList){
         res.status(500).json({
