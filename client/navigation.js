@@ -23,6 +23,9 @@ import Daily from "./src/screens/BottomTabScreens/Daily";
 // screens - account
 import Account from "./src/screens/BottomTabScreens/Account";
 
+// screen to test API with token
+import TestAPI from "./src/screens/User/TestAPI";
+
 // tab bottom navigator
 function TabBottomNavigator() {
   const Tab = createBottomTabNavigator();
@@ -45,10 +48,15 @@ function TabBottomNavigator() {
         options={{ headerShown: false }}
       />
       <Tab.Screen
+        name="TestAPI"
+        component={TestAPI}
+        options={{ headerShown: false }}
+      />
+      {/* <Tab.Screen
         name="Account"
         component={Account}
         options={{ headerShown: false }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
@@ -75,9 +83,9 @@ function StudyStackNavigator() {
 export default function Navigation() {
   return (
     <BottomSheetModalProvider>
-      <NavigationContainer>
+      {/* <NavigationContainer> */}
         <TabBottomNavigator />
-      </NavigationContainer>
+      {/* </NavigationContainer> */}
     </BottomSheetModalProvider>
   );
 }

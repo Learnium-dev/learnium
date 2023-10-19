@@ -15,19 +15,19 @@ const detailSchema = mongoose.Schema({
         min: [0, "Progress must be greater than 0"],
         max: [1, "Progress must not be greater than 1"],
     },
-    isvalid: {
+    isdone: {
         type: Boolean,
         default: false,
     },
     answer: {
-        type: [String]
+        type: [String],
     },
     question: {
-        type: [String]
+        type: [String],
     },
     correctanswer: {
-        type: [String]
-    }
+        type: [String],
+    },
 });
 
 // Model
