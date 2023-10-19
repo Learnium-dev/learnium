@@ -15,7 +15,6 @@ import axios from "axios";
 
 const Study = () => {
   const { navigate } = useNavigation();
-  const [pdfContent, setPdfContent] = useState("");
 
   const handleUploadPDF = async () => {
     try {
@@ -30,7 +29,8 @@ const Study = () => {
       });
 
       const response = await axios.post(
-        "http://10.128.231.239:3000/upload-pdf",
+
+        "http://192.168.1.155:3000/upload-pdf",
         formData,
         {
           headers: {
@@ -48,7 +48,7 @@ const Study = () => {
   return (
     <View style={styles.container}>
       <Text>Study</Text>
-      <Pressable
+      {/* <Pressable
         onPress={handleUploadPDF}
         style={{
           padding: 20,
@@ -61,8 +61,21 @@ const Study = () => {
         <Text style={{ color: "white", textAlign: "center" }}>
           Upload a file PDF
         </Text>
+      </Pressable> */}
+      <Pressable
+        onPress={() => navigate("CreateContent")}
+        style={{
+          padding: 20,
+          backgroundColor: "#000",
+          borderRadius: 5,
+          margin: 50,
+          width: 200,
+        }}
+      >
+        <Text style={{ color: "white", textAlign: "center" }}>
+          Go to Create Content
+        </Text>
       </Pressable>
-      <Text>{pdfContent}</Text>
       <Pressable
         style={{ marginBottom: 20 }}
         onPress={() => navigate("UploadScreen")}

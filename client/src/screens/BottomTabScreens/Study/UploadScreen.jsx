@@ -58,7 +58,7 @@ const UploadScreen = () => {
       //   console.log("process.env.API_PORT", process.env.API_PORT);
       try {
         const response = await fetch(
-          "http://localhost:3000/uploadcontent",
+          "http://192.168.1.155:3000/uploadcontent",
           // `${process.env.API_PORT}/uploadcontent`,
           {
             method: "POST",
