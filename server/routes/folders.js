@@ -63,10 +63,12 @@ router.put(`/:id`, async (req, res)=>{
 router.post(`/`,(req, res)=>{
 
     const newfolder = new foldermodel({
-        email: req.body.email,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        notification: req.body.notification,
+        name: req.body.name,
+        userid: req.body.userid,
+        // email: req.body.email,
+        // firstname: req.body.firstname,
+        // lastname: req.body.lastname,
+        // notification: req.body.notification,
     }) 
 
     newfolder.save().then((createfolder => {

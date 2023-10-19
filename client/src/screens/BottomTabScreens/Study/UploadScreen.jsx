@@ -1,5 +1,6 @@
 import { View, Text, TextInput, Button, TextInputBase } from "react-native";
 import { useState } from "react";
+// import mongoose from "mongoose";
 
 const UploadScreen = () => {
   const [article, setArticle] = useState("");
@@ -15,12 +16,14 @@ const UploadScreen = () => {
   const handleSubmit = () => {
     // console.log(postText);
     const upload = async () => {
-      console.log("article", article);
+      // console.log("article", article);
       setIsLoading(true);
       //   console.log("process.env.API_PORT", process.env.API_PORT);
       try {
+        // postToDB();
         const response = await fetch(
-          "http://localhost:3000/uploadcontent",
+          "http://localhost:3000/folders",
+          // "http://localhost:3000/uploadcontent",
           // `${process.env.API_PORT}/uploadcontent`,
           {
             method: "POST",
@@ -35,28 +38,56 @@ const UploadScreen = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        // const responseData = await response.json();
-        // const responseDataString = await response.text(); // Assuming responseData is a JSON-formatted string
-        // console.log("🚀 ~ file: UploadScreen.js:44 ~ responseDataString:", responseDataString)
-        // console.log(typeof responseDataString);
-        // const responseData = JSON.parse(responseDataString);
         const data = await response.json();
-        console.log("data", data);
-        console.log(typeof data);
+        // console.log("data", data);
+        // console.log(typeof data);
         const dataJson = JSON.parse(data);
         setResponseData(dataJson);
         setIsLoading(false);
+        
       } catch (err) {
         console.log(err);
+        
       }
     };
     upload();
   };
 
-  console.log("responseData", responseData);
+  // const postToDB = async (result) => {
+  //   console.log("postToDB");
+  //   // create post request to create a new folder in DB
+  //   try {
+  //     const newFolder = {
+  //       name: "test",
+  //       // !change this to get userID from global state
+  //       userid: '651c6b5cf7a8d6f181bdf41d'   
+  //       // userid: new mongoose.Types.ObjectId('651c6b5cf7a8d6f181bdf41d')   
+  //     };
+  
+  //     const requestOptions = {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json'},
+  //       body: JSON.stringify(newFolder), 
+  //     };
+  //     const folderRes = await fetch(`http://localhost/3000/api/v1/folders`, requestOptions);
+
+  //     // const folderRes = await fetch(`${hostname}/${port}${api}/folders`, requestOptions);
+  
+  //     if (!folderRes.ok) {
+  //       throw new Error('Network response was not ok');
+  //     }
+  //     console.log("folderRes.data",folderRes.data);
+  //     return folderRes.json();
+      
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // console.log("responseData", responseData);
   //   console.log("responseData.content.summary", responseData?.content);
   //   console.log("responseData.role", responseData?.role);
-  console.log(typeof responseData);
+  // console.log(typeof responseData);
 
   return (
     <View>
@@ -71,7 +102,6 @@ const UploadScreen = () => {
         return (
           <View key={index}>
             <Text style={{ fontWeight: "bold" }}>{item}</Text>
-            {/* <Text>This is key topic</Text> */}
           </View>
         );
       })}
