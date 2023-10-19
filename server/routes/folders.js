@@ -41,10 +41,8 @@ router.put(`/:id`, async (req, res)=>{
     const updateFolder = await foldermodel.findByIdAndUpdate(
         req.params.id,
         {
-            email: req.body.email,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            notification: req.body.notification,
+            name: req.body.name,
+            userid: req.body.userid,
         },
         {
             new: true
@@ -65,10 +63,7 @@ router.post(`/`,(req, res)=>{
     const newfolder = new foldermodel({
         name: req.body.name,
         userid: req.body.userid,
-        // email: req.body.email,
-        // firstname: req.body.firstname,
-        // lastname: req.body.lastname,
-        // notification: req.body.notification,
+
     }) 
 
     newfolder.save().then((createfolder => {

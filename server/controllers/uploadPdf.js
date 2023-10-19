@@ -5,7 +5,6 @@ const pdf = require("pdf-parse");
 const uploadPdf = (req, res) => {
   const buffer = req.file.buffer;
   const pdfFileName = req.file.originalname;
-  
 
   // Use pdf-parse to extract text from the PDF
   pdf(buffer).then((data) => {
@@ -18,8 +17,14 @@ const uploadPdf = (req, res) => {
     const filePath = path.join(__dirname, txtFileName);
 
     // Use fs.writeFile to write the text to the file asynchronously
-    fs.writeFileSync(filePath, text, 'utf-8')
-    res.json({success: true, message: "Text extracted and saved to a file.txt"})
+    fs.writeFile(filePath, text, 'utf-8', (err) => {
+      if (err) {
+        console.error(err);
+        res.json({ success: false, message: "An error occurred while saving the text to a file." });
+      } else {
+        res.json({ success: true, message: "Text extracted and saved to a file.txt" });
+      }
+    });
 
   });
 };

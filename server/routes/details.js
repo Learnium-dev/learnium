@@ -16,6 +16,55 @@ router.get(`/`, async (req, res)=>{
     res.status(200).send(detailList);
 })
 
+// GET Count Details
+router.get(`/countfalse`, async (req, res)=>{
+
+    // Filter by isDone
+    let filter = {};
+    if(req.query.quizid){
+        filter = { isdone: false, quizid: req.query.quizid }; 
+    } else if(req.query.flashcardid){
+        filter = { isdone: false, flashcardid: req.query.flashcardid }; 
+    } 
+
+    const detailList = await detailmodel.count(filter);
+
+    if(!detailList){
+        res.status(500).json({
+            success:false,
+            message:'There are no Details'
+        })
+    }
+    res.send({
+        total: detailList
+    });
+    //res.status(200).send(detailList);
+})
+
+// GET Count Details
+router.get(`/counttrue`, async (req, res)=>{
+
+    // Filter by isDone
+    let filter = {};
+    if(req.query.quizid){
+        filter = { isdone: true, quizid: req.query.quizid }; 
+    } else if(req.query.flashcardid){
+        filter = { isdone: true, flashcardid: req.query.flashcardid }; 
+    } 
+
+    const detailList = await detailmodel.count(filter);
+
+    if(!detailList){
+        res.status(500).json({
+            success:false,
+            message:'There are no Details'
+        })
+    }
+    res.send({
+        total: detailList
+    });
+})
+
 // GET - Find by Id
 router.get(`/:id`, async (req, res)=>{
     const detailList = await detailmodel.findById(req.params.id);
@@ -27,6 +76,19 @@ router.get(`/:id`, async (req, res)=>{
         })
     }
     res.status(200).send(detailList);
+})
+
+// GET - Find by QuizId
+router.get(`/dailyQuestion/:id`, async (req, res)=>{
+  const detailList = await detailmodel.findOne({quizid: req.params.id});
+
+  if(!detailList){
+      res.status(500).json({
+          success:false,
+          message:'The Details could not be found'
+      })
+  }
+  res.status(200).send(detailList);
 })
 
 // UPDATE

@@ -6,12 +6,13 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 // screens
 // screens - study
-import Study from "./src/screens/BottomTabScreens/Study/index"
+import Study from "./src/screens/BottomTabScreens/Study/index";
 import AllMaterials from "./src/screens/BottomTabScreens/Study/AllMaterials";
 import CreateNewMaterial from "./src/screens/BottomTabScreens/Study/CreateNewMaterial";
 import KeyTopic from "./src/screens/BottomTabScreens/Study/KeyTopic";
 import NextDayPlan from "./src/screens/BottomTabScreens/Study/NextDayPlan";
 import UploadScreen from "./src/screens/BottomTabScreens/Study/UploadScreen";
+import CreateContent from "./src/screens/BottomTabScreens/Study/CreateContent";
 
 // screens - progress
 import Progress from "./src/screens/BottomTabScreens/Progress";
@@ -21,6 +22,9 @@ import Daily from "./src/screens/BottomTabScreens/Daily";
 
 // screens - account
 import Account from "./src/screens/BottomTabScreens/Account";
+
+// screen to test API with token
+import TestAPI from "./src/screens/User/TestAPI";
 
 // tab bottom navigator
 function TabBottomNavigator() {
@@ -44,10 +48,15 @@ function TabBottomNavigator() {
         options={{ headerShown: false }}
       />
       <Tab.Screen
+        name="TestAPI"
+        component={TestAPI}
+        options={{ headerShown: false }}
+      />
+      {/* <Tab.Screen
         name="Account"
         component={Account}
         options={{ headerShown: false }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
@@ -58,6 +67,7 @@ function StudyStackNavigator() {
   return (
     <StudyStack.Navigator>
       <StudyStack.Screen name="Study" component={Study} />
+      <StudyStack.Screen name="CreateContent" component={CreateContent} />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
       <StudyStack.Screen name="KeyTopic" component={KeyTopic} />
@@ -73,9 +83,9 @@ function StudyStackNavigator() {
 export default function Navigation() {
   return (
     <BottomSheetModalProvider>
-      <NavigationContainer>
+      {/* <NavigationContainer> */}
         <TabBottomNavigator />
-      </NavigationContainer>
+      {/* </NavigationContainer> */}
     </BottomSheetModalProvider>
   );
 }

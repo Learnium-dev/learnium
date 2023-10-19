@@ -100,7 +100,7 @@ router.post(`/`,(req, res)=>{
     }) 
 
     newuser.save().then((createuser => {
-        res.status(201).json(createuser)
+        res.status(200).json(createuser)
     })).catch((err)=>{
         res.status(500).json({
             error: err,

@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 
 
 const uploadContent = async (req, res) => {
+
   postToDB();
   
   // try {
@@ -89,6 +90,7 @@ const postToDB = async (result) => {
     
   } catch (error) {
     console.log(error);
+
   }
 };
 

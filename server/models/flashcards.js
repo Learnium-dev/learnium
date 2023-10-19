@@ -24,6 +24,18 @@ const flashcardSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+},
+{ 
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+});
+
+// To populate details together with flashcards
+flashcardSchema.virtual('details', {
+    ref: 'details',
+    localField: '_id',
+    foreignField: 'flashcardid',
+    justOne: false
 });
 
 // Model
