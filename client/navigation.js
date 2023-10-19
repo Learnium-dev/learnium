@@ -22,6 +22,9 @@ import Daily from "./src/screens/BottomTabScreens/Daily";
 // screens - account
 import Account from "./src/screens/BottomTabScreens/Account";
 
+// screen to test API with token
+import TestAPI from "./src/screens/User/TestAPI";
+
 // tab bottom navigator
 function TabBottomNavigator() {
   const Tab = createBottomTabNavigator();
@@ -41,6 +44,11 @@ function TabBottomNavigator() {
       <Tab.Screen
         name="Daily"
         component={Daily}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="TestAPI"
+        component={TestAPI}
         options={{ headerShown: false }}
       />
       {/* <Tab.Screen
