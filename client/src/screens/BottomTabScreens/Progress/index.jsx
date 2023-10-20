@@ -21,7 +21,7 @@ const Progress = () => {
     const fetchTodayProgress = async () => {
       try {
         const { data } = await axios.get(
-          `http://10.128.243.187:3000/api/v1/quizzes?duedate='${todayDate}'`
+          `${process.env.EXPO_PUBLIC_HOSTNAME}/api/v1/quizzes?duedate='${todayDate}'`
         );
 
         const uniqueTopicsMap = {};

@@ -196,8 +196,7 @@ const UploadScreen = () => {
       try {
         // postToDB();
         const response = await fetch(
-          "http://10.128.243.187:3000/uploadcontent",
-          // `${process.env.API_PORT}/uploadcontent`,
+          `${process.env.EXPO_PUBLIC_HOSTNAME}/uploadcontent`,
           {
             method: "POST",
             headers: {
@@ -218,17 +217,13 @@ const UploadScreen = () => {
         setResponseData(dataJson);
         console.log("Object.keys(responseData)", Object.keys(responseData));
         setIsLoading(false);
-        
       } catch (err) {
         console.log(err);
-        
       }
     };
     upload();
   };
 
-
-  
   // const postToDB = async (result) => {
   //   console.log("postToDB");
   //   // create post request to create a new folder in DB
@@ -236,25 +231,25 @@ const UploadScreen = () => {
   //     const newFolder = {
   //       name: "test",
   //       // !change this to get userID from global state
-  //       userid: '651c6b5cf7a8d6f181bdf41d'   
-  //       // userid: new mongoose.Types.ObjectId('651c6b5cf7a8d6f181bdf41d')   
+  //       userid: '651c6b5cf7a8d6f181bdf41d'
+  //       // userid: new mongoose.Types.ObjectId('651c6b5cf7a8d6f181bdf41d')
   //     };
-  
+
   //     const requestOptions = {
   //       method: 'POST',
   //       headers: { 'Content-Type': 'application/json'},
-  //       body: JSON.stringify(newFolder), 
+  //       body: JSON.stringify(newFolder),
   //     };
   //     const folderRes = await fetch(`http://localhost/3000/api/v1/folders`, requestOptions);
 
   //     // const folderRes = await fetch(`${hostname}/${port}${api}/folders`, requestOptions);
-  
+
   //     if (!folderRes.ok) {
   //       throw new Error('Network response was not ok');
   //     }
   //     console.log("folderRes.data",folderRes.data);
   //     return folderRes.json();
-      
+
   //   } catch (error) {
   //     console.log(error);
   //   }
@@ -265,7 +260,6 @@ const UploadScreen = () => {
   //   console.log("responseData.role", responseData?.role);
   // console.log(typeof responseData);
 
-
   return (
     <ScrollView>
       <Text>UploadScreen</Text>
@@ -275,7 +269,6 @@ const UploadScreen = () => {
       {responseData?.map((item, index) => {
         return (
           <View key={index}>
-
             <Text style={{ fontWeight: "bold" }}>{item.keyTopic}</Text>
             <Text style={{ fontWeight: "normal" }}>{item.summary}</Text>
             {console.log(responseData?.questionAnswer)}
@@ -298,7 +291,6 @@ const UploadScreen = () => {
                 </View>
               );
             })}
-
           </View>
         );
       })}
