@@ -196,7 +196,7 @@ const UploadScreen = () => {
       try {
         // postToDB();
         const response = await fetch(
-          "http://192.168.1.155:3000/uploadcontent",
+          "http://10.128.243.187:3000/uploadcontent",
           // `${process.env.API_PORT}/uploadcontent`,
           {
             method: "POST",
