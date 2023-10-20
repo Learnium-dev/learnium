@@ -9,7 +9,7 @@ const Daily = () => {
   const handlePress = async () => {
     try {
       const { data } = await axios.get(
-        `http://10.128.243.187:3000/api/v1/details/dailyQuestion/${quizId}`
+        `${process.env.EXPO_PUBLIC_HOSTNAME}/api/v1/details/dailyQuestion/${quizId}`
       );
       console.log("this is the daily question data", data);
       setDailyQuestion({
