@@ -1,4 +1,11 @@
-import { View, Text, TextInput, Button, TextInputBase, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  TextInputBase,
+  ScrollView,
+} from "react-native";
 import { useState } from "react";
 
 const UploadScreen = () => {
@@ -6,42 +13,171 @@ const UploadScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [responseData, setResponseData] = useState([
     {
-        "keyTopic": "World War II Overview",
-        "summary": "World War II was a global conflict from 1939-1945 involving the world's major powers in two opposing military alliances: the Allies and the Axis. It employed massive economic, industrial, and scientific resources, blurring the distinction between civilian and military resources. Aircraft played a crucial role in this war.",
-        "questionAnswer": [
-            {"question": "When did World War II take place?", "answer": "1939 to 1945", "choices": ["1939 to 1945", "1914 to 1918", "1935 to 1940", "1941 to 1945"]},
-            {"question": "Which two alliances fought against each other in World War II?", "answer": "The Allies and the Axis", "choices": ["The Allies and the Axis", "The Democrats and the Republicans", "The East and the West", "The North and the South"]},
-            {"question": "What was a key technological advancement that played a major role in World War II?", "answer": "Aircraft", "choices": ["Tanks", "Submarines", "Aircraft", "Nuclear bombs"]},
-            {"question": "Which part of society became involved in World War II?", "answer": "Both civilian and military resources", "choices": ["Only military resources", "Only civilian resources", "Both civilian and military resources", "None of the above"]},
-            {"question": "What blurred the distinction between civilian and military resources within this war?", "answer": "The total involvement of economic, industrial and scientific capabilities", "choices": ["The total involvement of economic, industrial and scientific capabilities", "The neutrality of countries", "The declaration of war", "The signing of peace treaties"]}
-        ],
-        "flashcard": [
-            {"question": "When did World War II take place?", "answer": "1939 to 1945"},
-            {"question": "Which two alliances fought in World War II?", "answer": "The Allies and the Axis"},
-            {"question": "Name a technological development playing a significant role in World War II.", "answer": "Aircraft"},
-            {"question": "Who were involved in World War II?", "answer": "Both civilian and military resources"},
-            {"question": "Which factors blurred the distinction between civilian and military resources?", "answer": "The total involvement of economic, industrial and scientific capabilities"}
-        ]
+      keyTopic: "World War II Overview",
+      summary:
+        "World War II was a global conflict from 1939-1945 involving the world's major powers in two opposing military alliances: the Allies and the Axis. It employed massive economic, industrial, and scientific resources, blurring the distinction between civilian and military resources. Aircraft played a crucial role in this war.",
+      questionAnswer: [
+        {
+          question: "When did World War II take place?",
+          answer: "1939 to 1945",
+          choices: [
+            "1939 to 1945",
+            "1914 to 1918",
+            "1935 to 1940",
+            "1941 to 1945",
+          ],
+        },
+        {
+          question:
+            "Which two alliances fought against each other in World War II?",
+          answer: "The Allies and the Axis",
+          choices: [
+            "The Allies and the Axis",
+            "The Democrats and the Republicans",
+            "The East and the West",
+            "The North and the South",
+          ],
+        },
+        {
+          question:
+            "What was a key technological advancement that played a major role in World War II?",
+          answer: "Aircraft",
+          choices: ["Tanks", "Submarines", "Aircraft", "Nuclear bombs"],
+        },
+        {
+          question: "Which part of society became involved in World War II?",
+          answer: "Both civilian and military resources",
+          choices: [
+            "Only military resources",
+            "Only civilian resources",
+            "Both civilian and military resources",
+            "None of the above",
+          ],
+        },
+        {
+          question:
+            "What blurred the distinction between civilian and military resources within this war?",
+          answer:
+            "The total involvement of economic, industrial and scientific capabilities",
+          choices: [
+            "The total involvement of economic, industrial and scientific capabilities",
+            "The neutrality of countries",
+            "The declaration of war",
+            "The signing of peace treaties",
+          ],
+        },
+      ],
+      flashcard: [
+        {
+          question: "When did World War II take place?",
+          answer: "1939 to 1945",
+        },
+        {
+          question: "Which two alliances fought in World War II?",
+          answer: "The Allies and the Axis",
+        },
+        {
+          question:
+            "Name a technological development playing a significant role in World War II.",
+          answer: "Aircraft",
+        },
+        {
+          question: "Who were involved in World War II?",
+          answer: "Both civilian and military resources",
+        },
+        {
+          question:
+            "Which factors blurred the distinction between civilian and military resources?",
+          answer:
+            "The total involvement of economic, industrial and scientific capabilities",
+        },
+      ],
     },
     {
-        "keyTopic": "World War II Consequences",
-        "summary": "World War II resulted in an estimated 70 to 85 million fatalities, mostly among civilians due to genocides such as the Holocaust. Additionally, there were deaths from starvation, massacres, and disease. Following the war, Axis defeat led to the occupation of Germany, Austria, and Japan, and war crime trials were held for German and Japanese leaders.",
-        "questionAnswer": [
-            {"question": "What was the estimated number of World War II fatalities?", "answer": "70 to 85 million", "choices": ["50 to 60 million", "70 to 85 million", "85 to 100 million", "100 to 120 million"]},
-            {"question": "Which genocide was part of the fatalities of World War II?", "answer": "The Holocaust", "choices": ["Armenian genocide", "Bosnian genocide", "The Holocaust", "Rwandan genocide"]},
-            {"question": "Which countries were occupied following Axis defeat?", "answer": "Germany, Austria and Japan", "choices": ["Germany, Austria and Japan", "Italy, Germany and Japan", "Austria, Germany and France", "Germany, France and UK"]},
-            {"question": "Against whom were war crimes tribunals conducted following World War II?", "answer": "German and Japanese leaders", "choices": ["German and Japanese leaders", "Italian and German leaders", "British and American leaders", "Soviet and German leaders"]},
-            {"question": "What caused the majority of fatalities in World War II?", "answer": "Genocides, starvation, massacres, and disease", "choices": ["Bombings", "Ground combat", "Sea warfare", "Genocides, starvation, massacres, and disease"]}
-        ],
-        "flashcard": [
-            {"question": "What was the estimated number of World War II fatalities?", "answer": "70 to 85 million"},
-            {"question": "What was a significant genocide that occurred during World War II?", "answer": "The Holocaust"},
-            {"question": "Which countries were occupied after World War II?", "answer": "Germany, Austria and Japan"},
-            {"question": "Against whom were war crimes tribunals conducted after World War II?", "answer": "German and Japanese leaders"},
-            {"question": "What were the main sources of fatalities during World War II?", "answer": "Genocides, starvation, massacres, and disease"}
-        ]
-    }
-]);
+      keyTopic: "World War II Consequences",
+      summary:
+        "World War II resulted in an estimated 70 to 85 million fatalities, mostly among civilians due to genocides such as the Holocaust. Additionally, there were deaths from starvation, massacres, and disease. Following the war, Axis defeat led to the occupation of Germany, Austria, and Japan, and war crime trials were held for German and Japanese leaders.",
+      questionAnswer: [
+        {
+          question: "What was the estimated number of World War II fatalities?",
+          answer: "70 to 85 million",
+          choices: [
+            "50 to 60 million",
+            "70 to 85 million",
+            "85 to 100 million",
+            "100 to 120 million",
+          ],
+        },
+        {
+          question:
+            "Which genocide was part of the fatalities of World War II?",
+          answer: "The Holocaust",
+          choices: [
+            "Armenian genocide",
+            "Bosnian genocide",
+            "The Holocaust",
+            "Rwandan genocide",
+          ],
+        },
+        {
+          question: "Which countries were occupied following Axis defeat?",
+          answer: "Germany, Austria and Japan",
+          choices: [
+            "Germany, Austria and Japan",
+            "Italy, Germany and Japan",
+            "Austria, Germany and France",
+            "Germany, France and UK",
+          ],
+        },
+        {
+          question:
+            "Against whom were war crimes tribunals conducted following World War II?",
+          answer: "German and Japanese leaders",
+          choices: [
+            "German and Japanese leaders",
+            "Italian and German leaders",
+            "British and American leaders",
+            "Soviet and German leaders",
+          ],
+        },
+        {
+          question: "What caused the majority of fatalities in World War II?",
+          answer: "Genocides, starvation, massacres, and disease",
+          choices: [
+            "Bombings",
+            "Ground combat",
+            "Sea warfare",
+            "Genocides, starvation, massacres, and disease",
+          ],
+        },
+      ],
+      flashcard: [
+        {
+          question: "What was the estimated number of World War II fatalities?",
+          answer: "70 to 85 million",
+        },
+        {
+          question:
+            "What was a significant genocide that occurred during World War II?",
+          answer: "The Holocaust",
+        },
+        {
+          question: "Which countries were occupied after World War II?",
+          answer: "Germany, Austria and Japan",
+        },
+        {
+          question:
+            "Against whom were war crimes tribunals conducted after World War II?",
+          answer: "German and Japanese leaders",
+        },
+        {
+          question:
+            "What were the main sources of fatalities during World War II?",
+          answer: "Genocides, starvation, massacres, and disease",
+        },
+      ],
+    },
+  ]);
   // const [responseData, setResponseData] = useState([]);
 
   const inputChange = (text) => {
@@ -58,7 +194,7 @@ const UploadScreen = () => {
       //   console.log("process.env.API_PORT", process.env.API_PORT);
       try {
         const response = await fetch(
-          "http://192.168.1.155:3000/uploadcontent",
+          "http://10.128.243.187:3000/uploadcontent",
           // `${process.env.API_PORT}/uploadcontent`,
           {
             method: "POST",
@@ -106,7 +242,7 @@ const UploadScreen = () => {
             {item.questionAnswer.map((item, index) => {
               return (
                 <View key={index}>
-                  <Text>{index+1}</Text>
+                  <Text>{index + 1}</Text>
                   <Text>{item.question}</Text>
                   <Text>{item.answer}</Text>
                   <Text>{item.choices}</Text>
@@ -116,7 +252,7 @@ const UploadScreen = () => {
             {item.flashcard.map((item, index) => {
               return (
                 <View key={index}>
-                  <Text>{index+1}</Text>
+                  <Text>{index + 1}</Text>
                   <Text>{item.question}</Text>
                   <Text>{item.answer}</Text>
                 </View>
