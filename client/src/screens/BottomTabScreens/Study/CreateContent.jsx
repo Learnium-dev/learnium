@@ -124,7 +124,8 @@ const CreateContent = () => {
       });
 
       const response = await axios.post(
-        "http://192.168.1.100:3000/create-content",
+
+        `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content`,
         formData,
 
         {
