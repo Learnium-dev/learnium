@@ -43,7 +43,7 @@ app.use(`${api}/materials`,materialsRouter)
 // Keytopic
 app.use(`${api}/keytopics`,keytopicsRouter)
 // Folder
-app.use(`${api}/folders`,foldersRouter)
+// app.use(`${api}/folders`,foldersRouter)
 // Flashcard
 app.use(`${api}/flashcards`,flashcardsRouter)
 // Detail
