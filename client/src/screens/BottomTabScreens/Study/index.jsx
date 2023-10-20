@@ -1,4 +1,9 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, useWindowDimensions, SafeAreaView } from "react-native";
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+import StudyScreenTabBar from '../../../components/StudyScreenTabBar';
+import StudyTabView from '../../../layout/StudyTabView';
+import { globalStyles } from '../../../../assets/common/global-styles';
+import { getKeyTopics } from '../../../services/keyTopicsService';
 
 // react navigation imports
 import { useNavigation } from "@react-navigation/native";
@@ -16,103 +21,68 @@ import axios from "axios";
 const Study = () => {
   const { navigate } = useNavigation();
 
-  const handleUploadPDF = async () => {
-    try {
-      const res = await DocumentPicker.getDocumentAsync();
-      console.log(res);
+  const [keyTopics, setKeyTopics] = useState([]);
+  const [isKeyTopicsLoaded, setIsKeyTopicsLoaded] = useState(false);
+  const [index, setIndex] = useState(1); // default to today's content for tab view
+  const [routes] = useState([
+    { key: 'missed', title: 'Missed content' },
+    { key: 'today', title: 'Today\'s content' },
+    { key: 'review', title: 'Review content' },
+  ]);
 
-      const formData = new FormData();
-      formData.append("pdf", {
-        uri: res.assets[0].uri,
-        name: res.assets[0].name,
-        type: res.assets[0].mimeType,
-      });
+  useEffect(() => {
+    loadKeyTopics();
+  }, []);
 
-      const response = await axios.post(
-        "http://10.128.243.187:3000/upload-pdf",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+  const loadKeyTopics = () => {
+    getKeyTopics().then((keyTopics) => {
+        console.log('Key Topics loaded', keyTopics);
+        setKeyTopics(keyTopics);
+        setIsKeyTopicsLoaded(true);
+      },
+      (error) => {
+        alert('Error', `Couldn't load Key Topics! ${error}`);
+      }
+    )
+  }
 
-      console.log(response.data);
-    } catch (error) {
-      console.log(error?.message);
-    }
-  };
+  // TabView
+  const layout = useWindowDimensions();
+  
+
+  const renderScene = ({ route }) => StudyTabView({ selectedView: route.key, keyTopics: keyTopics });
 
   return (
-    <View style={styles.container}>
-      <Text>Study</Text>
-      {/* <Pressable
-        onPress={handleUploadPDF}
-        style={{
-          padding: 20,
-          backgroundColor: "#000",
-          borderRadius: 5,
-          margin: 50,
-          width: 200,
-        }}
-      >
-        <Text style={{ color: "white", textAlign: "center" }}>
-          Upload a file PDF
-        </Text>
-      </Pressable> */}
-      <Pressable
-        onPress={() => navigate("CreateContent")}
-        style={{
-          padding: 20,
-          backgroundColor: "#000",
-          borderRadius: 5,
-          margin: 50,
-          width: 200,
-        }}
-      >
-        <Text style={{ color: "white", textAlign: "center" }}>
-          Go to Create Content
-        </Text>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+
+        <View style={{paddingHorizontal: 20, paddingTop: 20 }}>
+          <Text>Welcome back, Genia</Text>
+        </View>
+
+          { isKeyTopicsLoaded && <TabView
+            style={{padding: 20}}
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{ width: layout.width }}
+            renderTabBar={StudyScreenTabBar}
+          />}
+
+        <Pressable
+          style={globalStyles.buttons.primary}
+          onPress={() => navigate("CreateNewMaterial")}
+        >
+        <Text style={globalStyles.buttons.primary.text}>Create New Learning Material</Text>
       </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("UploadScreen")}
-      >
-        <Text>Go to UploadScreen</Text>
-      </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("KeyTopic")}
-      >
-        <Text>Go to KeyTopic</Text>
-      </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("AllMaterials")}
-      >
-        <Text>Go to AllMaterials</Text>
-      </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("CreateNewMaterial")}
-      >
-        <Text>Go to CreateNewMaterial</Text>
-      </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("NextDayPlan")}
-      >
-        <Text>Go to NextDayPlan</Text>
-      </Pressable>
-    </View>
+
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "yellow",
     alignItems: "center",
     justifyContent: "center",
   },

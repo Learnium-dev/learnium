@@ -66,7 +66,7 @@ const StudyStack = createNativeStackNavigator();
 function StudyStackNavigator() {
   return (
     <StudyStack.Navigator>
-      <StudyStack.Screen name="Study" component={Study} />
+      <StudyStack.Screen name="Study" component={Study} options={{ headerShown: false }}/>
       <StudyStack.Screen name="CreateContent" component={CreateContent} />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />

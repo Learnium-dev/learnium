@@ -17,7 +17,7 @@ const FlashCard = ({ card, next, previous, markValid, questionFirst }) => {
   );
 
   // Check if the card is marked as difficult and render the difficulty mark
-  const difficultyMark = details.isvalid ? (
+  const difficultyMark = details?.isvalid ? (
     <View style={styles.difficultyMark}>
       <Text style={styles.difficultyMarkText}>Difficult</Text>
     </View>
