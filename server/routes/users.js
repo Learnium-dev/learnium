@@ -65,6 +65,7 @@ router.put(`/:id`, async (req, res)=>{
 // POST Login
 router.post(`/login`,async (req, res)=>{
     const user = await usermodel.findOne({email: req.body.email})
+    const userId = await usermodel.findOne({id: req.body.id})
     const secret = process.env.SECRET;
 
     if(!user){
@@ -81,7 +82,7 @@ router.post(`/login`,async (req, res)=>{
             {expiresIn: '1d'}
         );
 
-        return res.status(200).send({user: user.email, token: token});
+        return res.status(200).send({user: user.email, token: token, userId: userId.id});
         //return res.status(200).send('User authenticated');
     } else{
         return res.status(400).send('Password is wrong');

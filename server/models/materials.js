@@ -9,18 +9,18 @@ const materialSchema = mongoose.Schema({
     },
     name: {
       type: String,
-      lowercase: true,
+      // lowercase: true, **title no need to be lowercase, why it is here?
       required: [true, "Name is required"],
     },
     content: {
       type: String,
-      lowercase: true,
-      required: [true, "Content is required"],
+      // lowercase: true,
+      // required: [true, "Content is required"],
     },
     url: {
       type: String,
       lowercase: true,
-      required: [true, "Url is required"],
+      // required: [true, "Url is required"],
     },
     exam: {
       type: Boolean,
