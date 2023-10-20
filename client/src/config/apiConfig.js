@@ -1,4 +1,4 @@
-export const BASE_URL = "http://10.128.243.187:3000/api/v1";
+export const BASE_URL = `${process.env.EXPO_PUBLIC_HOSTNAME}/api/v1"`;
 // Token from Postman
 export const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTI4NWJlNjlkNDY0YWJhZGQ2ODRjMTkiLCJpYXQiOjE2OTcxNDU1NjV9.UfqOmcvRubm74FNTHPaAVYieL6gPLcjGOF7XgXPPQGA";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTMwOTJiMGRlYjJlYjZlNjg1NzM3YzkiLCJpYXQiOjE2OTc3ODEwMTUsImV4cCI6MTY5Nzg2NzQxNX0.z-ThsaOouvQ_HKNK11_KZyzL-XRfa-kIw_vlboseSzY";
