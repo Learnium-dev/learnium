@@ -7,15 +7,10 @@ const quizSchema = mongoose.Schema({
       ref: "keytopics",
       required: [true, "Keytopic Id is required"],
     },
-    materialid: {
+    folderid: {
       type: mongoose.ObjectId,
-      ref: "materials",
-      required: [true, "Material Id is required"],
-    },
-    name: {
-      type: String,
-      lowercase: true,
-      required: [true, "Name is required"],
+      ref: "folders",
+      required: [true, "Folder Id is required"],
     },
     duedate: {
       type: Date,
@@ -25,6 +20,7 @@ const quizSchema = mongoose.Schema({
       type: Number,
       min: [0, "Progress must be greater than 0"],
       max: [1, "Progress must not be greater than 1"],
+      default: 0,
     },
 });
 
