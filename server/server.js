@@ -19,8 +19,8 @@ app.options('*',cors());
 // Calling Routers
 const quizzesRouter = require('./routes/quizzes');
 const usersRouter = require('./routes/users');
-const summariesRouter = require('./routes/summaries');
-const materialsRouter = require('./routes/materials');
+// const summariesRouter = require('./routes/summaries');
+// const materialsRouter = require('./routes/materials');
 const keytopicsRouter = require('./routes/keytopics');
 const foldersRouter = require('./routes/folders');
 const flashcardsRouter = require('./routes/flashcards');
@@ -37,9 +37,9 @@ app.use(`${api}/quizzes`,quizzesRouter)
 // User
 app.use(`${api}/users`,usersRouter)
 // Summary
-app.use(`${api}/summaries`,summariesRouter)
+// app.use(`${api}/summaries`,summariesRouter)
 // Material
-app.use(`${api}/materials`,materialsRouter)
+// app.use(`${api}/materials`,materialsRouter)
 // Keytopic
 app.use(`${api}/keytopics`,keytopicsRouter)
 // Folder
