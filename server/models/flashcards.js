@@ -7,18 +7,20 @@ const flashcardSchema = mongoose.Schema({
         ref: "keytopics",
         required: [true, "Keytopic Id is required"],
     },
-    materialid: {
+    folderid: {
         type: mongoose.ObjectId,
-        ref: "materials",
-        required: [true, "Material Id is required"],
+        ref: "folders",
+        required: [true, "Folder Id is required"],
     },
     duedate: {
         type: Date,
+        default: Date.now,
     },
     progress: {
         type: Number,
         min: [0, "Progress must be greater than 0"],
         max: [1, "Progress must not be greater than 1"],
+        default: 0,
     },
     practicemode: {
         type: Boolean,

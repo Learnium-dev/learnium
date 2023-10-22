@@ -14,6 +14,7 @@ const detailSchema = mongoose.Schema({
         type: Number,
         min: [0, "Progress must be greater than 0"],
         max: [1, "Progress must not be greater than 1"],
+        default: 0,
     },
     isdone: {
         type: Boolean,
@@ -23,11 +24,22 @@ const detailSchema = mongoose.Schema({
         type: [String],
     },
     question: {
-        type: [String],
+        type: String,
+        lowercase: false,
+        required: [true, "Name is required"],
     },
     correctanswer: {
         type: [String],
     },
+    type:{
+        type: String,
+        lowercase: false,
+    },
+    options:{
+        type: [String],
+        lowercase: false,
+        required: [true, "Questions options is required"],
+    }
 });
 
 // Model

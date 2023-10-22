@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const folderSchema = mongoose.Schema({
   name: {
     type: String,
-    lowercase: true,
+    lowercase: false,
     required: [true, "Folder name is required"],
   },
   userid: {
@@ -12,6 +12,24 @@ const folderSchema = mongoose.Schema({
     // ref: "users",
     // required: [true, "User Id is required"],
     type: String,
+  },
+  content: {
+    type: String,
+    lowercase: false,
+    required: [true, "Content is required"],
+  },
+  url: {
+    type: String,
+    lowercase: true,
+    required: [true, "Url is required"],
+  },
+  exam: {
+    type: Boolean,
+    default: false,
+  },
+  examdate: {
+    type: Date,
+    default: Date.now,
   },
 });
 
