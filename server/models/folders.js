@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const defaultDate = new Date(newDate.getTime() - 7 * 60 * 60 * 1000);
 
 // Folders Schema
 const folderSchema = mongoose.Schema({
@@ -29,7 +30,7 @@ const folderSchema = mongoose.Schema({
   },
   examdate: {
     type: Date,
-    default: Date.now,
+    default: defaultDate,
   },
 });
 
