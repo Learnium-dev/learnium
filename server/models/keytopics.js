@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const newDate = new Date();
+const defaultDate = new Date(newDate.getTime() - 7 * 60 * 60 * 1000);
 
 // Keytopic Schema
 const keytopicSchema = mongoose.Schema({
@@ -22,6 +24,10 @@ const keytopicSchema = mongoose.Schema({
     type: String,
     lowercase: false,
     required: [true, "Summary is required"],
+  },
+  duedate: {
+    type: Date,
+    default: defaultDate,
   },
 });
 
