@@ -26,31 +26,62 @@ import Account from "./src/screens/BottomTabScreens/Account";
 // screen to test API with token
 import TestAPI from "./src/screens/User/TestAPI";
 
+// Bottom Tab Navigator Icons
+import StudyIcon from "./assets/navbar_icons/Study.svg";
+import ProgressIcon from "./assets/navbar_icons/Progress.svg";
+import DailyIcon from "./assets/navbar_icons/Daily.svg";
+import ProfileIcon from "./assets/navbar_icons/Profile.svg";
+
 // tab bottom navigator
 function TabBottomNavigator() {
   const Tab = createBottomTabNavigator();
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          height: 64,
+          flexDirection: "row",
+        },
+      }}
+    >
       <Tab.Screen
-        name="StudyMain"
+        name="Study"
         component={StudyStackNavigator}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => <StudyIcon width={30} height={30} />,
+
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: "700",
+            color: "#313131",
+          },
+        }}
       />
       <Tab.Screen
         name="Progress"
         component={Progress}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => <ProgressIcon width={30} height={30} />,
+        }}
       />
       <Tab.Screen
         name="Daily"
         component={Daily}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => <DailyIcon width={30} height={30} />,
+        }}
       />
       <Tab.Screen
         name="TestAPI"
         component={TestAPI}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => <ProfileIcon width={30} height={30} />,
+        }}
       />
       {/* <Tab.Screen
         name="Account"
@@ -84,7 +115,7 @@ export default function Navigation() {
   return (
     <BottomSheetModalProvider>
       {/* <NavigationContainer> */}
-        <TabBottomNavigator />
+      <TabBottomNavigator />
       {/* </NavigationContainer> */}
     </BottomSheetModalProvider>
   );

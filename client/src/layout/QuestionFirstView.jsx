@@ -1,20 +1,20 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const QuestionFirstView = ({ isFlipped, details }) => {
-
   return (
     <View style={styles.container}>
-      { isFlipped ? 
+      {isFlipped ? (
         <View>
-          <Text style={styles.textContainer}>{details.correctanswer[0]}</Text>
-        </View> : 
-        <View style={styles.container}>
-          <Text style={styles.textContainer}>{details.question[0]}</Text>
+          <Text style={styles.textContainer}>{details?.correctanswer[0]}</Text>
         </View>
-      }
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.textContainer}>{details?.question[0]}</Text>
+        </View>
+      )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -196,12 +196,7 @@ const UploadScreen = () => {
       try {
         // postToDB();
         const response = await fetch(
-<<<<<<< HEAD
-          "http://10.128.243.187:3000/uploadcontent",
-          // `${process.env.API_PORT}/uploadcontent`,
-=======
           `${process.env.EXPO_PUBLIC_HOSTNAME}/uploadcontent`,
->>>>>>> 757d8bb6b2271d96db5cbf82a9929355d7b1dcd5
           {
             method: "POST",
             headers: {

@@ -5,11 +5,10 @@ import QuestionFirstView from "../layout/QuestionFirstView";
 import AnswerFirstView from "../layout/AnswerFirstView";
 
 const FlashCard = ({ card, next, previous, markValid, questionFirst }) => {
-
   // Details object from the details array
   // How to get the question and answer from here?
   const details = card.details[0];
-  console.log('Flashcard details: ', details)
+  console.log("Flashcard details: ", details);
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [instructionText, setInstructionText] = useState(
@@ -17,7 +16,7 @@ const FlashCard = ({ card, next, previous, markValid, questionFirst }) => {
   );
 
   // Check if the card is marked as difficult and render the difficulty mark
-  const difficultyMark = details.isvalid ? (
+  const difficultyMark = details?.isdone ? (
     <View style={styles.difficultyMark}>
       <Text style={styles.difficultyMarkText}>Difficult</Text>
     </View>
@@ -33,24 +32,29 @@ const FlashCard = ({ card, next, previous, markValid, questionFirst }) => {
 
   const flipCard = () => {
     setIsFlipped(!isFlipped);
-  }
+  };
 
   const handleSubmitAnswer = (answer) => {
-    console.log('Answer submitted: ', answer);
+    console.log("Answer submitted: ", answer);
     // Save the answer to the database
-    
+
     // Flip the card
     flipCard();
-  }
+  };
 
   return (
     <TouchableOpacity style={styles.container} onPress={flipCard}>
       {difficultyMark}
 
-      { questionFirst ?
-        <QuestionFirstView isFlipped={isFlipped} details={details} /> :
-        <AnswerFirstView isFlipped={isFlipped} details={details} onSubmitAnswer={handleSubmitAnswer} />
-      }
+      {questionFirst ? (
+        <QuestionFirstView isFlipped={isFlipped} details={details} />
+      ) : (
+        <AnswerFirstView
+          isFlipped={isFlipped}
+          details={details}
+          onSubmitAnswer={handleSubmitAnswer}
+        />
+      )}
 
       <Text style={styles.instructions}>{instructionText}</Text>
 
@@ -74,7 +78,6 @@ const FlashCard = ({ card, next, previous, markValid, questionFirst }) => {
           </View>
         </TouchableOpacity>
       </View>
-
     </TouchableOpacity>
   );
 };
@@ -122,6 +125,5 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
 });
-
 
 export default FlashCard;
