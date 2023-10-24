@@ -2,10 +2,21 @@ const express = require('express');
 const router = express.Router();
 // Calling Keytopic Model
 const {keytopicmodel} = require('../models/keytopics');
+// const moment = require('moment-timezone');
 
 // GET
 router.get(`/`, async (req, res)=>{
-    const keytopicList = await keytopicmodel.find();
+    // Filter by Date
+    let filter = {};
+    let startdate = new Date(req.query.startdate);
+    let enddate = new Date(req.query.enddate);
+    enddate.setHours(enddate.getHours()+23, 59, 59, 999);
+    
+    if (startdate && enddate) {
+        filter = {duedate: { $gte: startdate, $lte: enddate }}
+    }
+
+    const keytopicList = await keytopicmodel.find(filter);
 
     if(!keytopicList){
         res.status(500).json({
