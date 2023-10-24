@@ -54,7 +54,7 @@ const uploadContent = async (text) => {
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [
-        { role: "system", content: "You are a education instructor." },
+        { role: "system", content: "You are a college instructor." },
         {
           role: "user",
           content: `please summarize this content from ${text} 
@@ -62,7 +62,8 @@ const uploadContent = async (text) => {
           1.title of the material
           2.key topic that important for taking the exam. Key topic can be as many as necessary.
           3.For each key topic, create a summary at roughly 20 words.
-          4.For each key topic, Create a flashcard for me to study at 2-3 flashcards depend on how large the key topic is.
+          4.For each key topic, Create a flashcard for me to study at 7-10 flashcards depend on how large the key topic is.
+          5.For each key topic, create a quiz with total of 30 questions. 10 questions with 4 choices and 10 questions with true or false and 10 questions with written test. 
           Plese format JSON object as follow:
           {
             material:title,
@@ -70,7 +71,16 @@ const uploadContent = async (text) => {
             keyTopic: title,
             summary: "summary",
             flashcard: [
-              {question: "question", answer: "answer"},
+              {question: "question", correctAnswer: "answer"},
+            ],
+            quizMultiChoices: [
+              {question: "question", choices: ["choice1", "choice2", "choice3", "choice4"], correctAnswer: "answer"},
+            ],
+            quizTrueFalse: [
+              {question: "question", correctAnswer: "answer"},
+            ],
+            quizWritten: [
+              {question: "question", correctAnswer: "answer"},
             ]
           }]
         }
