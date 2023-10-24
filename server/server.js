@@ -29,7 +29,7 @@ const detailsRouter = require('./routes/details');
 // Middleware
 app.use(express.json());
 app.use(morgan('tiny'));
-// app.use(authJwt());
+app.use(authJwt());
 
 // Calling APIs
 // Quiz
@@ -43,7 +43,7 @@ app.use(`${api}/users`,usersRouter)
 // Keytopic
 app.use(`${api}/keytopics`,keytopicsRouter)
 // Folder
-// app.use(`${api}/folders`,foldersRouter)
+app.use(`${api}/folders`,foldersRouter)
 // Flashcard
 app.use(`${api}/flashcards`,flashcardsRouter)
 // Detail
