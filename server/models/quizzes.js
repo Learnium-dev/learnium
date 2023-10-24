@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const defaultDate = new Date(newDate.getTime() - 7 * 60 * 60 * 1000);
 
 // Quiz Schema
 const quizSchema = mongoose.Schema({
@@ -14,7 +15,7 @@ const quizSchema = mongoose.Schema({
     },
     duedate: {
       type: Date,
-      default: Date.now,
+      default: defaultDate,
     },
     progress: {
       type: Number,
