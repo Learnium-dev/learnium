@@ -170,7 +170,7 @@ router.post(`/createcontent`, async (req, res)=>{
         // POST Flascards Details
         const flashcards = keytopic?.flashcards?.map(async (flashcardsList) =>{
             const newDetail = new detailmodel({
-                flashcardid: newQuiz._id,
+                flashcardid: newFlashcard._id,
                 question: flashcardsList?.question, // Set question from the request body
                 correctanswer: flashcardsList?.answers,  // Set correctanswer from the request body
             });
@@ -185,6 +185,7 @@ router.post(`/createcontent`, async (req, res)=>{
     }
 
     res.status(200).send(result);
+    // res.status(200).send('API');
 })
 
 module.exports = router;
