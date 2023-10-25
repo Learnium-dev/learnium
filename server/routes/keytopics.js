@@ -6,17 +6,8 @@ const {keytopicmodel} = require('../models/keytopics');
 
 // GET
 router.get(`/`, async (req, res)=>{
-    // Filter by Date
-    let filter = {};
-    let startdate = new Date(req.query.startdate);
-    let enddate = new Date(req.query.enddate);
-    enddate.setHours(enddate.getHours()+23, 59, 59, 999);
-    
-    if (startdate && enddate) {
-        filter = {duedate: { $gte: startdate, $lte: enddate }}
-    }
 
-    const keytopicList = await keytopicmodel.find(filter);
+    const keytopicList = await keytopicmodel.find();
 
     if(!keytopicList){
         res.status(500).json({

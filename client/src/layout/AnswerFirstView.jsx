@@ -9,10 +9,10 @@ const AnswerFirstView = ({ isFlipped, details }) => {
     <View style={styles.container}>
       { isFlipped ?
         <View style={styles.container}>
-          <Text style={styles.textContainer}>{details.question[0]}</Text>
+          <Text style={styles.textContainer}>{details.question}</Text>
         </View> :
         <View>
-          <Text style={styles.textContainer}>{details.correctanswer[0]}</Text>
+          <Text style={styles.textContainer}>{details.correctanswer}</Text>
           <Text style={{ marginTop: 40, marginBottom: 10 }}>Your answer?</Text>
           <View style={{ height: 100 }}>
             <TextInput

@@ -16,7 +16,6 @@ export const loginUser = (user, dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-
         if (data) {
             const token = data.token;
             console.log(`Login token: ${token}`)
@@ -70,4 +69,3 @@ export const setCurrentUser = (decoded, user) => {
     userProfile: user,
   };
 };
-

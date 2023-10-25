@@ -5,6 +5,9 @@ import FlashCardsContainer from '../../../containers/FlashCardsContainer';
 
 const KeyTopic = (props) => {
 
+  const { keyTopic } = props.route.params;
+  console.log('KeyTopic: ', keyTopic)
+
   const bottomSheetModalRef = useRef(null);
 
   // height of the bottom sheet modal 95%
@@ -28,7 +31,7 @@ const KeyTopic = (props) => {
           index={0}
           snapPoints={snapPoints}
         >
-          <FlashCardsContainer keytopicid={''} closeSheet={closeBottomSheet} />
+          <FlashCardsContainer keyTopic={keyTopic} closeSheet={closeBottomSheet} />
         </BottomSheetModal>
       </View>
 
