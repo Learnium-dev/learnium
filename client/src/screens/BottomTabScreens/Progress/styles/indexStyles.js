@@ -1,5 +1,11 @@
 import { StyleSheet } from "react-native";
 
+// Responsivesness
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -20,13 +26,14 @@ export const styles = StyleSheet.create({
     fontFamily: "Gabarito",
     fontWeight: "700",
     lineHeight: 30,
+    marginBottom: 10,
   },
 
   progressText: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    transform: [{ translateY: 4 }, { translateX: 20 }],
+    top: "50%",
+    left: 15,
+    marginTop: -13,
     fontFamily: "Gabarito",
     fontSize: 20,
     fontWeight: "700",
@@ -44,7 +51,7 @@ export const styles = StyleSheet.create({
     borderColor: "#7000FF",
     overflow: "hidden",
     backgroundColor: "#FFF",
-    marginBottom: 20,
+    marginBottom: 15,
   },
   cardTitle: {
     fontFamily: "Gabarito",
@@ -68,5 +75,10 @@ export const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     bottom: -10,
+  },
+  cardCharacterInactive: {
+    position: "absolute",
+    right: 0,
+    bottom: -20,
   },
 });

@@ -31,6 +31,7 @@ import StudyIcon from "./assets/navbar_icons/Study.svg";
 import ProgressIcon from "./assets/navbar_icons/Progress.svg";
 import DailyIcon from "./assets/navbar_icons/Daily.svg";
 import ProfileIcon from "./assets/navbar_icons/Profile.svg";
+import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
 
 // tab bottom navigator
 function TabBottomNavigator() {
@@ -41,7 +42,12 @@ function TabBottomNavigator() {
       screenOptions={{
         tabBarStyle: {
           height: 64,
-          flexDirection: "row",
+          paddingBottom: 10,
+          paddingTop: 10,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "700",
         },
       }}
     >
@@ -50,21 +56,15 @@ function TabBottomNavigator() {
         component={StudyStackNavigator}
         options={{
           headerShown: false,
-          tabBarIcon: () => <StudyIcon width={30} height={30} />,
-
-          tabBarLabelStyle: {
-            fontSize: 12,
-            fontWeight: "700",
-            color: "#313131",
-          },
+          tabBarIcon: () => <StudyIcon width={24} height={24} />,
         }}
       />
       <Tab.Screen
         name="Progress"
-        component={Progress}
+        component={ProgressStackNavigator}
         options={{
           headerShown: false,
-          tabBarIcon: () => <ProgressIcon width={30} height={30} />,
+          tabBarIcon: () => <ProgressIcon width={24} height={24} />,
         }}
       />
       <Tab.Screen
@@ -72,7 +72,7 @@ function TabBottomNavigator() {
         component={Daily}
         options={{
           headerShown: false,
-          tabBarIcon: () => <DailyIcon width={30} height={30} />,
+          tabBarIcon: () => <DailyIcon width={24} height={24} />,
         }}
       />
       <Tab.Screen
@@ -80,7 +80,8 @@ function TabBottomNavigator() {
         component={TestAPI}
         options={{
           headerShown: false,
-          tabBarIcon: () => <ProfileIcon width={30} height={30} />,
+
+          tabBarIcon: () => <ProfileIcon width={24} height={24} />,
         }}
       />
       {/* <Tab.Screen
@@ -97,7 +98,7 @@ const StudyStack = createNativeStackNavigator();
 function StudyStackNavigator() {
   return (
     <StudyStack.Navigator>
-      <StudyStack.Screen name="Study" component={Study} />
+      <StudyStack.Screen name="StudyPage" component={Study} />
       <StudyStack.Screen name="CreateContent" component={CreateContent} />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
@@ -108,6 +109,25 @@ function StudyStackNavigator() {
         component={CreateNewMaterial}
       />
     </StudyStack.Navigator>
+  );
+}
+
+// progress stack navigator
+const ProgressStack = createNativeStackNavigator();
+function ProgressStackNavigator() {
+  return (
+    <ProgressStack.Navigator>
+      <ProgressStack.Screen
+        options={{ headerShown: false }}
+        name="ProgressPage"
+        component={Progress}
+      />
+      <ProgressStack.Screen
+        name="SingleKeyTopic"
+        component={SingleKeyTopicProgress}
+      />
+      <ProgressStack.Screen name="MaterialProgress" component={AllMaterials} />
+    </ProgressStack.Navigator>
   );
 }
 
