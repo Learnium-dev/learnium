@@ -9,7 +9,7 @@ import { getFlashCards } from '../services/flashcardsService';
 import FlashCardsSetupView from "../layout/FlashCardsSetupView";
 import { updateDetails } from "../services/detailsService";
 
-const FlashCardsContainer = ({ closeSheet, keytopicid }) => {
+const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
 
   const [cards, setCards] = useState([]);
   const [practicing, setPracticing] = useState(false);
@@ -20,11 +20,10 @@ const FlashCardsContainer = ({ closeSheet, keytopicid }) => {
   }, []);
 
   const loadFlashCards = () => {
-    // using hardcoded keytopicid for now, it will be passed in as props later
-    const keytopicTemporary = '651c6dfef7a8d6f181bdf420'
-    getFlashCards(keytopicTemporary).then((flashcards) => {
+    getFlashCards(keyTopic._id).then((flashcards) => {
         console.log('Flashcards loaded', flashcards);
         setCards(flashcards);
+        console.log('details', flashcards[0].details)
       },
       (error) => {
         alert('Error', `Something went wrong! ${error}`);
@@ -47,13 +46,14 @@ const FlashCardsContainer = ({ closeSheet, keytopicid }) => {
     pagerRef.current.setPage(prevIndex < 0 ? 0 : prevIndex);
   }
 
-  const markValid = (card) => {
-    const details = card.details[0];
-    updateDetails(details._id, { isvalid: true }).then((updatedDetails) => {
+  const markDone = (details) => {
+    // card is the details object
+    updateDetails(details._id, { isdone: true }).then((updatedDetails) => {
       console.log('Details updated: ', updatedDetails);
       // Update the state
-      card.details[0] = updatedDetails;
-      const updatedCards = [...cards, card];
+      const itemIndex = cards[0].details.findIndex((item) => item._id === details._id);
+      cards[0].details[itemIndex] = updatedDetails;
+      const updatedCards = [...cards, cards[0]];
       setCards(updatedCards);
     }, (error) => {
       alert('Error', `Couldn't update! ${error}`);
@@ -78,7 +78,7 @@ const FlashCardsContainer = ({ closeSheet, keytopicid }) => {
         overdrag={true}
         ref={pagerRef}
       >
-        {cards && cards.map((card, index) => {
+        {cards.length && cards[0].details.map((card, index) => {
           return (
             <FlashCard
               card={card}
@@ -87,11 +87,11 @@ const FlashCardsContainer = ({ closeSheet, keytopicid }) => {
               next={() => next(index + 1)}
               previous={() => previous(index - 1)}
               questionFirst={questionFirst}
-              markValid={markValid}
+              markDone={markDone}
             />
           );
         })}
-      </PagerView> : <FlashCardsSetupView onStartPracticing={handleStart} /> }
+      </PagerView> : <FlashCardsSetupView onStartPracticing={handleStart} keyTopic={keyTopic} /> }
     </View>
   )};
 
