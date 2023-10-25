@@ -54,6 +54,15 @@ const Study = () => {
       //     },
       //   }
       // );
+      // const response = await axios.post(
+      //   `${process.env.EXPO_PUBLIC_HOSTNAME}/upload-pdf`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
 
   // TabView
   const layout = useWindowDimensions();
