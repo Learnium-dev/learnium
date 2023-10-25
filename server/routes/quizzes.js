@@ -6,10 +6,14 @@ const {quizmodel} = require('../models/quizzes');
 // GET
 router.get(`/`, async (req, res)=>{
 
-    // Filter by DueDate
+    // Filter by Date
     let filter = {};
-    if(req.query.duedate){
-        filter = { duedate: { $gte: req.query.duedate}}
+    let startdate = new Date(req.query.startdate);
+    let enddate = new Date(req.query.enddate);
+    enddate.setHours(enddate.getHours()+23, 59, 59, 999);
+    
+    if (startdate && enddate) {
+        filter = {duedate: { $gte: startdate, $lte: enddate }}
     }
 
     const quizzesList = await quizmodel.find(filter).populate('keytopicid').sort({ duedate: 1 });
