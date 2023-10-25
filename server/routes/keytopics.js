@@ -2,20 +2,35 @@ const express = require('express');
 const router = express.Router();
 // Calling Keytopic Model
 const {keytopicmodel} = require('../models/keytopics');
-// const moment = require('moment-timezone');
+// User API
+const {usermodel} = require('../models/users');
+// Calling Folder Model
+const {foldermodel} = require('../models/folders');
 
 // GET
 router.get(`/`, async (req, res)=>{
+    // Find UserId
+    const userdata = await usermodel.findOne({email: req.query.email});
+    const folderdata = await foldermodel.findOne({userid: userdata?._id});
+
     // Filter by Date
     let filter = {};
-    let startdate = new Date(req.query.startdate);
-    let enddate = new Date(req.query.enddate);
-    enddate.setHours(enddate.getHours()+23, 59, 59, 999);
-    
-    if (startdate && enddate) {
-        filter = {duedate: { $gte: startdate, $lte: enddate }}
+    let startdate;
+    let enddate;
+
+    if (req.query.startdate && req.query.enddate){
+        startdate = new Date(req.query.startdate);
+        enddate = new Date(req.query.enddate);
+        enddate.setHours(enddate.getHours()+23, 59, 59, 999);
+
+        filter = {duedate: { $gte: startdate, $lte: enddate }, folderid: folderdata?._id}
+    }
+    // Filter by Folder Id
+    else{
+        filter = { folderid: folderdata?._id }
     }
 
+    // console.log(filter)
     const keytopicList = await keytopicmodel.find(filter);
 
     if(!keytopicList){
