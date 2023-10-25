@@ -1,33 +1,53 @@
-import { View, FlatList, Text, Pressable } from "react-native";
+import { View, FlatList, Text, Pressable, StyleSheet } from "react-native";
 import TodayHeader from "../components/TodayHeader";
 import { useNavigation } from "@react-navigation/native";
+import KeyTopicListItem from "../components/KeyTopicListItem";
+import { globalStyles } from "../../assets/common/global-styles";
 
 const StudyTabView = ({ selectedView, keyTopics }) => {
-  console.log('StudyTabView keyTopics: ', keyTopics.length);  
+  console.log('StudyTabView keyTopics: ', keyTopics?.length);
 
   const { navigate } = useNavigation();
 
   // const color = selectedView === 'missed' ? 'red' : selectedView === 'today' ? 'blue' : 'green';
 
   return (
-      <View style={{ flex: 1}}>
-        <TodayHeader />
+      <View style={styles.listContainer}>
 
-        <View style={{paddingVertical: 20}}>
-          <FlatList
-            style={{ width: '100%'}}
-            data={keyTopics}
-            renderItem={({ item: topic }) => (
-              <Pressable onPress={() => navigate('KeyTopic', { keyTopic: topic })}>
-                <View style={{padding: 20, borderWidth: 1, borderRadius: 10, marginVertical: 2}}>
-                  <Text style={{textTransform: 'capitalize', width: '100%'}}>{topic.name}</Text>
-                </View>
-              </Pressable>
-            )}
-          />
+        <View style={styles.innerContainer}>
+          
+          <View style={{ position: 'relative', top: -70, zIndex: 1, marginBottom: -70 }}>
+            <TodayHeader />
+          </View>
+
+          <View style={{paddingVertical: 20, flex: 1, padding: 20}}>
+          { keyTopics && keyTopics.length && <FlatList
+              data={keyTopics}
+              renderItem={({ item: topic }) => (
+                <KeyTopicListItem topic={topic} onPress={() => navigate('KeyTopic', { keyTopic: topic })} />
+              )}
+            /> }
+          </View>
+
         </View>
+
+
       </View>
   );
 }
+
+const styles = StyleSheet.create({
+  listContainer: {
+    flex: 1,
+  },
+  innerContainer: {
+    flex: 1,
+    // backgroundColor: 'orange',
+    marginTop: 60,
+    borderWidth: 2,
+    borderColor: globalStyles.colors.primary,
+    borderRadius: 20,
+  }
+});
 
 export default StudyTabView;

@@ -4,6 +4,7 @@ import StudyScreenTabBar from '../../../components/StudyScreenTabBar';
 import StudyTabView from '../../../layout/StudyTabView';
 import { globalStyles } from '../../../../assets/common/global-styles';
 import { getKeyTopics } from '../../../services/keyTopicsService';
+import { useDispatch, useSelector } from 'react-redux';
 
 // react navigation imports
 import { useNavigation } from "@react-navigation/native";
@@ -20,7 +21,6 @@ import axios from "axios";
 
 const Study = () => {
   const { navigate } = useNavigation();
-
   const [keyTopics, setKeyTopics] = useState([]);
   const [isKeyTopicsLoaded, setIsKeyTopicsLoaded] = useState(false);
   const [index, setIndex] = useState(1); // default to today's content for tab view
@@ -45,46 +45,28 @@ const Study = () => {
       }
     )
   }
-      // const response = await axios.post(
-      //   `${process.env.EXPO_PUBLIC_HOSTNAME}/upload-pdf`,
-      //   formData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   }
-      // );
-      // const response = await axios.post(
-      //   `${process.env.EXPO_PUBLIC_HOSTNAME}/upload-pdf`,
-      //   formData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   }
-      // );
 
   // TabView
   const layout = useWindowDimensions();
   
-
   const renderScene = ({ route }) => StudyTabView({ selectedView: route.key, keyTopics: keyTopics });
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+    <SafeAreaView style={styles.safeArea}>
 
         <View style={{paddingHorizontal: 20, paddingTop: 20 }}>
           <Text>Welcome back, Genia</Text>
         </View>
 
-          { isKeyTopicsLoaded && <TabView
-            style={{padding: 20}}
-            navigationState={{ index, routes }}
-            renderScene={renderScene}
-            onIndexChange={setIndex}
-            initialLayout={{ width: layout.width }}
-            renderTabBar={StudyScreenTabBar}
-          />}
+          { isKeyTopicsLoaded && <View style={styles.tabContainer}>
+            <TabView
+              navigationState={{ index, routes }}
+              renderScene={renderScene}
+              onIndexChange={setIndex}
+              initialLayout={{ width: layout.width }}
+              renderTabBar={StudyScreenTabBar}
+            />
+          </View>}
 
         <Pressable
           style={globalStyles.buttons.primary}
@@ -98,11 +80,16 @@ const Study = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "yellow",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  tabContainer: {
+    flex: 1,
+    // backgroundColor: "blue",
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
 });
 

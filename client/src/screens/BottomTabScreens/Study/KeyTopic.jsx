@@ -31,7 +31,7 @@ const KeyTopic = (props) => {
           index={0}
           snapPoints={snapPoints}
         >
-          <FlashCardsContainer keytopicid={keyTopic._id} closeSheet={closeBottomSheet} />
+          <FlashCardsContainer keyTopic={keyTopic} closeSheet={closeBottomSheet} />
         </BottomSheetModal>
       </View>
 

@@ -6,10 +6,10 @@ const QuestionFirstView = ({ isFlipped, details }) => {
     <View style={styles.container}>
       { isFlipped ? 
         <View>
-          <Text style={styles.textContainer}>{details.correctanswer[0]}</Text>
+          <Text style={styles.textContainer}>{details.correctanswer}</Text>
         </View> : 
         <View style={styles.container}>
-          <Text style={styles.textContainer}>{details.question[0]}</Text>
+          <Text style={styles.textContainer}>{details.question}</Text>
         </View>
       }
     </View>

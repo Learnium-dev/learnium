@@ -1,13 +1,17 @@
-import { BASE_URL, TOKEN } from "../config/apiConfig";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import baseURL from "../../assets/common/baseUrl";
 
 export const getKeyTopics = async () => {
+
+  let token = await AsyncStorage.getItem("jwt");
+
   const options = {
     method: 'GET',
-    url: `${BASE_URL}/keytopics`,
+    url: `${baseURL}keytopics`,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${TOKEN}`,
+      'Authorization': `Bearer ${token}`,
     }
   };
 

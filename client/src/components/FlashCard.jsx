@@ -4,12 +4,9 @@ import { useState, useEffect } from "react";
 import QuestionFirstView from "../layout/QuestionFirstView";
 import AnswerFirstView from "../layout/AnswerFirstView";
 
-const FlashCard = ({ card, next, previous, markValid, questionFirst }) => {
+const FlashCard = ({ card, next, previous, markDone, questionFirst }) => {
 
-  // Details object from the details array
-  // How to get the question and answer from here?
-  const details = card.details[0];
-  console.log('Flashcard details: ', details)
+  // console.log('Flashcard details: ', card);
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [instructionText, setInstructionText] = useState(
@@ -17,9 +14,9 @@ const FlashCard = ({ card, next, previous, markValid, questionFirst }) => {
   );
 
   // Check if the card is marked as difficult and render the difficulty mark
-  const difficultyMark = details?.isvalid ? (
+  const difficultyMark = card?.isdone ? (
     <View style={styles.difficultyMark}>
-      <Text style={styles.difficultyMarkText}>Difficult</Text>
+      <Text style={styles.difficultyMarkText}>Done</Text>
     </View>
   ) : null;
 
@@ -48,16 +45,16 @@ const FlashCard = ({ card, next, previous, markValid, questionFirst }) => {
       {difficultyMark}
 
       { questionFirst ?
-        <QuestionFirstView isFlipped={isFlipped} details={details} /> :
-        <AnswerFirstView isFlipped={isFlipped} details={details} onSubmitAnswer={handleSubmitAnswer} />
+        <QuestionFirstView isFlipped={isFlipped} details={card} /> :
+        <AnswerFirstView isFlipped={isFlipped} details={card} onSubmitAnswer={handleSubmitAnswer} />
       }
 
       <Text style={styles.instructions}>{instructionText}</Text>
 
       {!isFlipped && (
-        <TouchableOpacity onPress={() => markValid(card)}>
+        <TouchableOpacity onPress={() => markDone(card)}>
           <Text style={styles.difficultButtonText}>
-            Mark this Flash Card as Difficult
+            Mark this Flash Card as Done
           </Text>
         </TouchableOpacity>
       )}
@@ -107,8 +104,8 @@ const styles = StyleSheet.create({
   },
   difficultyMark: {
     position: "absolute",
-    top: 0,
-    right: 0,
+    top: 5,
+    right: 5,
     backgroundColor: "red",
     borderRadius: 10,
     padding: 5,
@@ -116,6 +113,7 @@ const styles = StyleSheet.create({
   },
   difficultyMarkText: {
     fontSize: 12,
+    color: 'white',
   },
   difficultButtonText: {
     textAlign: "center",
