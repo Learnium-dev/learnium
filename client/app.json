@@ -35,6 +35,9 @@
     "extra": {
 
     },
-    "owner": "mariocc22"
+    "owner": "mariocc22",
+    "packagerOpts": {
+      "config": "metro.config.js"
+    }
   }
 }

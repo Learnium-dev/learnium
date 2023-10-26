@@ -31,7 +31,7 @@ const KeyTopic = (props) => {
           index={0}
           snapPoints={snapPoints}
         >
-          <FlashCardsContainer keyTopic={keyTopic} closeSheet={closeBottomSheet} />
+            <FlashCardsContainer keyTopic={keyTopic} closeSheet={closeBottomSheet} />
         </BottomSheetModal>
       </View>
 
@@ -41,7 +41,7 @@ const KeyTopic = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "yellow",
     alignItems: "center",
     justifyContent: "center",
   },
