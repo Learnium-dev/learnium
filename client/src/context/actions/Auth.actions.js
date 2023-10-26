@@ -18,8 +18,9 @@ export const loginUser = (user, dispatch) => {
     .then((data) => {
       if (data) {
         const token = data.token;
-        console.log(`Login token: ${token}`);
+        const email = data.user;
         AsyncStorage.setItem("jwt", token);
+        AsyncStorage.setItem("email", email);
         const decoded = jwt_decode(token);
         dispatch(setCurrentUser(decoded, user));
       } else {

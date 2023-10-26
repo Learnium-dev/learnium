@@ -8,13 +8,18 @@ import {
   Pressable,
 } from "react-native";
 
+// Redux
+import { useSelector } from "react-redux";
+
+// Components
+import KeyTopicCard from "./components/KeyTopicCard";
+
 // Styles
 import { styles } from "../Progress/styles/indexStyles";
 
 // SVGs
-import ProgressBanner from "../../../../assets/images/progress/progressWelcome.svg";
-import KeyTopicGrade from "../../../../assets/images/progress/keyTopicGrade.svg";
-import InactiveKeyTopic from "../../../../assets/images/progress/inactiveKeyTopic.svg";
+import LumiBody from "../../../../assets/images/progress/lumi banner/lumi_body.svg";
+import LumiText from "../../../../assets/images/progress/lumi banner/lumi_message.svg";
 
 // Responsivesness
 import {
@@ -23,18 +28,12 @@ import {
 } from "react-native-responsive-screen";
 
 // Progress Bar
-import { Bar } from "react-native-progress";
-import { useNavigation } from "@react-navigation/native";
+import ProgressBarAnimated from "react-native-progress-bar-animated";
 
 const Progress = () => {
-  const { navigate } = useNavigation();
-  // info to pullout from the backend (API)
-  // 1. Progress Bar
-  // a. GET all the quizzes due today (get their progress)
-  // 2. All Key Topics with Due Date for Today
-  // a. GET all the key topics due today (get their name, material name, progress)
-  // 3. The most recent Key Topic completed
-  // a. GET the most recent key topic completed (get their name, material name, due date and progress)
+  const { email } = useSelector((state) => state.credentials);
+
+  // 1. Fetch all quizzes due today
 
   return (
     <SafeAreaView style={styles.container}>
@@ -42,68 +41,37 @@ const Progress = () => {
         <View>
           <Text style={styles.title}>Today's Progress</Text>
         </View>
-        <View
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            marginVertical: 14,
-          }}
-        >
-          <ProgressBanner width={331} height={110} />
+        {/* Banner */}
+        <View style={styles.banner}>
+          <LumiBody width={88} height={110} />
+          <LumiText width={280} height={110} />
         </View>
-        <View style={{ position: "relative", marginBottom: 40 }}>
-          <Bar
-            progress={0.5}
+        {/* Progress Bar */}
+        <View style={styles.progressBarContainer}>
+          <ProgressBarAnimated
             width={wp("90%")}
-            height={hp("4%")}
-            color="#7000FF"
+            height={40}
+            value={50}
+            backgroundColor={"#7000FF"}
             borderRadius={100}
+            useNativeDriver={true}
+            borderColor={"#ECECEC"}
+            borderWidth={2}
           />
           <Text style={styles.progressText}>50%</Text>
         </View>
-        {/* This section should be a FlatList - In Progress */}
+        <View style={styles.divider} useNativeDriver={true} />
+        {/* In Progress */}
         <View>
           <Text style={styles.subtitle}>In Progress</Text>
           {/* Card */}
-          <Pressable onPress={() => navigate("SingleKeyTopic")}>
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>Key Topic Title Here</Text>
-              <Text style={styles.cardSubtitle}>From: Material Title Here</Text>
-              <Text style={styles.cardDueDate}>Due Date: Today</Text>
-              <View style={styles.cardCharacter}>
-                <KeyTopicGrade width={145} height={127} />
-              </View>
-            </View>
-          </Pressable>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Key Topic Title Here</Text>
-            <Text style={styles.cardSubtitle}>From: Material Title Here</Text>
-            <Text style={styles.cardDueDate}>Due Date: Today</Text>
-            <View style={styles.cardCharacterInactive}>
-              <InactiveKeyTopic width={114} height={133} />
-            </View>
-          </View>
+          <KeyTopicCard />
         </View>
         {/* This section should be a FlatList - Completed */}
         <View>
-          <Text style={styles.subtitle}>Completed</Text>
-          {/* Card */}
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Key Topic Title Here</Text>
-            <Text style={styles.cardSubtitle}>From: Material Title Here</Text>
-            <Text style={styles.cardDueDate}>Due Date: Today</Text>
-            <View style={styles.cardCharacter}>
-              <KeyTopicGrade width={145} height={127} />
-            </View>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Key Topic Title Here</Text>
-            <Text style={styles.cardSubtitle}>From: Material Title Here</Text>
-            <Text style={styles.cardDueDate}>Due Date: Today</Text>
-            <View style={styles.cardCharacter}>
-              <KeyTopicGrade width={145} height={127} />
-            </View>
-          </View>
+          <Text style={{ ...styles.subtitle, color: "#7000FF" }}>
+            Completed
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

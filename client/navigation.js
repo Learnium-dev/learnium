@@ -27,10 +27,11 @@ import Account from "./src/screens/BottomTabScreens/Account";
 import TestAPI from "./src/screens/User/TestAPI";
 
 // Bottom Tab Navigator Icons
-import StudyIcon from "./assets/navbar_icons/Study.svg";
-import ProgressIcon from "./assets/navbar_icons/Progress.svg";
-import DailyIcon from "./assets/navbar_icons/Daily.svg";
-import ProfileIcon from "./assets/navbar_icons/Profile.svg";
+import StudyIcon from "./assets/navbar_icons/study_icon.svg";
+import ProgressIcon from "./assets/navbar_icons/progress_icon.svg";
+import DailyIcon from "./assets/navbar_icons/daily_icon.svg";
+import ProfileIcon from "./assets/navbar_icons/profile_icon.svg";
+
 import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
 
 // tab bottom navigator
@@ -55,33 +56,36 @@ function TabBottomNavigator() {
         name="Study"
         component={StudyStackNavigator}
         options={{
+          tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: () => <StudyIcon width={24} height={24} />,
+          tabBarIcon: () => <StudyIcon width={32} height={32} />,
         }}
       />
       <Tab.Screen
         name="Progress"
         component={ProgressStackNavigator}
         options={{
+          tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: () => <ProgressIcon width={24} height={24} />,
+          tabBarIcon: () => <ProgressIcon width={32} height={32} />,
         }}
       />
       <Tab.Screen
         name="Daily"
         component={Daily}
         options={{
+          tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: () => <DailyIcon width={24} height={24} />,
+          tabBarIcon: () => <DailyIcon width={32} height={32} />,
         }}
       />
       <Tab.Screen
         name="TestAPI"
         component={TestAPI}
         options={{
+          tabBarShowLabel: false,
           headerShown: false,
-
-          tabBarIcon: () => <ProfileIcon width={24} height={24} />,
+          tabBarIcon: () => <ProfileIcon width={32} height={32} />,
         }}
       />
       {/* <Tab.Screen

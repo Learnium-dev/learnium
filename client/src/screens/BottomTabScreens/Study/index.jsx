@@ -10,39 +10,62 @@ import { useState, useEffect } from "react";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 
+// redux
+import { useDispatch } from "react-redux";
+import { setEmail } from "../../../../slices/credentialsSlice";
+
 // axios
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Study = () => {
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
 
-  const handleUploadPDF = async () => {
-    try {
-      const res = await DocumentPicker.getDocumentAsync();
-      console.log(res);
-
-      const formData = new FormData();
-      formData.append("pdf", {
-        uri: res.assets[0].uri,
-        name: res.assets[0].name,
-        type: res.assets[0].mimeType,
-      });
-
-      const response = await axios.post(
-        `${process.env.EXPO_PUBLIC_HOSTNAME}/upload-pdf`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+  useEffect(() => {
+    const getEmail = async () => {
+      try {
+        const email = await AsyncStorage.getItem("email");
+        if (!email) {
+          console.log("no email");
+        } else {
+          console.log("this is the email: ", email);
+          dispatch(setEmail(email));
         }
-      );
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    getEmail();
+  }, []);
 
-      console.log(response.data);
-    } catch (error) {
-      console.log(error?.message);
-    }
-  };
+  // const handleUploadPDF = async () => {
+  //   try {
+  //     const res = await DocumentPicker.getDocumentAsync();
+  //     console.log(res);
+
+  //     const formData = new FormData();
+  //     formData.append("pdf", {
+  //       uri: res.assets[0].uri,
+  //       name: res.assets[0].name,
+  //       type: res.assets[0].mimeType,
+  //     });
+
+  //     const response = await axios.post(
+  //       `${process.env.EXPO_PUBLIC_HOSTNAME}/upload-pdf`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.log(error?.message);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>

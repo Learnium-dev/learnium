@@ -11,33 +11,55 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingVertical: 50,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
   },
-
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontFamily: "Gabarito",
     fontWeight: "700",
     lineHeight: 30,
   },
-
+  banner: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    marginVertical: 20,
+  },
   subtitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Gabarito",
     fontWeight: "700",
     lineHeight: 30,
     marginBottom: 10,
   },
-
+  progressBarContainer: {
+    display: "flex",
+    position: "relative",
+    marginVertical: 10,
+    backgroundColor: "#ECECEC",
+    borderRadius: 100,
+  },
+  progressBar: {
+    position: "relative",
+    backgroundColor: "#ECECEC",
+    overflow: "hidden",
+  },
   progressText: {
     position: "absolute",
     top: "50%",
-    left: 15,
+    left: 20,
     marginTop: -13,
     fontFamily: "Gabarito",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
     color: "#FFF",
+  },
+  divider: {
+    width: "100%",
+    height: 2,
+    backgroundColor: "#CDCDCD",
+    marginVertical: 30,
   },
   card: {
     display: "flex",
