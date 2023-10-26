@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Switch, Pressable } from "react-native";
 import { useState } from "react";
 
-const FlashCardsSetupView = ({ onStartPracticing }) => {
+const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
 
   const [questionFirst, setQuestionFirst] = useState(true);
   
@@ -16,7 +16,8 @@ const FlashCardsSetupView = ({ onStartPracticing }) => {
 
       {/* To be updated when design is finalised */}
       <View style={styles.imageContainer}>
-        <Text style={styles.topicTitle}>Historical Dates</Text>
+        <Text style={styles.topicTitle}>{keyTopic.name}</Text>
+        <Text>{keyTopic.summary}</Text>
       </View>
 
       <View style={styles.setup}>

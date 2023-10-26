@@ -4,6 +4,16 @@ const pdf = require("pdf-parse");
 // Open AI
 const OpenAI = require("openai");
 
+// POST request
+const express = require("express");
+const router = express.Router();
+const folderPOST = require("../routes/folders.js");
+
+// env
+require("dotenv/config");
+const api = process.env.API_URL;
+const hostname = process.env.HOSTNAME;
+const port = process.env.PORT;
 
 const createContent = async (req, res) => {
   const buffer = req.file.buffer;
@@ -14,35 +24,33 @@ const createContent = async (req, res) => {
     const text = data.text;
 
     // Name the new file with the original name from the PDF
-    const txtFileName = pdfFileName.replace(/\.[^.]+$/, '.txt');
+    const txtFileName = pdfFileName.replace(/\.[^.]+$/, ".txt");
 
     // Create a new .txt file with the extracted text
     const filePath = path.join(__dirname, txtFileName);
 
     // Use fs.writeFile to write the text to the file asynchronously
-    fs.writeFile(filePath, text, 'utf-8', async (err) => {
+    fs.writeFile(filePath, text, "utf-8", async (err) => {
       if (err) {
         console.error(err);
       } else {
         console.log("The file was saved!");
-        const article = JSON.stringify({ text })
+        const article = JSON.stringify({ text });
         const result = await uploadContent(article);
         res.json(result);
       }
     });
   });
-
-
 };
-
 
 const uploadContent = async (text) => {
   try {
+    // postToDB();
     const AIKEY = process.env.OPENAIKEY;
     const openai = new OpenAI({
       apiKey: AIKEY,
     });
-    
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [
@@ -51,33 +59,65 @@ const uploadContent = async (text) => {
           role: "user",
           content: `please summarize this content from ${text} 
           and return me in JSON format with the following information:
-          1. summary of the article at roughly 20 words.
-              2. key topic that important for me to know before taking the exam. Key topic can be as many as necessary.
-          3. Create a question and answer for me to test my knowledge at 5 questions, each question should have 4 choices and related to each key topic. in JSON format with key {question: "question", answer: "answer", choices: ["choice1", "choice2", "choice3", "choice4"], keyTopic: "keyTopic"}
-          4. Create a flashcard for me to study at 5-10 flashcards depend on how large the article is. Return the flashcard in a format of question and answer.
+          1.title of the material
+          2.key topic that important for taking the exam. Key topic can be as many as necessary.
+          3.For each key topic, create a summary at roughly 20 words.
+          4.For each key topic, Create a flashcard for me to study at 2-3 flashcards depend on how large the key topic is.
           Plese format JSON object as follow:
           {
+            material:title,
+            content:[{
+            keyTopic: title,
             summary: "summary",
-            keyTopic: ["keyTopic1", "keyTopic2",....],
-            questionAnswer: [
-              {question: "question", answer: "answer", choices: ["choice1", "choice2", "choice3", "choice4"], keyTopic: "keyTopic"},
-            ],
             flashcard: [
               {question: "question", answer: "answer"},
             ]
-          }
-          `
+          }]
+        }
+          `,
         },
       ],
     });
     console.log(completion.choices[0]);
-    
+
     const result = completion.choices[0].message.content;
     return result;
-     
   } catch (error) {
     console.log(error);
   }
 };
+// ****make a nested API to POST to DB 'router.post('/folders', createFolder);' in server/routes/folders.js
+const postToDB = async (result) => {
+  try {
+    const newFolderData = {
+      name: "test", // Replace with the actual folder name you want to create
+      userid: "651c6b5cf7a8d6f181bdf41d", // Replace with the actual user ID
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newFolderData),
+    };
+
+    const folderRes = await fetch(
+      `${hostname}:${port}${api}/folders`,
+      requestOptions
+    ); // Assuming your API endpoint is correct
+    console.log(`${hostname}:${port}${api}/folders`);
+
+    if (!folderRes.ok) {
+      const error = folderRes.statusText;
+      throw new Error(`Network response was not ok ${error}`);
+    }
+    console.log("folderRes");
+    console.log(folderRes);
+    return folderRes.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+// router.post(`${api}/folders`, folderPOST);
+// router.post(`${api}/folders`, postToDB);
 
 module.exports = createContent;

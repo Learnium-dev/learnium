@@ -14,6 +14,12 @@ import NextDayPlan from "./src/screens/BottomTabScreens/Study/NextDayPlan";
 import UploadScreen from "./src/screens/BottomTabScreens/Study/UploadScreen";
 import CreateContent from "./src/screens/BottomTabScreens/Study/CreateContent";
 
+// Icons
+import StudyTabIcon from './assets/icons/study-tab.svg'
+import ProgressTabIcon from './assets/icons/progress-tab.svg'
+import DailyTabIcon from './assets/icons/daily-tab.svg'
+import ProfileTabIcon from './assets/icons/profile-tab.svg'
+
 // screens - progress
 import Progress from "./src/screens/BottomTabScreens/Progress";
 
@@ -35,22 +41,38 @@ function TabBottomNavigator() {
       <Tab.Screen
         name="StudyMain"
         component={StudyStackNavigator}
-        options={{ headerShown: false }}
+        options={{ 
+          headerShown: false,
+          tabBarIcon: ({ focused }) => <StudyTabIcon />,
+          tabBarShowLabel: false
+        }}
       />
       <Tab.Screen
         name="Progress"
         component={Progress}
-        options={{ headerShown: false }}
+        options={{ 
+          headerShown: false,
+          tabBarIcon: ({ focused }) => <ProgressTabIcon />,
+          tabBarShowLabel: false
+        }}
       />
       <Tab.Screen
         name="Daily"
         component={Daily}
-        options={{ headerShown: false }}
+        options={{ 
+          headerShown: false,
+          tabBarIcon: ({ focused }) => <DailyTabIcon />,
+          tabBarShowLabel: false
+        }}
       />
       <Tab.Screen
         name="TestAPI"
         component={TestAPI}
-        options={{ headerShown: false }}
+        options={{ 
+          headerShown: false,
+          tabBarIcon: ({ focused }) => <ProfileTabIcon />,
+          tabBarShowLabel: false
+        }}
       />
       {/* <Tab.Screen
         name="Account"
@@ -66,7 +88,7 @@ const StudyStack = createNativeStackNavigator();
 function StudyStackNavigator() {
   return (
     <StudyStack.Navigator>
-      <StudyStack.Screen name="Study" component={Study} />
+      <StudyStack.Screen name="Study" component={Study} options={{ headerShown: false }}/>
       <StudyStack.Screen name="CreateContent" component={CreateContent} />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />

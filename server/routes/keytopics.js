@@ -2,9 +2,40 @@ const express = require('express');
 const router = express.Router();
 // Calling Keytopic Model
 const {keytopicmodel} = require('../models/keytopics');
+// User API
+const {usermodel} = require('../models/users');
+// Calling Folder Model
+const {foldermodel} = require('../models/folders');
 
 // GET
 router.get(`/`, async (req, res)=>{
+    // Find UserId
+    const userdata = await usermodel.findOne({email: req.query.email});
+    const folderdata = await foldermodel.findOne({userid: userdata?._id});
+
+    // Filter by Date
+    let filter = {};
+    let startdate;
+    let enddate;
+
+    if (req.query.startdate && req.query.enddate){
+        startdate = new Date(req.query.startdate);
+        enddate = new Date(req.query.enddate);
+        enddate.setHours(enddate.getHours()+23, 59, 59, 999);
+
+        filter = {duedate: { $gte: startdate, $lte: enddate }, folderid: folderdata?._id}
+    }
+    // Filter by Folder Id
+    else{
+        filter = { folderid: folderdata?._id }
+    }
+
+    // console.log(filter)
+
+    // Commenting out the filter for now because
+    // we need an option to get all keytopics with .find() without any filter (even if it's an empty object it doesn't work)
+
+    // const keytopicList = await keytopicmodel.find(filter);
     const keytopicList = await keytopicmodel.find();
 
     if(!keytopicList){
