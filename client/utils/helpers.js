@@ -56,3 +56,24 @@ export const todayProgress = (keyTopics) => {
   averageProgress = averageProgress / keyTopics.length;
   return { progressPercentage, averageProgress };
 };
+
+export const dateOptions = {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+}
+
+export const isToday = (date) => {
+    const givenDate = new Date(date);
+    const today = new Date();
+    return givenDate.toLocaleDateString("en-US", dateOptions) === today.toLocaleDateString("en-US", dateOptions);
+}
+
+export const isBeforeToday = (date) => {
+    const givenDate = new Date(date);
+    const today = new Date();
+    givenDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    return givenDate < today;
+}

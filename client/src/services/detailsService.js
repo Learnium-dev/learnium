@@ -1,15 +1,17 @@
-import { BASE_URL, TOKEN } from "../config/apiConfig";
+import baseURL from "../../assets/common/baseUrl";
 import axios from "axios";
 
 export const updateDetails = async (id, data) => {
   console.log("updating Details with id: " + id)
 
+  const token = await AsyncStorage.getItem("jwt");
+
   const options = {
     method: 'PUT',
-    url: `${BASE_URL}/details/${id}`,
+    url: `${baseURL}details/${id}`,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${TOKEN}`,
+      'Authorization': `Bearer ${token}`,
     },
     data: data
   };

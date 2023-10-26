@@ -1,4 +1,18 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  useWindowDimensions,
+  SafeAreaView,
+} from "react-native";
+import { TabView, TabBar, SceneMap } from "react-native-tab-view";
+import StudyScreenTabBar from "../../../components/StudyScreenTabBar";
+import StudyTabView from "../../../layout/StudyTabView";
+import { globalStyles } from "../../../../assets/common/global-styles";
+import { getKeyTopics } from "../../../services/keyTopicsService";
+import { useDispatch, useSelector } from "react-redux";
+import { isBeforeToday, isToday } from "../../../../utils/helpers";
 
 // react navigation imports
 import { useNavigation } from "@react-navigation/native";
@@ -20,124 +34,95 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Study = () => {
   const { navigate } = useNavigation();
-  const dispatch = useDispatch();
+  const [keyTopics, setKeyTopics] = useState([]);
+  const [isKeyTopicsLoaded, setIsKeyTopicsLoaded] = useState(false);
+  const [index, setIndex] = useState(1); // default to today's content for tab view
+  const [routes] = useState([
+    { key: "missed", title: "Missed content" },
+    { key: "today", title: "Today's content" },
+    { key: "review", title: "Review content" },
+  ]);
 
   useEffect(() => {
-    const getEmail = async () => {
-      try {
-        const email = await AsyncStorage.getItem("email");
-        if (!email) {
-          console.log("no email");
-        } else {
-          console.log("this is the email: ", email);
-          dispatch(setEmail(email));
-        }
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-    getEmail();
+    loadKeyTopics();
   }, []);
 
-  // const handleUploadPDF = async () => {
-  //   try {
-  //     const res = await DocumentPicker.getDocumentAsync();
-  //     console.log(res);
+  const loadKeyTopics = () => {
+    getKeyTopics().then(
+      (keyTopics) => {
+        console.log("Key Topics loaded", keyTopics);
+        setKeyTopics(keyTopics);
+        setIsKeyTopicsLoaded(true);
+      },
+      (error) => {
+        alert("Error", `Couldn't load Key Topics! ${error}`);
+      }
+    );
+  };
 
-  //     const formData = new FormData();
-  //     formData.append("pdf", {
-  //       uri: res.assets[0].uri,
-  //       name: res.assets[0].name,
-  //       type: res.assets[0].mimeType,
-  //     });
+  // TabView
+  const layout = useWindowDimensions();
+  const filteredKeyTopics = (routeKey) => {
+    switch (routeKey) {
+      case "missed":
+        return keyTopics.filter((keyTopic) => isBeforeToday(keyTopic.duedate));
+      case "today":
+        return keyTopics.filter((keyTopic) => isToday(keyTopic.duedate));
+      case "review":
+        // TODO: implement review logic
+        return [];
+      default:
+        return keyTopics;
+    }
+  };
 
-  //     const response = await axios.post(
-  //       `${process.env.EXPO_PUBLIC_HOSTNAME}/upload-pdf`,
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.log(error?.message);
-  //   }
-  // };
+  const renderScene = ({ route }) =>
+    StudyTabView({
+      selectedView: route.key,
+      keyTopics: filteredKeyTopics(route.key),
+    });
 
   return (
-    <View style={styles.container}>
-      <Text>Study</Text>
-      {/* <Pressable
-        onPress={handleUploadPDF}
-        style={{
-          padding: 20,
-          backgroundColor: "#000",
-          borderRadius: 5,
-          margin: 50,
-          width: 200,
-        }}
-      >
-        <Text style={{ color: "white", textAlign: "center" }}>
-          Upload a file PDF
-        </Text>
-      </Pressable> */}
+    <SafeAreaView style={styles.safeArea}>
+      <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
+        <Text>Welcome back, Genia</Text>
+      </View>
+
+      {isKeyTopicsLoaded && (
+        <View style={styles.tabContainer}>
+          <TabView
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{ width: layout.width }}
+            renderTabBar={StudyScreenTabBar}
+          />
+        </View>
+      )}
+
       <Pressable
+        style={globalStyles.buttons.primary}
         onPress={() => navigate("CreateContent")}
-        style={{
-          padding: 20,
-          backgroundColor: "#000",
-          borderRadius: 5,
-          margin: 50,
-          width: 200,
-        }}
       >
-        <Text style={{ color: "white", textAlign: "center" }}>
-          Go to Create Content
+        <Text style={globalStyles.buttons.primary.text}>
+          Create New Learning Material
         </Text>
       </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("UploadScreen")}
-      >
-        <Text>Go to UploadScreen</Text>
-      </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("KeyTopic")}
-      >
-        <Text>Go to KeyTopic</Text>
-      </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("AllMaterials")}
-      >
-        <Text>Go to AllMaterials</Text>
-      </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("CreateNewMaterial")}
-      >
-        <Text>Go to CreateNewMaterial</Text>
-      </Pressable>
-      <Pressable
-        style={{ marginBottom: 20 }}
-        onPress={() => navigate("NextDayPlan")}
-      >
-        <Text>Go to NextDayPlan</Text>
-      </Pressable>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
+  },
+  tabContainer: {
+    flex: 1,
+    // backgroundColor: "blue",
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
 });
 

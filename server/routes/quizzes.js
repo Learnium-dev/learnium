@@ -2,15 +2,26 @@ const express = require('express');
 const router = express.Router();
 // Calling Quiz Model
 const {quizmodel} = require('../models/quizzes');
+// Calling Keytopic Model
+const {keytopicmodel} = require('../models/keytopics');
 
 // GET
 router.get(`/`, async (req, res)=>{
-
-    // Filter by DueDate
     let filter = {};
-    if(req.query.duedate){
-        filter = { duedate: { $gte: req.query.duedate}}
+    // Find Keytopic Id
+    if(req.query.keytopicid){
+        filter = {keytopicid: req.query.keytopicid}
     }
+
+    // Filter by Date
+    // let filter = {};
+    // let startdate = new Date(req.query.startdate);
+    // let enddate = new Date(req.query.enddate);
+    // enddate.setHours(enddate.getHours()+23, 59, 59, 999);
+    
+    // if (startdate && enddate) {
+    //     filter = {duedate: { $gte: startdate, $lte: enddate }}
+    // }
 
     const quizzesList = await quizmodel.find(filter).populate('keytopicid').sort({ duedate: 1 });
 
