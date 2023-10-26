@@ -16,20 +16,16 @@ export const loginUser = (user, dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-        if (data) {
-            const token = data.token;
-            console.log(`Login token: ${token}`)
-            const userId = data.userId;
-            console.log(`Login userId: ${userId}`)
-            AsyncStorage.setItem("jwt", token)
-            AsyncStorage.setItem("userId", userId)
-            const decoded = jwt_decode(token)
-            // const decodedUserId = jwt_decode(userId)
-            dispatch(setCurrentUser(decoded, user))
-            // dispatch(setCurrentUser(decoded,decodedUserId, user))
-        } else {
-           logoutUser(dispatch)
-        }
+      if (data) {
+        const token = data.token;
+        const email = data.user;
+        AsyncStorage.setItem("jwt", token);
+        AsyncStorage.setItem("email", email);
+        const decoded = jwt_decode(token);
+        dispatch(setCurrentUser(decoded, user));
+      } else {
+        logoutUser(dispatch);
+      }
     })
     .catch((err) => {
       Toast.show({
@@ -61,8 +57,6 @@ export const logoutUser = (dispatch) => {
 };
 
 export const setCurrentUser = (decoded, user) => {
-
-
   return {
     type: SET_CURRENT_USER,
     payload: decoded,

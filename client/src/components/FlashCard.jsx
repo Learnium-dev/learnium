@@ -1,12 +1,17 @@
-import { View, Text, StyleSheet, TouchableOpacity, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useEffect, useRef } from "react";
 import QuestionFirstView from "../layout/QuestionFirstView";
 import AnswerFirstView from "../layout/AnswerFirstView";
-import GestureFlipView from 'react-native-gesture-flip-card';
+import GestureFlipView from "react-native-gesture-flip-card";
 
 const FlashCard = ({ card, next, previous, markDone, questionFirst }) => {
-
   // console.log('Flashcard details: ', card);
 
   const [isFlipped, setIsFlipped] = useState(false);
@@ -18,10 +23,10 @@ const FlashCard = ({ card, next, previous, markDone, questionFirst }) => {
 
   const onViewLayout = (event) => {
     const { width, height } = event.nativeEvent.layout;
-    console.log(width, height)
+    console.log(width, height);
     setCardWidth(width);
     setCardHeight(height);
-  }
+  };
 
   const flipCardRef = useRef(null);
 
@@ -42,25 +47,32 @@ const FlashCard = ({ card, next, previous, markDone, questionFirst }) => {
 
   const flipCard = () => {
     setIsFlipped(!isFlipped);
-    isFlipped ? flipCardRef.current.flipLeft() : flipCardRef.current.flipRight();
-  }
+    isFlipped
+      ? flipCardRef.current.flipLeft()
+      : flipCardRef.current.flipRight();
+  };
 
   const handleSubmitAnswer = (answer) => {
-    console.log('Answer submitted: ', answer);
+    console.log("Answer submitted: ", answer);
     // Save the answer to the database
-    
+
     // Flip the card
     flipCard();
-  }
+  };
 
   const renderFront = () => {
     return (
       <>
-      {difficultyMark}
-      { questionFirst ?
-        <QuestionFirstView isFlipped={isFlipped} details={card} /> :
-        <AnswerFirstView isFlipped={isFlipped} details={card} onSubmitAnswer={handleSubmitAnswer} />
-      }
+        {difficultyMark}
+        {questionFirst ? (
+          <QuestionFirstView isFlipped={isFlipped} details={card} />
+        ) : (
+          <AnswerFirstView
+            isFlipped={isFlipped}
+            details={card}
+            onSubmitAnswer={handleSubmitAnswer}
+          />
+        )}
 
         {!isFlipped && (
           <TouchableOpacity onPress={() => markDone(card)}>
@@ -70,16 +82,21 @@ const FlashCard = ({ card, next, previous, markDone, questionFirst }) => {
           </TouchableOpacity>
         )}
       </>
-    )
-  }
+    );
+  };
   const renderBack = () => {
     return (
       <>
-      {difficultyMark}
-      { questionFirst ?
-        <QuestionFirstView isFlipped={isFlipped} details={card} /> :
-        <AnswerFirstView isFlipped={isFlipped} details={card} onSubmitAnswer={handleSubmitAnswer} />
-      }
+        {difficultyMark}
+        {questionFirst ? (
+          <QuestionFirstView isFlipped={isFlipped} details={card} />
+        ) : (
+          <AnswerFirstView
+            isFlipped={isFlipped}
+            details={card}
+            onSubmitAnswer={handleSubmitAnswer}
+          />
+        )}
 
         {!isFlipped && (
           <TouchableOpacity onPress={() => markDone(card)}>
@@ -89,22 +106,24 @@ const FlashCard = ({ card, next, previous, markDone, questionFirst }) => {
           </TouchableOpacity>
         )}
       </>
-    )
-  }
+    );
+  };
 
   return (
     <View style={styles.container} onLayout={onViewLayout}>
       <Pressable onPress={flipCard} style={styles.pressable}>
-        { cardWidth > 0 && cardHeight > 0 && <GestureFlipView
-          ref={flipCardRef}
-          gestureEnabled={false}
-          width={cardWidth}
-          height={cardHeight}
+        {cardWidth > 0 && cardHeight > 0 && (
+          <GestureFlipView
+            ref={flipCardRef}
+            gestureEnabled={false}
+            width={cardWidth}
+            height={cardHeight}
           >
-            { renderBack() }
-            { renderFront() }
-          </GestureFlipView> }
-        </Pressable>
+            {renderBack()}
+            {renderFront()}
+          </GestureFlipView>
+        )}
+      </Pressable>
     </View>
   );
 };
@@ -113,7 +132,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: "flex",
-    marginBottom: 60
+    marginBottom: 60,
   },
   pressable: {
     flex: 1,
@@ -147,13 +166,12 @@ const styles = StyleSheet.create({
   },
   difficultyMarkText: {
     fontSize: 12,
-    color: 'white',
+    color: "white",
   },
   difficultButtonText: {
     textAlign: "center",
     marginBottom: 80,
   },
 });
-
 
 export default FlashCard;

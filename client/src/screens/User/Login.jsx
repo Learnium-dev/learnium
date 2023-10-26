@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import FormContainer from "../../shared/Form/FormContainer";
 import Input from "../../shared/Form/Input";
@@ -7,9 +7,6 @@ import Error from "../../shared/Error";
 // Context
 import AuthGlobal from "../../context/store/AuthGlobal";
 import { loginUser } from "../../context/actions/Auth.actions";
-
-// navigation root component
-// import Navigation from "../../../navigation";
 
 const Login = (props) => {
   const context = useContext(AuthGlobal);
@@ -54,13 +51,15 @@ const Login = (props) => {
         onChangeText={(text) => setPassword(text)}
       />
       <View style={styles.buttonGroup}>
-        {error ? <Error message={error}/>:null}
-        <Button title="Login"  onPress={() => handleSubmit()}/>
+        {error ? <Error message={error} /> : null}
+        <Button title="Login" onPress={() => handleSubmit()} />
       </View>
-      <View style={[{marginTop: 40}, styles.buttonGroup]}>
+      <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
         <Text style={styles.middleText}>Don't have an account yet?</Text>
-        <Button title="Register" onPress={
-          () => props.navigation.navigate("Register")}/>
+        <Button
+          title="Register"
+          onPress={() => props.navigation.navigate("Register")}
+        />
       </View>
     </FormContainer>
   );
@@ -68,13 +67,15 @@ const Login = (props) => {
 
 const styles = StyleSheet.create({
   buttonGroup: {
-    width: '80%',
-    alignItems: 'center'
+    width: "80%",
+    alignItems: "center",
   },
   middleText: {
+    fontFamily: "Gabarito",
+    fontWeight: "700",
     marginBottom: 20,
-    alignSelf: "center"
-  }
-})
+    alignSelf: "center",
+  },
+});
 
 export default Login;
