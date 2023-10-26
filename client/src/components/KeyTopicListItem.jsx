@@ -1,18 +1,22 @@
 import { View, Image, FlatList, Text, Pressable, StyleSheet } from "react-native";
 import { globalStyles } from "../../assets/common/global-styles";
+import TodayCharacter from '../../assets/images/characters/today-list-character.svg';
+import MissedCharacter from '../../assets/images/characters/missed-list-character.svg';
+import { dateOptions } from "../../utils/helpers";
 
-const KeyTopicListItem = ({ topic, onPress }) => {
+const KeyTopicListItem = ({ topic, accentColor, selectedView, onPress }) => {
 
 
   return (
     <Pressable onPress={onPress}>
-      <View style={styles.itemContainer}>
+      <View style={{...styles.itemContainer, borderColor: accentColor}}>
         <View style={styles.textContainer}>
-          <Text style={styles.topicTitle}>{topic.name}</Text>
-          <Text style={{textTransform: 'capitalize', width: '100%'}}>{topic.summary}</Text>
+          <Text style={{...styles.topicTitle, color: accentColor}}>{topic.name}</Text>
+          <Text>From: Course title here</Text>
+          <Text>Due date: {new Date(topic.duedate).toLocaleString(undefined, dateOptions)}</Text>
         </View>
         <View style={styles.characterContainer}>
-          <Image source={require('../../assets/images/topic-list-item-character.png')} />
+          { selectedView === 'missed' ? <MissedCharacter /> : <TodayCharacter /> }
         </View>
       </View>
     </Pressable>
@@ -25,20 +29,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 20, 
     borderWidth: 2,
-    borderColor: globalStyles.colors.primary, 
     borderRadius: 10,
     marginVertical: 2,
     overflow: 'hidden',
   },
   textContainer: {
     flex: 1,
+    minHeight: 65,
   },
   topicTitle: {
-    textTransform: 'capitalize',
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: globalStyles.colors.primary,
   },
   characterContainer: {
     width: 50,

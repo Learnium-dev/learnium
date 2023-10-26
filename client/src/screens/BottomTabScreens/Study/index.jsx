@@ -5,6 +5,7 @@ import StudyTabView from '../../../layout/StudyTabView';
 import { globalStyles } from '../../../../assets/common/global-styles';
 import { getKeyTopics } from '../../../services/keyTopicsService';
 import { useDispatch, useSelector } from 'react-redux';
+import { isBeforeToday, isToday } from "../../../../utils/helpers";
 
 // react navigation imports
 import { useNavigation } from "@react-navigation/native";
@@ -18,6 +19,7 @@ import * as FileSystem from "expo-file-system";
 
 // axios
 import axios from "axios";
+
 
 const Study = () => {
   const { navigate } = useNavigation();
@@ -48,8 +50,21 @@ const Study = () => {
 
   // TabView
   const layout = useWindowDimensions();
+  const filteredKeyTopics = (routeKey) => {
+    switch (routeKey) {
+      case 'missed':
+        return keyTopics.filter((keyTopic) => isBeforeToday(keyTopic.duedate));
+      case 'today':
+        return keyTopics.filter((keyTopic) => isToday(keyTopic.duedate));
+      case 'review':
+        // TODO: implement review logic
+        return [];
+      default:
+        return keyTopics;
+    }
+  }
   
-  const renderScene = ({ route }) => StudyTabView({ selectedView: route.key, keyTopics: keyTopics });
+  const renderScene = ({ route }) => StudyTabView({ selectedView: route.key, keyTopics: filteredKeyTopics(route.key) });
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -70,7 +85,7 @@ const Study = () => {
 
         <Pressable
           style={globalStyles.buttons.primary}
-          onPress={() => navigate("CreateNewMaterial")}
+          onPress={() => navigate("CreateContent")}
         >
         <Text style={globalStyles.buttons.primary.text}>Create New Learning Material</Text>
       </Pressable>

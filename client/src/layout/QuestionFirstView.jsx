@@ -19,10 +19,10 @@ const QuestionFirstView = ({ isFlipped, details }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     backgroundColor: "lightgrey",
     alignItems: "center",
     justifyContent: "center",
-    margin: 10,
     borderRadius: 10,
     padding: 10,
   },

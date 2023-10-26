@@ -31,7 +31,12 @@ router.get(`/`, async (req, res)=>{
     }
 
     // console.log(filter)
-    const keytopicList = await keytopicmodel.find(filter);
+
+    // Commenting out the filter for now because
+    // we need an option to get all keytopics with .find() without any filter (even if it's an empty object it doesn't work)
+
+    // const keytopicList = await keytopicmodel.find(filter);
+    const keytopicList = await keytopicmodel.find();
 
     if(!keytopicList){
         res.status(500).json({
