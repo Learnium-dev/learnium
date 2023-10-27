@@ -11,6 +11,7 @@ const {foldermodel} = require('../models/folders');
 router.get(`/`, async (req, res)=>{
     // Find UserId
     const userdata = await usermodel.findOne({email: req.query.email});
+    console.log(userdata)
     const folderdata = await foldermodel.findOne({userid: userdata?._id});
 
     // Filter by Date
@@ -31,7 +32,10 @@ router.get(`/`, async (req, res)=>{
     }
 
     // console.log(filter)
-    const keytopicList = await keytopicmodel.find(filter);
+    const keytopicList = await keytopicmodel.find(filter).populate({
+        path: 'folderid',
+        select: '_id name'
+      });
 
     if(!keytopicList){
         res.status(500).json({
