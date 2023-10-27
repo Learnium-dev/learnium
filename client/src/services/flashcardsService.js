@@ -1,13 +1,17 @@
-import { BASE_URL, TOKEN } from "../config/apiConfig";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import baseURL from "../../assets/common/baseUrl";
 
 export const getFlashCards = async (keytopicid) => {
+
+  const token = await AsyncStorage.getItem("jwt");
+
   const options = {
     method: "GET",
-    url: `${process.env.EXPO_PUBLIC_HOSTNAME}/api/v1/flashcards`,
+    url: `${baseURL}flashcards`,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTMwOTJiMGRlYjJlYjZlNjg1NzM3YzkiLCJpYXQiOjE2OTc3ODEyMDEsImV4cCI6MTY5Nzg2NzYwMX0.bZ7hELDvOJWe8zZHXbnKJqE4uGqsyFeqmkUUDWI_ciI`,
+      Authorization: `Bearer ${token}`,
     },
     params: {
       keytopicid: keytopicid,

@@ -1,19 +1,19 @@
 export const grade = (score) => {
-  if (score >= 0.95) {
+  if (score >= 95) {
     return "A+";
-  } else if (score >= 0.9) {
+  } else if (score >= 90) {
     return "A";
-  } else if (score >= 0.85) {
+  } else if (score >= 85) {
     return "A-";
-  } else if (score >= 0.8) {
+  } else if (score >= 80) {
     return "B+";
-  } else if (score >= 0.75) {
+  } else if (score >= 75) {
     return "B";
-  } else if (score >= 0.7) {
+  } else if (score >= 70) {
     return "B-";
-  } else if (score >= 0.65) {
+  } else if (score >= 65) {
     return "C+";
-  } else if (score >= 0.6) {
+  } else if (score >= 60) {
     return "C";
   } else {
     return "F";
@@ -55,4 +55,28 @@ export const todayProgress = (keyTopics) => {
   const progressPercentage = (progress * 100) / keyTopics.length;
   averageProgress = averageProgress / keyTopics.length;
   return { progressPercentage, averageProgress };
+};
+
+export const dateOptions = {
+  weekday: "short",
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+};
+
+export const isToday = (date) => {
+  const givenDate = new Date(date);
+  const today = new Date();
+  return (
+    givenDate.toLocaleDateString("en-US", dateOptions) ===
+    today.toLocaleDateString("en-US", dateOptions)
+  );
+};
+
+export const isBeforeToday = (date) => {
+  const givenDate = new Date(date);
+  const today = new Date();
+  givenDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+  return givenDate < today;
 };
