@@ -32,13 +32,13 @@ import {
 } from "react-native-responsive-screen";
 
 // Progress Bar
-import ProgressBarAnimated from "react-native-progress-bar-animated";
+import { Bar } from "react-native-progress";
 
 // fake data
 import { keyTopics } from "./fakeData";
 
 const Progress = () => {
-  const { email } = useSelector((state) => state.credentials);
+  const { email, token } = useSelector((state) => state.credentials);
   const [inProgress, setInProgress] = useState([]);
   const [completed, setCompleted] = useState([]);
   const progress = (completed.length * 100) / keyTopics.length;
@@ -65,15 +65,15 @@ const Progress = () => {
         </View>
         {/* Progress Bar */}
         <View style={styles.progressBarContainer}>
-          <ProgressBarAnimated
-            width={wp("90%")}
+          <Bar
+            width={null}
             height={40}
-            value={progress}
-            backgroundColor={"#7000FF"}
+            progress={progress / 100}
+            color={"#7000FF"}
             borderRadius={100}
             useNativeDriver={false}
-            borderColor={"#ECECEC"}
-            borderWidth={2}
+            unfilledColor={"#ECECEC"}
+            borderWidth={0}
           />
           <Text
             style={{
