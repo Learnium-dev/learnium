@@ -1,5 +1,8 @@
-import { View, Text, Pressable, SafeAreaView } from "react-native";
+import { View, Text, Pressable, SafeAreaView, FlatList } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
+
+// React
+import { useState, useEffect } from "react";
 
 // icons
 import ArrowBack from "../../../../assets/icons/arrow_back.svg";
@@ -16,8 +19,10 @@ import { styles } from "../Progress/styles/singleKeyTopicStyles";
 
 // helpers
 import { grade } from "../../../../utils/helpers";
+import { quizzesData } from "./fakeData";
 
-// fonts
+// components
+import QuizCard from "../Progress/components/QuizCard";
 
 const CustomHeader = ({ title, subtitle }) => (
   <View style={{ display: "flex" }}>
@@ -28,15 +33,17 @@ const CustomHeader = ({ title, subtitle }) => (
 
 const SingleKeyTopicProgress = () => {
   const navigation = useNavigation();
+  const [quizzes, setQuizzes] = useState([]);
   const route = useRoute();
   const { name, materialName, id } = route.params;
 
-  // info to pullout from the backend (API)
-  // 1. Quizzes from one key topic
-  // a. GET all the quizzes from one key topic (get their progress and due date)
-  // 2. Key Topic
-  // a. GET the key topic (get their name, material name, progress, due date)
-
+  useEffect(() => {
+    const fetchQuizzes = () => {
+      const response = quizzesData;
+      setQuizzes(response);
+    };
+    fetchQuizzes();
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -81,7 +88,33 @@ const SingleKeyTopicProgress = () => {
       {/* Quiz History */}
       <View>
         <Text style={{ ...styles.title, color: "#7000FF" }}>Quiz History</Text>
+        <FlatList
+          horizontal={true}
+          contentContainerStyle={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            marginVertical: 15,
+          }}
+          data={quizzes}
+          renderItem={({ item }) => <QuizCard item={item} />}
+          keyExtractor={(item) => item.id}
+        />
       </View>
+      {/* Buttons */}
+      <Pressable
+        style={{
+          ...styles.btn,
+          backgroundColor: "#FFF",
+          borderColor: "#7000FF",
+        }}
+      >
+        <Text style={{ ...styles.btnText, color: "#7000FF" }}>Study</Text>
+      </Pressable>
+      <Pressable style={styles.btn}>
+        <Text style={styles.btnText}>Start a Quiz</Text>
+      </Pressable>
     </SafeAreaView>
   );
 };

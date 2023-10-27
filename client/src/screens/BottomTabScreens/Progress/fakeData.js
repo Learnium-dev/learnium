@@ -35,3 +35,21 @@ export const keyTopics = [
     materialName: "World War II",
   },
 ];
+
+export const quizzesData = [
+  {
+    id: 1,
+    score: 100,
+    duedate: "2023-12-01",
+  },
+  {
+    id: 2,
+    score: 80,
+    duedate: "2023-11-20",
+  },
+  {
+    id: 3,
+    score: 80,
+    duedate: "2023-11-20",
+  },
+];

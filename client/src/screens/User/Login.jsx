@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   middleText: {
-    fontFamily: "Gabarito",
+    fontFamily: "Gabarito-Regular",
     fontWeight: "700",
     marginBottom: 20,
     alignSelf: "center",

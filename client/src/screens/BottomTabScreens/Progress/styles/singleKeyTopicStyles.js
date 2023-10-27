@@ -80,4 +80,22 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
   },
+  btn: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#7000FF",
+    borderRadius: 100,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    marginVertical: 10,
+    borderWidth: 2,
+    borderColor: "#7000FF",
+  },
+  btnText: {
+    fontFamily: "Gabarito-Bold",
+    fontSize: 20,
+    color: "#FFF",
+  },
 });
