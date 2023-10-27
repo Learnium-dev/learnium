@@ -6,7 +6,11 @@ const TodayTabLabel = (props) => {
 
   return (
     <View style={{ ...style, backgroundColor: focused ? 'white' : 'transparent' }}>
-      <Text style={{fontSize: 12, color: focused ? globalStyles.colors.primary : globalStyles.colors.white }}>
+      <Text style={{
+        fontSize: 12,
+        color: focused ? globalStyles.colors.primary : globalStyles.colors.white,
+        fontFamily: focused ? globalStyles.fonts.nunitoSemiBold : globalStyles.fonts.nunitoRegular
+        }}>
         Today's Content
       </Text>
     </View>

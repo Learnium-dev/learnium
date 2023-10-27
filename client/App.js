@@ -1,4 +1,5 @@
 import { LogBox } from "react-native";
+import * as Font from 'expo-font';
 
 // gesture handlers
 import "react-native-gesture-handler";
@@ -24,7 +25,19 @@ LogBox.ignoreAllLogs();
 
 const Stack = createStackNavigator();
 
+const loadFonts = async () => {
+  await Font.loadAsync({
+    'Gabarito-Regular': require('./assets/fonts/static/Gabarito-Regular.ttf'),
+    'Gabarito-Bold': require('./assets/fonts/static/Gabarito-Bold.ttf'),
+    'Nunito-Regular': require('./assets/fonts/Nunito/static/Nunito-Regular.ttf'),
+    'Nunito-SemiBold': require('./assets/fonts/Nunito/static/Nunito-SemiBold.ttf'),
+    'Nunito-Bold': require('./assets/fonts/Nunito/static/Nunito-Bold.ttf'),
+  });
+}
+
 export default function App() {
+  loadFonts();
+
   return (
     <Auth>
       <Provider store={store}>

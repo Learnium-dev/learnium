@@ -81,13 +81,14 @@ const styles = StyleSheet.create({
   },
   headline: {
     color: "white",
-    fontWeight: "bold",
+    fontFamily: globalStyles.fonts.gabaritoBold,
     fontSize: 16,
     marginBottom: 5,
   },
   subHeadline: {
     color: "white",
     fontSize: 12,
+    fontFamily: globalStyles.fonts.nunitoRegular,
   },
 });
 

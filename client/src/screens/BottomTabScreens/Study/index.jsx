@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "white",
   },
   tabContainer: {
     flex: 1,
