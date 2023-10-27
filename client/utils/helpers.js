@@ -64,6 +64,12 @@ export const dateOptions = {
   day: "numeric",
 };
 
+export const shortDateOptions = {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+};
+
 export const isToday = (date) => {
   const givenDate = new Date(date);
   const today = new Date();
