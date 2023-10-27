@@ -28,10 +28,9 @@ router.get(`/`, async (req, res)=>{
     }
     // console.log(filter)
     const keytopicList = await keytopicmodel.find(filter).populate({
-      path: 'folderid',
-      select: '_id name'
-    });
-    
+        path: 'folderid',
+        select: '_id name'
+      });
     if(!keytopicList){
         res.status(500).json({
             success:false,
