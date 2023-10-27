@@ -21,13 +21,14 @@ import { useState, useEffect } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { setEmail } from "../../../../slices/credentialsSlice";
+import { setEmail, setToken } from "../../../../slices/credentialsSlice";
 
 // axios
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Study = () => {
+  const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const [keyTopics, setKeyTopics] = useState([]);
   const [isKeyTopicsLoaded, setIsKeyTopicsLoaded] = useState(false);
@@ -39,6 +40,19 @@ const Study = () => {
   ]);
 
   useEffect(() => {
+    // Get token
+    AsyncStorage.getItem("jwt").then((token) => {
+      if (token) {
+        dispatch(setToken(token));
+
+        // Get email
+        AsyncStorage.getItem("email").then((email) => {
+          if (email) {
+            dispatch(setEmail(email));
+          }
+        });
+      }
+    });
     loadKeyTopics();
   }, []);
 
