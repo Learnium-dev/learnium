@@ -16,31 +16,28 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
   },
   cardTitle: {
-    fontFamily: "Gabarito",
+    fontFamily: "Gabarito-Bold",
     fontSize: 20,
-    fontWeight: "700",
     color: "#7000FF",
   },
   cardSubtitle: {
-    fontFamily: "Gabarito",
+    fontFamily: "Gabarito-Bold",
     fontSize: 16,
-    fontWeight: "700",
     color: "#262626",
   },
   cardDueDate: {
-    fontFamily: "Gabarito",
+    fontFamily: "Gabarito-Regular",
     fontSize: 16,
-    fontWeight: "400",
     color: "#262626",
   },
   cardCharacter: {
     position: "absolute",
     right: 0,
-    bottom: -10,
+    bottom: 0,
   },
   cardCharacterInactive: {
     position: "absolute",
     right: 0,
-    bottom: -20,
+    bottom: 0,
   },
 });

@@ -5,47 +5,63 @@ import KeyTopicListItem from "../components/KeyTopicListItem";
 import { globalStyles } from "../../assets/common/global-styles";
 
 const StudyTabView = ({ selectedView, keyTopics }) => {
-  const accentColor = selectedView === 'missed' ? globalStyles.colors.secondary : globalStyles.colors.primary;
+  const accentColor =
+    selectedView === "missed"
+      ? globalStyles.colors.secondary
+      : globalStyles.colors.primary;
 
   const { navigate } = useNavigation();
 
   const renderHeader = () => {
     switch (selectedView) {
-      case 'missed':
-        return <Text>Missed content</Text>
-      case 'today':
-        return <TodayHeader selectedView={selectedView} accentColor={accentColor} />
-      case 'review':
-        return <Text>Review content</Text>
+      case "missed":
+        return <Text>Missed content</Text>;
+      case "today":
+        return (
+          <TodayHeader selectedView={selectedView} accentColor={accentColor} />
+        );
+      case "review":
+        return <Text>Review content</Text>;
       default:
-        return <Text>Today's content</Text>
+        return <Text>Today's content</Text>;
     }
-  }
+  };
 
   return (
-      <View style={styles.listContainer}>
-
-        <View style={{...styles.innerContainer, borderColor: accentColor}}>
-          
-          <View style={{ position: 'relative', top: -70, zIndex: 1, marginBottom: -70 }}>
-            <TodayHeader selectedView={selectedView} accentColor={accentColor} />
-          </View>
-
-          <View style={{paddingVertical: 20, flex: 1, padding: 20}}>
-          { keyTopics && keyTopics.length ? <FlatList
-              data={keyTopics}
-              renderItem={({ item: topic }) => (
-                <KeyTopicListItem topic={topic} selectedView={selectedView} accentColor={accentColor} onPress={() => navigate('KeyTopic', { keyTopic: topic })} />
-              )}
-            /> : <Text>There are no topics here!</Text> }
-          </View>
-
+    <View style={styles.listContainer}>
+      <View style={{ ...styles.innerContainer, borderColor: accentColor }}>
+        <View
+          style={{
+            position: "relative",
+            top: -70,
+            zIndex: 1,
+            marginBottom: -70,
+          }}
+        >
+          <TodayHeader selectedView={selectedView} accentColor={accentColor} />
         </View>
 
-
+        <View style={{ paddingVertical: 20, flex: 1, padding: 20 }}>
+          {keyTopics && keyTopics.length ? (
+            <FlatList
+              data={keyTopics}
+              renderItem={({ item: topic }) => (
+                <KeyTopicListItem
+                  topic={topic}
+                  selectedView={selectedView}
+                  accentColor={accentColor}
+                  onPress={() => navigate("KeyTopic", { keyTopic: topic })}
+                />
+              )}
+            />
+          ) : (
+            <Text>There are no topics here!</Text>
+          )}
+        </View>
       </View>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   listContainer: {
@@ -56,7 +72,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
     borderWidth: 2,
     borderRadius: 20,
-  }
+  },
 });
 
 export default StudyTabView;

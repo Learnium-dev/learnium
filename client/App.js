@@ -1,3 +1,5 @@
+import { LogBox } from "react-native";
+
 // gesture handlers
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -16,6 +18,9 @@ import { store } from "./store";
 // Context API
 import Auth from "./src/context/store/Auth";
 import Navigation from "./navigation";
+
+// Ignore all warnings
+LogBox.ignoreAllLogs();
 
 const Stack = createStackNavigator();
 

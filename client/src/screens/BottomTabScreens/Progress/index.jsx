@@ -6,7 +6,11 @@ import {
   SafeAreaView,
   Platform,
   Pressable,
+  FlatList,
 } from "react-native";
+
+// React
+import { useState, useEffect } from "react";
 
 // Redux
 import { useSelector } from "react-redux";
@@ -30,10 +34,23 @@ import {
 // Progress Bar
 import ProgressBarAnimated from "react-native-progress-bar-animated";
 
+// fake data
+import { keyTopics } from "./fakeData";
+
 const Progress = () => {
   const { email } = useSelector((state) => state.credentials);
+  const [inProgress, setInProgress] = useState([]);
+  const [completed, setCompleted] = useState([]);
+  const progress = (completed.length * 100) / keyTopics.length;
 
-  // 1. Fetch all quizzes due today
+  useEffect(() => {
+    const fetchKeyTopics = () => {
+      const response = keyTopics;
+      setInProgress(response.filter((topic) => topic.progress < 100));
+      setCompleted(response.filter((topic) => topic.progress === 100));
+    };
+    fetchKeyTopics();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,28 +68,48 @@ const Progress = () => {
           <ProgressBarAnimated
             width={wp("90%")}
             height={40}
-            value={50}
+            value={progress}
             backgroundColor={"#7000FF"}
             borderRadius={100}
-            useNativeDriver={true}
+            useNativeDriver={false}
             borderColor={"#ECECEC"}
             borderWidth={2}
           />
-          <Text style={styles.progressText}>50%</Text>
+          <Text
+            style={{
+              ...styles.progressText,
+              color: `${progress <= 10 ? "black" : "white"}`,
+            }}
+          >
+            {progress}%
+          </Text>
         </View>
-        <View style={styles.divider} useNativeDriver={true} />
+        <View style={styles.divider} useNativeDriver={false} />
         {/* In Progress */}
         <View>
           <Text style={styles.subtitle}>In Progress</Text>
-          {/* Card */}
-          <KeyTopicCard />
+          <FlatList
+            scrollEnabled={false}
+            data={inProgress}
+            renderItem={({ item }) => <KeyTopicCard item={item} />}
+            keyExtractor={(item) => item.id}
+          />
         </View>
         {/* This section should be a FlatList - Completed */}
         <View>
           <Text style={{ ...styles.subtitle, color: "#7000FF" }}>
             Completed
           </Text>
+          <FlatList
+            scrollEnabled={false}
+            data={completed}
+            renderItem={({ item }) => <KeyTopicCard item={item} />}
+            keyExtractor={(item) => item.id}
+          />
         </View>
+        <Pressable style={styles.btn}>
+          <Text style={styles.btnText}>All Material's Progress</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );

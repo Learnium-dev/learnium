@@ -11,7 +11,9 @@ SplashScreen.preventAutoHideAsync();
 
 const FormContainer = (props) => {
   const [fontsLoaded] = useFonts({
-    Gabarito: require("../../../assets/fonts/Gabarito.ttf"),
+    "Gabarito-Regular": require("../../../assets/fonts/static/Gabarito-Regular.ttf"),
+    "Gabarito-Medium": require("../../../assets/fonts/static/Gabarito-Medium.ttf"),
+    "Gabarito-Bold": require("../../../assets/fonts/static/Gabarito-Bold.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {

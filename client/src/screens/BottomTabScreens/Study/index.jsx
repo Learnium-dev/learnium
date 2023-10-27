@@ -11,7 +11,6 @@ import StudyScreenTabBar from "../../../components/StudyScreenTabBar";
 import StudyTabView from "../../../layout/StudyTabView";
 import { globalStyles } from "../../../../assets/common/global-styles";
 import { getKeyTopics } from "../../../services/keyTopicsService";
-import { useDispatch, useSelector } from "react-redux";
 import { isBeforeToday, isToday } from "../../../../utils/helpers";
 
 // react navigation imports
@@ -20,12 +19,8 @@ import { useNavigation } from "@react-navigation/native";
 // react hooks
 import { useState, useEffect } from "react";
 
-// pdf reader
-import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from "expo-file-system";
-
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "../../../../slices/credentialsSlice";
 
 // axios

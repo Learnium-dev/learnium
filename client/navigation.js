@@ -4,6 +4,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
+// react native
+import { View, Text } from "react-native";
+
 // screens
 // screens - study
 import Study from "./src/screens/BottomTabScreens/Study/index";
@@ -32,12 +35,6 @@ import Account from "./src/screens/BottomTabScreens/Account";
 // screen to test API with token
 import TestAPI from "./src/screens/User/TestAPI";
 
-// Bottom Tab Navigator Icons
-import StudyIcon from "./assets/navbar_icons/study_icon.svg";
-import ProgressIcon from "./assets/navbar_icons/progress_icon.svg";
-import DailyIcon from "./assets/navbar_icons/daily_icon.svg";
-import ProfileIcon from "./assets/navbar_icons/profile_icon.svg";
-
 import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
 
 // tab bottom navigator
@@ -49,17 +46,13 @@ function TabBottomNavigator() {
       screenOptions={{
         tabBarStyle: {
           height: 64,
-          paddingBottom: 10,
-          paddingTop: 10,
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "700",
+          margin: 0,
+          padding: 0,
         },
       }}
     >
       <Tab.Screen
-        name="Study"
+        name="StudyHome"
         component={StudyStackNavigator}
         options={{
           headerShown: false,
@@ -69,7 +62,7 @@ function TabBottomNavigator() {
       />
       <Tab.Screen
         name="Progress"
-        component={Progress}
+        component={ProgressStackNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => <ProgressTabIcon />,
@@ -139,6 +132,7 @@ function ProgressStackNavigator() {
       <ProgressStack.Screen
         name="SingleKeyTopic"
         component={SingleKeyTopicProgress}
+        options={{ headerShown: false }}
       />
       <ProgressStack.Screen name="MaterialProgress" component={AllMaterials} />
     </ProgressStack.Navigator>
