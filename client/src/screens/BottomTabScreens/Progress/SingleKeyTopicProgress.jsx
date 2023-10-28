@@ -4,6 +4,9 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 // React
 import { useState, useEffect } from "react";
 
+// Redux
+import { useSelector } from "react-redux";
+
 // icons
 import ArrowBack from "../../../../assets/icons/arrow_back.svg";
 import Badge from "../../../../assets/icons/badge.svg";
@@ -18,11 +21,13 @@ import CheckOff from "../../../../assets/icons/checkOff.svg";
 import { styles } from "../Progress/styles/singleKeyTopicStyles";
 
 // helpers
-import { grade } from "../../../../utils/helpers";
-import { quizzesData } from "./fakeData";
+import baseURL from "../../../../assets/common/baseUrl";
 
 // components
 import QuizCard from "../Progress/components/QuizCard";
+
+// Axios
+import axios from "axios";
 
 const CustomHeader = ({ title, subtitle }) => (
   <View style={{ display: "flex" }}>
@@ -33,17 +38,35 @@ const CustomHeader = ({ title, subtitle }) => (
 
 const SingleKeyTopicProgress = () => {
   const navigation = useNavigation();
+  const { token } = useSelector((state) => state.credentials);
   const [quizzes, setQuizzes] = useState([]);
   const route = useRoute();
-  const { name, materialName, id } = route.params;
+  const { name, materialName, id, duedate } = route.params;
+  const [highestScore, setHighestScore] = useState(0);
 
   useEffect(() => {
-    const fetchQuizzes = () => {
-      const response = quizzesData;
-      setQuizzes(response);
+    const fetchQuizzes = async (jwtToken) => {
+      try {
+        const response = await axios.get(`${baseURL}quizzes?keytopicid=${id}`, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        console.log("These are the quizzes: ", response.data);
+        setQuizzes(response.data);
+        setHighestScore(
+          response.data.reduce(
+            (max, quiz) => (quiz.progress > max ? quiz.progress : max),
+            0
+          )
+        );
+      } catch (error) {
+        console.log(error);
+      }
     };
-    fetchQuizzes();
+    fetchQuizzes(token);
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -62,9 +85,15 @@ const SingleKeyTopicProgress = () => {
             three quizzes
           </Text>
           <View style={styles.checkMarksContainer}>
-            <CheckOn width={40} height={40} />
-            <CheckOn width={40} height={40} />
-            <CheckOff width={40} height={40} />
+            {quizzes
+              .sort((a, b) => b.progress - a.progress)
+              .map((quiz) =>
+                quiz.progress >= 85 ? (
+                  <CheckOn width={40} height={40} />
+                ) : (
+                  <CheckOff width={40} height={40} />
+                )
+              )}
           </View>
         </View>
       </View>
@@ -74,14 +103,14 @@ const SingleKeyTopicProgress = () => {
           <Calendar width={50} height={50} />
           <View>
             <Text style={styles.subContainerInfoTitle}>Due Date</Text>
-            <Text style={styles.subContainerInfoText}>Nov 01, 2023</Text>
+            <Text style={styles.subContainerInfoText}>{duedate}</Text>
           </View>
         </View>
         <View style={styles.subContainerInfo}>
           <Badge width={41} height={52} />
           <View>
             <Text style={styles.subContainerInfoTitle}>Best Score</Text>
-            <Text style={styles.subContainerInfoText}>98%</Text>
+            <Text style={styles.subContainerInfoText}>{highestScore}%</Text>
           </View>
         </View>
       </View>

@@ -80,3 +80,17 @@ export const isBeforeToday = (date) => {
   today.setHours(0, 0, 0, 0);
   return givenDate < today;
 };
+
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  return date.toLocaleDateString("en-US", options);
+};
+
+export const getFormattedTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
