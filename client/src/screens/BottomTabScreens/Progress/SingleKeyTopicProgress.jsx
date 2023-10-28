@@ -52,7 +52,6 @@ const SingleKeyTopicProgress = () => {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-        console.log("These are the quizzes: ", response.data);
         setQuizzes(response.data);
         setHighestScore(
           response.data.reduce(
