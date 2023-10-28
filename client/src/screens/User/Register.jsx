@@ -17,6 +17,7 @@ const Register = (props) => {
   const [error, setError] = useState("");
 
   const register = async () => {
+    console.log("registering")
     if (email === "" || firstname === "" || lastname === "" || password === "") {
       setError("Please fill in the form correctly");
     }
@@ -32,6 +33,7 @@ const Register = (props) => {
     axios
     .post(`${baseURL}users`, user)
     .then((res) => {
+      console.log(res.data)
       if (res.status == 200) {
         Toast.show({
           topOffset: 60,
