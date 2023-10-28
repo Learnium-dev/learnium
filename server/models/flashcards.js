@@ -16,7 +16,9 @@ const flashcardSchema = mongoose.Schema({
     },
     duedate: {
         type: Date,
+
         default: defaultDate,
+
     },
     progress: {
         type: Number,

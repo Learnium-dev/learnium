@@ -31,7 +31,9 @@ const folderSchema = mongoose.Schema({
   },
   examdate: {
     type: Date,
+
     default: defaultDate,
+
   },
 });
 

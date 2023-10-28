@@ -24,10 +24,12 @@ const keytopicSchema = mongoose.Schema({
     type: String,
     lowercase: false,
     required: [true, "Summary is required"],
+
   },
   duedate: {
     type: Date,
     default: defaultDate,
+
   },
 });
 
