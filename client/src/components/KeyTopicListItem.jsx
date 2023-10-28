@@ -12,8 +12,8 @@ const KeyTopicListItem = ({ topic, accentColor, selectedView, onPress }) => {
       <View style={{...styles.itemContainer, borderColor: accentColor}}>
         <View style={styles.textContainer}>
           <Text style={{...styles.topicTitle, color: accentColor}}>{topic.name}</Text>
-          <Text>From: Course title here</Text>
-          <Text>Due date: {new Date(topic.duedate).toLocaleString(undefined, dateOptions)}</Text>
+          <Text style={styles.subtitle}>From: Course title here</Text>
+          <Text style={styles.subtitle}>Due date: {new Date(topic.duedate).toLocaleString(undefined, dateOptions)}</Text>
         </View>
         <View style={styles.characterContainer}>
           { selectedView === 'missed' ? <MissedCharacter /> : <TodayCharacter /> }
@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 20, 
     borderWidth: 2,
-    borderRadius: 10,
-    marginVertical: 2,
+    borderRadius: 20,
+    marginVertical: 4,
     overflow: 'hidden',
   },
   textContainer: {
@@ -38,8 +38,14 @@ const styles = StyleSheet.create({
     minHeight: 65,
   },
   topicTitle: {
-    fontSize: 16,
+    fontFamily: globalStyles.fonts.gabaritoBold,
+    fontSize: 18,
     fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  subtitle: {
+    fontFamily: globalStyles.fonts.nunito,
+    fontSize: 14,
     marginBottom: 5,
   },
   characterContainer: {

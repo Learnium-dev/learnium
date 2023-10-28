@@ -12,21 +12,6 @@ const StudyTabView = ({ selectedView, keyTopics }) => {
 
   const { navigate } = useNavigation();
 
-  const renderHeader = () => {
-    switch (selectedView) {
-      case "missed":
-        return <Text>Missed content</Text>;
-      case "today":
-        return (
-          <TodayHeader selectedView={selectedView} accentColor={accentColor} />
-        );
-      case "review":
-        return <Text>Review content</Text>;
-      default:
-        return <Text>Today's content</Text>;
-    }
-  };
-
   return (
     <View style={styles.listContainer}>
       <View style={{ ...styles.innerContainer, borderColor: accentColor }}>

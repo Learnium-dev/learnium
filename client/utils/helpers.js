@@ -64,6 +64,12 @@ export const dateOptions = {
   day: "numeric",
 };
 
+export const shortDateOptions = {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+};
+
 export const isToday = (date) => {
   const givenDate = new Date(date);
   const today = new Date();
@@ -79,4 +85,18 @@ export const isBeforeToday = (date) => {
   givenDate.setHours(0, 0, 0, 0);
   today.setHours(0, 0, 0, 0);
   return givenDate < today;
+};
+
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  return date.toLocaleDateString("en-US", options);
+};
+
+export const getFormattedTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 };

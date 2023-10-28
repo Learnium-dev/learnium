@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 
 // Detail Schema
-const detailSchema = mongoose.Schema({
-    flashcardid: {
+const historyDetailSchema = mongoose.Schema({
+    historyquizid: {
         type: mongoose.ObjectId,
-        ref: "flashcards",
-    },
-    quizid: {
-        type: mongoose.ObjectId,
-        ref: "quizzes",
+        ref: "histories",
     },
     folderid: {
         type: mongoose.ObjectId,
@@ -20,7 +16,7 @@ const detailSchema = mongoose.Schema({
         max: [1, "Progress must not be greater than 1"],
         default: 0,
     },
-    isdone: {
+    correct: {
         type: Boolean,
         default: false,
     },
@@ -47,4 +43,4 @@ const detailSchema = mongoose.Schema({
 });
 
 // Model
-exports.detailmodel = mongoose.model('details', detailSchema);
+exports.historydetailmodel = mongoose.model('historydetails', historyDetailSchema);

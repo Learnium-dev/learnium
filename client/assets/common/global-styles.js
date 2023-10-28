@@ -15,6 +15,7 @@ export const globalStyles = StyleSheet.create({
       padding: 20,
       marginVertical: 20,
       marginHorizontal: 20,
+      fontFamily: 'Gabarito-Bold',
       text: {
         color: '#fff',
         fontWeight: 'bold',
@@ -22,5 +23,11 @@ export const globalStyles = StyleSheet.create({
         fontSize: 16,
       }
     }
-  }
+  },
+  fonts: {
+    gabaritoRegular: 'Gabarito-Regular',
+    gabaritoBold: 'Gabarito-Bold',
+    nunitoRegular: 'Nunito-Regular',
+    nunitoSemiBold: 'Nunito-SemiBold',
+  },
 });

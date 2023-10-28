@@ -9,6 +9,9 @@ import {
   FlatList,
 } from "react-native";
 
+// Base URL
+import baseUrl from "../../../../assets/common/baseUrl";
+
 // React
 import { useState, useEffect } from "react";
 
@@ -25,31 +28,53 @@ import { styles } from "../Progress/styles/indexStyles";
 import LumiBody from "../../../../assets/images/progress/lumi banner/lumi_body.svg";
 import LumiText from "../../../../assets/images/progress/lumi banner/lumi_message.svg";
 
-// Responsivesness
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-
 // Progress Bar
-import ProgressBarAnimated from "react-native-progress-bar-animated";
+import { Bar } from "react-native-progress";
 
-// fake data
-import { keyTopics } from "./fakeData";
+// Axios
+import axios from "axios";
+
+// Helpers
+import { getFormattedTodayDate } from "../../../../utils/helpers";
 
 const Progress = () => {
-  const { email } = useSelector((state) => state.credentials);
+  const { email, token } = useSelector((state) => state.credentials);
   const [inProgress, setInProgress] = useState([]);
   const [completed, setCompleted] = useState([]);
-  const progress = (completed.length * 100) / keyTopics.length;
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const fetchKeyTopics = () => {
-      const response = keyTopics;
-      setInProgress(response.filter((topic) => topic.progress < 100));
-      setCompleted(response.filter((topic) => topic.progress === 100));
+    const fetchKeyTopics = async (jwtToken) => {
+      try {
+        const response = await axios.get(
+          `${baseUrl}keytopics?email=${email}&startdate=${getFormattedTodayDate()}&enddate=${getFormattedTodayDate()}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
+
+        console.log("This is the data from the API: ", response.data);
+        const inProgressData = response.data.filter(
+          (topic) => topic.progress < 100
+        );
+        const completedData = response.data.filter(
+          (topic) => topic.progress === 100
+        );
+        setInProgress(inProgressData);
+        setCompleted(completedData);
+        const totalTasks = inProgressData.length + completedData.length;
+        const calculatedProgress = (
+          (completedData.length / totalTasks) *
+          100
+        ).toFixed(2);
+        setProgress(calculatedProgress);
+      } catch (error) {
+        console.log(error);
+      }
     };
-    fetchKeyTopics();
+    fetchKeyTopics(token);
   }, []);
 
   return (
@@ -65,15 +90,15 @@ const Progress = () => {
         </View>
         {/* Progress Bar */}
         <View style={styles.progressBarContainer}>
-          <ProgressBarAnimated
-            width={wp("90%")}
+          <Bar
+            width={null}
             height={40}
-            value={progress}
-            backgroundColor={"#7000FF"}
+            progress={progress / 100}
+            color={"#7000FF"}
             borderRadius={100}
             useNativeDriver={false}
-            borderColor={"#ECECEC"}
-            borderWidth={2}
+            unfilledColor={"#ECECEC"}
+            borderWidth={0}
           />
           <Text
             style={{

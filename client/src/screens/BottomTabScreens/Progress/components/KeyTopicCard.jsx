@@ -9,6 +9,9 @@ import { useNavigation } from "@react-navigation/native";
 // Functions
 import { getLumi } from "../../../../../utils/getLumi";
 
+// Helpers
+import { formatDate } from "../../../../../utils/helpers";
+
 const KeyTopicCard = ({ item }) => {
   const { navigate } = useNavigation();
 
@@ -27,8 +30,9 @@ const KeyTopicCard = ({ item }) => {
       onPress={() =>
         navigate("SingleKeyTopic", {
           name: item?.name,
-          materialName: item?.materialName,
-          id: item?.id,
+          duedate: formatDate(item?.duedate),
+          materialName: item?.folderid?.name,
+          id: item?._id,
         })
       }
     >
@@ -41,7 +45,9 @@ const KeyTopicCard = ({ item }) => {
           {item?.name}
         </Text>
         <Text style={styles.cardSubtitle}>From: {item?.materialName}</Text>
-        <Text style={styles.cardDueDate}>Due Date: {item?.duedate}</Text>
+        <Text style={styles.cardDueDate}>
+          Due Date: {formatDate(item?.duedate)}
+        </Text>
         <View style={styles.cardCharacter}>{getLumi(item?.progress)}</View>
       </View>
     </Pressable>

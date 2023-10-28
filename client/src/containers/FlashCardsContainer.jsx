@@ -8,12 +8,14 @@ import FlashCard from "../components/FlashCard";
 import { getFlashCards } from '../services/flashcardsService';
 import FlashCardsSetupView from "../layout/FlashCardsSetupView";
 import { updateDetails } from "../services/detailsService";
+import FlashCardsHeader from "../components/FlashCardsHeader";
 
 const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
 
   const [cards, setCards] = useState([]);
   const [practicing, setPracticing] = useState(false);
   const [questionFirst, setQuestionFirst] = useState(true);
+  const [cardIndex, setCardIndex] = useState(0);
   
   useEffect(() => {
     loadFlashCards();
@@ -40,10 +42,13 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
 
   const next = (nextIndex) => {
     pagerRef.current.setPage(nextIndex > cards.length - 1 ? cards.length - 1 : nextIndex);
+    setCardIndex(nextIndex);
   }
 
   const previous = (prevIndex) => {
     pagerRef.current.setPage(prevIndex < 0 ? 0 : prevIndex);
+    setCardIndex(prevIndex);
+    console.log('previous', cardIndex)
   }
 
   const markDone = (details) => {
@@ -62,14 +67,8 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header} >
-        <Pressable onPress={closeSheet}>
-          <AntDesign name="close" size={24} color="black" />
-        </Pressable>
-        <Pressable>
-          <Feather name="more-vertical" size={24} color="black" />
-        </Pressable>
-      </View>
+
+      <FlashCardsHeader closeSheet={closeSheet} cardIndex={cardIndex} numberOfCards={cards.length ? cards[0]?.details.length : 0} practicing={practicing} />
 
       { practicing ? <PagerView
         style={styles.pagerView}
@@ -77,6 +76,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
         scrollEnabled={true}
         overdrag={true}
         ref={pagerRef}
+        onPageSelected={(e) => setCardIndex(e.nativeEvent.position)}
       >
         {cards.length && cards[0].details.map((card, index) => {
           return (
