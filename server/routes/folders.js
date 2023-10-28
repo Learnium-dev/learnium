@@ -154,6 +154,7 @@ router.post(`/createcontent`, async (req, res)=>{
                 correctanswer: questionsList?.answers,  // Set correctanswer from the request body
                 type: questionsList?.type, // Set type from the request body
                 options: questionsList?.options, 
+                folderid: newfolder._id,
             });
 
             const savedDetail = await newDetail.save();
@@ -173,6 +174,7 @@ router.post(`/createcontent`, async (req, res)=>{
                 flashcardid: newFlashcard._id,
                 question: flashcardsList?.question, // Set question from the request body
                 correctanswer: flashcardsList?.answers,  // Set correctanswer from the request body
+                folderid: newfolder._id,
             });
 
             const savedDetail = await newDetail.save();

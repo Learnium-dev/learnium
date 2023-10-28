@@ -10,6 +10,10 @@ const detailSchema = mongoose.Schema({
         type: mongoose.ObjectId,
         ref: "quizzes",
     },
+    folderid: {
+        type: mongoose.ObjectId,
+        ref: "folders",
+    },
     progress: {
         type: Number,
         min: [0, "Progress must be greater than 0"],
