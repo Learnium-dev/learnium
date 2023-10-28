@@ -1,5 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 
+// helpers
+import { formatDate } from "../../../../../utils/helpers";
+
 const QuizCard = ({ item }) => {
   const styles = StyleSheet.create({
     container: {
@@ -7,11 +10,11 @@ const QuizCard = ({ item }) => {
       justifyContent: "center",
       flexDirection: "column",
       alignItems: "center",
-      backgroundColor: `${item?.score === 100 ? "#7000FF" : "#FFFF"}`,
+      backgroundColor: `${item?.progress === 100 ? "#7000FF" : "#FFFF"}`,
       borderRadius: 10,
       borderWidth: 2,
       borderColor: "#7000FF",
-      padding: 14,
+      padding: 10,
       gap: 5,
     },
     score: {
@@ -31,7 +34,7 @@ const QuizCard = ({ item }) => {
       <Text
         style={{
           ...styles.txt,
-          color: `${item?.score === 100 ? "white" : "#262626"}`,
+          color: `${item?.progress === 100 ? "white" : "#262626"}`,
         }}
       >
         You Scored
@@ -39,18 +42,18 @@ const QuizCard = ({ item }) => {
       <Text
         style={{
           ...styles.score,
-          color: `${item?.score === 100 ? "white" : "#262626"}`,
+          color: `${item?.progress === 100 ? "white" : "#262626"}`,
         }}
       >
-        {item?.score}%
+        {item?.progress}%
       </Text>
       <Text
         style={{
           ...styles.txt,
-          color: `${item?.score === 100 ? "white" : "#262626"}`,
+          color: `${item?.progress === 100 ? "white" : "#262626"}`,
         }}
       >
-        on {item?.duedate}
+        on {formatDate(item?.duedate)}
       </Text>
     </View>
   );
