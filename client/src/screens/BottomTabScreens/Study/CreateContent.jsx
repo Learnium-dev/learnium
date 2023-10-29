@@ -28,7 +28,7 @@ const CreateContent = () => {
 
         {/* <LearningTime name="Learning For Fun" /> */}
 
-        <ExamSchedule name="Exam Schedule" />
+        {/* <ExamSchedule name="Exam Schedule" /> */}
       </ScrollView>
     </SafeAreaView>
   );
