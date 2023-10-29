@@ -28,6 +28,13 @@ import ExamSchedule from "./components/FormStepper/ExamSchedule";
 const CreateContent = () => {
    // take a photo page
   const { navigate } = useNavigation();
+
+  // console.log("content", content);
+  //  console.log("content.topics[1]", content?.topics[1]);
+  // console.log("Summary: ", content?.summary);
+  // console.log("Key Topics: ", content?.keyTopic);
+  // console.log("Question and Answer: ", content?.questionAnswer);
+
   
   return (
     <SafeAreaView style={styles.container}>
@@ -46,14 +53,7 @@ const CreateContent = () => {
         {/* <LearningTime name="Learning For Fun" /> */}
 
         <ExamSchedule name="Exam Schedule" />
-
-  console.log("content", content);
-  //  console.log("content.topics[1]", content?.topics[1]);
-  console.log("Summary: ", content?.summary);
-  console.log("Key Topics: ", content?.keyTopic);
-  console.log("Question and Answer: ", content?.questionAnswer);
-
-  return (
+  {/* return (
     <View style={styles.container}>
       <Text style={styles.title}>Create content based on the PDF</Text>
       <Pressable style={styles.button} onPress={handleCreateContent}>
@@ -86,7 +86,7 @@ const CreateContent = () => {
                     <Text style={{ fontWeight: "normal" }}>{i.keyTopic}</Text>
                     <Text style={{ fontWeight: "bold" }}>Summary</Text>
                     <Text>{i.summary}</Text>
-                    <Text style={{ fontWeight: "bold" }}>FlashCards=</Text>
+                    <Text style={{ fontWeight: "bold" }}>FlashCards=</Text> */}
 
       </ScrollView>
     </SafeAreaView>
