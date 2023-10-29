@@ -106,7 +106,11 @@ function StudyStackNavigator() {
         component={Study}
         options={{ headerShown: false }}
       />
-      <StudyStack.Screen name="CreateContent" component={CreateContent} />
+      <StudyStack.Screen
+        options={{ headerShown: false }}
+        name="CreateContent"
+        component={CreateContent}
+      />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
       <StudyStack.Screen
