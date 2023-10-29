@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 // pdf reader
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
+// take a photo
+import { useNavigation } from '@react-navigation/native';
 
 // axios
 import axios from "axios";
@@ -351,6 +353,10 @@ const CreateContent = () => {
     // }
     // });
   };
+
+  // take a photo page
+  const { navigate } = useNavigation();
+
   console.log("content", content);
   //  console.log("content.topics[1]", content?.topics[1]);
   console.log("Summary: ", content?.summary);
@@ -362,6 +368,9 @@ const CreateContent = () => {
       <Text style={styles.title}>Create content based on the PDF</Text>
       <Pressable style={styles.button} onPress={handleCreateContent}>
         <Text style={styles.buttonText}>Create your content</Text>
+      </Pressable>
+      <Pressable style={styles.button} onPress={() => navigate("TakePhoto")}>
+        <Text style={styles.buttonText}>Take a photo</Text>
       </Pressable>
       <Pressable style={styles.button} onPress={postFolderToDB}>
         <Text style={styles.buttonText}>POST TO DB</Text>
