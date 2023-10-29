@@ -100,3 +100,20 @@ export const getFormattedTodayDate = () => {
   const day = String(today.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
+
+export const daysWeek = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+export const minutesDay = [
+  { minutes: 5, label: "5 minutes / day" },
+  { minutes: 10, label: "10 minutes / day" },
+  { minutes: 15, label: "15 minutes / day" },
+  { minutes: 0, label: "Other" },
+];
