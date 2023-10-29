@@ -16,6 +16,7 @@ import KeyTopic from "./src/screens/BottomTabScreens/Study/KeyTopic";
 import NextDayPlan from "./src/screens/BottomTabScreens/Study/NextDayPlan";
 import UploadScreen from "./src/screens/BottomTabScreens/Study/UploadScreen";
 import CreateContent from "./src/screens/BottomTabScreens/Study/CreateContent";
+import TakePhoto from "./src/screens/BottomTabScreens/Study/TakePhoto";
 
 // Icons
 import StudyTabIcon from "./assets/icons/study-tab.svg";
@@ -111,6 +112,7 @@ function StudyStackNavigator() {
         name="CreateContent"
         component={CreateContent}
       />
+       <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
       <StudyStack.Screen
