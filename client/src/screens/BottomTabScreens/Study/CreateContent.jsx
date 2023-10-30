@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   ActivityIndicator,
+  FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -12,11 +13,14 @@ import { useEffect, useState } from "react";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 // take a photo
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // styles
 import { styles } from "./styles/createContent";
+
+// redux
+import { useSelector } from "react-redux";
 
 // components
 import UploadContent from "./components/FormStepper/UploadContent";
@@ -26,16 +30,42 @@ import LearningTime from "./components/FormStepper/LearningTime";
 import ExamSchedule from "./components/FormStepper/ExamSchedule";
 
 const CreateContent = () => {
-   // take a photo page
-  const { navigate } = useNavigation();
+  const [currentStep, setCurrentStep] = useState(0);
+  const [purpose, setPurpose] = useState("");
+  const { days, date } = useSelector((state) => state.exam);
+  console.log("Days: ", days || "");
+  console.log("Date: ", date || "");
 
-  // console.log("content", content);
-  //  console.log("content.topics[1]", content?.topics[1]);
-  // console.log("Summary: ", content?.summary);
-  // console.log("Key Topics: ", content?.keyTopic);
-  // console.log("Question and Answer: ", content?.questionAnswer);
+  console.log("CUrrent Step: ", currentStep);
 
-  
+  const handleNextStep = () => {
+    if (currentStep < 4) {
+      if (purpose === "exam") {
+        setCurrentStep(4);
+      } else if (purpose === "pro") {
+        setCurrentStep(2);
+      } else if (purpose === "fun") {
+        setCurrentStep(3);
+      } else {
+        setCurrentStep(currentStep + 1);
+      }
+    }
+  };
+
+  const handlePreviousStep = () => {
+    if (currentStep > 0) {
+      if (!purpose) {
+        setCurrentStep(0);
+      } else {
+        setCurrentStep(1);
+      }
+    }
+  };
+
+  const handleFinish = () => {
+    setCurrentStep(0);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -44,16 +74,47 @@ const CreateContent = () => {
           flexGrow: 1,
         }}
       >
-        {/* <UploadContent name="Create Content" /> */}
+        {currentStep === 0 && (
+          <UploadContent name="Upload Content" next={handleNextStep} />
+        )}
+        {currentStep === 1 && (
+          <PurposeContent
+            name="Why are you creating this course?"
+            prev={handlePreviousStep}
+            next={handleNextStep}
+            setPurpose={setPurpose}
+          />
+        )}
+        {currentStep === 2 && (
+          <GrowProf
+            name="Grow Professionally"
+            prev={handlePreviousStep}
+            next={handleNextStep}
+          />
+        )}
+        {currentStep === 3 && (
+          <LearningTime
+            name="Learn For Fun"
+            prev={handlePreviousStep}
+            next={handleNextStep}
+          />
+        )}
+        {currentStep === 4 && (
+          <ExamSchedule
+            name="Exam Schedule"
+            prev={handlePreviousStep}
+            next={handleFinish}
+          />
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
-        {/* <PurposeContent name="Why are you creating this course?" /> */}
+export default CreateContent;
 
-        {/* <GrowProf name="Grow Professionally" /> */}
-
-        {/* <LearningTime name="Learning For Fun" /> */}
-
-        <ExamSchedule name="Exam Schedule" />
-  {/* return (
+{
+  /* return (
     <View style={styles.container}>
       <Text style={styles.title}>Create content based on the PDF</Text>
       <Pressable style={styles.button} onPress={handleCreateContent}>
@@ -86,11 +147,5 @@ const CreateContent = () => {
                     <Text style={{ fontWeight: "normal" }}>{i.keyTopic}</Text>
                     <Text style={{ fontWeight: "bold" }}>Summary</Text>
                     <Text>{i.summary}</Text>
-                    <Text style={{ fontWeight: "bold" }}>FlashCards=</Text> */}
-
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-export default CreateContent;
+                    <Text style={{ fontWeight: "bold" }}>FlashCards=</Text> */
+}

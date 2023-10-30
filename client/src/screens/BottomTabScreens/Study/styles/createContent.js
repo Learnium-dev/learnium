@@ -119,4 +119,12 @@ export const styles = StyleSheet.create({
     marginTop: "auto",
     gap: 10,
   },
+  btnDisabled: {
+    backgroundColor: "#FFFF",
+    borderColor: "#CDCDCD",
+    borderWidth: 2,
+  },
+  textDisabled: {
+    color: "#CDCDCD",
+  },
 });

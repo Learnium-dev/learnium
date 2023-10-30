@@ -1,4 +1,5 @@
-import { View, Text, Pressable, TextInput } from "react-native";
+import { View, Text, Pressable, TextInput, Button } from "react-native";
+import { useState } from "react";
 
 // Components
 import Header from "../Header";
@@ -10,7 +11,19 @@ import { styles } from "../../styles/createContent";
 import LumiCamera from "../../../../../../assets/images/characters/create content/lumi_picture.svg";
 import LumiPdf from "../../../../../../assets/images/characters/create content/lumi_pdf.svg";
 
-const UploadContent = ({ name }) => {
+const UploadContent = ({ name, next }) => {
+  const [disabled, setDisabled] = useState(true);
+  const [text, setText] = useState("");
+
+  const handleTextChange = (inputText) => {
+    setText(inputText);
+    if (inputText.trim().length > 0) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  };
+
   return (
     <View>
       {/* Header */}
@@ -36,17 +49,25 @@ const UploadContent = ({ name }) => {
       {/* Paste Text */}
       <Text style={styles.subtitle}>Paste Text</Text>
       <TextInput
+        on
         underlineColorAndroid={"transparent"}
         placeholder="Paste your text here..."
         numberOfLines={15}
         multiline
+        onChangeText={handleTextChange}
         textAlignVertical="top"
         style={styles.textarea}
       />
 
       {/* Create Course Button */}
-      <Pressable style={styles.btnContent}>
-        <Text style={styles.btnTextOption}>Create Course</Text>
+      <Pressable
+        disabled={disabled}
+        style={[styles.btnContent, disabled && styles.btnDisabled]}
+        onPress={next}
+      >
+        <Text style={[styles.btnTextOption, disabled && styles.textDisabled]}>
+          Create Course
+        </Text>
       </Pressable>
     </View>
   );

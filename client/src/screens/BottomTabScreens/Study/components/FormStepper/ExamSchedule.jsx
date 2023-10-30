@@ -11,7 +11,11 @@ import {
 import Header from "../Header";
 
 // React
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { setDate, setDays } from "../../../../../../slices/examSlice";
 
 // helpers
 import { daysWeek } from "../../../../../../utils/helpers";
@@ -35,9 +39,11 @@ const OptionButton = ({ text, isSelected, onPress }) => {
   );
 };
 
-const ExamSchedule = ({ name }) => {
+const ExamSchedule = ({ name, prev, next }) => {
+  const dispatch = useDispatch();
+  const { date, days } = useSelector((state) => state.exam);
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [dateNow, setDateNow] = useState(new Date(1598051730000));
   const [examDate, setExamDate] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [mode, setMode] = useState("date");
@@ -50,15 +56,19 @@ const ExamSchedule = ({ name }) => {
     }
   };
 
+  useEffect(() => {
+    dispatch(setDate(examDate));
+  }, [examDate]);
+
   const showMode = (currentMode) => {
     setShowPicker(true);
     setMode(currentMode);
   };
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || dateNow;
     setShowPicker(Platform.OS === "ios");
-    setDate(currentDate);
+    setDateNow(currentDate);
 
     let tempDate = new Date(currentDate);
     let formattedDate = tempDate.toLocaleDateString("en-US", {
@@ -69,12 +79,16 @@ const ExamSchedule = ({ name }) => {
     setExamDate(formattedDate);
   };
 
+  const onFinish = () => {
+    dispatch(setDays(selectedOptions));
+  };
+
   return (
     <View
       style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
     >
       {/* Header */}
-      <Header name={name} />
+      <Header name={name} back={prev} />
 
       {/* Exam Date */}
       <Text style={styles.subtitle}>Enter Exam Date</Text>
@@ -91,7 +105,7 @@ const ExamSchedule = ({ name }) => {
         <DateTimePicker
           testID="dateTimePicker"
           mode={mode}
-          value={date}
+          value={dateNow}
           display="calendar"
           onChange={onChange}
           is24Hour={true}
@@ -101,17 +115,14 @@ const ExamSchedule = ({ name }) => {
       {/* Options */}
       <Text style={styles.subtitle}>Days of the week you want to study</Text>
 
-      <FlatList
-        data={daysWeek}
-        renderItem={({ item }) => (
-          <OptionButton
-            text={item}
-            isSelected={selectedOptions.includes(item)}
-            onPress={() => handleOptionPress(item)}
-          />
-        )}
-        keyExtractor={(item) => item}
-      />
+      {daysWeek.map((item, index) => (
+        <OptionButton
+          key={index}
+          text={item}
+          isSelected={selectedOptions.includes(item)}
+          onPress={() => handleOptionPress(item)}
+        />
+      ))}
 
       {/* Buttons */}
       <View style={styles.btnContainerSelector}>
@@ -130,8 +141,9 @@ const ExamSchedule = ({ name }) => {
             Skip
           </Text>
         </Pressable>
-        <Pressable style={styles.btnContent}>
-          <Text style={styles.btnTextOption}>Next</Text>
+
+        <Pressable onPress={onFinish} style={styles.btnContent}>
+          <Text style={styles.btnTextOption}>Finish</Text>
         </Pressable>
       </View>
     </View>

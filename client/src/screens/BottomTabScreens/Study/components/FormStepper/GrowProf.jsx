@@ -25,7 +25,7 @@ const OptionButton = ({ text, isSelected, onPress }) => {
   );
 };
 
-const GrowProf = ({ name }) => {
+const GrowProf = ({ name, prev, next }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleOptionPress = (option) => {
@@ -41,22 +41,18 @@ const GrowProf = ({ name }) => {
       style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
     >
       {/* Header */}
-      <Header name={name} />
+      <Header name={name} back={prev} />
 
       {/* Options */}
       <Text style={styles.subtitle}>Days of the week you want to study</Text>
-
-      <FlatList
-        data={daysWeek}
-        renderItem={({ item }) => (
-          <OptionButton
-            text={item}
-            isSelected={selectedOptions.includes(item)}
-            onPress={() => handleOptionPress(item)}
-          />
-        )}
-        keyExtractor={(item) => item}
-      />
+      {daysWeek.map((item, index) => (
+        <OptionButton
+          key={index}
+          text={item}
+          isSelected={selectedOptions.includes(item)}
+          onPress={() => handleOptionPress(item)}
+        />
+      ))}
 
       {/* Buttons */}
       <View style={styles.btnContainerSelector}>
@@ -76,7 +72,7 @@ const GrowProf = ({ name }) => {
           </Text>
         </Pressable>
         <Pressable style={styles.btnContent}>
-          <Text style={styles.btnTextOption}>Next</Text>
+          <Text style={styles.btnTextOption}>Finish</Text>
         </Pressable>
       </View>
     </View>

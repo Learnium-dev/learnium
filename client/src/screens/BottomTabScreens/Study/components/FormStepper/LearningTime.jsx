@@ -28,7 +28,7 @@ const OptionButton = ({ text, isSelected, onPress }) => {
   );
 };
 
-const LearningTime = ({ name }) => {
+const LearningTime = ({ name, prev, next }) => {
   const [selectedOption, setSelectedOption] = useState("");
 
   const handleOptionPress = (option) => {
@@ -41,24 +41,21 @@ const LearningTime = ({ name }) => {
       style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
     >
       {/* Header */}
-      <Header name={name} />
+      <Header name={name} back={prev} />
 
       {/* Options */}
       <Text style={styles.subtitle}>
         How many minutes do you want to study daily?
       </Text>
 
-      <FlatList
-        data={minutesDay}
-        renderItem={({ item }) => (
-          <OptionButton
-            text={item?.label}
-            isSelected={selectedOption === item.label}
-            onPress={() => handleOptionPress(item)}
-          />
-        )}
-        keyExtractor={(item) => item?.label}
-      />
+      {minutesDay.map((item, index) => (
+        <OptionButton
+          key={index}
+          text={item?.label}
+          isSelected={selectedOption === item.label}
+          onPress={() => handleOptionPress(item)}
+        />
+      ))}
 
       {/* Buttons */}
       <View style={styles.btnContainerSelector}>

@@ -2,7 +2,7 @@ import { View, Text, Pressable } from "react-native";
 import Header from "../Header";
 
 // React
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // icons
 import Exam from "../../../../../../assets/icons/exam.svg";
@@ -31,8 +31,12 @@ const OptionButton = ({ icon, text, isSelected, onPress }) => {
   );
 };
 
-const PurposeContent = ({ name }) => {
+const PurposeContent = ({ name, prev, next, setPurpose }) => {
   const [selectedOption, setSelectedOption] = useState("");
+
+  useEffect(() => {
+    setPurpose("");
+  }, []);
 
   const renderIcon = (text) => {
     switch (text) {
@@ -55,6 +59,7 @@ const PurposeContent = ({ name }) => {
 
   const handleOptionPress = (option) => {
     setSelectedOption(option);
+    setPurpose(option);
   };
 
   return (
@@ -62,7 +67,7 @@ const PurposeContent = ({ name }) => {
       style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
     >
       {/* Header */}
-      <Header name={name} />
+      <Header name={name} back={prev} />
 
       {/* Options */}
       <View style={styles.optionsContainer}>
@@ -128,6 +133,7 @@ const PurposeContent = ({ name }) => {
             borderColor: "#7000FF",
             paddingVertical: 15,
           }}
+          onPress={next}
         >
           <Text style={styles.btnTextOption}>Next</Text>
         </Pressable>
