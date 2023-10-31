@@ -10,9 +10,9 @@ const folderSchema = mongoose.Schema({
     required: [true, "Folder name is required"],
   },
   userid: {
-    // type: mongoose.ObjectId,
-    // ref: "users",
-    // required: [true, "User Id is required"],
+    type: mongoose.ObjectId,
+    ref: "users",
+    required: [true, "User Id is required"],
     type: String,
   },
   content: {
