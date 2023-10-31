@@ -1,8 +1,5 @@
 import { View, Text, Pressable, FlatList } from "react-native";
 
-// Components
-import Header from "../Header";
-
 // React
 import { useState } from "react";
 
@@ -40,9 +37,6 @@ const LearningTime = ({ name, prev, next }) => {
     <View
       style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
     >
-      {/* Header */}
-      <Header name={name} back={prev} />
-
       {/* Options */}
       <Text style={styles.subtitle}>
         How many minutes do you want to study daily?

@@ -66,9 +66,6 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
     <View
       style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
     >
-      {/* Header */}
-      <Header name={name} back={prev} />
-
       {/* Options */}
       <View style={styles.optionsContainer}>
         <OptionButton
