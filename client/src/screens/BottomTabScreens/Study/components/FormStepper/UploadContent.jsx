@@ -7,6 +7,9 @@ import HeaderNoBar from "../HeaderNoBar";
 // Styles
 import { styles } from "../../styles/createContent";
 
+// redux
+import { useSelector } from "react-redux";
+
 // SVGs
 import LumiCamera from "../../../../../../assets/images/characters/create content/lumi_picture.svg";
 import LumiPdf from "../../../../../../assets/images/characters/create content/lumi_pdf.svg";
@@ -18,6 +21,7 @@ const UploadContent = ({ name, next }) => {
   const [disabled, setDisabled] = useState(true);
   const [text, setText] = useState("");
   const { navigate } = useNavigation();
+  const { content } = useSelector((state) => state.exam);
 
   const handleTextChange = (inputText) => {
     setText(inputText);
@@ -58,6 +62,7 @@ const UploadContent = ({ name, next }) => {
         placeholder="Paste your text here..."
         numberOfLines={15}
         multiline
+        value={content}
         onChangeText={handleTextChange}
         textAlignVertical="top"
         style={styles.textarea}
