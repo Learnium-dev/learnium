@@ -28,7 +28,7 @@ import ExamSchedule from "./components/FormStepper/ExamSchedule";
 import Header from "./components/Header";
 
 const CreateContent = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [purpose, setPurpose] = useState("");
   const { days, date } = useSelector((state) => state.exam);
   console.log("Days: ", days || "");
