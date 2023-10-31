@@ -1,5 +1,5 @@
 import { View, Text, Pressable, TextInput, Button } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Components
 import HeaderNoBar from "../HeaderNoBar";
@@ -19,17 +19,26 @@ import { useNavigation } from "@react-navigation/native";
 
 const UploadContent = ({ name, next }) => {
   const [disabled, setDisabled] = useState(true);
-  const [text, setText] = useState("");
   const { navigate } = useNavigation();
   const { content } = useSelector((state) => state.exam);
+  const [text, setText] = useState(content);
 
-  const handleTextChange = (inputText) => {
-    setText(inputText);
-    if (inputText.trim().length > 0) {
+  useEffect(() => {
+    if (content) {
+      setText(content);
+    }
+  }, [content]);
+
+  useEffect(() => {
+    if (text.length > 0) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
+  }, [text]);
+
+  const handleTextChange = (text) => {
+    setText(text);
   };
 
   return (
@@ -57,13 +66,12 @@ const UploadContent = ({ name, next }) => {
       {/* Paste Text */}
       <Text style={styles.subtitle}>Paste Text</Text>
       <TextInput
-        on
         underlineColorAndroid={"transparent"}
         placeholder="Paste your text here..."
         numberOfLines={15}
         multiline
-        value={content}
         onChangeText={handleTextChange}
+        value={text}
         textAlignVertical="top"
         style={styles.textarea}
       />
