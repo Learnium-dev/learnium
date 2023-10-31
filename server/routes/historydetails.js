@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 // Calling Detail Model
-const {detailmodel} = require('../models/details');
+const {historydetailmodel} = require('../models/historydetails');
 // Calling Quiz Model
-const {quizmodel} = require('../models/quizzes');
+const {historyquizmodel} = require('../models/historyquizzes');
 
 // GET
 router.get(`/`, async (req, res)=>{
@@ -16,7 +16,7 @@ router.get(`/`, async (req, res)=>{
     if(req.query.keytopicid){
 
         filter = {keytopicid: req.query.keytopicid}
-        quizzesList = await quizmodel.findOne(filter)
+        quizzesList = await historyquizmodel.findOne(filter)
 
         filterDetail = {quizid: quizzesList?._id}
 
@@ -42,11 +42,11 @@ router.get(`/`, async (req, res)=>{
             // console.log(filterDetail)
         }
         
-        detailList = await detailmodel.find(filterDetail).limit(10);
+        detailList = await historydetailmodel.find(filterDetail).limit(10);
     }
     else if(req.query.folderid){
         filter = {folderid: req.query.folderid}
-        detailList = await detailmodel.find(filter);
+        detailList = await historydetailmodel.find(filter);
     }
 
     if(!detailList){
@@ -69,7 +69,7 @@ router.get(`/countfalse`, async (req, res)=>{
         filter = { isdone: false, flashcardid: req.query.flashcardid }; 
     } 
 
-    const detailList = await detailmodel.count(filter);
+    const detailList = await historydetailmodel.count(filter);
 
     if(!detailList){
         res.status(500).json({
@@ -94,7 +94,7 @@ router.get(`/counttrue`, async (req, res)=>{
         filter = { isdone: true, flashcardid: req.query.flashcardid }; 
     } 
 
-    const detailList = await detailmodel.count(filter);
+    const detailList = await historydetailmodel.count(filter);
 
     if(!detailList){
         res.status(500).json({
@@ -109,7 +109,7 @@ router.get(`/counttrue`, async (req, res)=>{
 
 // GET - Find by Id
 router.get(`/:id`, async (req, res)=>{
-    const detailList = await detailmodel.findById(req.params.id);
+    const detailList = await historydetailmodel.findById(req.params.id);
 
     if(!detailList){
         res.status(500).json({
@@ -122,7 +122,7 @@ router.get(`/:id`, async (req, res)=>{
 
 // GET - Find by QuizId
 router.get(`/dailyQuestion/:id`, async (req, res)=>{
-  const detailList = await detailmodel.findOne({quizid: req.params.id});
+  const detailList = await historydetailmodel.findOne({quizid: req.params.id});
 
   if(!detailList){
       res.status(500).json({
@@ -135,7 +135,7 @@ router.get(`/dailyQuestion/:id`, async (req, res)=>{
 
 // UPDATE
 router.put(`/:id`, async (req, res)=>{
-    const updateDetails = await detailmodel.findByIdAndUpdate(
+    const updateDetails = await historydetailmodel.findByIdAndUpdate(
         req.params.id,
         {
             flashcardid: req.body.flashcardid,
@@ -145,7 +145,6 @@ router.put(`/:id`, async (req, res)=>{
             answer: req.body.answer,
             question: req.body.question,
             correctanswer: req.body.correctanswer,
-            folderid: req.body.folderid,
         },
         {
             new: true
@@ -163,7 +162,7 @@ router.put(`/:id`, async (req, res)=>{
 // POST
 router.post(`/`,(req, res)=>{
 
-    const newDetail = new detailmodel({
+    const newDetail = new historydetailmodel({
         flashcardid: req.body.flashcardid,
         quizid: req.body.quizid,
         progress: req.body.progress,
@@ -186,7 +185,7 @@ router.post(`/`,(req, res)=>{
 
 // DELETE
 router.delete('/:id',(req,res)=>{
-    detailmodel.findByIdAndRemove(req.params.id).then(deletedetail => {
+    historydetailmodel.findByIdAndRemove(req.params.id).then(deletedetail => {
         if(deletedetail){
             return res.status(200).json({
                 success: true,

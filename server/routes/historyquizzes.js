@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 // Calling Quiz Model
-const {quizmodel} = require('../models/quizzes');
-// Calling Keytopic Model
-const {keytopicmodel} = require('../models/keytopics');
+const {historyquizmodel} = require('../models/historyquizzes');
 
 // GET
 router.get(`/`, async (req, res)=>{
@@ -13,7 +11,7 @@ router.get(`/`, async (req, res)=>{
         filter = {keytopicid: req.query.keytopicid}
     }
 
-    const quizzesList = await quizmodel.find(filter).populate('keytopicid').sort({ duedate: 1 });
+    const quizzesList = await historyquizmodel.find(filter).populate('keytopicid').sort({ duedate: 1 });
 
     if(!quizzesList){
         res.status(500).json({
@@ -26,7 +24,7 @@ router.get(`/`, async (req, res)=>{
 
 // GET - Find by Id
 router.get(`/:id`, async (req, res)=>{
-    const quizzesList = await quizmodel.findById(req.params.id);
+    const quizzesList = await historyquizmodel.findById(req.params.id);
     if(!quizzesList){
         res.status(500).json({
             success:false,
@@ -38,7 +36,7 @@ router.get(`/:id`, async (req, res)=>{
 
 // UPDATE
 router.put(`/:id`, async (req, res)=>{
-    const updateQuiz = await quizmodel.findByIdAndUpdate(
+    const updateQuiz = await historyquizmodel.findByIdAndUpdate(
         req.params.id,
         {
             keytopicid: req.body.keytopicid,
@@ -60,7 +58,7 @@ router.put(`/:id`, async (req, res)=>{
 })
 // POST
 router.post(`/`,(req, res)=>{
-    const newquiz = new quizmodel({
+    const newquiz = new historyquizmodel({
         keytopicid: req.body.keytopicid,
         materialid: req.body.materialid,
         name: req.body.name,
@@ -78,7 +76,7 @@ router.post(`/`,(req, res)=>{
 })
 // DELETE
 router.delete('/:id',(req,res)=>{
-    quizmodel.findByIdAndRemove(req.params.id).then(deleteQuiz => {
+    historyquizmodel.findByIdAndRemove(req.params.id).then(deleteQuiz => {
         if(deleteQuiz){
             return res.status(200).json({
                 success: true,
