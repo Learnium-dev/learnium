@@ -1,16 +1,6 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  Pressable,
-  StyleSheet,
-  ActivityIndicator,
-  FlatList,
-} from "react-native";
-import { useEffect, useState } from "react";
-// pdf reader
-import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from "expo-file-system";
+import { View, ScrollView } from "react-native";
+import { useState } from "react";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // styles
@@ -28,7 +18,7 @@ import ExamSchedule from "./components/FormStepper/ExamSchedule";
 import Header from "./components/Header";
 
 const CreateContent = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [purpose, setPurpose] = useState("");
   const { days, date } = useSelector((state) => state.exam);
   console.log("Days: ", days || "");
