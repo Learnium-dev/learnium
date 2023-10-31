@@ -7,9 +7,6 @@ import {
   Platform,
 } from "react-native";
 
-// Components
-import Header from "../Header";
-
 // React
 import { useEffect, useState } from "react";
 
@@ -87,9 +84,6 @@ const ExamSchedule = ({ name, prev, next }) => {
     <View
       style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
     >
-      {/* Header */}
-      <Header name={name} back={prev} />
-
       {/* Exam Date */}
       <Text style={styles.subtitle}>Enter Exam Date</Text>
       <Pressable onPress={() => showMode("date")}>

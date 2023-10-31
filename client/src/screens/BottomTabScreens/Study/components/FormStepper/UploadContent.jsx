@@ -2,7 +2,7 @@ import { View, Text, Pressable, TextInput, Button } from "react-native";
 import { useState } from "react";
 
 // Components
-import Header from "../Header";
+import HeaderNoBar from "../HeaderNoBar";
 
 // Styles
 import { styles } from "../../styles/createContent";
@@ -11,9 +11,13 @@ import { styles } from "../../styles/createContent";
 import LumiCamera from "../../../../../../assets/images/characters/create content/lumi_picture.svg";
 import LumiPdf from "../../../../../../assets/images/characters/create content/lumi_pdf.svg";
 
+// Navigation
+import { useNavigation } from "@react-navigation/native";
+
 const UploadContent = ({ name, next }) => {
   const [disabled, setDisabled] = useState(true);
   const [text, setText] = useState("");
+  const { navigate } = useNavigation();
 
   const handleTextChange = (inputText) => {
     setText(inputText);
@@ -26,12 +30,12 @@ const UploadContent = ({ name, next }) => {
 
   return (
     <View>
-      {/* Header */}
-      <Header name={name} />
-
       {/* Buttons */}
       <View style={styles.btnContainer}>
-        <Pressable style={styles.uploadBtn}>
+        <Pressable
+          style={styles.uploadBtn}
+          onPress={() => navigate("TakePhoto")}
+        >
           <LumiCamera width={84} height={110} />
           <Text style={styles.btnText}>Take Picture</Text>
         </Pressable>

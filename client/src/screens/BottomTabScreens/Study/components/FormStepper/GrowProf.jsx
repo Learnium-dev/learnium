@@ -40,9 +40,6 @@ const GrowProf = ({ name, prev, next }) => {
     <View
       style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
     >
-      {/* Header */}
-      <Header name={name} back={prev} />
-
       {/* Options */}
       <Text style={styles.subtitle}>Days of the week you want to study</Text>
       {daysWeek.map((item, index) => (
