@@ -25,6 +25,8 @@ const keytopicsRouter = require('./routes/keytopics');
 const foldersRouter = require('./routes/folders');
 const flashcardsRouter = require('./routes/flashcards');
 const detailsRouter = require('./routes/details');
+const historyquizzesRouter = require('./routes/historyquizzes.js');
+const historydetailsRouter = require('./routes/historydetails.js');
 
 // Middleware
 app.use(express.json());
@@ -48,6 +50,10 @@ app.use(`${api}/folders`,foldersRouter)
 app.use(`${api}/flashcards`,flashcardsRouter)
 // Detail
 app.use(`${api}/details`,detailsRouter)
+// History
+app.use(`${api}/historyquizzes`,historyquizzesRouter)
+// History Detail
+app.use(`${api}/historydetails`,historydetailsRouter)
 
 // Connect MongoDB
 mongoose.connect(process.env.MONGODB_URL)

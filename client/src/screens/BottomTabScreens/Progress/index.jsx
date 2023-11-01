@@ -41,7 +41,7 @@ const Progress = () => {
   const { email, token } = useSelector((state) => state.credentials);
   const [inProgress, setInProgress] = useState([]);
   const [completed, setCompleted] = useState([]);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(1);
 
   useEffect(() => {
     const fetchKeyTopics = async (jwtToken) => {
@@ -69,7 +69,7 @@ const Progress = () => {
           (completedData.length / totalTasks) *
           100
         ).toFixed(2);
-        setProgress(calculatedProgress);
+        setProgress(calculatedProgress || 1);
       } catch (error) {
         console.log(error);
       }
@@ -109,7 +109,7 @@ const Progress = () => {
             {progress}%
           </Text>
         </View>
-        <View style={styles.divider} useNativeDriver={false} />
+        <View style={styles.divider} />
         {/* In Progress */}
         <View>
           <Text style={styles.subtitle}>In Progress</Text>
