@@ -4,6 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import { globalStyles } from "../../assets/common/global-styles";
 import Timer from "../../assets/icons/Timer.svg";
 import { useState, useEffect } from "react";
+import ProgressBarAnimated from "react-native-progress-bar-animated";
 
 const FlashCardsQuizHeader = ({
   closeSheet,
@@ -60,12 +61,12 @@ const FlashCardsQuizHeader = ({
         <>
           <View style={styles.timer}>
             <Timer />
-            {/* <Text>00:00:01</Text> */}
             <Text> {formatTime(seconds)} </Text>
           </View>
           <View style={styles.index}>
             <Text style={styles.indexText}>
               {" "}
+              
               {cardIndex + 1} / {numberOfCards}
             </Text>
           </View>
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
+    marginTop: 20,
     marginBottom: 20,
     // display: "grid",
     // gridTemplateColumns: "1fr 1fr 1fr",

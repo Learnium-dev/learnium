@@ -16,6 +16,7 @@ import BadgeIcon from "../../../../assets/icons/badge-icon.svg";
 import { shortDateOptions } from "../../../../utils/helpers";
 import { globalStyles } from "../../../../assets/common/global-styles";
 import QuizContainer from "../../../containers/QuizContainer";
+import ConfirmModal from "../../../components/ConfirmModal";
 
 const KeyTopic = (props) => {
   const { keyTopic } = props.route.params;
@@ -23,6 +24,7 @@ const KeyTopic = (props) => {
 
   const bottomSheetModalRef = useRef(null);
   const quizModalRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // height of the bottom sheet modal 95%
   const snapPoints = useMemo(() => ["95%"], []);
@@ -40,7 +42,17 @@ const KeyTopic = (props) => {
   }, []);
 
   const closeQuiz = () => {
+    // quizModalRef.current.dismiss();
+    setIsModalOpen(true);
+  };
+
+  const handleRightBtn = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleLeftBtn = () => {
     quizModalRef.current.dismiss();
+    setIsModalOpen(false);
   };
 
   return (
@@ -113,6 +125,20 @@ const KeyTopic = (props) => {
           <QuizContainer keyTopic={keyTopic} closeSheet={closeQuiz} />
         </BottomSheetModal>
       </View>
+      {isModalOpen ? (
+        <ConfirmModal
+          isOpen={isModalOpen}
+          onClose={handleLeftBtn}
+          title={"Are you sure you want to close the quiz?"}
+          subTitle={"You can’t continue this quiz later!"}
+          leftBtnText={"Close"}
+          rightBtnText={"Go back"}
+          leftBtnFunction={handleLeftBtn}
+          rightBtnFunction={handleRightBtn}
+>
+          <Text>Modal Content</Text>
+        </ConfirmModal>
+      ) : null}
     </View>
   );
 };
