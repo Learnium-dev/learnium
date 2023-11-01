@@ -17,6 +17,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
   const [quiz, setQuiz] = useState([]);
   const [token, setToken] = useState(null);
   const [isQuizStart, setIsQuizStart] = useState(false);
+  const [result, setResult] = useState(null);
 
   const [cardIndex, setCardIndex] = useState(0);
 
@@ -48,7 +49,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
           return
         }
         const response = await axios.get(
-          `${baseURL}details?keytopicid=${keyTopiId}${trueFalseString()}${multipleChoiceString()}${writtenString()}}`,          
+          `${baseURL}details?keytopicid=${keyTopiId}${trueFalseString()}${multipleChoiceString()}${writtenString()}`,          
           {
             headers: { Authorization: `Bearer ${jwtToken}` },
           }
@@ -79,7 +80,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
 
   // !CONTROLING PAGERVIEW
   const next = (nextIndex) => {
-    pagerRef.current.setPage(nextIndex > cards.length - 1 ? cards.length - 1 : nextIndex);
+    pagerRef.current.setPage(nextIndex > quiz.length - 1 ? quiz.length - 1 : nextIndex);
     setCardIndex(nextIndex);
   }
 
@@ -89,20 +90,20 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
     console.log('previous', cardIndex)
   }
 
-  // const markDone = (details) => {
-  //   // card is the details object
-  //   updateDetails(details._id, { isdone: true }).then((updatedDetails) => {
-  //     console.log('Details updated: ', updatedDetails);
-  //     // Update the state
-  //     const itemIndex = cards[0].details.findIndex((item) => item._id === details._id);
-  //     cards[0].details[itemIndex] = updatedDetails;
-  //     const updatedCards = [...cards, cards[0]];
-  //     setCards(updatedCards);
-  //   }, (error) => {
-  //     alert('Error', `Couldn't update! ${error}`);
-  //   });
-  // };
+  const setQuizResult = (res) => {
+    // expand the result with res and set it to result
+    let updateResult = () => {
+      if(result){
+        return [...result, res]
+      } else {
+        return [res]
+      }
+    }
+    setResult(updateResult);
+    console.log('setQuizResult', res)
+  }
 
+  console.log('result', result)
   return (
     <View style={styles.container}>
       <FlashCardsQuizHeader
@@ -124,25 +125,18 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
             setCardIndex(e.nativeEvent.position);
           }}
         >
-          {quiz.map((card, index) => {
+          {quiz.map(( card,index) => {
             return (
               <Quiz
               keyTopic={keyTopic}
               quiz={quiz}
+              // card={card}
               index={index}
               key={index}
+              quizResult={setQuizResult}
               next={() => next(index + 1)}
               previous={() => previous(index - 1)}
               />
-              // <FlashCard
-              //   card={card}
-              //   index={index}
-              //   key={index}
-              //   next={() => next(index + 1)}
-              //   previous={() => previous(index - 1)}
-                
-              //   // markDone={markDone}
-              // />
             );
           })}
         </PagerView>
