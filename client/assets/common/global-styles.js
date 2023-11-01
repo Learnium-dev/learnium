@@ -5,7 +5,8 @@ export const globalStyles = StyleSheet.create({
     primary: '#7000FF',
     secondary: '#FF4C4C',
     white: '#fff',
-    accent: '#FEE702'
+    accent: '#FEE702',
+    background: '#F5F5F5'
   },
   buttons: {
     primary: {

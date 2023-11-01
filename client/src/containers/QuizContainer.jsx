@@ -11,22 +11,35 @@ import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Quiz from "../components/Quiz";
+import { globalStyles } from "../../assets/common/global-styles";
+import ConfirmModal from "../components/ConfirmModal";
+import { getQuizzes } from "../services/quizService";
 
 const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
   const keyTopiId = keyTopic._id;
   const [quiz, setQuiz] = useState([]);
   const [token, setToken] = useState(null);
   const [isQuizStart, setIsQuizStart] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState([]);
 
   const [cardIndex, setCardIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const submitResult = () => {
+
+  }
 
   const pagerRef = useRef(null);
 
   const handleStart = (trueFalse, multipleChoice, written) => {
-    console.log("trueFalse", trueFalse);
-    console.log("multipleChoice", multipleChoice);
-    console.log("written", written);
     const trueFalseString = () => {
       return trueFalse ? "&truefalse=true" : "";
     };
@@ -34,76 +47,71 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
       return multipleChoice ? "&multiplechoice=true" : "";
     };
     const writtenString = () => {
-      return  written ? "&written=true" : "";
-    };
-    
-    // Function to fetch quizzes with a valid token
-    const fetchQuizzesWithToken = async (jwtToken) => {
-      console.log(
-        `${baseURL}details?keytopicid=${keyTopiId}${trueFalseString()}${multipleChoiceString()}${writtenString()}`
-      );
-      
-      try {
-        if(!trueFalse && !multipleChoice && !written){
-          alert("Please select at least one quiz type")
-          return
-        }
-        const response = await axios.get(
-          `${baseURL}details?keytopicid=${keyTopiId}${trueFalseString()}${multipleChoiceString()}${writtenString()}`,          
-          {
-            headers: { Authorization: `Bearer ${jwtToken}` },
-          }
-        );
-        setQuiz(response.data);
-        console.log("Quiz loaded", response.data);
-        setIsQuizStart(true);
-      } catch (err) {
-        console.log(err);
-      }
+      return written ? "&written=true" : "";
     };
 
-    // Get the token from AsyncStorage
-    AsyncStorage.getItem("jwt")
-      .then((jwt) => {
-        if (jwt) {
-          setToken(jwt);
-          fetchQuizzesWithToken(jwt); // Fetch quizzes with the retrieved token
-          // console.log(quizzes)
-        } else {
-          console.log("JWT token not found in AsyncStorage.");
+    // Function to fetch quizzes with a valid token
+    const fetchQuizzesWithToken = async () => {
+      console.log("fetchQuizzesWithToken");
+      if (!trueFalse && !multipleChoice && !written) {
+        alert("Please select at least one quiz type");
+        return;
+      }
+
+      getQuizzes(keyTopiId, trueFalseString(), multipleChoiceString(), writtenString()).then(
+        (quizzes) => {
+          console.log("Quizzes loaded", quizzes);
+          setQuiz(quizzes);
+          setIsQuizStart(true);
         }
-      })
-      .catch((err) => {
-        console.log(`Error retrieving JWT token from AsyncStorage. ${err} `);
-      });
+      );
+      (error) => {
+        alert("Error", `Something went wrong! ${error}`);
+      }
+     
+    };
+
+    fetchQuizzesWithToken();
   };
 
   // !CONTROLING PAGERVIEW
   const next = (nextIndex) => {
-    pagerRef.current.setPage(nextIndex > quiz.length - 1 ? quiz.length - 1 : nextIndex);
+    if (nextIndex > quiz.length - 1) {
+      console.log("nextIndex", nextIndex);
+      openModal();
+      return;
+    }
+    pagerRef.current.setPage(
+      nextIndex > quiz.length - 1 ? quiz.length - 1 : nextIndex
+    );
     setCardIndex(nextIndex);
-  }
+  };
 
   const previous = (prevIndex) => {
+    if (isModalOpen) {
+      setIsModalOpen(false);
+    }
+    if (prevIndex < 0) {
+      return;
+    }
+    console.log("🚀 ~ file: QuizContainer.jsx:84 ~ prevIndex:", prevIndex);
     pagerRef.current.setPage(prevIndex < 0 ? 0 : prevIndex);
     setCardIndex(prevIndex);
-    console.log('previous', cardIndex)
-  }
+  };
+  console.log("previous", cardIndex);
 
   const setQuizResult = (res) => {
     // expand the result with res and set it to result
     let updateResult = () => {
-      if(result){
-        return [...result, res]
-      } else {
-        return [res]
-      }
-    }
+      // store res to result array base on index
+      let resultCopy = [...result];
+      resultCopy[res.index] = res;
+      return resultCopy;
+    };
     setResult(updateResult);
-    console.log('setQuizResult', res)
-  }
+  };
 
-  console.log('result', result)
+  console.log("result", result);
   return (
     <View style={styles.container}>
       <FlashCardsQuizHeader
@@ -116,7 +124,6 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
       />
 
       {isQuizStart ? (
-        
         <PagerView
           ref={pagerRef}
           style={styles.pagerView}
@@ -125,25 +132,29 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
             setCardIndex(e.nativeEvent.position);
           }}
         >
-          {quiz.map(( card,index) => {
+          {quiz.map((card, index) => {
             return (
               <Quiz
-              keyTopic={keyTopic}
-              quiz={quiz}
-              // card={card}
-              index={index}
-              key={index}
-              quizResult={setQuizResult}
-              next={() => next(index + 1)}
-              previous={() => previous(index - 1)}
-              />
+                keyTopic={keyTopic}
+                quiz={quiz}
+                // card={card}
+                index={index}
+                key={index}
+                quizResult={setQuizResult}
+                next={() => next(index + 1)}
+                previous={() => previous(index - 1)}
+              ></Quiz>
             );
           })}
         </PagerView>
-        
       ) : (
         <QuizSetupView onStartQuiz={handleStart} keyTopic={keyTopic} />
       )}
+      {isModalOpen ? (
+        <ConfirmModal isOpen={isModalOpen} leftBtnFunction={closeModal} rightBtnFunction={submitResult} title={"Are you sure you want to finish the quiz?"} subTitle={""} leftBtnText={"Review"} rightBtnText={"Finish"}>
+          
+        </ConfirmModal>
+      ) : null}
     </View>
   );
 };
@@ -153,7 +164,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     height: "100%",
-    backgroundColor: "white",
+    backgroundColor: globalStyles.colors.background,
   },
   header: {
     flexDirection: "row",
@@ -163,7 +174,6 @@ const styles = StyleSheet.create({
   pagerView: {
     flex: 1,
     width: "100%",
-    height: "100%",
   },
 });
 

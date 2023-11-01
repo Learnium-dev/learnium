@@ -6,16 +6,8 @@ import { TextInput } from "react-native-gesture-handler";
 import { Pressable } from "react-native";
 
 const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
-  //   const [isTextFilled, setIsTextFilled] = useState(false);
-
-  //   console.log("quiz", quiz[index].type);
-  //   console.log("quiz", quiz[index].question);
-  //   console.log("card", card);
-  //   console.log("index", index);
-  //   console.log("next", next);
-  //   console.log("previous", previous);
-
   const [correctanswer, setCorrectanswer] = useState(quiz[index].correctanswer);
+  const [isOptionSelected, setIsOptionSelected] = useState("");
 
   const handleTextChange = (text) => {
     console.log("text", text);
@@ -27,8 +19,24 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
   const selectQuizOption = (option) => {
     console.log("🚀 ~ file: Quiz.jsx:26 ~ option:", option);
     console.log("correctanswer", correctanswer);
-    if (option == correctanswer) {
+    if (isOptionSelected == option) {
+      setIsOptionSelected("");
       let result = {
+        index: index,
+        correct: null,
+        question: null,
+        answer: null,
+        correctanswer: null,
+      };
+      quizResult(result);
+    } else {
+      setIsOptionSelected(option);
+      
+    }
+
+    if (option == correctanswer && !isOptionSelected) {
+      let result = {
+        index: index,
         correct: true,
         question: quiz[index].question,
         answer: option,
@@ -38,8 +46,9 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
       console.log("correctanswer", correctanswer);
       console.log("option", option);
       console.log("correct");
-    } else {
+    } else if (option != correctanswer && !isOptionSelected ){
       let result = {
+        index: index,
         correct: false,
         question: quiz[index].question,
         answer: option,
@@ -50,40 +59,66 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
     }
   };
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.titleWrap}>
-        <Text>{keyTopic.folderid.name}</Text>
+        <Text style={[styles.textBold]}>{keyTopic.folderid.name}</Text>
         <Text>{keyTopic.name}</Text>
       </View>
 
-      <Text>{quiz[index].question}</Text>
+      <View style={styles.questionWrap}>
+        <Text>{quiz[index].question}</Text>
 
-      {quiz[index].options.length > 0 ? (
-        quiz[index].options.map((option, index) => (
-          <Pressable
-            key={index}
-            style={styles.optionButton}
-            onPress={() => {
-              selectQuizOption(option);
-            }}
+        {quiz[index].options.length > 0 ? (
+          quiz[index].options.map((option, index) => (
+            <Pressable
+              key={index}
+              style={
+                isOptionSelected == option
+                  ? styles.optionButtonSelected
+                  : styles.optionButton
+              }
+              onPress={() => {
+                selectQuizOption(option);
+              }}
+            >
+              <Text
+                style={
+                  isOptionSelected == option
+                    ? [
+                        styles.textWhite,
+                        styles.textBold,
+                        styles.textAlignCenter,
+                      ]
+                    : [styles.textBold, styles.textAlignCenter]
+                }
+              >
+                {option}
+              </Text>
+            </Pressable>
+          ))
+        ) : (
+          <TextInput
+            //   style={isTextFilled ? styles.paragraphInputFilled :  styles.paragraphInput}
+            style={styles.paragraphInput}
+            onChangeText={handleTextChange}
+          ></TextInput>
+        )}
+      </View>
+
+      <View style={styles.navigationButton}>
+        <Pressable onPress={() => previous()} style={index == 0 ? [styles.previousButtonDisable] : styles.previousButton}>
+          <Text style={index == 0 ? [styles.textDisable,styles.textAlignCenter] : [styles.textBold, styles.textAlignCenter]}>
+            Previous
+          </Text>
+        </Pressable>
+        <Pressable onPress={() => next()} style={styles.nextButton}>
+          <Text
+            style={[styles.textWhite, styles.textBold, styles.textAlignCenter]}
           >
-            <Text>{option}</Text>
-          </Pressable>
-        ))
-      ) : (
-        <TextInput
-          //   style={isTextFilled ? styles.paragraphInputFilled :  styles.paragraphInput}
-          style={styles.paragraphInput}
-          onChangeText={handleTextChange}
-        ></TextInput>
-      )}
-
-      <Pressable onPress={() => previous()} style={styles.button}>
-        <Text>Previous</Text>
-      </Pressable>
-      <Pressable onPress={() => next()} style={styles.button}>
-        <Text>Next</Text>
-      </Pressable>
+            Next
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -91,9 +126,17 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
 export default Quiz;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "start",
+    paddingBottom: 40,
+  },
+  questionWrap: {
+    flex: 1,
+  },
   titleWrap: {
     width: "100%",
-    height: 200,
+    // height: 200,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -142,10 +185,57 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
 
     // backgroundColor: globalStyles.colors.primary,
+    borderColor: "black",
+    // borderColor: globalStyles.colors.primary,
+    borderRadius: 10,
+    padding: 20,
+    borderWidth: 2,
+    marginBottom: 10,
+  },
+  optionButtonSelected: {
+    width: "100%",
+    backgroundColor: globalStyles.colors.primary,
+
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 10,
+  },
+  textWhite: {
+    color: "white",
+  },
+  textDisable: {
+    color: "rgba(0,0,0,0.25)",
+  },
+  textBold: {
+    fontWeight: 700,
+  },
+  textAlignCenter: {
+    textAlign: "center",
+  },
+  previousButton: {
+    width: "45%",
+    backgroundColor: "white",
     borderColor: globalStyles.colors.primary,
     borderRadius: 40,
     padding: 20,
     borderWidth: 2,
-    marginBottom: 10,
+  },
+  previousButtonDisable:{
+    width: "45%",
+    backgroundColor: "white",
+    borderRadius: 40,
+    padding: 20,
+  },
+  nextButton: {
+    width: "45%",
+    backgroundColor: globalStyles.colors.primary,
+    borderRadius: 40,
+    padding: 20,
+  },
+  navigationButton: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
