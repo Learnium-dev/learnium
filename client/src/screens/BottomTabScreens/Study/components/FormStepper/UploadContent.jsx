@@ -8,7 +8,8 @@ import HeaderNoBar from "../HeaderNoBar";
 import { styles } from "../../styles/createContent";
 
 // redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setContent } from "../../../../../../slices/examSlice";
 
 // SVGs
 import LumiCamera from "../../../../../../assets/images/characters/create content/lumi_picture.svg";
@@ -20,8 +21,14 @@ import { useNavigation } from "@react-navigation/native";
 const UploadContent = ({ name, next }) => {
   const [disabled, setDisabled] = useState(true);
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
   const { content } = useSelector((state) => state.exam);
   const [text, setText] = useState(content);
+
+  const handlePress = () => {
+    dispatch(setContent(text));
+    next();
+  };
 
   useEffect(() => {
     if (content) {
@@ -80,7 +87,7 @@ const UploadContent = ({ name, next }) => {
       <Pressable
         disabled={disabled}
         style={[styles.btnContent, disabled && styles.btnDisabled]}
-        onPress={next}
+        onPress={handlePress}
       >
         <Text style={[styles.btnTextOption, disabled && styles.textDisabled]}>
           Create Course
