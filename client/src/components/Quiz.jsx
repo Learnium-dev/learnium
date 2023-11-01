@@ -5,15 +5,15 @@ import { useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { Pressable } from "react-native";
 
-const Quiz = ({ keyTopic, card, index, next, previous, quiz }) => {
+const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
   //   const [isTextFilled, setIsTextFilled] = useState(false);
 
-  console.log("quiz", quiz[index].type);
-  console.log("quiz", quiz[index].question);
-  console.log("card", card);
-  console.log("index", index);
-  console.log("next", next);
-  console.log("previous", previous);
+  //   console.log("quiz", quiz[index].type);
+  //   console.log("quiz", quiz[index].question);
+  //   console.log("card", card);
+  //   console.log("index", index);
+  //   console.log("next", next);
+  //   console.log("previous", previous);
 
   const [correctanswer, setCorrectanswer] = useState(quiz[index].correctanswer);
 
@@ -25,14 +25,28 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz }) => {
   };
 
   const selectQuizOption = (option) => {
-    console.log("🚀 ~ file: Quiz.jsx:26 ~ option:", option)
-    console.log("correctanswer",correctanswer)
-    if (option === correctanswer) {
-      console.log("correctanswer",correctanswer)
-      console.log("option",option)
-      console.log("correct")
+    console.log("🚀 ~ file: Quiz.jsx:26 ~ option:", option);
+    console.log("correctanswer", correctanswer);
+    if (option == correctanswer) {
+      let result = {
+        correct: true,
+        question: quiz[index].question,
+        answer: option,
+        correctanswer: correctanswer,
+      };
+      quizResult(result);
+      console.log("correctanswer", correctanswer);
+      console.log("option", option);
+      console.log("correct");
     } else {
-      console.log("incorrect")
+      let result = {
+        correct: false,
+        question: quiz[index].question,
+        answer: option,
+        correctanswer: correctanswer,
+      };
+      quizResult(result);
+      console.log("incorrect");
     }
   };
   return (
@@ -46,17 +60,15 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz }) => {
 
       {quiz[index].options.length > 0 ? (
         quiz[index].options.map((option, index) => (
-
           <Pressable
             key={index}
             style={styles.optionButton}
-            onPress={()=>{selectQuizOption(option)}}
+            onPress={() => {
+              selectQuizOption(option);
+            }}
           >
-            <Text >
-              {option}
-            </Text>
+            <Text>{option}</Text>
           </Pressable>
-         
         ))
       ) : (
         <TextInput
@@ -65,6 +77,13 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz }) => {
           onChangeText={handleTextChange}
         ></TextInput>
       )}
+
+      <Pressable onPress={() => previous()} style={styles.button}>
+        <Text>Previous</Text>
+      </Pressable>
+      <Pressable onPress={() => next()} style={styles.button}>
+        <Text>Next</Text>
+      </Pressable>
     </View>
   );
 };
@@ -122,10 +141,11 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "white",
 
-    backgroundColor: globalStyles.colors.primary,
-
+    // backgroundColor: globalStyles.colors.primary,
+    borderColor: globalStyles.colors.primary,
     borderRadius: 40,
     padding: 20,
+    borderWidth: 2,
     marginBottom: 10,
   },
 });
