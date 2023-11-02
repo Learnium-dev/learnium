@@ -11,8 +11,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { globalStyles } from "../../../../assets/common/global-styles";
 
 const QuizResult = ({ route }) => {
-    
- const { navigate } = useNavigation();
+  const { navigate } = useNavigation();
   console.log("route", route.params.result);
   const [result, setResult] = useState(route.params.result);
   const [timeConsumed, setTimeConsumed] = useState(route.params.timeConsumed);
@@ -38,7 +37,6 @@ const QuizResult = ({ route }) => {
           percentage={percentage}
         ></ResultModal>
       ) : (
-        
         <ScrollView>
           <Text>Quiz Result</Text>
           <Text>Correct: {score.correctCount}</Text>
@@ -50,22 +48,63 @@ const QuizResult = ({ route }) => {
               <View key={index}>
                 <Text>Question: {item.question}</Text>
                 <Text>Answer: {item.answer}</Text>
-                {item.correct ? <Text>Correct</Text> : <Text>Incorrect</Text>}
+                {item.correct ? (
+                  <Text>Correct</Text>
+                ) : (
+                  <View>
+                    <Text>Incorrect</Text>
+                    <TouchableOpacity
+                      style={[styles.previousButton]}
+                      onPress={() => navigate("Study")}
+                    >
+                      <Text
+                        style={[
+                          styles.textAlignCenter,
+                          styles.textPrimary,
+                          styles.textBold,
+                        ]}
+                      >
+                        ASK AI Button
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+
                 <Text>Correct Answer: {item.correctanswer}</Text>
               </View>
             );
           })}
 
-          <TouchableOpacity style={[styles.previousButton]} onPress={() => navigate("Study")}>
-            <Text style={[styles.textAlignCenter, styles.textPrimary, styles.textBold]}>Back Home</Text>
+          <TouchableOpacity
+            style={[styles.previousButton]}
+            onPress={() => navigate("Study")}
+          >
+            <Text
+              style={[
+                styles.textAlignCenter,
+                styles.textPrimary,
+                styles.textBold,
+              ]}
+            >
+              Back Home
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.nextButton]} onPress={() => navigate("ProgressPage")}>
-            <Text style={[styles.textAlignCenter, styles.textWhite, styles.textBold]}>View Progress</Text>
+          <TouchableOpacity
+            style={[styles.nextButton]}
+            onPress={() => navigate("ProgressPage")}
+          >
+            <Text
+              style={[
+                styles.textAlignCenter,
+                styles.textWhite,
+                styles.textBold,
+              ]}
+            >
+              View Progress
+            </Text>
           </TouchableOpacity>
-          </ScrollView>
-        
+        </ScrollView>
       )}
-
     </View>
   );
 };
@@ -107,7 +146,7 @@ const styles = StyleSheet.create({
   textPrimary: {
     color: globalStyles.colors.primary,
   },
-  textBold:{
+  textBold: {
     fontWeight: 700,
-  }
+  },
 });
