@@ -499,7 +499,7 @@ const chainCall = async () => {
     // const formattedResponse = await parser.parse(res.text);
     // console.log(formattedResponse);
 
-    // return res.text;
+    return res.text;
   } catch (error) {
     console.error("Error in chain.call:", error);
   }
