@@ -96,6 +96,7 @@ const AskAI = ({ route }) => {
     setInputText("");
     console.log(`${process.env.EXPO_PUBLIC_HOSTNAME}/askai`);
     const submitChat = async () => {
+        setLumiState(lumiHeadline[1]);
       try {
         const response = await fetch(
           `${process.env.EXPO_PUBLIC_HOSTNAME}/askai`,
@@ -119,6 +120,7 @@ const AskAI = ({ route }) => {
           ...prevArray,
           { text: data, isUser: false },
         ]);
+        setLumiState(lumiHeadline[2]);
       } catch (error) {
         console.log(error?.message);
       }
