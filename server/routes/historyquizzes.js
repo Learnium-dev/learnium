@@ -1,7 +1,13 @@
 const express = require('express');
 const router = express.Router();
-// Calling Quiz Model
+// Calling History Quizz Model
 const {historyquizmodel} = require('../models/historyquizzes');
+// Calling Folder Model
+const {foldermodel} = require('../models/folders')
+// Calling History Quizz Detail Model
+const {historydetailmodel} = require('../models/historydetails')
+// Calling Keytopic Model
+const {keytopicmodel} = require('../models/keytopics');
 
 // GET
 router.get(`/`, async (req, res)=>{
@@ -57,23 +63,101 @@ router.put(`/:id`, async (req, res)=>{
     res.status(200).send(updateQuiz);
 })
 // POST
-router.post(`/`,(req, res)=>{
-    const newquiz = new historyquizmodel({
-        keytopicid: req.body.keytopicid,
-        materialid: req.body.materialid,
-        name: req.body.name,
-        duedate: req.body.duedate,
-        progress: req.body.progress
-    }) 
-    newquiz.save().then((createquiz => {
-        res.status(201).json(createquiz)
-    })).catch((err)=>{
-        res.status(500).json({
-            error: err,
-            success: false
+// router.post(`/`,(req, res)=>{
+//     const newquiz = new historyquizmodel({
+//         keytopicid: req.body.keytopicid,
+//         materialid: req.body.materialid,
+//         name: req.body.name,
+//         duedate: req.body.duedate,
+//         progress: req.body.progress
+//     }) 
+//     newquiz.save().then((createquiz => {
+//         res.status(201).json(createquiz)
+//     })).catch((err)=>{
+//         res.status(500).json({
+//             error: err,
+//             success: false
+//         })
+//     })
+// })
+
+// NEW POST
+router.post(`/`, async (req, res)=>{
+
+    let result = null;
+
+    // POST Comprehensive
+    if(req.query.folderid)
+    {
+        // Find FolderId
+        const folderdata = await foldermodel.findOne({_id: req.query.folderid});
+
+        // POST History Quizz
+        let newhistoryquiz = new historyquizmodel({
+            folderid: folderdata?._id,
+            progress: req.body.quizzes.progress,
         })
-    })
+        newhistoryquiz = await newhistoryquiz.save();
+
+        // POST History Details
+        const details = req.body?.details?.map(async (historyDetail) => {
+
+            const newHistoryDetails = new historydetailmodel({
+                historyquizid: newhistoryquiz._id,
+                folderid: folderdata?._id,
+                answer: historyDetail.answer,
+                correct: historyDetail.correct,
+                correctanswer: historyDetail.correctanswer,
+                index: historyDetail.index,
+                question: historyDetail.question,
+            })
+            const savedDetail = await newHistoryDetails.save();
+        })
+
+        result = {
+            quizzid: newhistoryquiz._id,
+            folderid: folderdata._id,
+        }
+    } 
+    // POST Keytopic
+    else if(req.query.keytopicid){
+        // Find Keytopic
+        const keytopicdata = await keytopicmodel.findOne({_id: req.query.keytopicid});
+
+        // Find FolderId
+        const folderdata = await foldermodel.findOne({_id: keytopicdata?.folderid});
+
+        // POST History Quizz
+        let newhistoryquiz = new historyquizmodel({
+            keytopicid: keytopicdata?._id,
+            progress: req.body.quizzes.progress,
+        })
+        newhistoryquiz = await newhistoryquiz.save();
+
+        // POST History Details
+        const details = req.body?.details?.map(async (historyDetail) => {
+
+            const newHistoryDetails = new historydetailmodel({
+                historyquizid: newhistoryquiz._id,
+                folderid: folderdata?._id,
+                answer: historyDetail.answer,
+                correct: historyDetail.correct,
+                correctanswer: historyDetail.correctanswer,
+                index: historyDetail.index,
+                question: historyDetail.question,
+            })
+            const savedDetail = await newHistoryDetails.save();
+        })
+
+        result = {
+            quizzid: newhistoryquiz._id,
+            folderid: folderdata._id,
+        }
+    }    
+
+    res.status(200).send(result);
 })
+
 // DELETE
 router.delete('/:id',(req,res)=>{
     historyquizmodel.findByIdAndRemove(req.params.id).then(deleteQuiz => {
