@@ -5,6 +5,8 @@ import {
   Button,
   SafeAreaView,
   Pressable,
+  Touchable,
+  TouchableOpacity
 } from "react-native";
 import { useState, useRef, useMemo, useCallback } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -17,8 +19,10 @@ import { shortDateOptions } from "../../../../utils/helpers";
 import { globalStyles } from "../../../../assets/common/global-styles";
 import QuizContainer from "../../../containers/QuizContainer";
 import ConfirmModal from "../../../components/ConfirmModal";
+import { useNavigation } from "@react-navigation/native";
 
 const KeyTopic = (props) => {
+  const { navigate } = useNavigation();
   const { keyTopic } = props.route.params;
   console.log("KeyTopic: ", keyTopic);
 
@@ -54,6 +58,17 @@ const KeyTopic = (props) => {
     quizModalRef.current.dismiss();
     setIsModalOpen(false);
   };
+
+  const handleAskAI = (keyTopic) => {
+  console.log("handleAskAI", keyTopic.keyTopic.name);
+  
+  const askAIprops = {
+    askTopic: keyTopic.keyTopic.name,
+    questionAsk: "",
+    wrongAnswer: "",
+  };
+  navigate("AskAI", askAIprops);
+  }
 
   return (
     <View style={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -110,6 +125,12 @@ const KeyTopic = (props) => {
             closeSheet={closeBottomSheet}
           />
         </BottomSheetModal>
+
+        {/* ASK AI */}
+
+        <TouchableOpacity style={{backgroundColor:'red', height:30}} onPress={()=> handleAskAI({keyTopic})}>
+          <Text>ASK AI</Text>
+        </TouchableOpacity>
 
         {/*  QUIZ */}
         <Pressable style={styles.quizButton} onPress={openQuiz}>
