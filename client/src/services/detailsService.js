@@ -1,9 +1,8 @@
 import baseURL from "../../assets/common/baseUrl";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const updateDetails = async (id, data) => {
-  console.log("updating Details with id: " + id)
-
   const token = await AsyncStorage.getItem("jwt");
 
   const options = {

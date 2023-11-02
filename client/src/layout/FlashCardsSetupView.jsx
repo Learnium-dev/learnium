@@ -5,12 +5,12 @@ import { globalStyles } from "../../assets/common/global-styles";
 
 const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
 
-  const [questionFirst, setQuestionFirst] = useState(true);
+  const [termFirst, setTermFirst] = useState(true);
   
-  const toggleSwitch = () => setQuestionFirst(isEnabled => !isEnabled);
+  const toggleSwitch = () => setTermFirst(isEnabled => !isEnabled);
 
   const handleStart = () => {
-    onStartPracticing(questionFirst);
+    onStartPracticing(termFirst);
   }
 
   return (
@@ -35,20 +35,22 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
         </Text>
 
         <View style={styles.switchContainer}>
-          <Text style={styles.label}>Question first</Text>
+          <Text style={styles.label}>Term first</Text>
           <Switch
+            style={{transform: [{ scale: 0.8 }]}}
             trackColor={{false: 'grey', true: globalStyles.colors.primary}}
             onValueChange={toggleSwitch}
-            value={questionFirst}
+            value={termFirst}
           />
         </View>
 
         <View style={styles.switchContainer}>
-          <Text style={styles.label}>Answer first</Text>
+          <Text style={styles.label}>Definition first</Text>
           <Switch
+            style={{transform: [{ scale: 0.8 }]}}
             trackColor={{false: 'grey', true: globalStyles.colors.primary}}
             onValueChange={toggleSwitch}
-            value={!questionFirst}
+            value={!termFirst}
           />
         </View>
       </View>
@@ -125,7 +127,8 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   label: {
-    fontSize: 18,
+    fontSize: 16,
+    fontFamily: 'Nunito-Regular',
   },
   instructions: {
     textAlign: "center",
@@ -143,8 +146,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    fontFamily: 'Gabarito-Bold',
   },
   buttonTextPressed: {
     color: 'grey',
