@@ -76,9 +76,7 @@ const createContent = async (req, res) => {
 
         // ?call function to the langchain 2nd, 3rd approach
         const result = await embedInput(txtFileName);
-        console.log("🚀 ~ file: createContent.js:79 ~ result:", result)
         // res.json(result);
-        // res.send("result")
         res.send(result)
         
       }
