@@ -122,7 +122,7 @@ const Progress = () => {
             scrollEnabled={false}
             data={inProgress}
             renderItem={({ item }) => <KeyTopicCard item={item} />}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
           />
         </View>
         {/* This section should be a FlatList - Completed */}
