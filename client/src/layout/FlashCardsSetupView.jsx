@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet, Switch, Pressable } from "react-native";
 import { useState } from "react";
+import FlashCardsCharacter from '../../assets/images/characters/flashcards-character.svg'
+import { globalStyles } from "../../assets/common/global-styles";
 
-const FlashCardsSetupView = ({ onStartPracticing }) => {
+const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
 
   const [questionFirst, setQuestionFirst] = useState(true);
   
@@ -14,9 +16,17 @@ const FlashCardsSetupView = ({ onStartPracticing }) => {
   return (
     <View style={styles.container}>
 
-      {/* To be updated when design is finalised */}
+      
+      <View style={styles.headerContainer}>
+        <FlashCardsCharacter />
+        <View style={{flex: 1}}>
+          <Text style={styles.headerContainerText}>Study Time</Text>
+        </View>
+      </View>
+      
       <View style={styles.imageContainer}>
-        <Text style={styles.topicTitle}>Historical Dates</Text>
+        <Text style={styles.topicTitle}>{keyTopic.name}</Text>
+        <Text style={styles.topicSummary}>{keyTopic.summary}</Text>
       </View>
 
       <View style={styles.setup}>
@@ -27,7 +37,7 @@ const FlashCardsSetupView = ({ onStartPracticing }) => {
         <View style={styles.switchContainer}>
           <Text style={styles.label}>Question first</Text>
           <Switch
-            trackColor={{false: 'grey', true: 'green'}}
+            trackColor={{false: 'grey', true: globalStyles.colors.primary}}
             onValueChange={toggleSwitch}
             value={questionFirst}
           />
@@ -36,7 +46,7 @@ const FlashCardsSetupView = ({ onStartPracticing }) => {
         <View style={styles.switchContainer}>
           <Text style={styles.label}>Answer first</Text>
           <Switch
-            trackColor={{false: 'grey', true: 'green'}}
+            trackColor={{false: 'grey', true: globalStyles.colors.primary}}
             onValueChange={toggleSwitch}
             value={!questionFirst}
           />
@@ -63,21 +73,40 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingBottom: 100
   },
+  headerContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    marginBottom: 20,
+    paddingHorizontal: 40,
+  },
+  headerContainerText: {
+    fontSize: 54,
+    fontFamily: "Gabarito-Bold",
+    lineHeight: 54,
+  },
   imageContainer: {
     width: "100%",
-    height: 300,
+    height: 200,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
     marginBottom: 60,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: globalStyles.colors.primary,
     borderRadius: 20,
   },
   topicTitle: {
     textAlign: "auto",
+    fontFamily: "Gabarito-Bold",
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 100,
+    marginBottom: 20,
+  },
+  topicSummary: {
+    fontSize: 16,
+    fontFamily: 'Nunito-Regular',
+    marginBottom: 20,
   },
   setup: {
     width: "100%",
@@ -85,7 +114,7 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     textAlign: "center",
-    fontWeight: "700",
+    fontFamily: "Gabarito-Bold",
     fontSize: 18,
     marginBottom: 20,
   },
@@ -106,7 +135,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 'auto',
     color: '#fff',
-    backgroundColor: 'black',
+    backgroundColor: globalStyles.colors.primary,
     paddingVertical: 16,
     width: '100%',
     borderRadius: 30,

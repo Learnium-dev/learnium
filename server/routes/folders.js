@@ -74,6 +74,7 @@ router.post(`/`,(req, res)=>{
     const newfolder = new foldermodel({
         name: req.body.name,
         userid: req.body.userid,
+
     }) 
 
     newfolder.save().then((createfolder => {
@@ -153,6 +154,7 @@ router.post(`/createcontent`, async (req, res)=>{
                 correctanswer: questionsList?.answers,  // Set correctanswer from the request body
                 type: questionsList?.type, // Set type from the request body
                 options: questionsList?.options, 
+                folderid: newfolder._id,
             });
 
             const savedDetail = await newDetail.save();
@@ -169,9 +171,10 @@ router.post(`/createcontent`, async (req, res)=>{
         // POST Flascards Details
         const flashcards = keytopic?.flashcards?.map(async (flashcardsList) =>{
             const newDetail = new detailmodel({
-                flashcardid: newQuiz._id,
+                flashcardid: newFlashcard._id,
                 question: flashcardsList?.question, // Set question from the request body
                 correctanswer: flashcardsList?.answers,  // Set correctanswer from the request body
+                folderid: newfolder._id,
             });
 
             const savedDetail = await newDetail.save();
@@ -184,6 +187,7 @@ router.post(`/createcontent`, async (req, res)=>{
     }
 
     res.status(200).send(result);
+    // res.status(200).send('API');
 })
 
 module.exports = router;

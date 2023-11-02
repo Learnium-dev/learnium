@@ -2,14 +2,15 @@ const express = require('express');
 const router = express.Router();
 // Calling Quiz Model
 const {quizmodel} = require('../models/quizzes');
+// Calling Keytopic Model
+const {keytopicmodel} = require('../models/keytopics');
 
 // GET
 router.get(`/`, async (req, res)=>{
-
-    // Filter by DueDate
     let filter = {};
-    if(req.query.duedate){
-        filter = { duedate: { $gte: req.query.duedate}}
+    // Find Keytopic Id
+    if(req.query.keytopicid){
+        filter = {keytopicid: req.query.keytopicid}
     }
 
     const quizzesList = await quizmodel.find(filter).populate('keytopicid').sort({ duedate: 1 });
@@ -34,26 +35,6 @@ router.get(`/:id`, async (req, res)=>{
     }
     res.status(200).send(quizzesList);
 })
-
-// GET - Find by duedate
-// router.get(`/duedate`,async (req, res)=>{
-//     // Filter by User Id
-//     let filter = {};
-//     if(req.query.userid){
-//         filter = {userid: req.query.userid}
-//     }
-
-//     const folderList = await foldermodel.find(filter);
-//     // const quizzesList = await quizmodel.find({ duedate: { $gte: req.body.duedate}}).populate('keytopicid');
-
-//     // if(!quizzesList){
-//     //     res.status(500).json({
-//     //         success:false,
-//     //         message:'There are no Quizzes'
-//     //     })
-//     // }
-//     // res.status(200).send(quizzesList);
-// })
 
 // UPDATE
 router.put(`/:id`, async (req, res)=>{

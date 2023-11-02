@@ -1,27 +1,31 @@
-import { BASE_URL, TOKEN } from "../config/apiConfig";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import baseURL from "../../assets/common/baseUrl";
 
 export const getFlashCards = async (keytopicid) => {
+
+  const token = await AsyncStorage.getItem("jwt");
+
   const options = {
-    method: 'GET',
-    url: `${BASE_URL}/flashcards`,
+    method: "GET",
+    url: `${baseURL}flashcards`,
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${TOKEN}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     params: {
-      keytopicid: keytopicid
-    }
+      keytopicid: keytopicid,
+    },
   };
 
   try {
     const response = await axios(options);
     return response.data;
   } catch (error) {
-    console.error('Error getting flashcards', error);
+    console.error("Error getting flashcards", error);
   }
-}
+};
 
-export const getFlashcard = async (id) => {}
-export const createFlashcard = async (data) => {}
-export const updateFlashcard = async (id, data) => {}
+export const getFlashcard = async (id) => {};
+export const createFlashcard = async (data) => {};
+export const updateFlashcard = async (id, data) => {};

@@ -1,118 +1,143 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+// React Native
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  Platform,
+  Pressable,
+  FlatList,
+} from "react-native";
+
+// Base URL
+import baseUrl from "../../../../assets/common/baseUrl";
+
+// React
+import { useState, useEffect } from "react";
+
+// Redux
+import { useSelector } from "react-redux";
+
+// Components
+import KeyTopicCard from "./components/KeyTopicCard";
+
+// Styles
+import { styles } from "../Progress/styles/indexStyles";
+
+// SVGs
+import LumiBody from "../../../../assets/images/progress/lumi banner/lumi_body.svg";
+import LumiText from "../../../../assets/images/progress/lumi banner/lumi_message.svg";
+
+// Progress Bar
+import { Bar } from "react-native-progress";
+
+// Axios
 import axios from "axios";
 
-// helpers
-import {
-  grade,
-  encourageMessage,
-  todayProgress as calculateTodayProgress,
-} from "../../../../utils/helpers";
+// Helpers
+import { getFormattedTodayDate } from "../../../../utils/helpers";
 
 const Progress = () => {
-  const [keyTopics, setKeyTopics] = useState([]);
-  const todayDate = "2023-10-10";
-  const [progressData, setProgressData] = useState({
-    progressPercentage: 0,
-    averageProgress: 0,
-  });
+  const { email, token } = useSelector((state) => state.credentials);
+  const [inProgress, setInProgress] = useState([]);
+  const [completed, setCompleted] = useState([]);
+  const [progress, setProgress] = useState(1);
 
   useEffect(() => {
-    const fetchTodayProgress = async () => {
+    const fetchKeyTopics = async (jwtToken) => {
       try {
-        const { data } = await axios.get(
-          `http://192.168.1.155:3000/api/v1/quizzes?duedate='${todayDate}'`
-        );
-
-        const uniqueTopicsMap = {};
-        const topicCountMap = {};
-
-        for (let item of data) {
-          const topicName = item.keytopicid.name;
-
-          if (uniqueTopicsMap[topicName] !== undefined) {
-            uniqueTopicsMap[topicName].progress += item.progress;
-            uniqueTopicsMap[topicName].numQuizzes += 1;
-          } else {
-            uniqueTopicsMap[topicName] = {
-              name: topicName,
-              progress: item.progress,
-              numQuizzes: 1,
-            };
+        const response = await axios.get(
+          `${baseUrl}keytopics?email=${email}&startdate=${getFormattedTodayDate()}&enddate=${getFormattedTodayDate()}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
           }
-        }
-
-        const uniqueTopicsArray = Object.values(uniqueTopicsMap).map(
-          (topic) => ({
-            name: topic.name,
-            progress: topic.progress / topic.numQuizzes,
-            numQuizzes: topic.numQuizzes,
-          })
         );
 
-        setKeyTopics(uniqueTopicsArray);
+        console.log("This is the data from the API: ", response.data);
+        const inProgressData = response.data.filter(
+          (topic) => topic.progress < 100
+        );
+        const completedData = response.data.filter(
+          (topic) => topic.progress === 100
+        );
+        setInProgress(inProgressData);
+        setCompleted(completedData);
+        const totalTasks = inProgressData.length + completedData.length;
+        const calculatedProgress = (
+          (completedData.length / totalTasks) *
+          100
+        ).toFixed(2);
+        setProgress(calculatedProgress || 1);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchTodayProgress();
+    fetchKeyTopics(token);
   }, []);
 
-  useEffect(() => {
-    if (keyTopics.length > 0) {
-      const progress = calculateTodayProgress(keyTopics);
-      setProgressData(progress);
-    }
-  }, [keyTopics]);
-
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContent}>
-      <View style={styles.container}>
-        <Text style={styles.heading}>Progress</Text>
-        <Text style={styles.subHeading}>
-          Progress percentage {progressData.progressPercentage}%
-        </Text>
-        <Text style={styles.subHeading}>
-          Encourage message: {encourageMessage(progressData.averageProgress)}
-        </Text>
-        {keyTopics.map((item, index) => (
-          <View key={index} style={styles.contentContainer}>
-            <Text style={styles.subheading}>{item.name}</Text>
-            <Text>Grade: {grade(item.progress.toFixed(2))} </Text>
-            <Text>Average Progress: {item.progress.toFixed(2)}</Text>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View>
+          <Text style={styles.title}>Today's Progress</Text>
+        </View>
+        {/* Banner */}
+        <View style={styles.banner}>
+          <LumiBody width={88} height={110} />
+          <LumiText width={280} height={110} />
+        </View>
+        {/* Progress Bar */}
+        <View style={styles.progressBarContainer}>
+          <Bar
+            width={null}
+            height={40}
+            progress={progress / 100}
+            color={"#7000FF"}
+            borderRadius={100}
+            useNativeDriver={false}
+            unfilledColor={"#ECECEC"}
+            borderWidth={0}
+          />
+          <Text
+            style={{
+              ...styles.progressText,
+              color: `${progress <= 10 ? "black" : "white"}`,
+            }}
+          >
+            {progress}%
+          </Text>
+        </View>
+        <View style={styles.divider} />
+        {/* In Progress */}
+        <View>
+          <Text style={styles.subtitle}>In Progress</Text>
+          <FlatList
+            scrollEnabled={false}
+            data={inProgress}
+            renderItem={({ item }) => <KeyTopicCard item={item} />}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+        {/* This section should be a FlatList - Completed */}
+        <View>
+          <Text style={{ ...styles.subtitle, color: "#7000FF" }}>
+            Completed
+          </Text>
+          <FlatList
+            scrollEnabled={false}
+            data={completed}
+            renderItem={({ item }) => <KeyTopicCard item={item} />}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+        <Pressable style={styles.btn}>
+          <Text style={styles.btnText}>All Material's Progress</Text>
+        </Pressable>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollViewContent: {
-    flexGrow: 1,
-  },
-  container: {
-    paddingVertical: 50,
-    paddingHorizontal: 20,
-    backgroundColor: "#fff",
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  subHeading: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  contentContainer: {
-    marginBottom: 20,
-  },
-  subheading: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
 
 export default Progress;

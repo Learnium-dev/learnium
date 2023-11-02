@@ -11,6 +11,7 @@ const upload = multer({ storage: storage });
 
 
 router.post("/uploadcontent", uploadContent );
+// router.post("/folders", uploadContent );
 router.post("/upload-pdf", upload.single('pdf'),  uploadPdf);
 router.post("/create-content", upload.single('pdf'),  createContent)
 

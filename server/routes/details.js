@@ -2,10 +2,52 @@ const express = require('express');
 const router = express.Router();
 // Calling Detail Model
 const {detailmodel} = require('../models/details');
+// Calling Quiz Model
+const {quizmodel} = require('../models/quizzes');
 
 // GET
 router.get(`/`, async (req, res)=>{
-    const detailList = await detailmodel.find();
+    let filter = {};
+    let filterDetail = {};
+    let quizzesList = null;
+    let detailList = null;
+
+    // Find Quiz by Keytopic Id
+    if(req.query.keytopicid){
+
+        filter = {keytopicid: req.query.keytopicid}
+        quizzesList = await quizmodel.findOne(filter)
+
+        filterDetail = {quizid: quizzesList?._id}
+
+        if(req.query.truefalse ||
+            req.query.multiplechoice ||
+            req.query.written)
+        {
+            let filterConditions = [];
+    
+            if (req.query.truefalse) {
+                filterConditions.push({ type: "true/false" });
+            }
+    
+            if (req.query.multiplechoice) {
+                filterConditions.push({ type: "multiple choice" });
+            }
+    
+            if (req.query.written) {
+                filterConditions.push({ type: "written" });
+            }
+        
+            filterDetail = { quizid: quizzesList?._id, $or: filterConditions };    
+            // console.log(filterDetail)
+        }
+        
+        detailList = await detailmodel.find(filterDetail).limit(10);
+    }
+    else if(req.query.folderid){
+        filter = {folderid: req.query.folderid}
+        detailList = await detailmodel.find(filter);
+    }
 
     if(!detailList){
         res.status(500).json({
@@ -99,10 +141,11 @@ router.put(`/:id`, async (req, res)=>{
             flashcardid: req.body.flashcardid,
             quizid: req.body.quizid,
             progress: req.body.progress,
-            isvalid: req.body.isvalid,
+            isdone: req.body.isdone,
             answer: req.body.answer,
             question: req.body.question,
             correctanswer: req.body.correctanswer,
+            folderid: req.body.folderid,
         },
         {
             new: true
@@ -124,10 +167,11 @@ router.post(`/`,(req, res)=>{
         flashcardid: req.body.flashcardid,
         quizid: req.body.quizid,
         progress: req.body.progress,
-        isvalid: req.body.isvalid,
+        isdone: req.body.isdone,
         answer: req.body.answer,
         question: req.body.question,
         correctanswer: req.body.correctanswer,
+        folderid: req.body.folderid,
     }) 
 
     newDetail.save().then((createdetail => {
