@@ -133,13 +133,13 @@ function StudyStackNavigator() {
       <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
 
       <StudyStack.Screen name="remove" component={remove} />
-//       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
+{/* //       <StudyStack.Screen name="UploadScreen" component={UploadScreen} /> */}
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
 
 
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="MaterialsStudy" component={MaterialsStudy} />
-//       <StudyStack.Screen
+{/* //       <StudyStack.Screen
 //         name="KeyTopic"
 //         component={KeyTopic}
 //         options={{ headerShown: false }}
@@ -149,7 +149,7 @@ function StudyStackNavigator() {
 //         component={QuizResult}
 //         // options={{ headerShown: false }}
 //       />
-// >>>>>>> dev
+// >>>>>>> dev */}
       <StudyStack.Screen name="NextDayPlan" component={NextDayPlan} />
       <StudyStack.Screen
         name="CreateNewMaterial"
