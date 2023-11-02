@@ -112,7 +112,7 @@ const KeyTopic = (props) => {
 
         {/*  FLASHCARD */}
         <Pressable style={styles.flashCardsButton} onPress={openBottomSheet}>
-          <Text style={styles.flashCardsButtonText}>Study</Text>
+          <Text style={styles.flashCardsButtonText}>Study Flashcards</Text>
         </Pressable>
 
         <BottomSheetModal
