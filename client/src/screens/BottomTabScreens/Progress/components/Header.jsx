@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 const CustomHeader = ({ title, subtitle }) => (
   <View style={{ display: "flex" }}>
     <Text style={styles.title}>{title}</Text>
-    <Text style={styles.subtitle}>From {subtitle}</Text>
+    {subtitle && <Text style={styles.subtitle}>From {subtitle}</Text>}
   </View>
 );
 

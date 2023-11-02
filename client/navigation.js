@@ -10,7 +10,7 @@ import { View, Text } from "react-native";
 // screens
 // screens - study
 import Study from "./src/screens/BottomTabScreens/Study/index";
-import AllMaterials from "./src/screens/BottomTabScreens/Study/AllMaterials";
+import MaterialsStudy from "./src/screens/BottomTabScreens/Progress/AllMaterials";
 import CreateNewMaterial from "./src/screens/BottomTabScreens/Study/CreateNewMaterial";
 import KeyTopic from "./src/screens/BottomTabScreens/Study/KeyTopic";
 import NextDayPlan from "./src/screens/BottomTabScreens/Study/NextDayPlan";
@@ -27,6 +27,7 @@ import ProfileTabIcon from "./assets/icons/profile-tab.svg";
 
 // screens - progress
 import Progress from "./src/screens/BottomTabScreens/Progress";
+import AllMaterials from "./src/screens/BottomTabScreens/Progress/AllMaterials";
 
 // screens - daily
 import Daily from "./src/screens/BottomTabScreens/Daily";
@@ -113,9 +114,9 @@ function StudyStackNavigator() {
         name="CreateContent"
         component={CreateContent}
       />
-       <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
+      <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
-      <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
+      <StudyStack.Screen name="MaterialsStudy" component={MaterialsStudy} />
       <StudyStack.Screen
         name="KeyTopic"
         component={KeyTopic}
@@ -156,7 +157,11 @@ function ProgressStackNavigator() {
         component={SingleKeyTopicProgress}
         options={{ headerShown: false }}
       />
-      <ProgressStack.Screen name="MaterialProgress" component={AllMaterials} />
+      <ProgressStack.Screen
+        options={{ headerShown: false }}
+        name="AllMaterials"
+        component={AllMaterials}
+      />
     </ProgressStack.Navigator>
   );
 }
