@@ -18,6 +18,8 @@ import UploadScreen from "./src/screens/BottomTabScreens/Study/UploadScreen";
 import CreateContent from "./src/screens/BottomTabScreens/Study/CreateContent";
 import TakePhoto from "./src/screens/BottomTabScreens/Study/TakePhoto";
 import QuizResult from "./src/screens/BottomTabScreens/Study/QuizResult";
+import AskAI from "./src/screens/BottomTabScreens/Study/AskAI";
+import remove from "./src/screens/BottomTabScreens/Study/OldCreateContent/remove";
 
 // Icons
 import StudyTabIcon from "./assets/icons/study-tab.svg";
@@ -126,6 +128,7 @@ function StudyStackNavigator() {
         component={CreateContent}
       />
       <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
+      <StudyStack.Screen name="remove" component={remove} />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
 
@@ -191,6 +194,16 @@ export default function Navigation() {
           name="QuizResult"
           component={QuizResult}
           options={{ headerShown: false }}
+        />
+        <StudyStack.Screen
+          name="AskAI"
+          component={AskAI}
+          options={{ headerShown: false }}
+          // options={{
+          //   headerShown: true,
+          //   headerTitleStyle: { color: "black" }
+          //   ,headerTitle: "Ask Dr. Lumi"
+          // }}
         />
         {/* <TabBottomNavigator />
         <StudyStackNavigator /> */}
