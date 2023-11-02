@@ -38,9 +38,9 @@ const OptionButton = ({ text, isSelected, onPress }) => {
 
 const ExamSchedule = ({ name, prev, next }) => {
   const dispatch = useDispatch();
-  const { date, days } = useSelector((state) => state.exam);
+  // const { date, days, content } = useSelector((state) => state.exam);
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [dateNow, setDateNow] = useState(new Date(1598051730000));
+  const [dateNow, setDateNow] = useState(new Date());
   const [examDate, setExamDate] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [mode, setMode] = useState("date");
@@ -51,6 +51,15 @@ const ExamSchedule = ({ name, prev, next }) => {
     } else {
       setSelectedOptions([...selectedOptions, option]);
     }
+  };
+
+  const formattedDate = (date) => {
+    const formatted = date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+    return formatted;
   };
 
   useEffect(() => {
@@ -68,12 +77,7 @@ const ExamSchedule = ({ name, prev, next }) => {
     setDateNow(currentDate);
 
     let tempDate = new Date(currentDate);
-    let formattedDate = tempDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    setExamDate(formattedDate);
+    setExamDate(formattedDate(tempDate));
   };
 
   const onFinish = () => {
@@ -88,7 +92,7 @@ const ExamSchedule = ({ name, prev, next }) => {
       <Text style={styles.subtitle}>Enter Exam Date</Text>
       <Pressable onPress={() => showMode("date")}>
         <TextInput
-          placeholder="October 09, 2023"
+          placeholder={`${formattedDate(dateNow)}`}
           placeholderTextColor={"gray"}
           value={examDate}
           editable={false}

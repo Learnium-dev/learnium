@@ -15,6 +15,9 @@ import baseUrl from "../../../../assets/common/baseUrl";
 // React
 import { useState, useEffect } from "react";
 
+// React Navigation
+import { useNavigation } from "@react-navigation/native";
+
 // Redux
 import { useSelector } from "react-redux";
 
@@ -42,6 +45,7 @@ const Progress = () => {
   const [inProgress, setInProgress] = useState([]);
   const [completed, setCompleted] = useState([]);
   const [progress, setProgress] = useState(1);
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     const fetchKeyTopics = async (jwtToken) => {
@@ -64,11 +68,12 @@ const Progress = () => {
         );
         setInProgress(inProgressData);
         setCompleted(completedData);
-        const totalTasks = inProgressData.length + completedData.length;
+        const totalTasks = inProgressData.length + completedData.length || 1;
+        console.log("Total Tasks: ", totalTasks);
         const calculatedProgress = (
           (completedData.length / totalTasks) *
           100
-        ).toFixed(2);
+        ).toFixed(0);
         setProgress(calculatedProgress || 1);
       } catch (error) {
         console.log(error);
@@ -129,10 +134,10 @@ const Progress = () => {
             scrollEnabled={false}
             data={completed}
             renderItem={({ item }) => <KeyTopicCard item={item} />}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
           />
         </View>
-        <Pressable style={styles.btn}>
+        <Pressable style={styles.btn} onPress={() => navigate("AllMaterials")}>
           <Text style={styles.btnText}>All Material's Progress</Text>
         </Pressable>
       </ScrollView>
