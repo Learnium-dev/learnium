@@ -13,6 +13,7 @@ const FlashCardsQuizHeader = ({
   practicing,
   isQuizTrue,
   isQuizStart,
+  timeConsumed,
 }) => {
 
   const [seconds, setSeconds] = useState(0);
@@ -25,6 +26,7 @@ const FlashCardsQuizHeader = ({
     if (isActive) {
       interval = setInterval(() => {
         setSeconds(seconds + 1);
+        timeConsumed(seconds+1);
       }, 1000);
     } else if (!isActive && seconds !== 0) {
       clearInterval(interval);
