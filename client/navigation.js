@@ -5,18 +5,22 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 // react native
-import { View, Text } from "react-native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 // screens
 // screens - study
 import Study from "./src/screens/BottomTabScreens/Study/index";
-import AllMaterials from "./src/screens/BottomTabScreens/Study/AllMaterials";
+import MaterialsStudy from "./src/screens/BottomTabScreens/Progress/AllMaterials";
 import CreateNewMaterial from "./src/screens/BottomTabScreens/Study/CreateNewMaterial";
 import KeyTopic from "./src/screens/BottomTabScreens/Study/KeyTopic";
 import NextDayPlan from "./src/screens/BottomTabScreens/Study/NextDayPlan";
 import UploadScreen from "./src/screens/BottomTabScreens/Study/UploadScreen";
 import CreateContent from "./src/screens/BottomTabScreens/Study/CreateContent";
 import TakePhoto from "./src/screens/BottomTabScreens/Study/TakePhoto";
+import QuizResult from "./src/screens/BottomTabScreens/Study/QuizResult";
+
+import AskAI from "./src/screens/BottomTabScreens/Study/AskAI";
+import remove from "./src/screens/BottomTabScreens/Study/OldCreateContent/remove";
 
 // Icons
 import StudyTabIcon from "./assets/icons/study-tab.svg";
@@ -26,6 +30,7 @@ import ProfileTabIcon from "./assets/icons/profile-tab.svg";
 
 // screens - progress
 import Progress from "./src/screens/BottomTabScreens/Progress";
+import AllMaterials from "./src/screens/BottomTabScreens/Progress/AllMaterials";
 
 // screens - daily
 import Daily from "./src/screens/BottomTabScreens/Daily";
@@ -38,6 +43,7 @@ import TestAPI from "./src/screens/User/TestAPI";
 
 import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
 
+const Stack = createNativeStackNavigator();
 // tab bottom navigator
 function TabBottomNavigator() {
   const Tab = createBottomTabNavigator();
@@ -55,12 +61,23 @@ function TabBottomNavigator() {
       <Tab.Screen
         name="StudyHome"
         component={StudyStackNavigator}
-        options={{
+        options={({ route }) => ({
+          tabBarStyle: { display: getRouteName(route) },
           headerShown: false,
           tabBarIcon: ({ focused }) => <StudyTabIcon />,
           tabBarShowLabel: false,
-        }}
+        })}
       />
+      {/* <Tab.Screen
+        name="KeyTopic"
+        component={KeyTopic}
+        options={{ headerShown: false, tabBarStyle: { display: "none" } }}
+      />
+      <Tab.Screen
+        name="QuizResult"
+        component={QuizResult}
+        options={{ headerShown: false, tabBarStyle: { display: "none" } }}
+      /> */}
       <Tab.Screen
         name="Progress"
         component={ProgressStackNavigator}
@@ -97,6 +114,15 @@ function TabBottomNavigator() {
   );
 }
 
+const getRouteName = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route);
+  if (routeName === "CreateContent") {
+    return "none";
+  } else {
+    return "";
+  }
+};
+
 // study stack navigator
 const StudyStack = createNativeStackNavigator();
 function StudyStackNavigator() {
@@ -107,19 +133,37 @@ function StudyStackNavigator() {
         component={Study}
         options={{ headerShown: false }}
       />
-      <StudyStack.Screen name="CreateContent" component={CreateContent} />
-      <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
-      <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
-      <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
       <StudyStack.Screen
-        name="KeyTopic"
-        component={KeyTopic}
         options={{ headerShown: false }}
+        name="CreateContent"
+        component={CreateContent}
       />
+      <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
+      <StudyStack.Screen name="remove" component={remove} />
+      {/* //       <StudyStack.Screen name="UploadScreen" component={UploadScreen} /> */}
+      <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
+      <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
+      <StudyStack.Screen name="MaterialsStudy" component={MaterialsStudy} />
+      {/* //       <StudyStack.Screen
+//         name="KeyTopic"
+//         component={KeyTopic}
+//         options={{ headerShown: false }}
+//       />
+//       <StudyStack.Screen
+//         name="QuizResult"
+//         component={QuizResult}
+//         // options={{ headerShown: false }}
+//       />
+// >>>>>>> dev */}
       <StudyStack.Screen name="NextDayPlan" component={NextDayPlan} />
       <StudyStack.Screen
         name="CreateNewMaterial"
         component={CreateNewMaterial}
+      />
+      <StudyStack.Screen
+        options={{ headerShown: false }}
+        name="ProgressPage"
+        component={Progress}
       />
     </StudyStack.Navigator>
   );
@@ -140,7 +184,11 @@ function ProgressStackNavigator() {
         component={SingleKeyTopicProgress}
         options={{ headerShown: false }}
       />
-      <ProgressStack.Screen name="MaterialProgress" component={AllMaterials} />
+      <ProgressStack.Screen
+        options={{ headerShown: false }}
+        name="AllMaterials"
+        component={AllMaterials}
+      />
     </ProgressStack.Navigator>
   );
 }
@@ -149,7 +197,43 @@ export default function Navigation() {
   return (
     <BottomSheetModalProvider>
       {/* <NavigationContainer> */}
-      <TabBottomNavigator />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="TabBottomNavigator"
+          component={TabBottomNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ focused }) => <StudyTabIcon />,
+            tabBarShowLabel: false,
+          }}
+        />
+        <Stack.Screen
+          name="StudyStackNavigator"
+          component={StudyStackNavigator}
+        />
+        <StudyStack.Screen
+          name="KeyTopic"
+          component={KeyTopic}
+          options={{ headerShown: false }}
+        />
+        <StudyStack.Screen
+          name="QuizResult"
+          component={QuizResult}
+          options={{ headerShown: false }}
+        />
+        <StudyStack.Screen
+          name="AskAI"
+          component={AskAI}
+          options={{ headerShown: false }}
+          // options={{
+          //   headerShown: true,
+          //   headerTitleStyle: { color: "black" }
+          //   ,headerTitle: "Ask Dr. Lumi"
+          // }}
+        />
+        {/* <TabBottomNavigator />
+        <StudyStackNavigator /> */}
+      </Stack.Navigator>
       {/* </NavigationContainer> */}
     </BottomSheetModalProvider>
   );

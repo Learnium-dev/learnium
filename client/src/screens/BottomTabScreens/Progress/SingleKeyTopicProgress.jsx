@@ -1,5 +1,5 @@
 import { View, Text, Pressable, SafeAreaView, FlatList } from "react-native";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 // React
 import { useState, useEffect } from "react";
@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 // icons
-import ArrowBack from "../../../../assets/icons/arrow_back.svg";
 import Badge from "../../../../assets/icons/badge.svg";
 import Calendar from "../../../../assets/icons/calendar.svg";
 
@@ -28,16 +27,9 @@ import QuizCard from "../Progress/components/QuizCard";
 
 // Axios
 import axios from "axios";
-
-const CustomHeader = ({ title, subtitle }) => (
-  <View style={{ display: "flex" }}>
-    <Text style={styles.title}>{title}</Text>
-    <Text style={styles.subtitle}>From {subtitle}</Text>
-  </View>
-);
+import Header from "./components/Header";
 
 const SingleKeyTopicProgress = () => {
-  const navigation = useNavigation();
   const { token } = useSelector((state) => state.credentials);
   const [quizzes, setQuizzes] = useState([]);
   const route = useRoute();
@@ -69,12 +61,8 @@ const SingleKeyTopicProgress = () => {
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <ArrowBack width={24} height={24} />
-        </Pressable>
-        <CustomHeader title={name} subtitle={materialName} />
-      </View>
+      <Header name={name} materialName={materialName} />
+
       {/* Banner */}
       <View style={styles.banner}>
         <LumiGrade width={200} height={190} />

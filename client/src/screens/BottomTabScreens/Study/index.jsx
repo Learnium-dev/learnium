@@ -5,6 +5,7 @@ import {
   Pressable,
   useWindowDimensions,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 import StudyScreenTabBar from "../../../components/StudyScreenTabBar";
@@ -90,9 +91,16 @@ const Study = () => {
       selectedView: route.key,
       keyTopics: filteredKeyTopics(route.key),
     });
-
+  // const askAIprops = {
+  //   askTopic: "key topic asked",
+  //   questionAsk: "question that you get wrong",
+  //   wrongAnswer: "here is your wrong answer",
+  // };
   return (
     <SafeAreaView style={styles.safeArea}>
+      {/* <TouchableOpacity onPress={() => navigate("AskAI", askAIprops)}>
+        <Text>AskAI</Text>
+      </TouchableOpacity> */}
       <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
         <Text>Welcome back, Genia</Text>
       </View>
