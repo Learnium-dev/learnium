@@ -13,10 +13,14 @@ import * as DocumentPicker from "expo-document-picker";
 // axios
 import axios from "axios";
 
+import { useSelector } from "react-redux";
+
 const CreateContent = () => {
+
+  const {token} = useSelector((state) => state.credentials);
   const [content, setContent] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [token, setToken] = useState(false);
+  // const [token, setToken] = useState(false);
   const [userId, setUserId] = useState("why jwt for userID not showing");
   const [folderResponse, setFolderResponse] = useState({});
   const [postFolderIsDone, setPostFolderIsDone] = useState(false);
@@ -39,7 +43,9 @@ const CreateContent = () => {
         type: res.assets[0].mimeType,
       });
 
+      console.log("hey this is token",token);
       const response = await axios.post(
+        
         `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content`,
         formData,
 

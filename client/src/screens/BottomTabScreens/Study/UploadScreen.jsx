@@ -7,10 +7,13 @@ import {
   ScrollView,
 } from "react-native";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 // import mongoose from "mongoose";
 
 const UploadScreen = () => {
   const [article, setArticle] = useState("");
+  const { token } = useSelector((state) => state.credentials);
+
   const [isLoading, setIsLoading] = useState(false);
   const [responseData, setResponseData] = useState([
     {
@@ -196,11 +199,13 @@ const UploadScreen = () => {
       try {
         // postToDB();
         const response = await fetch(
+          console.log(token)
           `${process.env.EXPO_PUBLIC_HOSTNAME}/uploadcontent`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
 
             body: JSON.stringify({ article }),
