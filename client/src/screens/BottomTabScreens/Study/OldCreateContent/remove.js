@@ -58,8 +58,10 @@ const CreateContent = () => {
       );
 
       const data = response.data;
-      const dataJson = JSON.parse(data);
-      setContent(JSON.parse(data));
+      console.log("data", data);
+      // const dataJson = JSON.parse(data);
+      // setContent(data);
+      // setContent(JSON.parse(data));
       setIsLoading(false);
       // !temporarily commented out postToDB(JSON.parse(data)) to post the content to the database without calling the openAI API
       // postFolderToDB(dataJson);

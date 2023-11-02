@@ -210,6 +210,7 @@ const embedInput = async (txtFileName) => {
   const vectorstore = await FaissStore.fromDocuments(documents, embeddings);
   await vectorstore.save("./");
   const response = await chainCall();
+  console.log("🚀 ~ file: createContent.js:214 ~ response:", response)
   return response;
   // return vectorstore;
   // const response = await getChatResponse();
