@@ -39,6 +39,7 @@ import TestAPI from "./src/screens/User/TestAPI";
 
 import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
 
+const Stack = createNativeStackNavigator();
 // tab bottom navigator
 function TabBottomNavigator() {
   const Tab = createBottomTabNavigator();
@@ -60,8 +61,19 @@ function TabBottomNavigator() {
           headerShown: false,
           tabBarIcon: ({ focused }) => <StudyTabIcon />,
           tabBarShowLabel: false,
+          // tabBarStyle: {display: 'none'}
         }}
       />
+      {/* <Tab.Screen
+        name="KeyTopic"
+        component={KeyTopic}
+        options={{ headerShown: false, tabBarStyle: { display: "none" } }}
+      />
+      <Tab.Screen
+        name="QuizResult"
+        component={QuizResult}
+        options={{ headerShown: false, tabBarStyle: { display: "none" } }}
+      /> */}
       <Tab.Screen
         name="Progress"
         component={ProgressStackNavigator}
@@ -113,30 +125,20 @@ function StudyStackNavigator() {
         name="CreateContent"
         component={CreateContent}
       />
-       <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
+      <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
-      <StudyStack.Screen
-        name="KeyTopic"
-        component={KeyTopic}
-        options={{ headerShown: false }}
-      />
-      <StudyStack.Screen
-        name="QuizResult"
-        component={QuizResult}
-        // options={{ headerShown: false }}
-      />
+
       <StudyStack.Screen name="NextDayPlan" component={NextDayPlan} />
       <StudyStack.Screen
         name="CreateNewMaterial"
         component={CreateNewMaterial}
       />
-       <StudyStack.Screen
+      <StudyStack.Screen
         options={{ headerShown: false }}
         name="ProgressPage"
         component={Progress}
       />
-      
     </StudyStack.Navigator>
   );
 }
@@ -165,7 +167,34 @@ export default function Navigation() {
   return (
     <BottomSheetModalProvider>
       {/* <NavigationContainer> */}
-      <TabBottomNavigator />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="TabBottomNavigator"
+          component={TabBottomNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ focused }) => <StudyTabIcon />,
+            tabBarShowLabel: false,
+            // tabBarStyle: {display: 'none'}
+          }}
+        />
+        <Stack.Screen
+          name="StudyStackNavigator"
+          component={StudyStackNavigator}
+        />
+        <StudyStack.Screen
+          name="KeyTopic"
+          component={KeyTopic}
+          options={{ headerShown: false }}
+        />
+        <StudyStack.Screen
+          name="QuizResult"
+          component={QuizResult}
+          options={{ headerShown: false }}
+        />
+        {/* <TabBottomNavigator />
+        <StudyStackNavigator /> */}
+      </Stack.Navigator>
       {/* </NavigationContainer> */}
     </BottomSheetModalProvider>
   );
