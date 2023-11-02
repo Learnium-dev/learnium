@@ -1,22 +1,19 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useRef, useState, useEffect } from "react";
-import { AntDesign } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
 import PagerView from "react-native-pager-view";
-import FlashCard from "../components/FlashCard";
-import { updateDetails } from "../services/detailsService";
 import FlashCardsQuizHeader from "../components/FlashCardsQuizHeader";
 import QuizSetupView from "../layout/QuizSetupView";
-import axios from "axios";
-import baseURL from "../../assets/common/baseUrl";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Quiz from "../components/Quiz";
 import { globalStyles } from "../../assets/common/global-styles";
 import ConfirmModal from "../components/ConfirmModal";
 import { getQuizzes } from "../services/quizService";
+import { useNavigation } from "@react-navigation/native";
 
-const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
-  const keyTopiId = keyTopic._id;
+const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
+  const { navigate } = useNavigation();
+  const [keyTopicId, setKeyTopicId] = useState(keyTopic._id);
+  const [getKeyTopic, setGetKeyTopic] = useState(keyTopic);
+  // const keyTopiId = keyTopic._id;
   const [quiz, setQuiz] = useState([]);
   const [token, setToken] = useState(null);
   const [isQuizStart, setIsQuizStart] = useState(false);
@@ -24,6 +21,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
 
   const [cardIndex, setCardIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [timeConsumed, setTimeConsumed] = useState(0);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -34,8 +32,20 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
   };
 
   const submitResult = () => {
-
-  }
+    console.log("getKeyTopic", getKeyTopic);
+    const params = {
+      result: result,
+      keyTopic: getKeyTopic,
+      quiz: quiz,
+      timeConsumed: timeConsumed,
+    };
+    navigate("QuizResult", params);
+    // navigate("QuizResult", {quiz: quiz });
+    // navigate("QuizResult", { result: result ,keyTopic: getKeyTopic,quiz: quiz });
+    // navigate("QuizResult", [{ result: result }, {keyTopic: getKeyTopic},{quiz: quiz }]);
+    closeModal();
+    isSubmit();
+  };
 
   const pagerRef = useRef(null);
 
@@ -50,7 +60,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
       return written ? "&written=true" : "";
     };
 
-    // Function to fetch quizzes with a valid token
+    // Function to fetch quizzes
     const fetchQuizzesWithToken = async () => {
       console.log("fetchQuizzesWithToken");
       if (!trueFalse && !multipleChoice && !written) {
@@ -58,17 +68,19 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
         return;
       }
 
-      getQuizzes(keyTopiId, trueFalseString(), multipleChoiceString(), writtenString()).then(
-        (quizzes) => {
-          console.log("Quizzes loaded", quizzes);
-          setQuiz(quizzes);
-          setIsQuizStart(true);
-        }
-      );
+      getQuizzes(
+        keyTopicId,
+        trueFalseString(),
+        multipleChoiceString(),
+        writtenString()
+      ).then((quizzes) => {
+        console.log("Quizzes loaded", quizzes);
+        setQuiz(quizzes);
+        setIsQuizStart(true);
+      });
       (error) => {
         alert("Error", `Something went wrong! ${error}`);
-      }
-     
+      };
     };
 
     fetchQuizzesWithToken();
@@ -101,7 +113,6 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
   console.log("previous", cardIndex);
 
   const setQuizResult = (res) => {
-    // expand the result with res and set it to result
     let updateResult = () => {
       // store res to result array base on index
       let resultCopy = [...result];
@@ -111,6 +122,9 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
     setResult(updateResult);
   };
 
+  const getTimeConsumed = (time) => {
+    setTimeConsumed(time);
+  };
   console.log("result", result);
   return (
     <View style={styles.container}>
@@ -121,6 +135,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
         practicing={false}
         isQuizTrue={true}
         isQuizStart={isQuizStart}
+        timeConsumed={getTimeConsumed}
       />
 
       {isQuizStart ? (
@@ -151,9 +166,15 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
         <QuizSetupView onStartQuiz={handleStart} keyTopic={keyTopic} />
       )}
       {isModalOpen ? (
-        <ConfirmModal isOpen={isModalOpen} leftBtnFunction={closeModal} rightBtnFunction={submitResult} title={"Are you sure you want to finish the quiz?"} subTitle={""} leftBtnText={"Review"} rightBtnText={"Finish"}>
-          
-        </ConfirmModal>
+        <ConfirmModal
+          isOpen={isModalOpen}
+          leftBtnFunction={closeModal}
+          rightBtnFunction={submitResult}
+          title={"Are you sure you want to finish the quiz?"}
+          subTitle={""}
+          leftBtnText={"Review"}
+          rightBtnText={"Finish"}
+        ></ConfirmModal>
       ) : null}
     </View>
   );
@@ -177,4 +198,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlashCardsContainer;
+export default QuizContainer;

@@ -9,7 +9,8 @@ const historyQuizSchema = mongoose.Schema({
       ref: "folders",
       required: [true, "Folder Id is required"],
     },
-    duedate: {
+    duedate: { 
+      // the date the quiz is finished
       type: Date,
       default: defaultDate,
     },

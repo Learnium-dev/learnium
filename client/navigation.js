@@ -17,6 +17,7 @@ import NextDayPlan from "./src/screens/BottomTabScreens/Study/NextDayPlan";
 import UploadScreen from "./src/screens/BottomTabScreens/Study/UploadScreen";
 import CreateContent from "./src/screens/BottomTabScreens/Study/CreateContent";
 import TakePhoto from "./src/screens/BottomTabScreens/Study/TakePhoto";
+import QuizResult from "./src/screens/BottomTabScreens/Study/QuizResult";
 
 // Icons
 import StudyTabIcon from "./assets/icons/study-tab.svg";
@@ -120,11 +121,22 @@ function StudyStackNavigator() {
         component={KeyTopic}
         options={{ headerShown: false }}
       />
+      <StudyStack.Screen
+        name="QuizResult"
+        component={QuizResult}
+        // options={{ headerShown: false }}
+      />
       <StudyStack.Screen name="NextDayPlan" component={NextDayPlan} />
       <StudyStack.Screen
         name="CreateNewMaterial"
         component={CreateNewMaterial}
       />
+       <StudyStack.Screen
+        options={{ headerShown: false }}
+        name="ProgressPage"
+        component={Progress}
+      />
+      
     </StudyStack.Navigator>
   );
 }

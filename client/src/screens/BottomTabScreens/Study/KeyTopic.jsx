@@ -122,7 +122,7 @@ const KeyTopic = (props) => {
           snapPoints={snapPoints}
           name="Quiz"
         >
-          <QuizContainer keyTopic={keyTopic} closeSheet={closeQuiz} />
+          <QuizContainer keyTopic={keyTopic} closeSheet={closeQuiz} isSubmit={handleLeftBtn}/>
         </BottomSheetModal>
       </View>
       {isModalOpen ? (
