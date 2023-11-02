@@ -59,7 +59,7 @@ const UploadContent = ({ name, next }) => {
           <LumiCamera width={84} height={110} />
           <Text style={styles.btnText}>Take Picture</Text>
         </Pressable>
-        <Pressable style={styles.uploadBtn}>
+        <Pressable style={styles.uploadBtn} onPress={() =>navigate("remove")}>
           <LumiPdf width={84} height={110} />
           <Text style={styles.btnText}>Upload PDF</Text>
         </Pressable>

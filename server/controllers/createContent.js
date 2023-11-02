@@ -34,6 +34,13 @@ const { TextLoader } = require("langchain/document_loaders/fs/text");
 const { ConversationalRetrievalQAChain } = require("langchain/chains");
 const { BufferMemory } = require("langchain/memory");
 const { ChatOpenAI } = require("langchain/chat_models/openai");
+const {
+  ChatPromptTemplate,
+  HumanMessagePromptTemplate,
+  SystemMessagePromptTemplate,
+  MessagesPlaceholder,
+} = require("langchain/prompts");
+const { ConversationChain } = require("langchain/chains");
 
 // ====================================================================================================
 // ********** get PDF from client and generate .txt file and text content **********
@@ -202,6 +209,9 @@ const embedInput = async (txtFileName) => {
   await vectorstore.save("./");
   const response = await chainCall();
   return response;
+  // return vectorstore;
+  // const response = await getChatResponse();
+  // return response;
 };
 
 // ====================================================================================================
@@ -287,107 +297,104 @@ const chainCall = async () => {
 
   // ! approach 2 : RetrievalQAChain
 
-  const embeddings = new OpenAIEmbeddings({ openAIApiKey: AIKEY });
-  const vectorStore = await FaissStore.load("./", embeddings);
+  // const embeddings = new OpenAIEmbeddings({ openAIApiKey: AIKEY });
+  // const vectorStore = await FaissStore.load("./", embeddings);
 
-  const model = new OpenAILangChain({ temperature: 0, openAIApiKey: AIKEY });
+  // const model = new OpenAILangChain({ temperature: 0, openAIApiKey: AIKEY });
 
-  const parser = StructuredOutputParser.fromNamesAndDescriptions({
-    name: "title of each key topic",
-    summary: "summary of each key topic",
-    questions: [
-      {
-        question: "question",
-        option: ["option1", "option2", "option3", "option4"],
-        answer: "answer",
-        type: "type of question which can be 'multiple choice', 'true/false' , or 'written'",
-      },
-    ],
-    flashcards: [
-      {
-        question: "question",
-        answers: ["answer"],
-      },
-    ],
-  });
-  const formatInstructions = parser.getFormatInstructions();
+  // const parser = StructuredOutputParser.fromNamesAndDescriptions({
+  //   name: "title of each key topic",
+  //   summary: "summary of each key topic",
+  //   questions: [
+  //     {
+  //       question: "question",
+  //       option: ["option1", "option2", "option3", "option4"],
+  //       answer: "answer",
+  //       type: "type of question which can be 'multiple choice', 'true/false' , or 'written'",
+  //     },
+  //   ],
+  //   flashcards: [
+  //     {
+  //       question: "question",
+  //       answers: ["answer"],
+  //     },
+  //   ],
+  // });
+  // const formatInstructions = parser.getFormatInstructions();
 
-  const chain = new RetrievalQAChain({
-    combineDocumentsChain: loadQAStuffChain(model),
-    retriever: vectorStore.asRetriever(),
-    prompt: formatInstructions,
-    // returnSourceDocuments: true,
-  });
+  // const chain = new RetrievalQAChain({
+  //   combineDocumentsChain: loadQAStuffChain(model),
+  //   retriever: vectorStore.asRetriever(),
+  //   prompt: formatInstructions,
+  //   // returnSourceDocuments: true,
+  // });
 
-  const prompt = new PromptTemplate({
-    template:
-      "Answer with best of your knowledge\n{format_instructions}\n question: {question}",
-    inputVariables: ["question"],
-    partialVariables: { format_instructions: formatInstructions },
-  });
+  // const prompt = new PromptTemplate({
+  //   template:
+  //     "Answer with best of your knowledge\n{format_instructions}\n question: {question}",
+  //   inputVariables: ["question"],
+  //   partialVariables: { format_instructions: formatInstructions },
+  // });
 
-  const inputPrompt = await prompt.format({
-    question:
-      "Please generate key topic that important for taking the exam. For each key topic create a summary at roughly 20 words, 7-10 flashcards with questions and answer, a quiz with total of 30 questions with 10 questions with 4 choices and 10 questions with true or false and 10 questions with written test.",
-  });
-  // console.log("inputPrompt", inputPrompt);
-  try {
-    // const resInput = await chain.call(inputPrompt);
-    // console.log("chainCallInput");
-    // console.log("res");
-    // console.log(res);
-    // console.log("resInput.text");
-    // console.log(resInput.text);
-    // const question = "which country win the World War II?";
-    // const question = "Please generate key topic that important for taking the exam around 2-3 key topics. For each key topic create a summary at roughly 20 words.";
-    // const question = "Please generate key topic that important for taking the exam around 5-7 key topic as a numbered list. For each key topic create a summary at roughly 20 words";
-    const query =
-      "Please generate 5-7 key topics that important for taking the exam. For each key topic create a summary at roughly 20 words, 7-10 flashcards with questions and answer, a quiz with total of 30 questions with 10 questions with 4 choices and 10 questions with true or false and 10 questions with written test.";
-    // const question = "Who is Tony Thawatchai?"
-    // const question = "What is openAI?"
-    // const question = "When mcdonald's was founded?"
-    // const question = "Which company Tony Thawatchai is working for?"
+  // const inputPrompt = await prompt.format({
+  //   question:
+  //     "Please generate key topic that important for taking the exam. For each key topic create a summary at roughly 20 words, 7-10 flashcards with questions and answer, a quiz with total of 30 questions with 10 questions with 4 choices and 10 questions with true or false and 10 questions with written test.",
+  // });
+  // // console.log("inputPrompt", inputPrompt);
+  // try {
+  //   // const resInput = await chain.call(inputPrompt);
+  //   // console.log("chainCallInput");
+  //   // console.log("res");
+  //   // console.log(res);
+  //   // console.log("resInput.text");
+  //   // console.log(resInput.text);
+  //   // const question = "which country win the World War II?";
+  //   // const question = "Please generate key topic that important for taking the exam around 2-3 key topics. For each key topic create a summary at roughly 20 words.";
+  //   // const question = "Please generate key topic that important for taking the exam around 5-7 key topic as a numbered list. For each key topic create a summary at roughly 20 words";
+  //   const query =
+  //     "Please generate 5-7 key topics that important for taking the exam. For each key topic create a summary at roughly 20 words, 7-10 flashcards with questions and answer, a quiz with total of 30 questions with 10 questions with 4 choices and 10 questions with true or false and 10 questions with written test.";
+  //   // const question = "Who is Tony Thawatchai?"
+  //   // const question = "What is openAI?"
+  //   // const question = "When mcdonald's was founded?"
+  //   // const question = "Which company Tony Thawatchai is working for?"
 
-    console.log(query);
-    const res = await chain.call({
-      query: query,
-    });
-    // console.log("chainCall3");
-    // // console.log("res");
-    // // console.log(res);
-    console.log("res.text");
-    console.log(res.text);
+  //   console.log(query);
+  //   const res = await chain.call({
+  //     query: query,
+  //   });
+  //   // console.log("chainCall3");
+  //   // // console.log("res");
+  //   // // console.log(res);
+  //   console.log("res.text");
+  //   console.log(res.text);
 
-    // const question2 = "what are the names of the leader of those country?"
-    const query2 =
-      "for each those key topics, generate 7-10 questions and answer for each key topic.";
-    // const question2 = "for each those key topics, create quiz with total of 3 questions with 1 questions with 4 choices and 1 questions with true or false and 1 questions with written test. return me with the following format: 1.'keyTopic' 2.'question1' 3.'answer1' and so on."
-    // const question2 = "When is Tony Thawatchai's birthday?"
-    // const question2 = "When openAI company was founded?"
-    // const question2 = "Who is the founder of openAI?"
-    // const question2 = "Who is the founder of that company?"
-    // const question2 = "Who is the biggest shareholder?"
-    // const question2 = "What is that company do?"
-    // console.log("question2:", question2)
-    // const res2 = await chain.call({
-    //   query : query2
-    // })
-    // // console.log(res2);
-    // console.log(res2.text);
+  //   // const question2 = "what are the names of the leader of those country?"
+  //   const query2 =
+  //     "for each those key topics, generate 7-10 questions and answer for each key topic.";
+  //   // const question2 = "for each those key topics, create quiz with total of 3 questions with 1 questions with 4 choices and 1 questions with true or false and 1 questions with written test. return me with the following format: 1.'keyTopic' 2.'question1' 3.'answer1' and so on."
+  //   // const question2 = "When is Tony Thawatchai's birthday?"
+  //   // const question2 = "When openAI company was founded?"
+  //   // const question2 = "Who is the founder of openAI?"
+  //   // const question2 = "Who is the founder of that company?"
+  //   // const question2 = "Who is the biggest shareholder?"
+  //   // const question2 = "What is that company do?"
+  //   // console.log("question2:", question2)
+  //   // const res2 = await chain.call({
+  //   //   query : query2
+  //   // })
+  //   // // console.log(res2);
+  //   // console.log(res2.text);
 
+  //   // const formattedResponse = await parser.parse(res.text);
+  //   // console.log(formattedResponse);
 
-
-    // const formattedResponse = await parser.parse(res.text);
-    // console.log(formattedResponse);
-
-
-    return res.text;
+  //   return res.text;
     // ! approach 3 : ConversationalRetrievalQAChain
 
-    // const embeddings = new OpenAIEmbeddings({ openAIApiKey: AIKEY });
-    // const vectorStore = await FaissStore.load("./", embeddings);
+    const embeddings = new OpenAIEmbeddings({ openAIApiKey: AIKEY });
+    const vectorStore = await FaissStore.load("./", embeddings);
 
-    // const model = new OpenAILangChain({ temperature: 0, openAIApiKey: AIKEY });
+    const model = new OpenAILangChain({ temperature: 0, openAIApiKey: AIKEY });
 
     // const parser = StructuredOutputParser.fromNamesAndDescriptions({
     //   name: "title of each key topic",
@@ -409,51 +416,50 @@ const chainCall = async () => {
     // });
     // const formatInstructions = parser.getFormatInstructions();
 
-    // const fasterModel = new ChatOpenAI({
-    //   modelName: "gpt-3.5-turbo",
-    //   openAIApiKey: AIKEY
+    const fasterModel = new ChatOpenAI({
+      modelName: "gpt-3.5-turbo",
+      openAIApiKey: AIKEY
+    });
+    const chain = ConversationalRetrievalQAChain.fromLLM(
+      model,
+      vectorStore.asRetriever(),
+      {
+        // returnSourceDocuments: true,
+        memory: new BufferMemory({
+          memoryKey: "chat_history",
+          inputKey: "question", // The key for the input to the chain
+          outputKey: "text", // The key for the final conversational output of the chain
+          returnMessages: true, // If using with a chat model (e.g. gpt-3.5 or gpt-4)
+        }),
+        // combine_docs_chain_kwargs:{prompt: formatInstructions}
+        // condense_question_prompt: CONDENSEprompt,
+        questionGeneratorChainOptions: {
+          llm: fasterModel,
+        },
+
+      }
+    );
+
+    // const prompt = new PromptTemplate({
+    //   template:
+    //     "Answer with best of your knowledge\n{format_instructions}\n question: {question}",
+    //   inputVariables: ["question"],
+    //   partialVariables: { format_instructions: formatInstructions },
     // });
-    // const chain = ConversationalRetrievalQAChain.fromLLM(
-    //   model,
-    //   vectorStore.asRetriever(),
-    //   {
-    //     // returnSourceDocuments: true,
-    //     memory: new BufferMemory({
-    //       memoryKey: "chat_history",
-    //       inputKey: "question", // The key for the input to the chain
-    //       outputKey: "text", // The key for the final conversational output of the chain
-    //       returnMessages: true, // If using with a chat model (e.g. gpt-3.5 or gpt-4)
-    //     }),
-    //     combine_docs_chain_kwargs:{prompt: formatInstructions}
-    //     // condense_question_prompt: CONDENSEprompt,
-    //     // questionGeneratorChainOptions: {
-    //     //   llm: fasterModel,
-    //     // },
 
-    //   }
-    // );
-
-    
-  // const prompt = new PromptTemplate({
-  //   template:
-  //     "Answer with best of your knowledge\n{format_instructions}\n question: {question}",
-  //   inputVariables: ["question"],
-  //   partialVariables: { format_instructions: formatInstructions },
-  // });
-
-  // const inputPrompt = await prompt.format({
-  //   question:
-  //     "Please generate key topic that important for taking the exam. For each key topic create a summary at roughly 20 words, 7-10 flashcards with questions and answer, a quiz with total of 30 questions with 10 questions with 4 choices and 10 questions with true or false and 10 questions with written test.",
-  // });
-  // console.log("inputPrompt", inputPrompt);
-  // try {
+    // const inputPrompt = await prompt.format({
+    //   question:
+    //     "Please generate key topic that important for taking the exam. For each key topic create a summary at roughly 20 words, 7-10 flashcards with questions and answer, a quiz with total of 30 questions with 10 questions with 4 choices and 10 questions with true or false and 10 questions with written test.",
+    // });
+    // console.log("inputPrompt", inputPrompt);
+    try {
     // const resInput = await chain.call(inputPrompt);
     // console.log("chainCallInput");
     // console.log("res");
     // console.log(res);
     // console.log("resInput.text");
     // console.log(resInput.text);
-    // const question = "which country win the World War II?";
+    const question = "which country win the World War II?";
     // const question = "Please generate key topic that important for taking the exam around 2-3 key topics. For each key topic create a summary at roughly 20 words.";
     // const question = "Please generate key topic that important for taking the exam around 5-7 key topic as a numbered list. For each key topic create a summary at roughly 20 words";
     // const question =
@@ -463,17 +469,17 @@ const chainCall = async () => {
     // const question = "When mcdonald's was founded?"
     // const question = "Which company Tony Thawatchai is working for?"
 
-    // console.log(question);
-    // const res = await chain.call({
-    //   question: question,
-    // });
+    console.log(question);
+    const res = await chain.call({
+      question: question,
+    });
     // console.log("chainCall3");
     // // console.log("res");
     // // console.log(res);
-    // console.log("res.text");
-    // console.log(res.text);
+    console.log("res.text");
+    console.log(res.text);
 
-    // const question2 = "what are the names of the leader of those country?"
+    const question2 = "what are the names of the leader of those country?"
     // const question2 =
     //   "for each those key topics, generate 7-10 questions and answer for each key topic.";
     // const question2 = "for each those key topics, create quiz with total of 3 questions with 1 questions with 4 choices and 1 questions with true or false and 1 questions with written test. return me with the following format: 1.'keyTopic' 2.'question1' 3.'answer1' and so on."
@@ -483,21 +489,23 @@ const chainCall = async () => {
     // const question2 = "Who is the founder of that company?"
     // const question2 = "Who is the biggest shareholder?"
     // const question2 = "What is that company do?"
-    // console.log("question2:", question2)
-    // const res2 = await chain.call({
-    //   question : question2
-    // })
+    console.log("question2:", question2)
+    const res2 = await chain.call({
+      question : question2
+    })
     // // console.log(res2);
-    // console.log(res2.text);
-
+    console.log(res2.text);
 
     // const formattedResponse = await parser.parse(res.text);
     // console.log(formattedResponse);
-    
+
     // return res.text;
   } catch (error) {
     console.error("Error in chain.call:", error);
   }
 };
 
+
+
 module.exports = createContent;
+// module.exports = askai;

@@ -27,6 +27,18 @@ const QuizResult = ({ route }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+
+  const handleAskAI = (question, answer) => {
+    console.log("handleAskAI", question, answer);
+    const askAIprops = {
+      askTopic: "",
+      questionAsk: question,
+      wrongAnswer: answer,
+    };
+    navigate("AskAI", askAIprops);
+  };
+
   return (
     <View style={styles.container}>
       {isModalOpen ? (
@@ -53,9 +65,15 @@ const QuizResult = ({ route }) => {
                 ) : (
                   <View>
                     <Text>Incorrect</Text>
+
+
                     <TouchableOpacity
                       style={[styles.previousButton]}
-                      onPress={() => navigate("Study")}
+                      onPress={
+                        () => handleAskAI(item.question, item.answer)
+                        // () => navigate("AskAI")
+                      }
+
                     >
                       <Text
                         style={[
