@@ -22,6 +22,7 @@ import { styles } from "../../styles/createContent2";
 
 // Date Time Picker
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useNavigation } from "@react-navigation/native";
 
 const OptionButton = ({ text, isSelected, onPress }) => {
   return (
@@ -38,6 +39,7 @@ const OptionButton = ({ text, isSelected, onPress }) => {
 
 const ExamSchedule = ({ name, prev, next }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   // const { date, days, content } = useSelector((state) => state.exam);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [dateNow, setDateNow] = useState(new Date());
@@ -82,6 +84,7 @@ const ExamSchedule = ({ name, prev, next }) => {
 
   const onFinish = () => {
     dispatch(setDays(selectedOptions));
+    navigation.navigate("Study");
   };
 
   return (

@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    paddingBottom: 30,
+    paddingBottom: 20,
     paddingHorizontal: 16,
     backgroundColor: "#fff",
   },
@@ -65,7 +65,6 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: "#262626",
     padding: 16,
-    resizeMode: "none",
   },
   btnContent: {
     display: "flex",
@@ -75,7 +74,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "#7000FF",
     paddingVertical: 20,
-    marginTop: 20,
+    marginTop: "auto",
   },
 
   optionsContainer: {

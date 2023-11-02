@@ -1,5 +1,5 @@
 import { View, ScrollView } from "react-native";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -16,8 +16,10 @@ import GrowProf from "./components/FormStepper/GrowProf";
 import LearningTime from "./components/FormStepper/LearningTime";
 import ExamSchedule from "./components/FormStepper/ExamSchedule";
 import Header from "./components/Header";
+import { useNavigation } from "@react-navigation/native";
 
 const CreateContent = () => {
+  const navigation = useNavigation();
   const [currentStep, setCurrentStep] = useState(0);
   const [purpose, setPurpose] = useState("");
   const { days, date } = useSelector((state) => state.exam);
@@ -41,6 +43,7 @@ const CreateContent = () => {
   };
 
   const handlePreviousStep = () => {
+    if (currentStep === 0) navigation.goBack();
     if (currentStep > 0) {
       if (!purpose) {
         setCurrentStep(0);

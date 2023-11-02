@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 // react native
-import { View, Text } from "react-native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 // screens
 // screens - study
@@ -21,7 +21,6 @@ import QuizResult from "./src/screens/BottomTabScreens/Study/QuizResult";
 
 import AskAI from "./src/screens/BottomTabScreens/Study/AskAI";
 import remove from "./src/screens/BottomTabScreens/Study/OldCreateContent/remove";
-
 
 // Icons
 import StudyTabIcon from "./assets/icons/study-tab.svg";
@@ -62,12 +61,12 @@ function TabBottomNavigator() {
       <Tab.Screen
         name="StudyHome"
         component={StudyStackNavigator}
-        options={{
+        options={({ route }) => ({
+          tabBarStyle: { display: getRouteName(route) },
           headerShown: false,
           tabBarIcon: ({ focused }) => <StudyTabIcon />,
           tabBarShowLabel: false,
-          // tabBarStyle: {display: 'none'}
-        }}
+        })}
       />
       {/* <Tab.Screen
         name="KeyTopic"
@@ -115,6 +114,15 @@ function TabBottomNavigator() {
   );
 }
 
+const getRouteName = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route);
+  if (routeName === "CreateContent") {
+    return "none";
+  } else {
+    return "";
+  }
+};
+
 // study stack navigator
 const StudyStack = createNativeStackNavigator();
 function StudyStackNavigator() {
@@ -131,15 +139,12 @@ function StudyStackNavigator() {
         component={CreateContent}
       />
       <StudyStack.Screen name="TakePhoto" component={TakePhoto} />
-
       <StudyStack.Screen name="remove" component={remove} />
-{/* //       <StudyStack.Screen name="UploadScreen" component={UploadScreen} /> */}
+      {/* //       <StudyStack.Screen name="UploadScreen" component={UploadScreen} /> */}
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
-
-
       <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
       <StudyStack.Screen name="MaterialsStudy" component={MaterialsStudy} />
-{/* //       <StudyStack.Screen
+      {/* //       <StudyStack.Screen
 //         name="KeyTopic"
 //         component={KeyTopic}
 //         options={{ headerShown: false }}
@@ -155,14 +160,11 @@ function StudyStackNavigator() {
         name="CreateNewMaterial"
         component={CreateNewMaterial}
       />
-
-       <StudyStack.Screen
-
+      <StudyStack.Screen
         options={{ headerShown: false }}
         name="ProgressPage"
         component={Progress}
       />
-
     </StudyStack.Navigator>
   );
 }
@@ -203,7 +205,6 @@ export default function Navigation() {
             headerShown: false,
             tabBarIcon: ({ focused }) => <StudyTabIcon />,
             tabBarShowLabel: false,
-            // tabBarStyle: {display: 'none'}
           }}
         />
         <Stack.Screen
