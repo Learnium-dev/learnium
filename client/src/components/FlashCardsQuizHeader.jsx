@@ -27,7 +27,6 @@ const FlashCardsQuizHeader = ({
   const cards = useSelector((state) => state.flashCards.cards);
 
   const progress = ((currentIndex + 1) / cards.length);
-  console.log('progress', currentIndex + 1, cards.length, progress);
 
   useEffect(() => {
     let interval;
@@ -95,8 +94,8 @@ const FlashCardsQuizHeader = ({
               </Text>
             </View>
             <Pressable>
-                <Feather name="more-vertical" size={24} color="black" />
-              </Pressable>
+              <Feather name="more-vertical" size={24} color="black" />
+            </Pressable>
           </View>
         )}
       </View>

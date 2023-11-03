@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getFlashCards } from "../src/services/flashcardsService";
+import { getFlashCards, getMaterialFlashCards } from "../src/services/flashcardsService";
 import { updateDetails } from "../src/services/detailsService";
 
 const initialState = {
@@ -9,14 +9,18 @@ const initialState = {
   cardIndex: 0
 };
 
-export const fetchFlashcards = createAsyncThunk('fetchFlashcards', async (keyTopicId) => {
-  console.log('Loading flashcards from state')
-  const response = await getFlashCards(keyTopicId);
+export const fetchFlashcards = createAsyncThunk('fetchFlashcards', async (keytopicid) => {
+  const response = await getFlashCards(keytopicid);
   return response[0].details;
 });
 
+export const fetchMaterialFlashcards = createAsyncThunk('fetchMaterialFlashcards', async (folderid) => {
+  const response = await getMaterialFlashCards(folderid);
+  const allDetails = response.flatMap(card => card.details);
+  return allDetails;
+});
+
 export const updateFlashcard = createAsyncThunk('updateFlashcard', async (card) => {
-  console.log('Updating flashcard from state', card)
   const updatedCard = await updateDetails(card._id, card);
   return updatedCard;
 });
@@ -46,6 +50,9 @@ initialState,
     })
     .addCase(fetchFlashcards.rejected, (state, action) => {
       state.cards = [];
+    })
+    .addCase(fetchMaterialFlashcards.fulfilled, (state, action) => {
+      state.cards = action.payload;
     })
     .addCase(updateFlashcard.fulfilled, (state, action) => {
       const updatedCard = action.payload;

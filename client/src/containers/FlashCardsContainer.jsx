@@ -7,9 +7,9 @@ import FlashCardsSetupView from "../layout/FlashCardsSetupView";
 import { updateDetails } from "../services/detailsService";
 import FlashCardsQuizHeader from "../components/FlashCardsQuizHeader";
 import { useDispatch, useSelector } from 'react-redux'
-import flashCardsSlice, { fetchFlashcards, updateFlashcard } from "../../slices/flashCardsSlice";
+import flashCardsSlice, { fetchFlashcards, updateFlashcard, fetchMaterialFlashcards } from "../../slices/flashCardsSlice";
 
-const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
+const FlashCardsContainer = ({ closeSheet, keyTopic, studyMaterial }) => {
   const dispatch = useDispatch();
   const pagerRef = useRef(null);
 
@@ -21,10 +21,14 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
 
   // Actions
   const { setTermFirst, setPracticing, setCardIndex } = flashCardsSlice.actions;
-  
+
 
   useEffect(() => {
-    dispatch(fetchFlashcards(keyTopic._id));
+    if (studyMaterial) {
+      dispatch(fetchMaterialFlashcards(keyTopic.folderid._id))
+    } else {
+      dispatch(fetchFlashcards(keyTopic._id));
+    }
     dispatch(setPracticing(false));
   }, [dispatch]);
 
@@ -51,7 +55,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
         isQuizTrue={false}
       />
 
-      {practicing ? (
+      {practicing ?
         <PagerView
           style={styles.pagerView}
           initialPage={0}
@@ -73,12 +77,12 @@ const FlashCardsContainer = ({ closeSheet, keyTopic }) => {
               );
             })}
         </PagerView>
-      ) : (
+      :
         <FlashCardsSetupView
           onStartPracticing={handleStart}
           keyTopic={keyTopic}
         />
-      )}
+      }
     </View>
   );
 };

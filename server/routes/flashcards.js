@@ -4,10 +4,22 @@ const router = express.Router();
 const {flashcardmodel} = require('../models/flashcards');
 
 // GET
-router.get(`/`, async (req, res)=>{
+router.get(`/`, async (req, res)=> {
+
+    let filter = {};
+    if (req.query.keytopicid){
+        console.log('keytopicid')
+        filter = { keytopicid: req.query.keytopicid }
+    }
+
+    if (req.query.folderid){
+        console.log('folderid', req.query.folderid)
+        filter = { folderid: req.query.folderid }
+    }
+    
     const flashcardList = await flashcardmodel
-        .find({ keytopicid: req.query.keytopicid })
-        .populate('details'); // each flashcard will contain related details as array of objects
+        .find(filter)
+        .populate('details');
 
     if(!flashcardList){
         res.status(500).json({
