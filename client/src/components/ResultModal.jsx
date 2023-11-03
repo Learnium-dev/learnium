@@ -1,9 +1,8 @@
 // full screen modal that has conditional rendering based on the result of the quiz
 
-import { View, Text, StyleSheet,TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { useState, useEffect } from "react";
-
 
 // character image
 // !WAITING FOR THE FINAL SVG
@@ -64,17 +63,27 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
   };
 
   return (
-    <View style={[getScoreLevelStyle(), styles.container]}>
+    <View
+      style={{
+        flex: 1,
+        padding: 50,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {/* set the view to have background color base on getScoreLevelStyle */}
 
-      <Text>ResultModal</Text>
+      <Text style={{ fontSize: 20, color: "red" }}>ResultModal</Text>
       <Text>{percentage}</Text>
 
       {/* set the image to be displayed base on getScoreLevelImage */}
       {getScoreLevelImage()}
 
-      <TouchableOpacity onPress={()=> CTAbtnFunction()}>
-        <Text>See Results</Text>
+      <TouchableOpacity
+        onPress={() => CTAbtnFunction()}
+        style={{ backgroundColor: "black", padding: 10, borderRadius: 10 }}
+      >
+        <Text style={{ color: "red" }}>See Results</Text>
       </TouchableOpacity>
     </View>
   );
