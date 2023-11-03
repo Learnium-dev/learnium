@@ -135,19 +135,24 @@ const QuizResult = ({ route }) => {
           </View>
         </ScrollView>
       )}
-      <View style={styles.btnWrapper}>
-        <TouchableOpacity style={styles.btns} onPress={() => navigate("Study")}>
-          <Text style={styles.btnsText}>Back Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ ...styles.btns, backgroundColor: "#7000FF" }}
-          onPress={() => navigate("ProgressPage")}
-        >
-          <Text style={{ ...styles.btnsText, color: "#FFF" }}>
-            View Progress
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {isModalOpen ? null : (
+        <View style={styles.btnWrapper}>
+          <TouchableOpacity
+            style={styles.btns}
+            onPress={() => navigate("Study")}
+          >
+            <Text style={styles.btnsText}>Back Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ ...styles.btns, backgroundColor: "#7000FF" }}
+            onPress={() => navigate("ProgressPage")}
+          >
+            <Text style={{ ...styles.btnsText, color: "#FFF" }}>
+              View Progress
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

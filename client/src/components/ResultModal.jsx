@@ -12,6 +12,19 @@ import ResultIntermediate from "../../assets/resultCharacter/resultIntermediate.
 import ResultExpert from "../../assets/resultCharacter/resultExpert.svg";
 import ResultMaster from "../../assets/resultCharacter/resultMaster.svg";
 
+// mockup SVG
+import LumiStar from "../../assets/images/characters/quiz lumi/Lumi Star.svg";
+import Star from "../../assets/images/characters/quiz lumi/Star Lumi.svg";
+
+// Linear Gradient
+import { LinearGradient } from "expo-linear-gradient";
+
+// responsive width and height
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
   const [percentageLevel, setPercentageLevel] = useState("");
 
@@ -50,15 +63,15 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
   //   function to return image based on score level
   const getScoreLevelImage = () => {
     if (percentageLevel === "beginner") {
-      return <ResultBeginner width={100} height={100} />;
+      return <ResultBeginner width={250} height={280} />;
     } else if (percentageLevel === "intermediate") {
-      return <ResultIntermediate width={100} height={100} />;
+      return <ResultIntermediate width={250} height={280} />;
     } else if (percentageLevel === "advanced") {
-      return <ResultAdvance width={100} height={100} />;
+      return <ResultAdvance width={250} height={280} />;
     } else if (percentageLevel === "expert") {
-      return <ResultExpert width={100} height={100} />;
+      return <ResultExpert width={250} height={280} />;
     } else if (percentageLevel === "master") {
-      return <ResultMaster width={100} height={100} />;
+      return <ResultMaster width={250} height={280} />;
     }
   };
 
@@ -66,24 +79,96 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
     <View
       style={{
         flex: 1,
-        padding: 50,
         display: "flex",
-        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "red",
       }}
     >
-      {/* set the view to have background color base on getScoreLevelStyle */}
-
-      <Text style={{ fontSize: 20, color: "red" }}>ResultModal</Text>
-      <Text>{percentage}</Text>
-
+      <LinearGradient
+        colors={["#722AFE", "#A655E0"]}
+        style={{
+          width: wp(100),
+          height: hp(100),
+          position: "absolute",
+          zIndex: -1,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+      />
+      <View
+        style={{
+          backgroundColor: "#FEE702",
+          borderRadius: 16,
+          paddingTop: 24,
+          paddingHorizontal: 24,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          marginBottom: 90,
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: "Gabarito-Bold",
+            fontSize: 40,
+            color: "#5901e5",
+          }}
+        >
+          Great Job!
+        </Text>
+        <Text
+          style={{
+            fontFamily: "Gabarito-Bold",
+            fontSize: 80,
+            color: "#5901e5",
+          }}
+        >
+          {percentage}%
+        </Text>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 0,
+          right: 70,
+          top: 300,
+        }}
+      >
+        <Star width={250} height={280} />
+      </View>
       {/* set the image to be displayed base on getScoreLevelImage */}
-      {getScoreLevelImage()}
+      {/* {getScoreLevelImage()} */}
+      <LumiStar width={250} height={280} />
 
       <TouchableOpacity
         onPress={() => CTAbtnFunction()}
-        style={{ backgroundColor: "black", padding: 10, borderRadius: 10 }}
+        style={{
+          backgroundColor: "white",
+          paddingVertical: 15,
+          paddingHorizontal: 20,
+          borderRadius: 100,
+          marginTop: 40,
+          borderWidth: 2,
+          borderColor: "#7000FF",
+          width: 350,
+        }}
       >
-        <Text style={{ color: "red" }}>See Results</Text>
+        <Text
+          style={{
+            fontFamily: "Gabarito-Bold",
+            fontSize: 22,
+            textAlign: "center",
+            color: "#7000FF",
+          }}
+        >
+          See Results
+        </Text>
       </TouchableOpacity>
     </View>
   );
