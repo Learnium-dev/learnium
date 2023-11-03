@@ -7,6 +7,9 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 // react native
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
+// redux
+import { useSelector } from "react-redux";
+
 // screens
 // screens - study
 import Study from "./src/screens/BottomTabScreens/Study/index";
@@ -41,7 +44,11 @@ import Account from "./src/screens/BottomTabScreens/Account";
 // screen to test API with token
 import TestAPI from "./src/screens/User/TestAPI";
 
+// toaster
+import Toast from "react-native-toast-message";
+
 import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
 // tab bottom navigator
@@ -126,6 +133,27 @@ const getRouteName = (route) => {
 // study stack navigator
 const StudyStack = createNativeStackNavigator();
 function StudyStackNavigator() {
+  const { uploaded } = useSelector((state) => state.exam);
+
+  useEffect(() => {
+    const showToast = () => {
+      Toast.show({
+        type: "success",
+        text1: "Content Uploaded Successfully!",
+        text2: "🎉🎉🎉🎉🎉🎉",
+      });
+    };
+
+    if (uploaded) {
+      showToast();
+    }
+
+    console.log(
+      "Use Effect changed due to the uploaded file: ✅✅✅✅ ",
+      uploaded
+    );
+  }, [uploaded]);
+
   return (
     <StudyStack.Navigator>
       <StudyStack.Screen
