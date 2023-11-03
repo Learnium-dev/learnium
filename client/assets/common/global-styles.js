@@ -6,6 +6,7 @@ export const globalStyles = StyleSheet.create({
     secondary: '#FF4C4C',
     white: '#fff',
     accent: '#FEE702',
+    textColor: '#262626',
     background: '#F5F5F5'
   },
   buttons: {

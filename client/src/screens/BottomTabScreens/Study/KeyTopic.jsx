@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   Pressable,
   Touchable,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { useState, useRef, useMemo, useCallback } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -20,6 +20,7 @@ import { globalStyles } from "../../../../assets/common/global-styles";
 import QuizContainer from "../../../containers/QuizContainer";
 import ConfirmModal from "../../../components/ConfirmModal";
 import { useNavigation } from "@react-navigation/native";
+import AskAI from "../../../../assets/icons/askAI.svg";
 
 const KeyTopic = (props) => {
   const { navigate } = useNavigation();
@@ -60,15 +61,15 @@ const KeyTopic = (props) => {
   };
 
   const handleAskAI = (keyTopic) => {
-  console.log("handleAskAI", keyTopic.keyTopic.name);
-  
-  const askAIprops = {
-    askTopic: keyTopic.keyTopic.name,
-    questionAsk: "",
-    wrongAnswer: "",
+    console.log("handleAskAI", keyTopic.keyTopic.name);
+
+    const askAIprops = {
+      askTopic: keyTopic.keyTopic.name,
+      questionAsk: "",
+      wrongAnswer: "",
+    };
+    navigate("AskAI", askAIprops);
   };
-  navigate("AskAI", askAIprops);
-  }
 
   return (
     <View style={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -128,8 +129,23 @@ const KeyTopic = (props) => {
 
         {/* ASK AI */}
 
-        <TouchableOpacity style={{backgroundColor:'red', height:30}} onPress={()=> handleAskAI({keyTopic})}>
-          <Text>ASK AI</Text>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "red",
+            height: 40,
+            position: "absolute",
+            zIndex: 1,
+            bottom: 80,
+            right: 20,
+            borderRadius: 500,
+            display: "flex",
+            justifyContent: "center",
+          }}
+          onPress={() => handleAskAI({ keyTopic })}
+        >
+          <AskAI
+          
+          />
         </TouchableOpacity>
 
         {/*  QUIZ */}
@@ -143,7 +159,11 @@ const KeyTopic = (props) => {
           snapPoints={snapPoints}
           name="Quiz"
         >
-          <QuizContainer keyTopic={keyTopic} closeSheet={closeQuiz} isSubmit={handleLeftBtn}/>
+          <QuizContainer
+            keyTopic={keyTopic}
+            closeSheet={closeQuiz}
+            isSubmit={handleLeftBtn}
+          />
         </BottomSheetModal>
       </View>
       {isModalOpen ? (
@@ -156,7 +176,7 @@ const KeyTopic = (props) => {
           rightBtnText={"Go back"}
           leftBtnFunction={handleLeftBtn}
           rightBtnFunction={handleRightBtn}
->
+        >
           <Text>Modal Content</Text>
         </ConfirmModal>
       ) : null}
@@ -172,6 +192,8 @@ const styles = StyleSheet.create({
     justifyContent: "start",
     backgroundColor: "white",
     padding: 20,
+    position: "relative",
+    backgroundColor: globalStyles.colors.background,
   },
   stats: {
     display: "flex",
