@@ -1,5 +1,5 @@
 import { LogBox } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 
 // gesture handlers
 import "react-native-gesture-handler";
@@ -16,6 +16,9 @@ import Register from "./src/screens/User/Register";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
+// toaster
+import Toast from "react-native-toast-message";
+
 // Context API
 import Auth from "./src/context/store/Auth";
 import Navigation from "./navigation";
@@ -27,13 +30,13 @@ const Stack = createStackNavigator();
 
 const loadFonts = async () => {
   await Font.loadAsync({
-    'Gabarito-Regular': require('./assets/fonts/static/Gabarito-Regular.ttf'),
-    'Gabarito-Bold': require('./assets/fonts/static/Gabarito-Bold.ttf'),
-    'Nunito-Regular': require('./assets/fonts/Nunito/static/Nunito-Regular.ttf'),
-    'Nunito-SemiBold': require('./assets/fonts/Nunito/static/Nunito-SemiBold.ttf'),
-    'Nunito-Bold': require('./assets/fonts/Nunito/static/Nunito-Bold.ttf'),
+    "Gabarito-Regular": require("./assets/fonts/static/Gabarito-Regular.ttf"),
+    "Gabarito-Bold": require("./assets/fonts/static/Gabarito-Bold.ttf"),
+    "Nunito-Regular": require("./assets/fonts/Nunito/static/Nunito-Regular.ttf"),
+    "Nunito-SemiBold": require("./assets/fonts/Nunito/static/Nunito-SemiBold.ttf"),
+    "Nunito-Bold": require("./assets/fonts/Nunito/static/Nunito-Bold.ttf"),
   });
-}
+};
 
 export default function App() {
   loadFonts();
@@ -55,6 +58,8 @@ export default function App() {
           </NavigationContainer>
           {/* <Navigation /> */}
         </GestureHandlerRootView>
+        {/* Toaster */}
+        <Toast />
       </Provider>
     </Auth>
   );

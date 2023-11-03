@@ -4,6 +4,7 @@ const initialState = {
   date: "",
   days: [],
   content: "",
+  uploaded: false,
 };
 
 export const examSlice = createSlice({
@@ -19,10 +20,14 @@ export const examSlice = createSlice({
     setContent: (state, action) => {
       state.content = action.payload;
     },
+    setUploaded: (state, action) => {
+      state.uploaded = action.payload;
+    },
     resetValues: (state) => {
       state.date = "";
       state.days = [];
       state.content = "";
+      state.uploaded = false;
     },
   },
 });
@@ -30,6 +35,8 @@ export const examSlice = createSlice({
 export const getDate = (state) => state.exam.date;
 export const getDays = (state) => state.exam.days;
 export const getContent = (state) => state.exam.content;
+export const getUploaded = (state) => state.exam.uploaded;
 
-export const { setDate, setDays, resetValues, setContent } = examSlice.actions;
+export const { setDate, setDays, resetValues, setContent, setUploaded } =
+  examSlice.actions;
 export default examSlice.reducer;

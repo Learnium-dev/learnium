@@ -6,6 +6,7 @@ import {
   useWindowDimensions,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 import StudyScreenTabBar from "../../../components/StudyScreenTabBar";
@@ -33,6 +34,7 @@ const Study = () => {
   const { navigate } = useNavigation();
   const [keyTopics, setKeyTopics] = useState([]);
   const [isKeyTopicsLoaded, setIsKeyTopicsLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [index, setIndex] = useState(1); // default to today's content for tab view
   const [routes] = useState([
     { key: "missed", title: "Missed content" },
@@ -116,9 +118,8 @@ const Study = () => {
           />
         </View>
       )}
-
       <Pressable
-        style={globalStyles.buttons.primary}
+        style={{ ...globalStyles.buttons.primary, justifyContent: "center" }}
         onPress={() => navigate("CreateContent")}
       >
         <Text style={globalStyles.buttons.primary.text}>
