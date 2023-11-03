@@ -1,14 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
 import { useState } from "react";
 import ResultModal from "../../../components/ResultModal";
 import {
   calculateQuizPercentage,
   calculateQuizScore,
 } from "../../../services/calculateQuizResult";
+
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
-import { globalStyles } from "../../../../assets/common/global-styles";
+
+// styles
+import { styles } from "./styles/quizResult";
 
 const QuizResult = ({ route }) => {
   const { navigate } = useNavigation();
@@ -28,7 +30,6 @@ const QuizResult = ({ route }) => {
     setIsModalOpen(false);
   };
 
-
   const handleAskAI = (question, answer) => {
     console.log("handleAskAI", question, answer);
     const askAIprops = {
@@ -40,7 +41,7 @@ const QuizResult = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       {isModalOpen ? (
         <ResultModal
           isOpen={isModalOpen}
@@ -66,24 +67,10 @@ const QuizResult = ({ route }) => {
                   <View>
                     <Text>Incorrect</Text>
 
-
                     <TouchableOpacity
-                      style={[styles.previousButton]}
-                      onPress={
-                        () => handleAskAI(item.question, item.answer)
-                        // () => navigate("AskAI")
-                      }
-
+                      onPress={() => handleAskAI(item.question, item.answer)}
                     >
-                      <Text
-                        style={[
-                          styles.textAlignCenter,
-                          styles.textPrimary,
-                          styles.textBold,
-                        ]}
-                      >
-                        ASK AI Button
-                      </Text>
+                      <Text>ASK AI Button</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -128,43 +115,3 @@ const QuizResult = ({ route }) => {
 };
 
 export default QuizResult;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "white",
-    width: "100%",
-    height: `100%`,
-  },
-  nextButton: {
-    width: "45%",
-    backgroundColor: globalStyles.colors.primary,
-    borderRadius: 40,
-    padding: 20,
-  },
-  previousButton: {
-    width: "45%",
-    backgroundColor: "white",
-    borderColor: globalStyles.colors.primary,
-    borderRadius: 40,
-    padding: 20,
-    borderWidth: 2,
-  },
-  textBold: {
-    fontWeight: 700,
-  },
-  textAlignCenter: {
-    textAlign: "center",
-  },
-  textWhite: {
-    color: "white",
-  },
-  textPrimary: {
-    color: globalStyles.colors.primary,
-  },
-  textBold: {
-    fontWeight: 700,
-  },
-});

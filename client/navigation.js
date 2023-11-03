@@ -147,11 +147,6 @@ function StudyStackNavigator() {
     if (uploaded) {
       showToast();
     }
-
-    console.log(
-      "Use Effect changed due to the uploaded file: ✅✅✅✅ ",
-      uploaded
-    );
   }, [uploaded]);
 
   return (
