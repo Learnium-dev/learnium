@@ -16,6 +16,7 @@ import Study from "./src/screens/BottomTabScreens/Study/index";
 import MaterialsStudy from "./src/screens/BottomTabScreens/Progress/AllMaterials";
 import CreateNewMaterial from "./src/screens/BottomTabScreens/Study/CreateNewMaterial";
 import KeyTopic from "./src/screens/BottomTabScreens/Study/KeyTopic";
+import Material from "./src/screens/BottomTabScreens/Study/Material";
 import NextDayPlan from "./src/screens/BottomTabScreens/Study/NextDayPlan";
 import UploadScreen from "./src/screens/BottomTabScreens/Study/UploadScreen";
 import CreateContent from "./src/screens/BottomTabScreens/Study/CreateContent";
@@ -237,6 +238,11 @@ export default function Navigation() {
         <StudyStack.Screen
           name="KeyTopic"
           component={KeyTopic}
+          options={{ headerShown: false }}
+        />
+        <StudyStack.Screen
+          name="Material"
+          component={Material}
           options={{ headerShown: false }}
         />
         <StudyStack.Screen

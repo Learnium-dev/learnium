@@ -1,5 +1,6 @@
 import { LogBox } from "react-native";
 import * as Font from "expo-font";
+import { MenuProvider } from 'react-native-popup-menu';
 
 // gesture handlers
 import "react-native-gesture-handler";
@@ -39,25 +40,27 @@ const loadFonts = async () => {
 };
 
 export default function App() {
-  loadFonts();
+  loadFonts()
 
   return (
     <Auth>
       <Provider store={store}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-              }}
-            >
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="Register" component={Register} />
-              <Stack.Screen name="Navigation" component={Navigation} />
-            </Stack.Navigator>
-          </NavigationContainer>
-          {/* <Navigation /> */}
-        </GestureHandlerRootView>
+        <MenuProvider customStyles={{ backdrop: { backgroundColor: 'black', opacity: 0.5 }}}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <NavigationContainer>
+              <Stack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                }}
+              >
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Register" component={Register} />
+                <Stack.Screen name="Navigation" component={Navigation} />
+              </Stack.Navigator>
+            </NavigationContainer>
+            {/* <Navigation /> */}
+          </GestureHandlerRootView>
+        </MenuProvider>
         {/* Toaster */}
         <Toast />
       </Provider>

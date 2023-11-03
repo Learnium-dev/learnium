@@ -15,12 +15,13 @@ const {flashcardmodel} = require('../models/flashcards');
 const {usermodel} = require('../models/users');
 
 // GET
-router.get(`/`, async (req, res)=>{
+router.get(`/`, async (req, res)=> {
+    const userdata = await usermodel.findOne({email: req.query.email});
 
     // Filter by User Id
     let filter = {};
     if(req.query.userid){
-        filter = {userid: req.query.userid}
+        filter = {userid: userdata?._id}
     }
 
     const folderList = await foldermodel.find(filter);

@@ -25,7 +25,6 @@ import AskAI from "../../../../assets/icons/askAI.svg";
 const KeyTopic = (props) => {
   const { navigate } = useNavigation();
   const { keyTopic } = props.route.params;
-  console.log("KeyTopic: ", keyTopic);
 
   const bottomSheetModalRef = useRef(null);
   const quizModalRef = useRef(null);
@@ -73,7 +72,7 @@ const KeyTopic = (props) => {
 
   return (
     <View style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-      <NavHeader title={keyTopic.name} />
+      <NavHeader title={keyTopic.name} keyTopic={keyTopic} showMenu={true} />
 
       <View style={styles.main}>
         <View style={styles.stats}>

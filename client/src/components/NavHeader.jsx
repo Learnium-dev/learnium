@@ -1,17 +1,34 @@
 // Generate custom navigation header that has a back button and a title and a subtitle
-import React from "react";
 import { View, Text, StyleSheet, Pressable, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ArrowBack from "../../assets/icons/arrow_back.svg";
 import { globalStyles } from "../../assets/common/global-styles";
+import { useRef } from "react";
+import PopupMenu from "./PopupMenu";
 
-const NavHeader = ({ title, subtitle, isCenter, blackText, purpleText }) => {
+const NavHeader = ({ title, subtitle, isCenter, blackText, purpleText, keyTopic, showMenu }) => {
   const navigation = useNavigation();
   // console.log("NavHeader title", title, subtitle);
+  const menuRef = useRef(null);
 
   const handleBack = () => {
     navigation.goBack();
   };
+
+  const menuOptions = [
+    {
+      text: "View material",
+      onSelect: () => navigation.navigate('Material', { keyTopic: keyTopic }),
+    },
+    {
+      text: "Edit Key Topic",
+      onSelect: () => console.log('Edit Key Topic'),
+    },
+    {
+      text: "Delete Key Topic",
+      onSelect: () => console.log('Delete Key Topic'),
+    },
+  ];
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }}>
@@ -24,7 +41,6 @@ const NavHeader = ({ title, subtitle, isCenter, blackText, purpleText }) => {
               <View
                 style={{
                   flexDirection: "row", 
-                  
                   justifyContent: "center",
                   textAlign: "center",
                   margin: "auto",
@@ -43,6 +59,9 @@ const NavHeader = ({ title, subtitle, isCenter, blackText, purpleText }) => {
             {subtitle && <Text>{subtitle}</Text>}
           </View>
         </Pressable>
+        { showMenu && <Pressable style={styles.menuButton}>
+          <PopupMenu options={menuOptions} />
+        </Pressable>}
       </View>
     </SafeAreaView>
   );
@@ -68,7 +87,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // justifyContent: "center",
     justifyContent: "flex-start",
-    width: "100%",
+    width: "90%",
+  },
+  menuButton: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    width: "10%",
   },
   title: {
     fontFamily: "Gabarito-Bold",
