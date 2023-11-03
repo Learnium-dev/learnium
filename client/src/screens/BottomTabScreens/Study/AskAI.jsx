@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import React, { useEffect } from "react";
 import NavHeader from "../../../components/NavHeader";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   ScrollView,
   TextInput,
@@ -13,6 +13,10 @@ import { useMemo } from "react";
 import axios from "axios";
 import { askai } from "../../../services/askAI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { globalStyles } from "../../../../assets/common/global-styles";
+import LumiWithTextLeft from "../../../../assets/images/characters/lumiWithTextBubbleLeft.svg";
+import TextBubbleLeft from "../../../../assets/images/decorative/textBubbleLeft.svg";
+import TextBubbleRight from "../../../../assets/images/decorative/textBubbleRight.svg";
 
 const lumiHeadline = [
   "Hi there. Ask me anything!",
@@ -22,32 +26,7 @@ const lumiHeadline = [
 
 const AskAI = ({ route }) => {
   const [suggestionArray, setSuggestionArray] = useState([]);
-  //   !which one is better? useEffect or useMemo for store parameter from route?
-  //   useEffect(() => {
-  //     // set suggestion array based on route.params
-  //     let getRouteParams = () => {
-  //       if (route.params.askTopic) {
-  //         setSuggestionArray((prevArray) => [
-  //           ...prevArray,
-  //           `Explain more about ${route.params.askTopic}`,
-  //         ]);
-  //       }
-  //       if (route.params.questionAsk) {
-  //         setSuggestionArray((prevArray) => [
-  //           ...prevArray,
-  //           `Explain more about this question ${route.params.questionAsk}`,
-  //         ]);
-  //       }
-  //       if (route.params.wrongAnswer) {
-  //         setSuggestionArray((prevArray) => [
-  //           ...prevArray,
-  //           `Why my answer ${route.params.wrongAnswer} is wrong?`,
-  //         ]);
-  //       }
-  //     };
-  //     getRouteParams();
-  //   }, []);
-  // change from useEffect to useMemo
+
   const suggestionArrayMemo = useMemo(() => {
     let suggestionArray = [];
     if (route.params.askTopic) {
@@ -75,6 +54,11 @@ const AskAI = ({ route }) => {
   const [lumiState, setLumiState] = useState(lumiHeadline[0]);
   const [chatHistory, setChatHistory] = useState([]);
   const [inputText, setInputText] = useState("");
+  const scrollView = useRef();
+
+  const handleContentSizeChange = () => {
+    scrollView.current.scrollToEnd({ animated: true });
+  };
 
   const handleSuggestionSelected = (e) => {
     console.log("handleSuggestionSelected", e);
@@ -96,7 +80,7 @@ const AskAI = ({ route }) => {
     setInputText("");
     console.log(`${process.env.EXPO_PUBLIC_HOSTNAME}/askai`);
     const submitChat = async () => {
-        setLumiState(lumiHeadline[1]);
+      setLumiState(lumiHeadline[1]);
       try {
         const response = await fetch(
           `${process.env.EXPO_PUBLIC_HOSTNAME}/askai`,
@@ -134,54 +118,165 @@ const AskAI = ({ route }) => {
       <NavHeader blackText={"Ask "} purpleText={"Dr.Lumi"} isCenter={"true"} />
       <View style={styles.container}>
         {/* top section wrap */}
-        <View style={{ flex: 1, height: "100%", backgroundColor: "salmon" }}>
-          <View style={{ borderWidth: 2, borderColor: "grey" }}>
-            <Text>{lumiState}</Text>
+        <View
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            
+          }}
+        >
+          <View style={styles.lumiWrap}>
+            <View style={styles.characterTextWrap}>
+              <Text style={styles.textCharacter}>{lumiState}</Text>
+              <LumiWithTextLeft
+                style={styles.character}
+                height={150}
+                width={300}
+              />
+            </View>
           </View>
           <View
             style={{
-              borderWidth: 2,
-              borderColor: "grey",
-              backgroundColor: "yellow",
+              display: "flex",
+              // backgroundColor: "yellow",
+              flex: 1,
             }}
           >
-            <Text>Suggestion</Text>
-            <View style={{ borderWidth: 2, borderColor: "grey", width: "50%" }}>
+            <View
+              style={{
+                padding: 10,
+                borderColor: globalStyles.colors.primary,
+                borderWidth: 2,
+                borderRadius: 16,
+                marginTop: 16,
+                gap: 10,
+                
+              }}
+            >
+              <Text
+                style={{
+                  color: globalStyles.colors.primary,
+                  fontWeight: 700,
+                  fontSize: 19,
+                }}
+              >
+                Suggestions:
+              </Text>
+
+              {/* <View
+                style={{ borderWidth: 2, borderColor: "grey", width: "50%" }}
+              > */}
               {suggestionArray.map((suggestion, index) => {
                 return (
                   <TouchableOpacity
                     key={index}
-                    style={{ backgroundColor: "hotpink", marginBottom: 10 }}
+                    style={{ marginBottom: 10, justifyContent: "center" }}
                     onPress={() => handleSuggestionSelected(suggestion)}
                   >
-                    <Text>{suggestion}</Text>
+                    <TextBubbleRight
+                      style={{ color: "black", zIndex: 0 }}
+                    ></TextBubbleRight>
+                    <Text
+                      style={{
+                        zIndex: 1,
+                        position: "absolute",
+                        left: 10,
+                        width: "50%",
+                      }}
+                    >
+                      
+                      {suggestion}
+                    </Text>
                   </TouchableOpacity>
                 );
               })}
+              {/* </View> */}
             </View>
-            <View 
-            // style={{ backgroundColor: "starwberry", height:"100%", overflow:"scroll"}}
+            <View
+              style={{ flex: 1, 
+                // backgroundColor: "orange" 
+              }}
+              // style={{ backgroundColor: "starwberry", height:"100%", overflow:"scroll"}}
             >
               {/* chat area */}
-              <ScrollView style={{ backgroundColor: "starwberry", height:"100%", overflow:"hidden"}}>
+              <ScrollView
+                ref={scrollView}
+                onContentSizeChange={handleContentSizeChange}
+                style={{
+                  
+                  // backgroundColor: "starwberry",
+                  // height: "100%",
+                  // overflow: "hidden",
+                  flex: 1,
+                  flexDirection: "column",
+                 
+                }}
+                contentContainerStyle={{
+                  // backgroundColor: "tomato",
+                  // height: "100%",
+                  // overflow: "hidden",
+                  flexGrow: 1,
+                  justifyContent: "flex-end",
+                  // alignItems: "flex-end",
+                  // flexDirection: "column",
+                }}
+              >
                 {chatHistory.map((chat, index) => {
                   return (
                     <View
                       key={index}
                       style={{
                         flexDirection: "row",
-                        justifyContent: chat.isUser ? "flex-end" : "flex-start",overflow:"hidden"
+                        alignItems: "end",
+                        justifyContent: chat.isUser ? "flex-end" : "flex-start",
+                        overflow: "hidden",
                       }}
                     >
                       <View
                         style={{
-                          backgroundColor: chat.isUser
-                            ? "tomato"
-                            : "MediumSeaGreen",
-                          width: "50%",
+                          
+                          alignItems: chat.isUser ?   "flex-end": "flex-start" ,
+                          // backgroundColor: chat.isUser
+                          //   ? "tomato"
+                          //   : "gold",
+                          borderWidth: 2,
+                          borderRadius: 16,
+                          borderColor: chat.isUser ? "black":globalStyles.colors.primary,
+                          width: "60%",
+                          marginBottom: 5,
+                          marginTop: 5,
                         }}
                       >
-                        <Text>{chat.text}</Text>
+                       
+                        {chat.isUser ? (
+                          <Text
+                            style={{
+                             
+                              zIndex: 1,
+                              textAlign: "right",
+                              width: "100%",
+                              // right: 10,
+                              // top: 10,
+                              padding: 5,
+                            }}
+                          >
+                            {chat.text}
+                          </Text>
+                        ) : (
+                          <Text
+                            style={{
+                            
+                              zIndex: 1,
+                              textAlign: "left",
+                              width: "100%",
+                              padding: 5,
+                            
+                            }}
+                          >
+                            {chat.text}
+                          </Text>
+                        )}
                       </View>
                     </View>
                   );
@@ -193,15 +288,17 @@ const AskAI = ({ route }) => {
         {/* input */}
         <View
           style={{
-            backgroundColor: "orange",
+            // backgroundColor: "orange",
             flexDirection: "row",
             alignItems: "center",
+            backgroundColor:"transparent",  
+            borderRadius: 16, borderWidth: 2, borderColor: globalStyles.colors.primary, padding: 10 
           }}
         >
           <TextInput
             multiline={true}
             numberOfLines={2}
-            style={{ backgroundColor: "pink", flex: 1, height: 50 }}
+            style={{  flex: 1, height: 50,}}
             value={inputText}
             onChangeText={(text) => onChangeText(text)}
           ></TextInput>
@@ -221,13 +318,47 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "white",
+    backgroundColor: globalStyles.colors.background,
+    
   },
   container: {
     flex: 1,
-
-    backgroundColor: "red",
+    display: "flex",
+    backgroundColor: globalStyles.colors.background,
     paddingHorizontal: 20,
     paddingTop: 20,
+  },
+  lumiWrap: {
+    borderBottomColor: globalStyles.colors.primary,
+    borderBottomWidth: 2,
+    height: "25%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  characterTextWrap: {
+    width: "100%",
+    position: "relative",
+    // backgroundColor: "yellow",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textCharacter: {
+    position: "absolute",
+    top: 25,
+    left: 50,
+    width: "35%",
+    zIndex: 1,
+    color: globalStyles.colors.textColor,
+    fontWeight: "bold",
+    // backgroundColor: "pink",
+  },
+  character: {
+    // position: "absolute",
+    // top: 0,
+    // left: 0,
+    zIndex: 0,
+
+    // backgroundColor: "red",
   },
 });
