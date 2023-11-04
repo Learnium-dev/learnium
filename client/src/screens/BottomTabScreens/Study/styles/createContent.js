@@ -60,7 +60,8 @@ export const styles = StyleSheet.create({
   textarea: {
     fontFamily: "Nunito-Regular",
     fontSize: 16,
-    height: 350,
+    height: "100%",
+    // height: 350,
     borderWidth: 2,
     borderRadius: 8,
     borderColor: "#262626",

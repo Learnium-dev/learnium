@@ -166,7 +166,9 @@ function StudyStackNavigator() {
       <StudyStack.Screen name="remove" component={remove} />
       {/* //       <StudyStack.Screen name="UploadScreen" component={UploadScreen} /> */}
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
-      <StudyStack.Screen name="UploadScreen" component={UploadScreen} />
+      <StudyStack.Screen name="UploadScreen" component={UploadScreen} 
+      // options={{ headerShown: false }}
+      />
       <StudyStack.Screen name="MaterialsStudy" component={MaterialsStudy} />
       {/* //       <StudyStack.Screen
 //         name="KeyTopic"
@@ -183,6 +185,7 @@ function StudyStackNavigator() {
       <StudyStack.Screen
         name="CreateNewMaterial"
         component={CreateNewMaterial}
+        // options={{ headerShown: false }}
       />
       <StudyStack.Screen
         options={{ headerShown: false }}
