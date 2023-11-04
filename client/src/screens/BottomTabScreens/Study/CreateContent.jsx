@@ -65,7 +65,10 @@ const CreateContent = () => {
           flexGrow: 1,
         }}
       >
-        <View style={{ flexGrow: 1 }}>
+        <View style={{ 
+          flexGrow: 1 , 
+          // backgroundColor:"pink"
+          }}>
           {/* Header */}
           <Header step={currentStep} back={handlePreviousStep} />
           {currentStep === 0 && (
