@@ -130,7 +130,7 @@ const KeyTopic = (props) => {
 
         <TouchableOpacity
           style={{
-            backgroundColor: "red",
+            // backgroundColor: "red",
             height: 40,
             position: "absolute",
             zIndex: 1,
