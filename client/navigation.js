@@ -134,20 +134,17 @@ const getRouteName = (route) => {
 // study stack navigator
 const StudyStack = createNativeStackNavigator();
 function StudyStackNavigator() {
-  const { uploaded } = useSelector((state) => state.exam);
+  const { uploaded, pdfName } = useSelector((state) => state.exam);
 
   useEffect(() => {
     const showToast = () => {
       Toast.show({
         type: "success",
-        text1: "Content Uploaded Successfully!",
-        text2: "🎉🎉🎉🎉🎉🎉",
+        text1: "PDF uploaded successfully! ⭐",
+        text2: `Title: ${pdfName || "Untitled"}`,
       });
     };
-
-    if (uploaded) {
-      showToast();
-    }
+    if (uploaded) showToast();
   }, [uploaded]);
 
   return (
@@ -166,8 +163,10 @@ function StudyStackNavigator() {
       <StudyStack.Screen name="remove" component={remove} />
       {/* //       <StudyStack.Screen name="UploadScreen" component={UploadScreen} /> */}
       <StudyStack.Screen name="AllMaterials" component={AllMaterials} />
-      <StudyStack.Screen name="UploadScreen" component={UploadScreen} 
-      // options={{ headerShown: false }}
+      <StudyStack.Screen
+        name="UploadScreen"
+        component={UploadScreen}
+        // options={{ headerShown: false }}
       />
       <StudyStack.Screen name="MaterialsStudy" component={MaterialsStudy} />
       {/* //       <StudyStack.Screen

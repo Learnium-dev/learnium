@@ -92,22 +92,16 @@ const ExamSchedule = ({ name, prev, next }) => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "space-between",
-        // backgroundColor: "yellow",
-      }}
-    >
+    <>
       <ScrollView
         style={{
           flex: 1,
-          // height:"50%",
-          // height:"100%",
-          // maxHeight: "100%",
-          // backgroundColor: "red",
           overflow: "scroll",
+        }}
+        contentContainerStyle={{
+          flexDirection: "column",
+          justifyContent: "space-between",
+          // backgroundColor: "yellow",
         }}
       >
         <View>
@@ -139,29 +133,26 @@ const ExamSchedule = ({ name, prev, next }) => {
 
           {
             Platform.OS === "ios" && (
-              
               <Pressable onPress={() => showMode("date")}>
-              <Text style={styles.datePicker} >{examDate}</Text>
-              {/* <TextInput
+                <Text style={styles.datePicker}>{examDate}</Text>
+                {/* <TextInput
                 placeholder={`${formattedDate(dateNow)}`}
                 placeholderTextColor={"gray"}
                 value={examDate}
                 editable={false}
                 style={styles.datePicker}
               /> */}
-              {showPicker && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  mode={mode}
-                  value={dateNow}
-                  display="inline"
-                  onChange={onChange}
-                  is24Hour={true}
-                  
-                />
-              )}
-            </Pressable>
-              
+                {showPicker && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    mode={mode}
+                    value={dateNow}
+                    display="inline"
+                    onChange={onChange}
+                    is24Hour={true}
+                  />
+                )}
+              </Pressable>
             )
             // Code specific to iOS
           }
@@ -173,6 +164,7 @@ const ExamSchedule = ({ name, prev, next }) => {
               // height: "50%",
               flex: 1,
               overflow: "scroll",
+              marginBottom: 100,
             }}
           >
             <Text style={styles.subtitle}>
@@ -212,7 +204,7 @@ const ExamSchedule = ({ name, prev, next }) => {
           <Text style={styles.btnTextOption}>Finish</Text>
         </Pressable>
       </View>
-    </View>
+    </>
   );
 };
 

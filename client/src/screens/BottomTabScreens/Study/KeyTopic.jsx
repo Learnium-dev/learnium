@@ -71,7 +71,13 @@ const KeyTopic = (props) => {
   };
 
   return (
-    <View style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+    <View
+      style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <NavHeader title={keyTopic.name} keyTopic={keyTopic} showMenu={true} />
 
       <View style={styles.main}>
@@ -142,9 +148,7 @@ const KeyTopic = (props) => {
           }}
           onPress={() => handleAskAI({ keyTopic })}
         >
-          <AskAI
-          
-          />
+          <AskAI />
         </TouchableOpacity>
 
         {/*  QUIZ */}
