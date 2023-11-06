@@ -59,29 +59,35 @@ const CreateContent = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
+      {/* <ScrollView
         showsVerticalScrollIndicator={true}
         contentContainerStyle={{
           flexGrow: 1,
         }}
+      > */}
+      <View
+        style={{
+          flexGrow: 1,
+          // backgroundColor: "pink",
+        }}
       >
-        <View style={{ 
-          flexGrow: 1 , 
-          // backgroundColor:"pink"
-          }}>
-          {/* Header */}
-          <Header step={currentStep} back={handlePreviousStep} />
-          {currentStep === 0 && (
-            <UploadContent name="Upload Content" next={handleNextStep} />
-          )}
-          {currentStep === 1 && (
-            <PurposeContent next={handleNextStep} setPurpose={setPurpose} />
-          )}
-          {currentStep === 2 && <GrowProf next={handleNextStep} />}
-          {currentStep === 3 && <LearningTime next={handleNextStep} />}
-          {currentStep === 4 && <ExamSchedule next={handleFinish} />}
-        </View>
-      </ScrollView>
+        {/* Header */}
+        <Header step={currentStep} back={handlePreviousStep} />
+        {currentStep === 0 && (
+          <UploadContent
+            name="Upload Content"
+            next={handleNextStep}
+            setCurrentStep={setCurrentStep}
+          />
+        )}
+        {currentStep === 1 && (
+          <PurposeContent next={handleNextStep} setPurpose={setPurpose} />
+        )}
+        {currentStep === 2 && <GrowProf next={handleNextStep} />}
+        {currentStep === 3 && <LearningTime next={handleNextStep} />}
+        {currentStep === 4 && <ExamSchedule next={handleFinish} />}
+      </View>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };
