@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Pressable,
   useWindowDimensions,
-  SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -14,6 +13,8 @@ import StudyTabView from "../../../layout/StudyTabView";
 import { globalStyles } from "../../../../assets/common/global-styles";
 import { getKeyTopics } from "../../../services/keyTopicsService";
 import { isBeforeToday, isToday } from "../../../../utils/helpers";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // react navigation imports
 import { useNavigation } from "@react-navigation/native";
@@ -104,7 +105,7 @@ const Study = () => {
         <Text>AskAI</Text>
       </TouchableOpacity> */}
       <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
-        <Text>Welcome back, Genia</Text>
+        <Text style={styles.useName}>Welcome back, Genia!</Text>
       </View>
 
       {isKeyTopicsLoaded && (
@@ -142,6 +143,11 @@ const styles = StyleSheet.create({
     // backgroundColor: "blue",
     paddingHorizontal: 20,
     paddingTop: 20,
+  },
+  useName: {
+    fontFamily: "Gabarito-Bold",
+    fontSize: 20,
+    color: "#262626",
   },
 });
 

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect } from "react";
 import NavHeader from "../../../components/NavHeader";
 import { useState, useRef } from "react";
@@ -7,6 +7,9 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native-gesture-handler";
+
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import ChatSendBtn from "../../../../assets/icons/chatSendBtn.svg";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { useMemo } from "react";
