@@ -186,11 +186,6 @@ function StudyStackNavigator() {
         component={CreateNewMaterial}
         // options={{ headerShown: false }}
       />
-      <StudyStack.Screen
-        options={{ headerShown: false }}
-        name="ProgressPage"
-        component={Progress}
-      />
     </StudyStack.Navigator>
   );
 }

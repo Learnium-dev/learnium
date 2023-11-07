@@ -27,12 +27,6 @@ function ConfirmModal({
     setIsModalVisible(false);
   };
 
-  const handleRightBtn = () => {
-    rightBtnFunction();
-    // console.log("submitQuiz");
-    
-  };
-
   return (
     <View>
       {/* <TouchableOpacity onPress={openModal}>
@@ -49,11 +43,27 @@ function ConfirmModal({
             <Text>{title}</Text>
             <Text>{subTitle}</Text>
             <View style={styles.navigationButton}>
-              <TouchableOpacity onPress={handleLeftBtn} style={[styles.previousButton]}>
-                <Text style={[styles.textBold,styles.textAlignCenter]}>{leftBtnText}</Text>
+              <TouchableOpacity
+                onPress={handleLeftBtn}
+                style={[styles.previousButton]}
+              >
+                <Text style={[styles.textBold, styles.textAlignCenter]}>
+                  {leftBtnText}
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleRightBtn} style={[styles.nextButton]}>
-                <Text style={[styles.textWhite,styles.textBold,styles.textAlignCenter]}>{rightBtnText}</Text>
+              <TouchableOpacity
+                onPress={rightBtnFunction}
+                style={[styles.nextButton]}
+              >
+                <Text
+                  style={[
+                    styles.textWhite,
+                    styles.textBold,
+                    styles.textAlignCenter,
+                  ]}
+                >
+                  {rightBtnText}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

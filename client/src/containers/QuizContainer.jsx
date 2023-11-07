@@ -9,16 +9,27 @@ import ConfirmModal from "../components/ConfirmModal";
 import { getQuizzes } from "../services/quizService";
 import { useNavigation } from "@react-navigation/native";
 
+// redux
+import { useSelector } from "react-redux";
+
+// helper
+import { calculateQuizPercentage } from "../services/calculateQuizResult";
+import axios from "axios";
+// URL
+import baseURL from "../../assets/common/baseUrl";
+
 const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
   const { navigate } = useNavigation();
   const [keyTopicId, setKeyTopicId] = useState(keyTopic._id);
   const [getKeyTopic, setGetKeyTopic] = useState(keyTopic);
   // const keyTopiId = keyTopic._id;
   const [quiz, setQuiz] = useState([]);
-  const [token, setToken] = useState(null);
   const [isQuizStart, setIsQuizStart] = useState(false);
   const [result, setResult] = useState([]);
+  const { token } = useSelector((state) => state.credentials);
+  console.log("⭐⭐⭐⭐", getKeyTopic);
 
+  console.log("token", token);
   const [cardIndex, setCardIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [timeConsumed, setTimeConsumed] = useState(0);
@@ -31,20 +42,46 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
     setIsModalOpen(false);
   };
 
-  const submitResult = () => {
-    console.log("getKeyTopic", getKeyTopic);
+  const submitResult = async () => {
     const params = {
       result: result,
       keyTopic: getKeyTopic,
       quiz: quiz,
       timeConsumed: timeConsumed,
     };
-    navigate("QuizResult", params);
-    // navigate("QuizResult", {quiz: quiz });
-    // navigate("QuizResult", { result: result ,keyTopic: getKeyTopic,quiz: quiz });
-    // navigate("QuizResult", [{ result: result }, {keyTopic: getKeyTopic},{quiz: quiz }]);
-    closeModal();
-    isSubmit();
+    const requestBody = {
+      quizzes: { progress: calculateQuizPercentage(result) },
+      details: result,
+    };
+
+    console.log("Request body 🎉🎉🎉", requestBody);
+
+    const options = {
+      method: "POST",
+      url: `${baseURL}historyquizzes?keytopicid=${getKeyTopic?._id}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: requestBody,
+    };
+    try {
+      const response = await axios(options);
+      const data = response.data;
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+      console.log("✅✅ Posted to DB!");
+      navigate("QuizResult", params);
+      closeModal();
+      isSubmit();
+    } catch (error) {
+      console.error(
+        "Error occurred while making the request: ⚠️⚠️⚠️⚠️",
+        error.message
+      );
+    }
   };
 
   const pagerRef = useRef(null);
