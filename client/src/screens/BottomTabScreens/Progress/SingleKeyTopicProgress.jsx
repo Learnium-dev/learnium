@@ -53,14 +53,14 @@ const SingleKeyTopicProgress = (props) => {
           }
         );
         setQuizzes(response?.data);
-        if (response.data.length < 3) {
-          for (let i = response.data.length; i < 3; i++) {
-            setQuizzes((prev) => [
-              ...prev,
-              { id: i, progress: 0, keytopicid: id },
-            ]);
-          }
-        }
+        // if (response.data.length < 3) {
+        //   for (let i = response.data.length; i < 3; i++) {
+        //     setQuizzes((prev) => [
+        //       ...prev,
+        //       { id: i, progress: 0, keytopicid: _id },
+        //     ]);
+        //   }
+        // }
         setHighestScore(
           response.data.reduce(
             (max, quiz) => (quiz.progress > max ? quiz.progress : max),
