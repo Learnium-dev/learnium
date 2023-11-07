@@ -53,14 +53,16 @@ const SingleKeyTopicProgress = (props) => {
           }
         );
         setQuizzes(response?.data);
-        // if (response.data.length < 3) {
-        //   for (let i = response.data.length; i < 3; i++) {
-        //     setQuizzes((prev) => [
-        //       ...prev,
-        //       { id: i, progress: 0, keytopicid: _id },
-        //     ]);
-        //   }
-        // }
+        if (response?.data.length < 3) {
+          const newQuizzes = Array.from(
+            { length: 3 - response?.data.length },
+            (_, index) => ({
+              id: index,
+              progress: 0,
+            })
+          );
+          setQuizzes([...response?.data, ...newQuizzes]);
+        }
         setHighestScore(
           response.data.reduce(
             (max, quiz) => (quiz.progress > max ? quiz.progress : max),
@@ -88,19 +90,16 @@ const SingleKeyTopicProgress = (props) => {
             three quizzes
           </Text>
           <View style={styles.checkMarksContainer}>
-            {quizzes && quizzes.length > 0
-              ? quizzes
-                  .sort((a, b) => b.progress - a.progress)
-                  .map((quiz) =>
-                    quiz.progress >= 85 ? (
-                      <CheckOn key={quiz.id} width={40} height={40} />
-                    ) : (
-                      <CheckOff key={quiz.id} width={40} height={40} />
-                    )
+            {quizzes &&
+              quizzes
+                .sort((a, b) => b.progress - a.progress)
+                .map((quiz) =>
+                  quiz.progress >= 85 ? (
+                    <CheckOn key={quiz.id} width={40} height={40} />
+                  ) : (
+                    <CheckOff key={quiz.id} width={40} height={40} />
                   )
-              : Array.from({ length: 3 }, (_, index) => (
-                  <CheckOff key={index} width={40} height={40} />
-                ))}
+                )}
           </View>
         </View>
       </View>
