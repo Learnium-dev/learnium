@@ -1,4 +1,5 @@
 .env
 node_modules
-docstore.json
-faiss.index
+
+server/docstore.json
+server/faiss.index
