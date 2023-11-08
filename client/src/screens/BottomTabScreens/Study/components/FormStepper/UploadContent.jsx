@@ -33,6 +33,9 @@ import ModalCamera from "../ModalCamera";
 const UploadContent = ({ name, next, setCurrentStep }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.credentials);
+  console.log("🚀 ~ file: UploadContent.jsx:31 ~ token:", token)
+  const { email } = useSelector((state) => state.credentials);
+  console.log("🚀 ~ file: UploadContent.jsx:32 ~ tokenEmail:", email)
   const { content } = useSelector((state) => state.exam);
   const [disabled, setDisabled] = useState(true);
   const [text, setText] = useState(content);
@@ -67,7 +70,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
     dispatch(setUploaded(false));
     try {
       const res = await DocumentPicker.getDocumentAsync();
-      console.log("this is the pdf content: ", res?.assets[0]?.name);
+      // console.log("this is the pdf content: ", res?.assets[0]?.name);
       // remove the .pdf extension from the name
       const name = res?.assets[0]?.name;
       const pdfname = name.split(".")[0];
@@ -83,6 +86,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
       // console.log("hey this is token", token);
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content`,
+        // `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content?email=${tokenEmail}&toke=${token}`,
         formData,
 
         {

@@ -78,7 +78,8 @@ const SingleKeyTopicProgress = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
+      {/* <View style={{ padding: 20}}> */}
+        {/* Header */}
       <Header name={keyTopic?.name} materialName={keyTopic?.folderid?.name} />
 
       {/* Banner */}
@@ -112,57 +113,86 @@ const SingleKeyTopicProgress = (props) => {
             <Text style={styles.subContainerInfoText}>
               {formatDate(keyTopic?.duedate)}
             </Text>
+            <View style={styles.checkMarksContainer}>
+              {quizzes && quizzes.length > 0
+                ? quizzes
+                    .sort((a, b) => b.progress - a.progress)
+                    .map((quiz) =>
+                      quiz.progress >= 85 ? (
+                        <CheckOn key={quiz.id} width={40} height={40} />
+                      ) : (
+                        <CheckOff key={quiz.id} width={40} height={40} />
+                      )
+                    )
+                : Array.from({ length: 3 }, (_, index) => (
+                    <CheckOff key={index} width={40} height={40} />
+                  ))}
+            </View>
           </View>
         </View>
-        <View style={styles.subContainerInfo}>
-          <Badge width={41} height={52} />
-          <View>
-            <Text style={styles.subContainerInfoTitle}>Best Score</Text>
-            <Text style={styles.subContainerInfoText}>{highestScore}%</Text>
+        {/* Info of KeyTopic */}
+        <View style={styles.containerInfo}>
+          <View style={styles.subContainerInfo}>
+            <Calendar width={50} height={50} />
+            <View>
+              <Text style={styles.subContainerInfoTitle}>Due Date</Text>
+              <Text style={styles.subContainerInfoText}>
+                {formatDate(keyTopic?.duedate)}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.subContainerInfo}>
+            <Badge width={41} height={52} />
+            <View>
+              <Text style={styles.subContainerInfoTitle}>Best Score</Text>
+              <Text style={styles.subContainerInfoText}>{highestScore}%</Text>
+            </View>
           </View>
         </View>
-      </View>
-      {/* Quiz History */}
-      <View>
-        <Text style={{ ...styles.title, color: "#7000FF" }}>Quiz History</Text>
-        <FlatList
-          horizontal={true}
-          contentContainerStyle={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            gap: 15,
-            width: "100%",
-            marginVertical: 15,
-          }}
-          data={quizzes}
-          renderItem={({ item }) => {
-            if (item?.progress > 0) {
-              return <QuizCard item={item} />;
-            }
-          }}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-      {/* Buttons */}
-      {/* const { name, materialName, id, duedate } = route.params; */}
+        {/* Quiz History */}
+        <View>
+          <Text style={{ ...styles.title, color: "#7000FF" }}>
+            Quiz History
+          </Text>
+          <FlatList
+            horizontal={true}
+            contentContainerStyle={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              gap: 15,
+              width: "100%",
+              marginVertical: 15,
+            }}
+            data={quizzes}
+            renderItem={({ item }) => {
+              if (item?.progress > 0) {
+                return <QuizCard item={item} />;
+              }
+            }}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+        {/* Buttons */}
+        {/* const { name, materialName, id, duedate } = route.params; */}
 
-      <Pressable
-        onPress={() => navigate("KeyTopic", { keyTopic })}
-        style={{
-          ...styles.btn,
-          backgroundColor: "#FFF",
-          borderColor: "#7000FF",
-        }}
-      >
-        <Text style={{ ...styles.btnText, color: "#7000FF" }}>Study</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => navigate("KeyTopic", { keyTopic })}
-        style={styles.btn}
-      >
-        <Text style={styles.btnText}>Start a Quiz</Text>
-      </Pressable>
+        <Pressable
+          onPress={() => navigate("KeyTopic", { keyTopic })}
+          style={{
+            ...styles.btn,
+            backgroundColor: "#FFF",
+            borderColor: "#7000FF",
+          }}
+        >
+          <Text style={{ ...styles.btnText, color: "#7000FF" }}>Study</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => navigate("KeyTopic", { keyTopic })}
+          style={styles.btn}
+        >
+          <Text style={styles.btnText}>Start a Quiz</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 };

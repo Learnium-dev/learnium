@@ -1,4 +1,4 @@
-import { LogBox } from "react-native";
+import { LogBox, ActivityIndicator } from "react-native";
 import * as Font from "expo-font";
 import { MenuProvider } from "react-native-popup-menu";
 
@@ -23,6 +23,7 @@ import Toast, { BaseToast } from "react-native-toast-message";
 // Context API
 import Auth from "./src/context/store/Auth";
 import Navigation from "./navigation";
+import { useEffect, useState } from "react";
 
 // Ignore all warnings
 LogBox.ignoreAllLogs();
@@ -40,7 +41,14 @@ const loadFonts = async () => {
 };
 
 export default function App() {
-  loadFonts();
+
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    loadFonts().then(() => {
+      setFontsLoaded(true);
+    });
+  }, []);
 
   // toaster config
   const toastConfig = {
@@ -54,8 +62,13 @@ export default function App() {
     ),
   };
 
+  // To fix error that fonts are loaded after the app is rendered
+  if (!fontsLoaded) {
+    return <ActivityIndicator />;
+  }
+
   return (
-    <Auth>
+   <Auth>
       <Provider store={store}>
         <MenuProvider
           customStyles={{

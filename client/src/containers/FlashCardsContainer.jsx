@@ -2,9 +2,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useRef, useState, useEffect } from "react";
 import PagerView from "react-native-pager-view";
 import FlashCard from "../components/FlashCard";
-import { getFlashCards } from "../services/flashcardsService";
 import FlashCardsSetupView from "../layout/FlashCardsSetupView";
-import { updateDetails } from "../services/detailsService";
 import FlashCardsQuizHeader from "../components/FlashCardsQuizHeader";
 import { useDispatch, useSelector } from 'react-redux'
 import flashCardsSlice, { fetchFlashcards, updateFlashcard, fetchMaterialFlashcards } from "../../slices/flashCardsSlice";
@@ -18,9 +16,10 @@ const FlashCardsContainer = ({ closeSheet, keyTopic, studyMaterial }) => {
   const termFirst = useSelector(state => state.flashCards.termFirst);
   const practicing = useSelector(state => state.flashCards.practicing);
   const cardIndex = useSelector(state => state.flashCards.cardIndex);
+  const showingInfo = useSelector(state => state.flashCards.showingInfo);
 
   // Actions
-  const { setTermFirst, setPracticing, setCardIndex } = flashCardsSlice.actions;
+  const { setTermFirst, setPracticing, setCardIndex, setShowingInfo } = flashCardsSlice.actions;
 
 
   useEffect(() => {
@@ -30,6 +29,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic, studyMaterial }) => {
       dispatch(fetchFlashcards(keyTopic._id));
     }
     dispatch(setPracticing(false));
+    dispatch(setShowingInfo(false));
   }, [dispatch]);
 
   const handleStart = (termFirst) => {
@@ -59,7 +59,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic, studyMaterial }) => {
         <PagerView
           style={styles.pagerView}
           initialPage={0}
-          scrollEnabled={true}
+          scrollEnabled={!showingInfo}
           overdrag={true}
           ref={pagerRef}
           onPageSelected={(e) => dispatch(setCardIndex(e.nativeEvent.position))}
@@ -83,6 +83,11 @@ const FlashCardsContainer = ({ closeSheet, keyTopic, studyMaterial }) => {
           keyTopic={keyTopic}
         />
       }
+
+      { showingInfo && 
+        <View style={styles.instructions} />
+      }
+
     </View>
   );
 };
@@ -103,6 +108,34 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+    zIndex: 1,
+  },
+  instructions: {
+    position: 'absolute',
+    height: "100%",
+    width: "120%",
+    backgroundColor: 'black',
+    opacity: 0.7,
+  },
+  infoButtonContainer: {
+    position: 'absolute',
+    bottom: 60,
+    width: 50
+  },
+  infoButton: {
+    width: 50, 
+    height: 50, 
+    borderRadius: 30, 
+    backgroundColor: 'white'
+  },
+  infoButtonText: {
+    color: 'black', 
+    fontSize: 25, 
+    fontFamily: 'Gabarito-Bold',
+    margin: 'auto',
+    textAlign: 'center',
+    position: 'relative',
+    top: 10
   },
 });
 

@@ -38,8 +38,7 @@ const Material = (props) => {
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ["95%"], []);
   const [isKeyTopicsCollapsed, setIsKeyTopicsCollapsed] = useState(true);
-  const [isKeyTopicsListCollapsed, setIsKeyTopicsListCollapsed] =
-    useState(true);
+  const [isKeyTopicsListCollapsed, setIsKeyTopicsListCollapsed] = useState(true);
 
   useEffect(() => {
     dispatch(fetchMaterial(keyTopic.folderid._id));
@@ -83,47 +82,32 @@ const Material = (props) => {
         {/*  KEY TOPICS SUMMARY */}
         <Pressable
           style={styles.collapsibleKeytopics}
-          onPress={() => setIsKeyTopicsCollapsed(!isKeyTopicsCollapsed)}
+          onPress={() => navigate('MaterialSummary', { keyTopics: keyTopics, material: material, openBottomSheet: openBottomSheet })}
         >
-          <Collapsible
-            style={{}}
-            collapsedHeight={150}
-            collapsed={isKeyTopicsCollapsed}
-            duration={50}
-            easing={Easing.ease}
-          >
-            <View style={{}}>
-              <Text style={styles.summaryTitle}>Summary</Text>
-
+          <View style={{maxHeight: 170, overflow: 'hidden'}}>
+            <Text style={styles.summaryTitle}>Summary</Text>
+          
+            <Text numberOfLines={6} ellipsizeMode="tail">
               {keyTopics.map((keyTopic, index) => (
-                <View style={{ marginBottom: 20 }} key={keyTopic._id}>
-                  <Text
-                    style={{
-                      ...styles.summaryText,
-                      fontFamily: "Nunito-SemiBold",
-                    }}
-                  >
-                    Key Topic {index + 1}: {keyTopic.name}
+                  <Text style={{ display: 'flex', marginBottom: 20 }} key={keyTopic._id}>
+                    <Text
+                      style={{
+                        ...styles.summaryText,
+                        fontFamily: "Nunito-SemiBold",
+                      }}
+                    >
+                      Key Topic {index + 1}: {keyTopic.name}
+                      {"\n"}
+                    </Text>
+                    <Text style={styles.summaryText}>{keyTopic.summary}</Text>
+                    {"\n"}
+                    {"\n"}
                   </Text>
-                  <Text style={styles.summaryText}>{keyTopic.summary}</Text>
-                </View>
-              ))}
-            </View>
-          </Collapsible>
-          <View
-            style={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              height: 20,
-              marginTop: 10,
-            }}
-          >
-            {isKeyTopicsCollapsed ? (
-              <Feather name="chevron-down" size={24} color="gray" />
-            ) : (
-              <Feather name="chevron-up" size={24} color="gray" />
-            )}
+                ))}
+            </Text>
+
+
+
           </View>
         </Pressable>
 

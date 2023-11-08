@@ -147,7 +147,7 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
     pagerRef.current.setPage(prevIndex < 0 ? 0 : prevIndex);
     setCardIndex(prevIndex);
   };
-  console.log("previous", cardIndex);
+  // console.log("previous", cardIndex);
 
   const setQuizResult = (res) => {
     let updateResult = () => {
@@ -162,7 +162,7 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
   const getTimeConsumed = (time) => {
     setTimeConsumed(time);
   };
-  console.log("result", result);
+  // console.log("result", result);
   return (
     <View style={styles.container}>
       <FlashCardsQuizHeader

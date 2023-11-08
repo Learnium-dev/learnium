@@ -1,0 +1,16 @@
+import { View, Text } from "react-native";
+import { globalStyles } from '../../assets/common/global-styles';
+
+const inProgressTabLabel = (props) => {
+  const { focused, style } = props;
+
+  return (
+    <View style={{ ...style, backgroundColor: focused ? 'white' : 'transparent' }}>
+      <Text style={{fontFamily: globalStyles.fonts.gabaritoRegular, fontSize: 16, color: focused ? globalStyles.colors.primary : globalStyles.colors.white }}>
+        In Progress
+      </Text>
+    </View>
+  )
+};
+
+export default inProgressTabLabel;

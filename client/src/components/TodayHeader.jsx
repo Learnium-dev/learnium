@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "start",
   },
   bubble: {
-    borderRadius: 10,
+    borderRadius: 24,
     marginTop: 10,
     marginLeft: 10,
     padding: 20,
