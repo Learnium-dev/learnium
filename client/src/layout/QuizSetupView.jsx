@@ -1,30 +1,38 @@
-import { View, Text, StyleSheet, Switch, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Switch,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import { useState } from "react";
 import FlashCardsCharacter from "../../assets/images/characters/flashcards-character.svg";
+import LumiQuizSetup from "../../assets/images/characters/LumiQuizSetup.svg";
+// import LumiQuizSetup from "../../assets/images/characters/lumiQuizSetup.svg";
 import { globalStyles } from "../../assets/common/global-styles";
 
 const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
+  // console.log("keyTopic", keyTopic);
   const [trueFalse, setTrueFalse] = useState(true);
   const [multipleChoice, setMultipleChoice] = useState(true);
   const [written, setWritten] = useState(true);
   const [isQuizStart, setIsQuizStart] = useState(true);
 
   const toggleTrueFalse = () => {
-    
-    setTrueFalse(isEnabled => !isEnabled);
+    setTrueFalse((isEnabled) => !isEnabled);
     console.log("toggleSwitch");
-  }
+  };
   const toggleWritten = () => {
-    setWritten(isEnabled => !isEnabled);
-    
+    setWritten((isEnabled) => !isEnabled);
+
     console.log("toggleSwitch");
-  }
+  };
   const toggleMultipleChoice = () => {
-    
-    setMultipleChoice(isEnabled => !isEnabled);
-    
+    setMultipleChoice((isEnabled) => !isEnabled);
+
     console.log("toggleSwitch");
-  }
+  };
 
   const handleStart = () => {
     onStartQuiz(trueFalse, multipleChoice, written);
@@ -32,48 +40,66 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
 
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "space-between",
+          // gap: 20,
+          paddingBottom: 10,
 
-      <View style={styles.imageContainer}>
-        <Text style={styles.topicTitle}>{keyTopic.name}</Text>
-        <Text style={styles.topicSummary}>{keyTopic.summary}</Text>
-      </View>
+          // backgroundColor: "pink",
+        }}
+      >
+        <View style={styles.headerContainer}>
+          <View>
+            <Text style={styles.topicTitle}>{keyTopic.name}</Text>
+            <Text style={styles.topicSummary}>{keyTopic.summary}</Text>
+          </View>
 
-      <View style={styles.headerContainer}>
-        <FlashCardsCharacter />
-        
-      </View>
-
-      <View style={styles.setup}>
-        <Text style={styles.subTitle}>Set Up Your Quiz</Text>
-
-        <View style={styles.switchContainer}>
-          <Text style={styles.label}>True/False</Text>
-          <Switch
-            trackColor={{ false: "grey", true: globalStyles.colors.primary }}
-            onValueChange={toggleTrueFalse}
-            value={trueFalse}
-          />
+          <View style={styles.imageContainer}>
+            <LumiQuizSetup
+            // height={100}
+            />
+          </View>
         </View>
 
-        <View style={styles.switchContainer}>
-          <Text style={styles.label}>Multiple Choice</Text>
-          <Switch
-            trackColor={{ false: "grey", true: globalStyles.colors.primary }}
-            onValueChange={toggleMultipleChoice}
-            value={multipleChoice}
+        {/* <View style={styles.imageContainer}>
+          <LumiQuizSetup
+          // height={100}
           />
-        </View>
-      
-        <View style={styles.switchContainer}>
-          <Text style={styles.label}>Written</Text>
-          <Switch
-            trackColor={{ false: "grey", true: globalStyles.colors.primary }}
-            onValueChange={toggleWritten}
-            value={written}
-          />
+        </View> */}
+
+        <View style={styles.setup}>
+          <Text style={styles.subTitle}>Set Up Your Quiz</Text>
+
+          <View style={styles.switchContainer}>
+            <Text style={styles.label}>True/False</Text>
+            <Switch
+              trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              onValueChange={toggleTrueFalse}
+              value={trueFalse}
+            />
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Text style={styles.label}>Multiple Choice</Text>
+            <Switch
+              trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              onValueChange={toggleMultipleChoice}
+              value={multipleChoice}
+            />
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Text style={styles.label}>Written</Text>
+            <Switch
+              trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              onValueChange={toggleWritten}
+              value={written}
+            />
+          </View>
         </View>
       </View>
-
       <Pressable onPress={() => handleStart()} style={styles.button}>
         {({ pressed }) => (
           <Text style={pressed ? styles.buttonTextPressed : styles.buttonText}>
@@ -90,61 +116,70 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    height: "100%",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    paddingBottom: 100,
+    flex: 1,
+
+    // paddingBottom: 20,
+    // backgroundColor: "gold",
+    marginBottom: 20,
   },
-  headerContainer: {
+  imageContainer: {
     width: "100%",
     display: "flex",
     flexDirection: "row",
-    marginBottom: 20,
-    paddingHorizontal: 40,
+    justifyContent: "center",
+    // paddingHorizontal: 40,
+    // backgroundColor: "hotpink",
+    marginTop: 20,
   },
   headerContainerText: {
     fontSize: 54,
     fontFamily: "Gabarito-Bold",
     lineHeight: 54,
   },
-  imageContainer: {
+  headerContainer: {
     width: "100%",
-    height: 200,
+    minHeight: "20%",
+    // height: 200,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    marginBottom: 60,
-    // borderWidth: 2,
-    // borderColor: globalStyles.colors.primary,
     borderRadius: 20,
+    
+    // backgroundColor: "green",
   },
   topicTitle: {
     textAlign: "auto",
     fontFamily: "Gabarito-Bold",
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    textAlign: "center",
+    // marginBottom: 20,
   },
   topicSummary: {
     fontSize: 16,
+    textAlign: "center",
     fontFamily: "Nunito-Regular",
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   setup: {
     width: "100%",
     alignItems: "start",
+    gap: 10,
+
+    // backgroundColor: "green",
   },
   subTitle: {
     textAlign: "center",
     fontFamily: "Gabarito-Bold",
     fontSize: 18,
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   switchContainer: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20,
+    // marginBottom: 20,
+    // backgroundColor: "hotpink",
   },
   label: {
     fontSize: 18,
@@ -152,15 +187,16 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: "center",
     fontSize: 16,
-    marginBottom: 80,
+    // marginBottom: 80,
   },
   button: {
-    marginTop: "auto",
+    // marginTop: "auto",
     color: "#fff",
     backgroundColor: globalStyles.colors.primary,
     paddingVertical: 16,
     width: "100%",
     borderRadius: 30,
+    // marginBottom: 20,
   },
   buttonText: {
     color: "#fff",

@@ -28,6 +28,9 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const UploadContent = ({ name, next }) => {
   const { token } = useSelector((state) => state.credentials);
+  console.log("🚀 ~ file: UploadContent.jsx:31 ~ token:", token)
+  const { email } = useSelector((state) => state.credentials);
+  console.log("🚀 ~ file: UploadContent.jsx:32 ~ tokenEmail:", email)
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const { navigate } = useNavigation();
@@ -65,7 +68,7 @@ const UploadContent = ({ name, next }) => {
 
     try {
       const res = await DocumentPicker.getDocumentAsync();
-      console.log(res);
+      // console.log(res);
 
       const formData = new FormData();
       formData.append("pdf", {
@@ -77,6 +80,7 @@ const UploadContent = ({ name, next }) => {
       // console.log("hey this is token", token);
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content`,
+        // `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content?email=${tokenEmail}&toke=${token}`,
         formData,
 
         {
