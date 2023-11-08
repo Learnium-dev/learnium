@@ -125,10 +125,11 @@ router.post(`/createcontent`, async (req, res)=>{
         userid: userdata._id,
     })
     newfolder = await newfolder.save();
-    console.log(`Folder Id: ${newfolder._id}`);
+    // console.log(`Folder Id: ${newfolder._id}`);
 
     // POST Keytopics data
     let newKeyTopic;
+    console.log("req.body.keytopics)",req.body.keytopics);
     const keyTopics = req.body.keytopics?.map(async (keytopic) => {
 
         newKeyTopic = new keytopicmodel({
