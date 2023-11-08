@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingBottom: 30,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     margin: 0,
   },
   title: {
@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#262626",
     padding: 16,
+    marginBottom: 20,
   },
   searchWrapper: {
     flex: 1,

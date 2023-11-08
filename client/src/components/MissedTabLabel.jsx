@@ -5,12 +5,22 @@ const MissedTabLabel = (props) => {
   const { focused, style } = props;
 
   return (
-    <View style={{ ...style, backgroundColor: focused ? 'white' : 'transparent' }}>
-      <Text style={{fontSize: 12, color: focused ? globalStyles.colors.secondary : globalStyles.colors.white }}>
+    <View
+      style={{ ...style, backgroundColor: focused ? "white" : "transparent" }}
+    >
+      <Text
+        style={{
+          fontFamily: globalStyles.fonts.gabaritoRegular,
+          fontSize: 13,
+          color: focused
+            ? globalStyles.colors.secondary
+            : globalStyles.colors.white,
+        }}
+      >
         Missed Content
       </Text>
     </View>
-  )
+  );
 };
 
 export default MissedTabLabel;
