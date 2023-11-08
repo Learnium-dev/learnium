@@ -6,7 +6,7 @@ import baseURL from "../../../assets/common/baseUrl";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
 export const loginUser = (user, dispatch) => {
-  fetch(`${process.env.EXPO_PUBLIC_HOSTNAME}/api/v1/users/login`, {
+  fetch(`${baseURL}login`, {
     method: "POST",
     body: JSON.stringify(user),
     headers: {
