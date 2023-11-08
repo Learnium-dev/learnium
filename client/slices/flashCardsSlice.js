@@ -6,7 +6,8 @@ const initialState = {
   cards: [],
   termFirst: true,
   practicing: false,
-  cardIndex: 0
+  cardIndex: 0,
+  showingInfo: false
 };
 
 export const fetchFlashcards = createAsyncThunk('fetchFlashcards', async (keytopicid) => {
@@ -41,6 +42,9 @@ initialState,
     updateCardAnswer: (state, action) => {
       const card = state.cards[action.payload.index];
       card.answer = action.payload.answer;
+    },
+    setShowingInfo: (state, action) => {
+      state.showingInfo = action.payload;
     }
   },
   extraReducers: (builder) => {

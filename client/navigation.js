@@ -50,6 +50,7 @@ import Toast from "react-native-toast-message";
 
 import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
 import { useEffect } from "react";
+import MaterialSummary from "./src/screens/BottomTabScreens/Study/MaterialSummary";
 
 const Stack = createNativeStackNavigator();
 // tab bottom navigator
@@ -62,7 +63,8 @@ function TabBottomNavigator() {
         tabBarStyle: {
           height: 64,
           margin: 0,
-          padding: 0,
+          marginBottom: 15,
+          padding: 14,
         },
       }}
     >
@@ -240,6 +242,11 @@ export default function Navigation() {
         <StudyStack.Screen
           name="Material"
           component={Material}
+          options={{ headerShown: false }}
+        />
+        <StudyStack.Screen
+          name="MaterialSummary"
+          component={MaterialSummary}
           options={{ headerShown: false }}
         />
         <StudyStack.Screen

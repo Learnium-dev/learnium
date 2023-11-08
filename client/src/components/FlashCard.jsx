@@ -15,15 +15,22 @@ import BookmarkBack from '../../assets/icons/bookmarkBack.svg'
 import BookmarkBackFilled from '../../assets/icons/bookmarkBackFilled.svg'
 import { useDispatch, useSelector } from "react-redux";
 import flashCardsSlice from "../../slices/flashCardsSlice";
+import BookmarkWhite from "../../assets/icons/bookmarkWhite.svg";
+import BookmarkInfo from "../../assets/icons/bookmark-info.svg";
+import TapToSeeAnswer from "../../assets/icons/tap-to-view.svg";
+import Previous from '../../assets/icons/previous.svg';
+import Next from '../../assets/icons/next.svg';
 
 const FlashCard = ({ card, termFirst, markDifficult }) => {
 
   const cardIndex = useSelector(state => state.flashCards.cardIndex);
+  const showingInfo = useSelector(state => state.flashCards.showingInfo);
   const dispatch = useDispatch();
-  const { updateCardAnswer } = flashCardsSlice.actions;
+  const { updateCardAnswer, setShowingInfo } = flashCardsSlice.actions;
 
   const [answer, setAnswer] = useState("");
   const [isFlipped, setIsFlipped] = useState(false);
+
   const flipCard = () => {
     setIsFlipped(!isFlipped);
     handleSubmitAnswer();
@@ -38,7 +45,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
   const renderSide = () => {
     return (
       <View style={{width: '100%', flex: 1}}>
-        <Pressable style={styles.bookmark} onPress={() => markDifficult(card)}>
+        <Pressable style={{...styles.bookmark, display: showingInfo ? 'none' : 'block'}} onPress={() => markDifficult(card)}>
           { !card.isdone ? 
               <BookmarkFront style={styles.bookmarkIcon} /> : 
             isFlipped ? 
@@ -61,9 +68,35 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.deckOne}></View>
-      <View style={styles.deckTwo}></View>
+      <View style={{...styles.deckOne, display: showingInfo ? 'none' : 'block'}}></View>
+      <View style={{...styles.deckTwo, display: showingInfo ? 'none' : 'block'}}></View>
       <View style={styles.cardContainer}>
+
+        { showingInfo &&
+          <View style={{position: 'absolute', zIndex: 1, width: '100%', height: '100%' }}>
+            <View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'black', opacity: 0.7, borderRadius: 20}}></View>
+            <Text style={{color: 'white', position: 'absolute', right: 26, top: -43, fontFamily: 'Nunito-Regular'}}>Tap to mark difficult</Text>
+            <BookmarkInfo style={styles.bookmarkInfoIcon} />
+
+            <View style={{position: 'absolute', top: '40%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>Tap to see answer</Text>
+              <TapToSeeAnswer />
+            </View>
+
+            <View style={{position: 'absolute', bottom: '10%', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <Previous style={{marginLeft: 20, marginRight: 5}} />
+                <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>Previous</Text>
+              </View>
+              <View>
+              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>Next</Text>
+                <Next style={{marginLeft: 5, marginRight: 20}} />
+              </View>
+              </View>
+            </View>
+          </View> 
+        }
         <FlipCard 
           style={{...styles.card, backgroundColor: isFlipped ? globalStyles.colors.primary : 'white'}}
           friction={10}
@@ -77,8 +110,8 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
         </FlipCard>
       </View>
       <View style={styles.infoButtonContainer}>
-        <Pressable style={styles.infoButton} onPress={() => console.log('Show info')}>
-          <Text style={styles.infoButtonText}>i</Text>
+        <Pressable style={{...styles.infoButton, backgroundColor: showingInfo ? 'white' : globalStyles.colors.primary}} onPress={() => dispatch(setShowingInfo(!showingInfo))}>
+          <Text style={{...styles.infoButtonText, color: showingInfo ? 'black' : 'white'}}>i</Text>
         </Pressable>
       </View>
     </View>
@@ -93,7 +126,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "start",
     paddingTop: 40,
-    marginBottom: 60,
+    marginBottom: 60
   },
   deckOne: {
     height: 30,
@@ -126,13 +159,19 @@ const styles = StyleSheet.create({
     top: -6,
     zIndex: 1,
   },
-  bookmarkIcon: {
+  bookmarkInfoIcon: {
+    opacity: 1,
+    position: 'absolute',
+    right: 32,
+    top: -20, // -4
+    zIndex: 3,
   },
   cardContainer: {
     flex: 1,
     width: "100%",
     display: "flex",
     marginBottom: 40,
+    position: 'relative',
   },
   card: {
     borderWidth: 2,
@@ -142,10 +181,6 @@ const styles = StyleSheet.create({
   topButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 80,
-  },
-  instructions: {
-    textAlign: "center",
     marginBottom: 80,
   },
   infoButtonContainer: {
@@ -168,7 +203,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     position: 'relative',
     top: 10
-  }
+  },
+  instructions: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%'
+  },
 });
 
 export default FlashCard;

@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { globalStyles } from '../../assets/common/global-styles';
 
-const TodayTabLabel = (props) => {
+const CompletedTabLabel = (props) => {
   const { focused, style } = props;
 
   return (
@@ -11,17 +11,17 @@ const TodayTabLabel = (props) => {
       <Text
         style={{
           fontFamily: globalStyles.fonts.gabaritoRegular,
-          fontSize: 13,
+          fontSize: 16,
           color: focused
             ? globalStyles.colors.primary
             : globalStyles.colors.white,
           // fontFamily: focused ? globalStyles.fonts.nunitoSemiBold : globalStyles.fonts.nunitoRegular
         }}
       >
-        Today's Content
+        Completed
       </Text>
     </View>
   );
 };
 
-export default TodayTabLabel;
+export default CompletedTabLabel;
