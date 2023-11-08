@@ -1,5 +1,5 @@
 import { View, Text, Pressable, SafeAreaView, FlatList } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 // React
 import { useState, useEffect } from "react";
@@ -25,26 +25,44 @@ import baseURL from "../../../../assets/common/baseUrl";
 // components
 import QuizCard from "../Progress/components/QuizCard";
 
+// helpers
+import { formatDate } from "../../../../utils/helpers";
+
 // Axios
 import axios from "axios";
 import Header from "./components/Header";
 
-const SingleKeyTopicProgress = () => {
+const SingleKeyTopicProgress = (props) => {
   const { token } = useSelector((state) => state.credentials);
   const [quizzes, setQuizzes] = useState([]);
-  const route = useRoute();
-  const { name, materialName, id, duedate } = route.params;
+  // const route = useRoute();
+  // const { name, materialName, id, duedate } = route.params;
+  const { keyTopic } = props.route.params;
   const [highestScore, setHighestScore] = useState(0);
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     const fetchQuizzes = async (jwtToken) => {
       try {
-        const response = await axios.get(`${baseURL}quizzes?keytopicid=${id}`, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-        setQuizzes(response.data);
+        const response = await axios.get(
+          `${baseURL}historyquizzes?keytopicid=${keyTopic?._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
+        setQuizzes(response?.data);
+        if (response?.data.length < 3) {
+          const newQuizzes = Array.from(
+            { length: 3 - response?.data.length },
+            (_, index) => ({
+              id: index,
+              progress: 0,
+            })
+          );
+          setQuizzes([...response?.data, ...newQuizzes]);
+        }
         setHighestScore(
           response.data.reduce(
             (max, quiz) => (quiz.progress > max ? quiz.progress : max),
@@ -61,7 +79,7 @@ const SingleKeyTopicProgress = () => {
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
-      <Header name={name} materialName={materialName} />
+      <Header name={keyTopic?.name} materialName={keyTopic?.folderid?.name} />
 
       {/* Banner */}
       <View style={styles.banner}>
@@ -72,15 +90,16 @@ const SingleKeyTopicProgress = () => {
             three quizzes
           </Text>
           <View style={styles.checkMarksContainer}>
-            {quizzes
-              .sort((a, b) => b.progress - a.progress)
-              .map((quiz) =>
-                quiz.progress >= 85 ? (
-                  <CheckOn width={40} height={40} />
-                ) : (
-                  <CheckOff width={40} height={40} />
-                )
-              )}
+            {quizzes &&
+              quizzes
+                .sort((a, b) => b.progress - a.progress)
+                .map((quiz) =>
+                  quiz.progress >= 85 ? (
+                    <CheckOn key={quiz.id} width={40} height={40} />
+                  ) : (
+                    <CheckOff key={quiz.id} width={40} height={40} />
+                  )
+                )}
           </View>
         </View>
       </View>
@@ -90,7 +109,9 @@ const SingleKeyTopicProgress = () => {
           <Calendar width={50} height={50} />
           <View>
             <Text style={styles.subContainerInfoTitle}>Due Date</Text>
-            <Text style={styles.subContainerInfoText}>{duedate}</Text>
+            <Text style={styles.subContainerInfoText}>
+              {formatDate(keyTopic?.duedate)}
+            </Text>
           </View>
         </View>
         <View style={styles.subContainerInfo}>
@@ -109,17 +130,25 @@ const SingleKeyTopicProgress = () => {
           contentContainerStyle={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
+            gap: 15,
             width: "100%",
             marginVertical: 15,
           }}
           data={quizzes}
-          renderItem={({ item }) => <QuizCard item={item} />}
+          renderItem={({ item }) => {
+            if (item?.progress > 0) {
+              return <QuizCard item={item} />;
+            }
+          }}
           keyExtractor={(item) => item.id}
         />
       </View>
       {/* Buttons */}
+      {/* const { name, materialName, id, duedate } = route.params; */}
+
       <Pressable
+        onPress={() => navigate("KeyTopic", { keyTopic })}
         style={{
           ...styles.btn,
           backgroundColor: "#FFF",
@@ -128,7 +157,10 @@ const SingleKeyTopicProgress = () => {
       >
         <Text style={{ ...styles.btnText, color: "#7000FF" }}>Study</Text>
       </Pressable>
-      <Pressable style={styles.btn}>
+      <Pressable
+        onPress={() => navigate("KeyTopic", { keyTopic })}
+        style={styles.btn}
+      >
         <Text style={styles.btnText}>Start a Quiz</Text>
       </Pressable>
     </SafeAreaView>

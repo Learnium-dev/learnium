@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   Button,
-  SafeAreaView,
   Pressable,
   Touchable,
   TouchableOpacity,
@@ -21,10 +20,13 @@ import QuizContainer from "../../../containers/QuizContainer";
 import ConfirmModal from "../../../components/ConfirmModal";
 import { useNavigation } from "@react-navigation/native";
 import AskAI from "../../../../assets/icons/askAI.svg";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const KeyTopic = (props) => {
   const { navigate } = useNavigation();
   const { keyTopic } = props.route.params;
+
+  console.log("keyTopic", keyTopic);
 
   const bottomSheetModalRef = useRef(null);
   const quizModalRef = useRef(null);
@@ -71,115 +73,126 @@ const KeyTopic = (props) => {
   };
 
   return (
-    <View style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-      <NavHeader title={keyTopic.name} keyTopic={keyTopic} showMenu={true} />
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: "white",
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <NavHeader title={keyTopic.name} keyTopic={keyTopic} showMenu={true} />
 
-      <View style={styles.main}>
-        <View style={styles.stats}>
-          <View style={styles.statsItem}>
-            <DueCalendar style={{ marginRight: 8 }} />
-            <View>
-              <Text style={styles.statsItemText}>Due date:</Text>
-              <Text style={styles.statsItemText}>
-                {new Date(keyTopic.duedate).toLocaleDateString(
-                  undefined,
-                  shortDateOptions
-                )}
-              </Text>
+        <View style={styles.main}>
+          <View style={styles.stats}>
+            <View style={styles.statsItem}>
+              <DueCalendar style={{ marginRight: 8 }} />
+              <View>
+                <Text style={styles.statsItemText}>Due date:</Text>
+                <Text style={styles.statsItemText}>
+                  {new Date(keyTopic.duedate).toLocaleDateString(
+                    undefined,
+                    shortDateOptions
+                  )}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.statsItem}>
+              <StudiedCalendar style={{ marginRight: 8 }} />
+              <View>
+                <Text style={styles.statsItemText}>Studied:</Text>
+                <Text style={styles.statsItemText}>N/A</Text>
+              </View>
+            </View>
+            <View style={styles.statsItem}>
+              <BadgeIcon style={{ marginRight: 8 }} />
+              <View>
+                <Text style={styles.statsItemText}>Best Score:</Text>
+                <Text style={styles.statsItemText}>N/A</Text>
+              </View>
             </View>
           </View>
-          <View style={styles.statsItem}>
-            <StudiedCalendar style={{ marginRight: 8 }} />
-            <View>
-              <Text style={styles.statsItemText}>Studied:</Text>
-              <Text style={styles.statsItemText}>N/A</Text>
-            </View>
+
+          {/*  SUMMARY */}
+          <View style={styles.summary}>
+            <Text style={styles.summaryTitle}>Summary</Text>
+            <Text style={styles.summaryText}>{keyTopic.summary}</Text>
           </View>
-          <View style={styles.statsItem}>
-            <BadgeIcon style={{ marginRight: 8 }} />
-            <View>
-              <Text style={styles.statsItemText}>Best Score:</Text>
-              <Text style={styles.statsItemText}>N/A</Text>
-            </View>
-          </View>
+
+          {/*  FLASHCARD */}
+          <Pressable style={styles.flashCardsButton} onPress={openBottomSheet}>
+            <Text style={styles.flashCardsButtonText}>Study Flashcards</Text>
+          </Pressable>
+
+          <BottomSheetModal
+            ref={bottomSheetModalRef}
+            index={0}
+            snapPoints={snapPoints}
+          >
+            <FlashCardsContainer
+              keyTopic={keyTopic}
+              closeSheet={closeBottomSheet}
+            />
+          </BottomSheetModal>
+
+          {/* ASK AI */}
+
+          <TouchableOpacity
+            style={{
+              // backgroundColor: "red",
+              height: 40,
+              position: "absolute",
+              zIndex: 1,
+              bottom: 80,
+              right: 20,
+              borderRadius: 500,
+              display: "flex",
+              justifyContent: "center",
+            }}
+            onPress={() => handleAskAI({ keyTopic })}
+          >
+            <AskAI />
+          </TouchableOpacity>
+
+          {/*  QUIZ */}
+          <Pressable style={styles.quizButton} onPress={openQuiz}>
+            <Text style={styles.quizButtonText}>Start a Quiz</Text>
+          </Pressable>
+
+          <BottomSheetModal
+            ref={quizModalRef}
+            index={0}
+            snapPoints={snapPoints}
+            name="Quiz"
+          >
+            <QuizContainer
+              keyTopic={keyTopic}
+              closeSheet={closeQuiz}
+              isSubmit={handleLeftBtn}
+            />
+          </BottomSheetModal>
         </View>
-
-        {/*  SUMMARY */}
-        <View style={styles.summary}>
-          <Text style={styles.summaryTitle}>Summary</Text>
-          <Text style={styles.summaryText}>{keyTopic.summary}</Text>
-        </View>
-
-        {/*  FLASHCARD */}
-        <Pressable style={styles.flashCardsButton} onPress={openBottomSheet}>
-          <Text style={styles.flashCardsButtonText}>Study Flashcards</Text>
-        </Pressable>
-
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={0}
-          snapPoints={snapPoints}
-        >
-          <FlashCardsContainer
-            keyTopic={keyTopic}
-            closeSheet={closeBottomSheet}
-          />
-        </BottomSheetModal>
-
-        {/* ASK AI */}
-
-        <TouchableOpacity
-          style={{
-            // backgroundColor: "red",
-            height: 40,
-            position: "absolute",
-            zIndex: 1,
-            bottom: 80,
-            right: 20,
-            borderRadius: 500,
-            display: "flex",
-            justifyContent: "center",
-          }}
-          onPress={() => handleAskAI({ keyTopic })}
-        >
-          <AskAI
-          
-          />
-        </TouchableOpacity>
-
-        {/*  QUIZ */}
-        <Pressable style={styles.quizButton} onPress={openQuiz}>
-          <Text style={styles.quizButtonText}>Start a Quiz</Text>
-        </Pressable>
-
-        <BottomSheetModal
-          ref={quizModalRef}
-          index={0}
-          snapPoints={snapPoints}
-          name="Quiz"
-        >
-          <QuizContainer
-            keyTopic={keyTopic}
-            closeSheet={closeQuiz}
-            isSubmit={handleLeftBtn}
-          />
-        </BottomSheetModal>
+        {isModalOpen ? (
+          <ConfirmModal
+            isOpen={isModalOpen}
+            onClose={handleLeftBtn}
+            title={"Are you sure you want to close the quiz?"}
+            subTitle={"You can’t continue this quiz later!"}
+            leftBtnText={"Close"}
+            rightBtnText={"Go back"}
+            leftBtnFunction={handleLeftBtn}
+            rightBtnFunction={handleRightBtn}
+          >
+            <Text>Modal Content</Text>
+          </ConfirmModal>
+        ) : null}
       </View>
-      {isModalOpen ? (
-        <ConfirmModal
-          isOpen={isModalOpen}
-          onClose={handleLeftBtn}
-          title={"Are you sure you want to close the quiz?"}
-          subTitle={"You can’t continue this quiz later!"}
-          leftBtnText={"Close"}
-          rightBtnText={"Go back"}
-          leftBtnFunction={handleLeftBtn}
-          rightBtnFunction={handleRightBtn}
-        >
-          <Text>Modal Content</Text>
-        </ConfirmModal>
-      ) : null}
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -192,7 +205,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     position: "relative",
-    backgroundColor: globalStyles.colors.background,
+    // backgroundColor: globalStyles.colors.background,
+    backgroundColor: "white",
   },
   stats: {
     display: "flex",

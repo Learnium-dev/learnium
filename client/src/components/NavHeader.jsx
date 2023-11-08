@@ -6,7 +6,15 @@ import { globalStyles } from "../../assets/common/global-styles";
 import { useRef } from "react";
 import PopupMenu from "./PopupMenu";
 
-const NavHeader = ({ title, subtitle, isCenter, blackText, purpleText, keyTopic, showMenu }) => {
+const NavHeader = ({
+  title,
+  subtitle,
+  isCenter,
+  blackText,
+  purpleText,
+  keyTopic,
+  showMenu,
+}) => {
   const navigation = useNavigation();
   // console.log("NavHeader title", title, subtitle);
   const menuRef = useRef(null);
@@ -18,29 +26,37 @@ const NavHeader = ({ title, subtitle, isCenter, blackText, purpleText, keyTopic,
   const menuOptions = [
     {
       text: "View material",
-      onSelect: () => navigation.navigate('Material', { keyTopic: keyTopic }),
+      onSelect: () => navigation.navigate("Material", { keyTopic: keyTopic }),
     },
     {
       text: "Edit Key Topic",
-      onSelect: () => console.log('Edit Key Topic'),
+      onSelect: () => console.log("Edit Key Topic"),
     },
     {
       text: "Delete Key Topic",
-      onSelect: () => console.log('Delete Key Topic'),
+      onSelect: () => console.log("Delete Key Topic"),
     },
   ];
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#F5F5F5" }}>
+    <SafeAreaView style={{ backgroundColor: "#FFF" }}>
       <View style={styles.container}>
         <Pressable style={[styles.pressable]} onPress={handleBack}>
           <ArrowBack style={styles.backArrow} />
-          <View style={{  textAlign:"center", marginLeft:"auto", marginRight:"auto",  display: "flex",
-                  flexDirection: "row", justifyContent:"center"}}>
+          <View
+            style={{
+              textAlign: "center",
+              marginLeft: "auto",
+              marginRight: "auto",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
             {isCenter && (
               <View
                 style={{
-                  flexDirection: "row", 
+                  flexDirection: "row",
                   justifyContent: "center",
                   textAlign: "center",
                   margin: "auto",
@@ -59,9 +75,11 @@ const NavHeader = ({ title, subtitle, isCenter, blackText, purpleText, keyTopic,
             {subtitle && <Text>{subtitle}</Text>}
           </View>
         </Pressable>
-        { showMenu && <Pressable style={styles.menuButton}>
-          <PopupMenu options={menuOptions} />
-        </Pressable>}
+        {showMenu && (
+          <Pressable style={styles.menuButton}>
+            <PopupMenu options={menuOptions} />
+          </Pressable>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -75,8 +93,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 20,
     // backgroundColor: "gold",
-    backgroundColor: globalStyles.colors.background,
-    // backgroundColor: "white",
+    // backgroundColor: globalStyles.colors.background,
+    backgroundColor: "white",
   },
   backArrow: {
     marginRight: 10,

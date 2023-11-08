@@ -1,6 +1,6 @@
 import { LogBox } from "react-native";
 import * as Font from "expo-font";
-import { MenuProvider } from 'react-native-popup-menu';
+import { MenuProvider } from "react-native-popup-menu";
 
 // gesture handlers
 import "react-native-gesture-handler";
@@ -18,7 +18,7 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 
 // toaster
-import Toast from "react-native-toast-message";
+import Toast, { BaseToast } from "react-native-toast-message";
 
 // Context API
 import Auth from "./src/context/store/Auth";
@@ -40,12 +40,28 @@ const loadFonts = async () => {
 };
 
 export default function App() {
-  loadFonts()
+  loadFonts();
+
+  // toaster config
+  const toastConfig = {
+    success: (props) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: "#7000FF" }}
+        text1Style={{ fontSize: 18, marginBottom: 5 }}
+        text2Style={{ fontSize: 16 }}
+      />
+    ),
+  };
 
   return (
     <Auth>
       <Provider store={store}>
-        <MenuProvider customStyles={{ backdrop: { backgroundColor: 'black', opacity: 0.5 }}}>
+        <MenuProvider
+          customStyles={{
+            backdrop: { backgroundColor: "black", opacity: 0.5 },
+          }}
+        >
           <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
               <Stack.Navigator
@@ -62,7 +78,7 @@ export default function App() {
           </GestureHandlerRootView>
         </MenuProvider>
         {/* Toaster */}
-        <Toast />
+        <Toast config={toastConfig} />
       </Provider>
     </Auth>
   );

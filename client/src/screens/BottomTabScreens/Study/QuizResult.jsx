@@ -65,7 +65,7 @@ const QuizResult = ({ route }) => {
               Check out what you might have missed in this quiz.
             </Text>
             <View style={styles.scoreBox}>
-              <Text style={styles.score}>65%</Text>
+              <Text style={styles.score}>{percentage}%</Text>
               <View style={styles.totalAnsBox}>
                 <Text style={styles.totalAns}>
                   {score?.correctCount}/

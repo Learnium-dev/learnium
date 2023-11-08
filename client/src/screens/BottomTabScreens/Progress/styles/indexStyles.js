@@ -69,6 +69,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     paddingVertical: 16,
     paddingHorizontal: 24,
+    marginTop: "auto",
   },
   btnText: {
     fontFamily: "Gabarito-Bold",

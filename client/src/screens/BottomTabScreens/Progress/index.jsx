@@ -84,7 +84,11 @@ const Progress = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+      >
         <View>
           <Text style={styles.title}>Today's Progress</Text>
         </View>
