@@ -18,7 +18,6 @@ export const loginUser = (user, dispatch) => {
     .then((data) => {
       if (data) {
         const token = data.token;
-        console.log("🚀 ~ file: Auth.actions.js:21 ~ token:", token)
         const email = data.user;
         AsyncStorage.setItem("jwt", token);
         AsyncStorage.setItem("email", email);

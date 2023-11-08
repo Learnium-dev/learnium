@@ -64,6 +64,7 @@ router.put(`/:id`, async (req, res)=>{
 
 // POST Login
 router.post(`/login`,async (req, res)=>{
+  console.log("🚀 ~ file: users.js:127 ~ req.body", req.body)
     const user = await usermodel.findOne({email: req.body.email})
     const userId = await usermodel.findOne({id: req.body.id})
     const secret = process.env.SECRET;
