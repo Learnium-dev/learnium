@@ -35,6 +35,24 @@ const folderSchema = mongoose.Schema({
     default: defaultDate,
 
   },
+  content: {
+    type: String,
+    lowercase: false,
+    required: [true, "Content is required"],
+  },
+  url: {
+    type: String,
+    lowercase: true,
+    required: [true, "Url is required"],
+  },
+  exam: {
+    type: Boolean,
+    default: false,
+  },
+  examdate: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 // Model
