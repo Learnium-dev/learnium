@@ -19,14 +19,14 @@ router.get(`/`, async (req, res)=>{
       filter = { folderid: req.query.folderid };
       quizzesList = await historyquizmodel.find(filter);
       filterDetail = { historyquizid: { $in: quizzesList.map((quiz) => quiz._id) } }; 
-      detailList = await historydetailmodel.find(filterDetail);
+      //detailList = await historydetailmodel.find(filterDetail);
     }
     // GET Keytopic History
     else if (req.query.keytopicid) {
-      filter = { keytopicid: req.query.keytopicid };
-      quizzesList = await historyquizmodel.find(filter);
-      filterDetail = { historyquizid: { $in: quizzesList.map((quiz) => quiz._id) } };
-      detailList = await historydetailmodel.find(filterDetail);
+        filter = { keytopicid: req.query.keytopicid };
+        quizzesList = await historyquizmodel.find(filter);
+        filterDetail = { historyquizid: { $in: quizzesList.map((quiz) => quiz._id) } };
+        detailList = await historydetailmodel.find(filterDetail);
     }
 
     if(!detailList){
@@ -38,7 +38,7 @@ router.get(`/`, async (req, res)=>{
 
     const result = {
         historyquizzes: quizzesList,
-        // historydetails: detailList,
+        historydetails: detailList,
     }
 
     res.status(200).send(result);
