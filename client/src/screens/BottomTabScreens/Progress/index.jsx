@@ -7,6 +7,7 @@ import {
   Platform,
   Pressable,
   FlatList,
+  StyleSheet
 } from "react-native";
 
 // Base URL

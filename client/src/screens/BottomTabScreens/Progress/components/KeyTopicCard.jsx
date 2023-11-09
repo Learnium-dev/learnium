@@ -26,7 +26,7 @@ const KeyTopicCard = ({ item }) => {
   };
 
   return (
-    <Pressable onPress={() => navigate("SingleKeyTopic", { item: item })}>
+    <Pressable onPress={() => navigate("SingleKeyTopic", { keyTopic: item })}>
       <View
         style={{ ...styles.card, borderColor: accentColor(item?.progress) }}
       >

@@ -68,37 +68,107 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
 
   return (
     <View style={styles.mainContainer}>
-      <View style={{...styles.deckOne, display: showingInfo ? 'none' : 'block'}}></View>
-      <View style={{...styles.deckTwo, display: showingInfo ? 'none' : 'block'}}></View>
+      <View
+        style={{ ...styles.deckOne, display: showingInfo ? "none" : "block" }}
+      ></View>
+      <View
+        style={{ ...styles.deckTwo, display: showingInfo ? "none" : "block" }}
+      ></View>
       <View style={styles.cardContainer}>
-
-        { showingInfo &&
-          <View style={{position: 'absolute', zIndex: 1, width: '100%', height: '100%' }}>
-            <View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'black', opacity: 0.7, borderRadius: 20}}></View>
-            <Text style={{color: 'white', position: 'absolute', right: 26, top: -43, fontFamily: 'Nunito-Regular'}}>Tap to mark difficult</Text>
+        {showingInfo && (
+          <View
+            style={{
+              position: "absolute",
+              zIndex: 1,
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <View
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                backgroundColor: "black",
+                opacity: 0.7,
+                borderRadius: 20,
+              }}
+            ></View>
+            <Text
+              style={{
+                color: "white",
+                position: "absolute",
+                right: 26,
+                top: -43,
+                fontFamily: "Nunito-Regular",
+              }}
+            >
+              Tap to mark difficult
+            </Text>
             <BookmarkInfo style={styles.bookmarkInfoIcon} />
 
-            <View style={{position: 'absolute', top: '40%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-              <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>Tap to see answer</Text>
+            <View
+              style={{
+                position: "absolute",
+                top: "80%",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ color: "white", fontFamily: "Nunito-Regular" }}>
+                Tap to see answer
+              </Text>
               <TapToSeeAnswer />
             </View>
 
-            <View style={{position: 'absolute', bottom: '10%', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                <Previous style={{marginLeft: 20, marginRight: 5}} />
-                <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>Previous</Text>
+            <View
+              style={{
+                position: "absolute",
+                bottom: "33%",
+                width: "100%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Previous style={{ marginLeft: 20, marginRight: 5 }} />
+                <Text style={{ color: "white", fontFamily: "Nunito-Regular" }}>
+                  Previous
+                </Text>
               </View>
               <View>
-              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>Next</Text>
-                <Next style={{marginLeft: 5, marginRight: 20}} />
-              </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={{ color: "white", fontFamily: "Nunito-Regular" }}
+                  >
+                    Next
+                  </Text>
+                  <Next style={{ marginLeft: 5, marginRight: 20 }} />
+                </View>
               </View>
             </View>
-          </View> 
-        }
-        <FlipCard 
-          style={{...styles.card, backgroundColor: isFlipped ? globalStyles.colors.primary : 'white'}}
+          </View>
+        )}
+        <FlipCard
+          style={{
+            ...styles.card,
+            backgroundColor: isFlipped ? globalStyles.colors.primary : "white",
+          }}
           friction={10}
           flipHorizontal={true}
           flipVertical={false}
@@ -110,8 +180,23 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
         </FlipCard>
       </View>
       <View style={styles.infoButtonContainer}>
-        <Pressable style={{...styles.infoButton, backgroundColor: showingInfo ? 'white' : globalStyles.colors.primary}} onPress={() => dispatch(setShowingInfo(!showingInfo))}>
-          <Text style={{...styles.infoButtonText, color: showingInfo ? 'black' : 'white'}}>i</Text>
+        <Pressable
+          style={{
+            ...styles.infoButton,
+            backgroundColor: showingInfo
+              ? "white"
+              : globalStyles.colors.primary,
+          }}
+          onPress={() => dispatch(setShowingInfo(!showingInfo))}
+        >
+          <Text
+            style={{
+              ...styles.infoButtonText,
+              color: showingInfo ? "black" : "white",
+            }}
+          >
+            i
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -188,6 +273,7 @@ const styles = StyleSheet.create({
     display: 'flex', 
     flexDirection: 'row', 
     justifyContent: 'center', 
+    marginBottom: -5
   },
   infoButton: {
     width: 50, 
@@ -200,6 +286,7 @@ const styles = StyleSheet.create({
     fontSize: 25, 
     fontFamily: 'Gabarito-Bold',
     margin: 'auto',
+    marginBottom: 5,
     textAlign: 'center',
     position: 'relative',
     top: 10

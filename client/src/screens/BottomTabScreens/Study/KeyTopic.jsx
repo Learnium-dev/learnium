@@ -84,6 +84,7 @@ const KeyTopic = (props) => {
           flex: 1,
           display: "flex",
           flexDirection: "column",
+          marginTop: 20,
         }}
       >
         <NavHeader title={keyTopic.name} keyTopic={keyTopic} showMenu={true} />
@@ -119,10 +120,10 @@ const KeyTopic = (props) => {
           </View>
 
           {/*  SUMMARY */}
-          <View style={styles.summary}>
+          <Pressable style={styles.summary} onPress={() => navigate('KeyTopicSummary', { keyTopic: keyTopic, openBottomSheet: openBottomSheet })}>
             <Text style={styles.summaryTitle}>Summary</Text>
             <Text style={styles.summaryText}>{keyTopic.summary}</Text>
-          </View>
+          </Pressable>
 
           {/*  FLASHCARD */}
           <Pressable style={styles.flashCardsButton} onPress={openBottomSheet}>
