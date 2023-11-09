@@ -78,6 +78,7 @@ function TabBottomNavigator() {
           headerShown: false,
           tabBarIcon: ({ focused }) => <StudyTabIcon />,
           tabBarShowLabel: false,
+          tabBarStyle: { display: getRouteName(route) },
         })}
       />
       {/* <Tab.Screen
@@ -143,6 +144,7 @@ function StudyStackNavigator() {
   useEffect(() => {
     const showToast = () => {
       Toast.show({
+        position: "bottom",
         type: "success",
         text1: "PDF uploaded successfully! ⭐",
         text2: `Title: ${pdfName || "Untitled"}`,

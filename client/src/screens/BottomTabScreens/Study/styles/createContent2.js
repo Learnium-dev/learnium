@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   subtitle: {
     fontSize: 20,
+    color: "#262626",
     fontFamily: "Gabarito-Bold",
     marginTop: 25,
     marginBottom: 15,
@@ -35,7 +36,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     left: -16,
     right: -16,
-    bottom: 0,
+    bottom: -6,
     padding: 12,
     zIndex: 10,
     display: "flex",
@@ -69,10 +70,10 @@ export const styles = StyleSheet.create({
     color: "#262626",
     fontSize: 16,
     padding: 16,
-    borderWidth: 2,
+    borderWidth: 3,
     borderRadius: 8,
     borderColor: "#7000FF",
     margin: 0,
-    marginBottom: 40,
+    marginBottom: 25,
   },
 });

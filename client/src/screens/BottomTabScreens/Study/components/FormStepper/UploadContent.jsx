@@ -33,14 +33,12 @@ import ModalCamera from "../ModalCamera";
 const UploadContent = ({ name, next, setCurrentStep }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.credentials);
-  // console.log("🚀 ~ file: UploadContent.jsx:31 ~ token:", token)
-  // const { email } = useSelector((state) => state.credentials);
-  // console.log("🚀 ~ file: UploadContent.jsx:32 ~ tokenEmail:", email)
   const { content } = useSelector((state) => state.exam);
   const [disabled, setDisabled] = useState(true);
   const [text, setText] = useState(content);
   // State to hold the selected image
   const [image, setImage] = useState(null);
+  const [borderColor, setBorderColor] = useState("#262626");
 
   const handlePress = () => {
     dispatch(setContent(text));
@@ -162,18 +160,18 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
       <View
         style={{
           flex: 1,
-          // backgroundColor:"gold"
+          // backgroundColor: "gold",
         }}
       >
         {/* <ModalCamera isOpened={isOpened} setIsOpened={setIsOpened} /> */}
         {/* Buttons */}
         <View style={styles.btnContainer}>
           <Pressable style={styles.uploadBtn} onPress={pickImageCamera}>
-            <LumiCamera width={84} height={110} />
+            <LumiCamera width={63} height={90} />
             <Text style={styles.btnText}>Take Picture</Text>
           </Pressable>
           <Pressable style={styles.uploadBtn} onPress={handleUploadPDF}>
-            <LumiPdf width={84} height={110} />
+            <LumiPdf width={63} height={90} />
             <Text style={styles.btnText}>Upload PDF</Text>
           </Pressable>
         </View>
@@ -205,7 +203,9 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
             onChangeText={handleTextChange}
             value={text}
             textAlignVertical="top"
-            style={styles.textarea}
+            style={{ ...styles.textarea, borderColor: borderColor }}
+            onBlur={() => setBorderColor("#262626")}
+            onFocus={() => setBorderColor("#7000FF")}
           />
         </ScrollView>
       </View>

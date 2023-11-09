@@ -135,13 +135,6 @@ const ExamSchedule = ({ name, prev, next }) => {
             Platform.OS === "ios" && (
               <Pressable onPress={() => showMode("date")}>
                 <Text style={styles.datePicker}>{examDate}</Text>
-                {/* <TextInput
-                placeholder={`${formattedDate(dateNow)}`}
-                placeholderTextColor={"gray"}
-                value={examDate}
-                editable={false}
-                style={styles.datePicker}
-              /> */}
                 {showPicker && (
                   <DateTimePicker
                     testID="dateTimePicker"
@@ -160,8 +153,6 @@ const ExamSchedule = ({ name, prev, next }) => {
           {/* Options */}
           <View
             style={{
-              // backgroundColor: "pink",
-              // height: "50%",
               flex: 1,
               overflow: "scroll",
               marginBottom: 100,
@@ -182,6 +173,7 @@ const ExamSchedule = ({ name, prev, next }) => {
           </View>
         </View>
       </ScrollView>
+
       {/* Buttons */}
       <View style={styles.btnContainerSelector}>
         <Pressable
