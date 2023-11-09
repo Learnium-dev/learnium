@@ -101,8 +101,7 @@ const Study = () => {
       case "today":
         return keyTopics.filter((keyTopic) => isToday(keyTopic.duedate));
       case "review":
-        // TODO: implement review logic
-        return [];
+        return keyTopics.filter((keyTopic) => keyTopic.progress > 0 && keyTopic.progress < 80);
       default:
         return keyTopics;
     }
@@ -161,6 +160,7 @@ const Study = () => {
         style={{
           ...globalStyles.buttons.primary,
           justifyContent: "center",
+          marginBottom: 34,
         }}
         onPress={() => navigate("CreateContent")}
       >
@@ -178,11 +178,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     backgroundColor: "white",
-    // paddingBottom: -20,
+    paddingBottom: -34,
   },
   tabContainer: {
     flex: 1,
-    // backgroundColor: "blue",
     paddingHorizontal: 20,
     paddingTop: 20,
     marginBottom: 10,

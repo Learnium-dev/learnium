@@ -54,7 +54,7 @@ const Material = (props) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white", paddingTop: 20 }}>
       <NavHeader title={material?.name} showMenu={false} />
       <ScrollView style={styles.main}>
         <View style={styles.stats}>
@@ -84,9 +84,8 @@ const Material = (props) => {
           style={styles.collapsibleKeytopics}
           onPress={() => navigate('MaterialSummary', { keyTopics: keyTopics, material: material, openBottomSheet: openBottomSheet })}
         >
-          <View style={{maxHeight: 170, overflow: 'hidden'}}>
+          <View style={{height: 170, maxHeight: 170, overflow: 'hidden'}}>
             <Text style={styles.summaryTitle}>Summary</Text>
-          
             <Text numberOfLines={6} ellipsizeMode="tail">
               {keyTopics.map((keyTopic, index) => (
                   <Text style={{ display: 'flex', marginBottom: 20 }} key={keyTopic._id}>
@@ -105,9 +104,6 @@ const Material = (props) => {
                   </Text>
                 ))}
             </Text>
-
-
-
           </View>
         </Pressable>
 
@@ -170,7 +166,7 @@ const Material = (props) => {
                     <KeyTopicListItem
                       key={index}
                       topic={topic}
-                      onPress={() => console.log("pressed")}
+                      onPress={() => navigate("KeyTopic", { keyTopic: topic })}
                     />
                   );
                 })

@@ -17,7 +17,6 @@ const NavHeader = ({
 }) => {
   const navigation = useNavigation();
   // console.log("NavHeader title", title, subtitle);
-  const menuRef = useRef(null);
 
   const handleBack = () => {
     navigation.goBack();
@@ -26,7 +25,7 @@ const NavHeader = ({
   const menuOptions = [
     {
       text: "View material",
-      onSelect: () => navigation.navigate("Material", { keyTopic: keyTopic }),
+      onSelect: () => navigation.navigate("Material", { keyTopic: keyTopic })
     },
     {
       text: "Edit Key Topic",

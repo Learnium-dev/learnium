@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef, useState } from "react";
 import { Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -19,7 +19,7 @@ const PopupMenu = ({ options }) => {
       <MenuTrigger>
         <Feather name="more-vertical" size={24} color="black" />
       </MenuTrigger>
-      <MenuOptions customStyles={optionsStyles}>
+      <MenuOptions customStyles={optionsStyles} >
         <Pressable onPress={closeMenu} style={optionsStyles.closeButton}>
           <AntDesign name="close" size={24} color="black" />
         </Pressable>
@@ -29,6 +29,7 @@ const PopupMenu = ({ options }) => {
             onSelect={option.onSelect}
             disabled={option.disabled}
             text={option.text}
+            customStyles={optionsStyles}
           />
         ))}
       </MenuOptions>
@@ -62,8 +63,7 @@ const optionsStyles = {
     margin: 5,
   },
   optionTouchable: {
-    // underlayColor: 'gold',
-    activeOpacity: 70,
+
   },
   optionText: {
     color: 'black',

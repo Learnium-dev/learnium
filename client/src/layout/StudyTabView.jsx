@@ -40,7 +40,7 @@ const StudyTabView = ({ selectedView, keyTopics }) => {
               )}
             />
           ) : (
-            <Text>There are no topics here!</Text>
+            <Text style={{ fontFamily: globalStyles.fonts.nunitoRegular }}>There are no topics here!</Text>
           )}
         </View>
       </View>

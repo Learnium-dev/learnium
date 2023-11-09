@@ -61,6 +61,7 @@ const Register = (props) => {
       viewIsInsideTabBar={true}
       extraHeight={200}
       enableOnAndroid={true}
+      style={{ marginTop: 40}}
     >
       <FormContainer title={"Register"}>
         <Input

@@ -33,9 +33,9 @@ import ModalCamera from "../ModalCamera";
 const UploadContent = ({ name, next, setCurrentStep }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.credentials);
-  console.log("🚀 ~ file: UploadContent.jsx:31 ~ token:", token)
-  const { email } = useSelector((state) => state.credentials);
-  console.log("🚀 ~ file: UploadContent.jsx:32 ~ tokenEmail:", email)
+  // console.log("🚀 ~ file: UploadContent.jsx:31 ~ token:", token)
+  // const { email } = useSelector((state) => state.credentials);
+  // console.log("🚀 ~ file: UploadContent.jsx:32 ~ tokenEmail:", email)
   const { content } = useSelector((state) => state.exam);
   const [disabled, setDisabled] = useState(true);
   const [text, setText] = useState(content);
