@@ -1,3 +1,4 @@
+// React native
 import {
   View,
   Text,
@@ -5,26 +6,48 @@ import {
   Pressable,
   Easing,
   ScrollView,
+  FlatList,
 } from "react-native";
+
+// React
 import { useState, useRef, useMemo, useCallback, useEffect } from "react";
-import { BottomSheetModal, SCREEN_HEIGHT } from "@gorhom/bottom-sheet";
+
+// Components
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import FlashCardsContainer from "../../../containers/FlashCardsContainer";
 import NavHeader from "../../../components/NavHeader";
+import KeyTopicListItem from "../../../components/KeyTopicListItem";
 import DueCalendar from "../../../../assets/icons/due-calendar.svg";
+import QuizCard from "../Progress/components/QuizCard";
 import BadgeIcon from "../../../../assets/icons/badge-icon.svg";
+
+// Utils
 import { shortDateOptions } from "../../../../utils/helpers";
+import Collapsible from "react-native-collapsible";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+// Styles
 import { globalStyles } from "../../../../assets/common/global-styles";
+
+// Navigation
 import { useNavigation } from "@react-navigation/native";
+
+// Redux
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchKeyTopics,
   fetchMaterial,
 } from "../../../../slices/materialsSlice";
-import Collapsible from "react-native-collapsible";
-import { Feather } from "@expo/vector-icons";
-import KeyTopicListItem from "../../../components/KeyTopicListItem";
 
-import { SafeAreaView } from "react-native-safe-area-context";
+// Base Url
+import baseURL from "../../../../assets/common/baseUrl";
+
+// Axios
+import axios from "axios";
+
+// SVGs
+import { Feather } from "@expo/vector-icons";
+import LumiBanner from "../../../../assets/images/characters/lumi_banner_kt.svg";
 
 const Material = (props) => {
   const { navigate } = useNavigation();
@@ -33,12 +56,14 @@ const Material = (props) => {
   // Selectors
   const material = useSelector((state) => state.material.material);
   const keyTopics = useSelector((state) => state.material.keyTopics);
+  const { token } = useSelector((state) => state.credentials);
 
   const { keyTopic } = props.route.params;
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ["95%"], []);
-  const [isKeyTopicsCollapsed, setIsKeyTopicsCollapsed] = useState(true);
-  const [isKeyTopicsListCollapsed, setIsKeyTopicsListCollapsed] = useState(true);
+  const [isKeyTopicsListCollapsed, setIsKeyTopicsListCollapsed] =
+    useState(true);
+  const [quizzes, setQuizzes] = useState([]);
 
   useEffect(() => {
     dispatch(fetchMaterial(keyTopic.folderid._id));
@@ -52,6 +77,30 @@ const Material = (props) => {
   const closeBottomSheet = () => {
     bottomSheetModalRef.current.dismiss();
   };
+
+  // fetch quizzes
+  useEffect(() => {
+    console.log("This is the folder id: ", keyTopic?.folderid?._id);
+    const fetchQuizzes = async (jwtToken) => {
+      try {
+        const response = await axios.get(
+          `${baseURL}historydetails?folderid=${keyTopic?.folderid?._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
+        const sortingQuizzes = response?.data?.historyquizzes?.sort(
+          (a, b) => b?.progress - a?.progress
+        );
+        setQuizzes(sortingQuizzes);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchQuizzes(token);
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white", paddingTop: 20 }}>
@@ -82,27 +131,36 @@ const Material = (props) => {
         {/*  KEY TOPICS SUMMARY */}
         <Pressable
           style={styles.collapsibleKeytopics}
-          onPress={() => navigate('MaterialSummary', { keyTopics: keyTopics, material: material, openBottomSheet: openBottomSheet })}
+          onPress={() =>
+            navigate("MaterialSummary", {
+              keyTopics: keyTopics,
+              material: material,
+              openBottomSheet: openBottomSheet,
+            })
+          }
         >
-          <View style={{height: 170, maxHeight: 170, overflow: 'hidden'}}>
+          <View style={{ height: 170, maxHeight: 170, overflow: "hidden" }}>
             <Text style={styles.summaryTitle}>Summary</Text>
             <Text numberOfLines={6} ellipsizeMode="tail">
               {keyTopics.map((keyTopic, index) => (
-                  <Text style={{ display: 'flex', marginBottom: 20 }} key={keyTopic._id}>
-                    <Text
-                      style={{
-                        ...styles.summaryText,
-                        fontFamily: "Nunito-SemiBold",
-                      }}
-                    >
-                      Key Topic {index + 1}: {keyTopic.name}
-                      {"\n"}
-                    </Text>
-                    <Text style={styles.summaryText}>{keyTopic.summary}</Text>
-                    {"\n"}
+                <Text
+                  style={{ display: "flex", marginBottom: 20 }}
+                  key={keyTopic._id}
+                >
+                  <Text
+                    style={{
+                      ...styles.summaryText,
+                      fontFamily: "Nunito-SemiBold",
+                    }}
+                  >
+                    Key Topic {index + 1}: {keyTopic.name}
                     {"\n"}
                   </Text>
-                ))}
+                  <Text style={styles.summaryText}>{keyTopic.summary}</Text>
+                  {"\n"}
+                  {"\n"}
+                </Text>
+              ))}
             </Text>
           </View>
         </Pressable>
@@ -191,6 +249,37 @@ const Material = (props) => {
             )}
           </View>
         </Pressable>
+
+        {/* QUIZ HISTORY (COMPREHENSIVE) */}
+        <View
+          style={{
+            ...styles.collapsibleKeytopics,
+            marginBottom: 50,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
+          <Text style={styles.historyTitle}>Comprehensive Test History</Text>
+          <LumiBanner width={340} height={100} />
+          <FlatList
+            horizontal={true}
+            contentContainerStyle={{
+              alignItems: "center",
+              justifyContent: "flex-start",
+              gap: 10,
+              marginVertical: 15,
+              flex: 1,
+            }}
+            data={quizzes}
+            renderItem={({ item }) => {
+              if (item?.progress > 0) {
+                return <QuizCard item={item} />;
+              }
+            }}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -286,6 +375,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "absolute",
     bottom: 20,
+  },
+  historyTitle: {
+    fontFamily: "Nunito-Bold",
+    fontSize: 18,
+    color: "#7000FF",
+    marginBottom: 10,
   },
 });
 

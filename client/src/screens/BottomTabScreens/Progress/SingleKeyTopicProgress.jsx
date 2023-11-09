@@ -99,8 +99,7 @@ const SingleKeyTopicProgress = (props) => {
                         <CheckOn key={quiz.id} width={40} height={40} />
                       ) : (
                         <CheckOff key={quiz.id} width={40} height={40} />
-                        )
-                      
+                      )
                     )
                 : Array.from({ length: 3 }, (_, index) => (
                     <CheckOff key={index} width={40} height={40} />
@@ -138,7 +137,7 @@ const SingleKeyTopicProgress = (props) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-start",
-              gap: 15,
+              gap: 10,
               width: "100%",
               marginVertical: 15,
             }}
