@@ -19,7 +19,8 @@ router.get(`/`, async (req, res)=>{
       filter = { folderid: req.query.folderid };
       quizzesList = await historyquizmodel.find(filter);
       filterDetail = { historyquizid: { $in: quizzesList.map((quiz) => quiz._id) } }; 
-      //detailList = await historydetailmodel.find(filterDetail);
+      detailList = await historydetailmodel.find(filterDetail);
+      detailList = [];
     }
     // GET Keytopic History
     else if (req.query.keytopicid) {
