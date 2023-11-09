@@ -4,6 +4,7 @@ import baseURL from "../../assets/common/baseUrl";
 
 export const getKeyTopics = async () => {
   let token = await AsyncStorage.getItem("jwt");
+  console.log("🚀 ~ file: keyTopicsService.js:7 ~ token:", token)
   let tokenEmail = await AsyncStorage.getItem("email");
 
   const options = {
@@ -14,7 +15,6 @@ export const getKeyTopics = async () => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(tokenEmail),
   };
 
   try {

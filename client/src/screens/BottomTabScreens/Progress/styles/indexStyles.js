@@ -67,8 +67,10 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#7000FF",
     borderRadius: 100,
-    paddingVertical: 16,
+    paddingVertical: 20,
     paddingHorizontal: 24,
+    marginTop: 16,
+    marginBottom: -16,
   },
   btnText: {
     fontFamily: "Gabarito-Bold",

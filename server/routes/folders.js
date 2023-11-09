@@ -15,12 +15,13 @@ const {flashcardmodel} = require('../models/flashcards');
 const {usermodel} = require('../models/users');
 
 // GET
-router.get(`/`, async (req, res)=>{
+router.get(`/`, async (req, res)=> {
+    const userdata = await usermodel.findOne({email: req.query.email});
 
     // Filter by User Id
     let filter = {};
     if(req.query.userid){
-        filter = {userid: req.query.userid}
+        filter = {userid: userdata?._id}
     }
 
     const folderList = await foldermodel.find(filter);
@@ -124,10 +125,11 @@ router.post(`/createcontent`, async (req, res)=>{
         userid: userdata._id,
     })
     newfolder = await newfolder.save();
-    console.log(`Folder Id: ${newfolder._id}`);
+    // console.log(`Folder Id: ${newfolder._id}`);
 
     // POST Keytopics data
     let newKeyTopic;
+    console.log("req.body.keytopics)",req.body.keytopics);
     const keyTopics = req.body.keytopics?.map(async (keytopic) => {
 
         newKeyTopic = new keytopicmodel({

@@ -4,14 +4,18 @@ import {
   StyleSheet,
   Pressable,
   useWindowDimensions,
-  SafeAreaView,
+  TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 import StudyScreenTabBar from "../../../components/StudyScreenTabBar";
 import StudyTabView from "../../../layout/StudyTabView";
 import { globalStyles } from "../../../../assets/common/global-styles";
+import { getFirstName } from "../../../services/userService";
 import { getKeyTopics } from "../../../services/keyTopicsService";
 import { isBeforeToday, isToday } from "../../../../utils/helpers";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // react navigation imports
 import { useNavigation } from "@react-navigation/native";
@@ -26,18 +30,23 @@ import { setEmail, setToken } from "../../../../slices/credentialsSlice";
 // axios
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const Study = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
+  const [firstName, setFirstName] = useState("");
+  const [isFirstNameLoaded, setIsFirstNameLoaded] = useState(false);
   const [keyTopics, setKeyTopics] = useState([]);
   const [isKeyTopicsLoaded, setIsKeyTopicsLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [index, setIndex] = useState(1); // default to today's content for tab view
   const [routes] = useState([
     { key: "missed", title: "Missed content" },
     { key: "today", title: "Today's content" },
     { key: "review", title: "Review content" },
   ]);
+
 
   useEffect(() => {
     // Get token
@@ -53,8 +62,22 @@ const Study = () => {
         });
       }
     });
+    loadUserFirstName();
     loadKeyTopics();
   }, []);
+
+    const loadUserFirstName = async () => {
+      getFirstName().then(
+        (firstName) => {
+          console.log("First name loaded", firstName);
+          setFirstName(firstName);
+          setIsFirstNameLoaded(true);
+        },
+        (error) => {
+          alert("Error", `Couldn't load user's first name! ${error}`);
+        }
+      );
+    };
 
   const loadKeyTopics = () => {
     getKeyTopics().then(
@@ -90,11 +113,37 @@ const Study = () => {
       selectedView: route.key,
       keyTopics: filteredKeyTopics(route.key),
     });
-
+  // const askAIprops = {
+  //   askTopic: "key topic asked",
+  //   questionAsk: "question that you get wrong",
+  //   wrongAnswer: "here is your wrong answer",
+  // };
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
-        <Text>Welcome back, Genia</Text>
+    <SafeAreaView
+      style={{
+        ...styles.safeArea,
+        fontFamily: globalStyles.fonts.gabaritoBold,
+      }}
+    >
+      {/* <TouchableOpacity onPress={() => navigate("AskAI", askAIprops)}>
+        <Text>AskAI</Text>
+      </TouchableOpacity> */}
+      <View
+        style={{
+          paddingHorizontal: 20,
+          paddingTop: 20,
+          fontFamily: globalStyles.fonts.gabaritoBold,
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: globalStyles.fonts.gabaritoBold,
+            fontSize: 24,
+            lineHeight: 30,
+          }}
+        >
+          Welcome back, {firstName || "User"}!
+        </Text>
       </View>
 
       {isKeyTopicsLoaded && (
@@ -108,9 +157,11 @@ const Study = () => {
           />
         </View>
       )}
-
       <Pressable
-        style={globalStyles.buttons.primary}
+        style={{
+          ...globalStyles.buttons.primary,
+          justifyContent: "center",
+        }}
         onPress={() => navigate("CreateContent")}
       >
         <Text style={globalStyles.buttons.primary.text}>
@@ -127,12 +178,20 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     backgroundColor: "white",
+    // paddingBottom: -20,
   },
   tabContainer: {
     flex: 1,
     // backgroundColor: "blue",
     paddingHorizontal: 20,
     paddingTop: 20,
+    marginBottom: 10,
+  },
+  useName: {
+    fontFamily: "Gabarito-Bold",
+    fontSize: 24,
+    // color: "#262626",
+    lineHeight: 30,
   },
 });
 

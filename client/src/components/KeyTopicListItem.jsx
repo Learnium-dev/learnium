@@ -13,7 +13,7 @@ const KeyTopicListItem = ({ topic, accentColor, selectedView, onPress }) => {
         <View style={styles.textContainer}>
           <Text style={{...styles.topicTitle, color: accentColor}}>{topic.name}</Text>
           <Text style={styles.subtitle}>From: Course title here</Text>
-          <Text style={styles.subtitle}>Due date: {new Date(topic.duedate).toLocaleString(undefined, dateOptions)}</Text>
+          <Text style={styles.subtitle}>Due Date: {new Date(topic.duedate).toLocaleString(undefined, dateOptions)}</Text>
         </View>
         <View style={styles.characterContainer}>
           { selectedView === 'missed' ? <MissedCharacter /> : <TodayCharacter /> }

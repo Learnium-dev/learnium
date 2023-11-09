@@ -2,175 +2,212 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Pressable,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { useState, useEffect, useRef } from "react";
-import QuestionFirstView from "../layout/QuestionFirstView";
-import AnswerFirstView from "../layout/AnswerFirstView";
-import GestureFlipView from "react-native-gesture-flip-card";
+import { useState, useEffect } from "react";
+import TermFirstView from "../layout/TermFirstView";
+import DefinitionFirstView from "../layout/DefinitionFirstView";
+import { globalStyles } from "../../assets/common/global-styles";
+import FlipCard from 'react-native-flip-card'
+import BookmarkFront from '../../assets/icons/bookmarkFront.svg'
+import BookmarkFrontFilled from '../../assets/icons/bookmarkFrontFilled.svg'
+import BookmarkBack from '../../assets/icons/bookmarkBack.svg'
+import BookmarkBackFilled from '../../assets/icons/bookmarkBackFilled.svg'
+import { useDispatch, useSelector } from "react-redux";
+import flashCardsSlice from "../../slices/flashCardsSlice";
+import BookmarkWhite from "../../assets/icons/bookmarkWhite.svg";
+import BookmarkInfo from "../../assets/icons/bookmark-info.svg";
+import TapToSeeAnswer from "../../assets/icons/tap-to-view.svg";
+import Previous from '../../assets/icons/previous.svg';
+import Next from '../../assets/icons/next.svg';
 
-const FlashCard = ({ card, next, previous, markDone, questionFirst }) => {
-  // console.log('Flashcard details: ', card);
+const FlashCard = ({ card, termFirst, markDifficult }) => {
 
+  const cardIndex = useSelector(state => state.flashCards.cardIndex);
+  const showingInfo = useSelector(state => state.flashCards.showingInfo);
+  const dispatch = useDispatch();
+  const { updateCardAnswer, setShowingInfo } = flashCardsSlice.actions;
+
+  const [answer, setAnswer] = useState("");
   const [isFlipped, setIsFlipped] = useState(false);
-  const [instructionText, setInstructionText] = useState(
-    "Tap to See the Answer"
-  );
-  const [cardWidth, setCardWidth] = useState(0);
-  const [cardHeight, setCardHeight] = useState(0);
-
-  const onViewLayout = (event) => {
-    const { width, height } = event.nativeEvent.layout;
-    console.log(width, height);
-    setCardWidth(width);
-    setCardHeight(height);
-  };
-
-  const flipCardRef = useRef(null);
-
-  // Check if the card is marked as difficult and render the difficulty mark
-  const difficultyMark = card?.isdone ? (
-    <View style={styles.difficultyMark}>
-      <Text style={styles.difficultyMarkText}>Done</Text>
-    </View>
-  ) : null;
-
-  useEffect(() => {
-    if (isFlipped) {
-      setInstructionText("Tap to See the Question");
-    } else {
-      setInstructionText("Tap to See the Answer");
-    }
-  }, [isFlipped]);
 
   const flipCard = () => {
     setIsFlipped(!isFlipped);
-    isFlipped
-      ? flipCardRef.current.flipLeft()
-      : flipCardRef.current.flipRight();
+    handleSubmitAnswer();
   };
 
-  const handleSubmitAnswer = (answer) => {
-    console.log("Answer submitted: ", answer);
-    // Save the answer to the database
-
-    // Flip the card
-    flipCard();
+  const handleSubmitAnswer = () => {
+    // Save the answer to the flashcards state (not the database)
+    // If we need to save to database, we can do it in flashCardsSlice (similar to updateFlashcard)
+    dispatch(updateCardAnswer({index: cardIndex, answer: answer}));
   };
 
-  const renderFront = () => {
+  const renderSide = () => {
     return (
-      <>
-        {difficultyMark}
-        {questionFirst ? (
-          <QuestionFirstView isFlipped={isFlipped} details={card} />
+      <View style={{width: '100%', flex: 1}}>
+        <Pressable style={{...styles.bookmark, display: showingInfo ? 'none' : 'block'}} onPress={() => markDifficult(card)}>
+          { !card.isdone ? 
+              <BookmarkFront style={styles.bookmarkIcon} /> : 
+            isFlipped ? 
+              <BookmarkBackFilled style={styles.bookmarkIcon} /> : <BookmarkFrontFilled style={styles.bookmarkIcon} />
+          }
+        </Pressable>
+        {termFirst ? (
+          <TermFirstView isFlipped={isFlipped} details={card} answer={answer} onAnswer={setAnswer} />
         ) : (
-          <AnswerFirstView
+          <DefinitionFirstView
             isFlipped={isFlipped}
             details={card}
-            onSubmitAnswer={handleSubmitAnswer}
+            answer={answer}
+            onAnswer={setAnswer}
           />
         )}
-
-        {!isFlipped && (
-          <TouchableOpacity onPress={() => markDone(card)}>
-            <Text style={styles.difficultButtonText}>
-              Mark this Flash Card as Done
-            </Text>
-          </TouchableOpacity>
-        )}
-      </>
-    );
-  };
-  const renderBack = () => {
-    return (
-      <>
-        {difficultyMark}
-        {questionFirst ? (
-          <QuestionFirstView isFlipped={isFlipped} details={card} />
-        ) : (
-          <AnswerFirstView
-            isFlipped={isFlipped}
-            details={card}
-            onSubmitAnswer={handleSubmitAnswer}
-          />
-        )}
-
-        {!isFlipped && (
-          <TouchableOpacity onPress={() => markDone(card)}>
-            <Text style={styles.difficultButtonText}>
-              Mark this Flash Card as Done
-            </Text>
-          </TouchableOpacity>
-        )}
-      </>
+      </View>
     );
   };
 
   return (
-    <View style={styles.container} onLayout={onViewLayout}>
-      <Pressable onPress={flipCard} style={styles.pressable}>
-        {cardWidth > 0 && cardHeight > 0 && (
-          <GestureFlipView
-            ref={flipCardRef}
-            gestureEnabled={false}
-            width={cardWidth}
-            height={cardHeight}
-          >
-            {renderBack()}
-            {renderFront()}
-          </GestureFlipView>
-        )}
-      </Pressable>
+    <View style={styles.mainContainer}>
+      <View style={{...styles.deckOne, display: showingInfo ? 'none' : 'block'}}></View>
+      <View style={{...styles.deckTwo, display: showingInfo ? 'none' : 'block'}}></View>
+      <View style={styles.cardContainer}>
+
+        { showingInfo &&
+          <View style={{position: 'absolute', zIndex: 1, width: '100%', height: '100%' }}>
+            <View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'black', opacity: 0.7, borderRadius: 20}}></View>
+            <Text style={{color: 'white', position: 'absolute', right: 26, top: -43, fontFamily: 'Nunito-Regular'}}>Tap to mark difficult</Text>
+            <BookmarkInfo style={styles.bookmarkInfoIcon} />
+
+            <View style={{position: 'absolute', top: '40%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>Tap to see answer</Text>
+              <TapToSeeAnswer />
+            </View>
+
+            <View style={{position: 'absolute', bottom: '10%', width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <Previous style={{marginLeft: 20, marginRight: 5}} />
+                <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>Previous</Text>
+              </View>
+              <View>
+              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>Next</Text>
+                <Next style={{marginLeft: 5, marginRight: 20}} />
+              </View>
+              </View>
+            </View>
+          </View> 
+        }
+        <FlipCard 
+          style={{...styles.card, backgroundColor: isFlipped ? globalStyles.colors.primary : 'white'}}
+          friction={10}
+          flipHorizontal={true}
+          flipVertical={false}
+          clickable={true}
+          onFlipStart={flipCard}
+        >
+          {renderSide()}
+          {renderSide()}
+        </FlipCard>
+      </View>
+      <View style={styles.infoButtonContainer}>
+        <Pressable style={{...styles.infoButton, backgroundColor: showingInfo ? 'white' : globalStyles.colors.primary}} onPress={() => dispatch(setShowingInfo(!showingInfo))}>
+          <Text style={{...styles.infoButtonText, color: showingInfo ? 'black' : 'white'}}>i</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
+    width: "100%",
     display: "flex",
-    marginBottom: 60,
+    flexDirection: "column",
+    justifyContent: "start",
+    paddingTop: 40,
+    marginBottom: 60
   },
-  pressable: {
-    flex: 1,
-    // backgroundColor: 'red',
+  deckOne: {
+    height: 30,
+    width: '92%',
+    height: '86%',
+    alignSelf: 'center',
+    position: 'absolute',
+    borderWidth: 2,
+    borderColor: globalStyles.colors.primary,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    top: 28,
+    zIndex: -1
   },
-  textContainer: {
+  deckTwo: {
+    height: 30,
+    width: '84%',
+    height: '80%',
+    alignSelf: 'center',
+    position: 'absolute',
+    borderWidth: 2,
+    borderColor: globalStyles.colors.primary,
+    borderRadius: 20,
+    top: 18,
+    zIndex: -2
+    },
+  bookmark: {
+    position: 'absolute',
+    right: 30,
+    top: -6,
+    zIndex: 1,
+  },
+  bookmarkInfoIcon: {
+    opacity: 1,
+    position: 'absolute',
+    right: 32,
+    top: -20, // -4
+    zIndex: 3,
+  },
+  cardContainer: {
     flex: 1,
-    fontSize: 24,
-    fontWeight: "bold",
+    width: "100%",
     display: "flex",
-    textAlign: "center",
-    marginTop: 80,
+    marginBottom: 40,
+    position: 'relative',
+  },
+  card: {
+    borderWidth: 2,
+    borderColor: globalStyles.colors.primary,
+    borderRadius: 20
   },
   topButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 80,
   },
+  infoButtonContainer: {
+    width: '100%', 
+    display: 'flex', 
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+  },
+  infoButton: {
+    width: 50, 
+    height: 50, 
+    borderRadius: 30, 
+    backgroundColor: globalStyles.colors.primary
+  },
+  infoButtonText: {
+    color: 'white', 
+    fontSize: 25, 
+    fontFamily: 'Gabarito-Bold',
+    margin: 'auto',
+    textAlign: 'center',
+    position: 'relative',
+    top: 10
+  },
   instructions: {
-    textAlign: "center",
-    marginBottom: 80,
-  },
-  difficultyMark: {
-    position: "absolute",
-    top: 5,
-    right: 5,
-    backgroundColor: "red",
-    borderRadius: 10,
-    padding: 5,
-    border: "1px solid black",
-  },
-  difficultyMarkText: {
-    fontSize: 12,
-    color: "white",
-  },
-  difficultButtonText: {
-    textAlign: "center",
-    marginBottom: 80,
+    position: 'absolute',
+    width: '100%',
+    height: '100%'
   },
 });
 

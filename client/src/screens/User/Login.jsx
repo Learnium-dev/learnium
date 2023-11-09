@@ -34,7 +34,7 @@ const Login = (props) => {
   };
 
   return (
-    <FormContainer title={"Login"}>
+    <FormContainer title={"Login"} style={{ paddindTop: "40" }}>
       <Input
         placeholder={"Enter Email"}
         name={"email"}

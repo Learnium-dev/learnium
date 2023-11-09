@@ -22,6 +22,8 @@ import { styles } from "../../styles/createContent2";
 
 // Date Time Picker
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useNavigation } from "@react-navigation/native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const OptionButton = ({ text, isSelected, onPress }) => {
   return (
@@ -38,6 +40,7 @@ const OptionButton = ({ text, isSelected, onPress }) => {
 
 const ExamSchedule = ({ name, prev, next }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   // const { date, days, content } = useSelector((state) => state.exam);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [dateNow, setDateNow] = useState(new Date());
@@ -71,9 +74,12 @@ const ExamSchedule = ({ name, prev, next }) => {
     setMode(currentMode);
   };
 
+  console.log("showPicker: ", showPicker);
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || dateNow;
-    setShowPicker(Platform.OS === "ios");
+    // setShowPicker(Platform.OS === "ios");
+    setShowPicker(!showPicker);
     setDateNow(currentDate);
 
     let tempDate = new Date(currentDate);
@@ -82,46 +88,100 @@ const ExamSchedule = ({ name, prev, next }) => {
 
   const onFinish = () => {
     dispatch(setDays(selectedOptions));
+    navigation.navigate("Study");
   };
 
   return (
-    <View
-      style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
-    >
-      {/* Exam Date */}
-      <Text style={styles.subtitle}>Enter Exam Date</Text>
-      <Pressable onPress={() => showMode("date")}>
-        <TextInput
-          placeholder={`${formattedDate(dateNow)}`}
-          placeholderTextColor={"gray"}
-          value={examDate}
-          editable={false}
-          style={styles.datePicker}
-        />
-      </Pressable>
-      {showPicker && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          mode={mode}
-          value={dateNow}
-          display="calendar"
-          onChange={onChange}
-          is24Hour={true}
-        />
-      )}
+    <>
+      <ScrollView
+        style={{
+          flex: 1,
+          overflow: "scroll",
+        }}
+        contentContainerStyle={{
+          flexDirection: "column",
+          justifyContent: "space-between",
+          // backgroundColor: "yellow",
+        }}
+      >
+        <View>
+          {/* Exam Date */}
+          <Text style={styles.subtitle}>Enter Exam Date</Text>
+          {Platform.OS === "android" && (
+            <Pressable onPress={() => showMode("date")}>
+              {/* <Text style={styles.datePicker} >{examDate}</Text> */}
+              <TextInput
+                placeholder={`${formattedDate(dateNow)}`}
+                placeholderTextColor={"gray"}
+                value={examDate}
+                editable={false}
+                style={styles.datePicker}
+              />
+              {showPicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  mode={mode}
+                  value={dateNow}
+                  display="calendar"
+                  onChange={onChange}
+                  is24Hour={true}
+                  // style={{ backgroundColor: "gold" }}
+                />
+              )}
+            </Pressable>
+          )}
 
-      {/* Options */}
-      <Text style={styles.subtitle}>Days of the week you want to study</Text>
+          {
+            Platform.OS === "ios" && (
+              <Pressable onPress={() => showMode("date")}>
+                <Text style={styles.datePicker}>{examDate}</Text>
+                {/* <TextInput
+                placeholder={`${formattedDate(dateNow)}`}
+                placeholderTextColor={"gray"}
+                value={examDate}
+                editable={false}
+                style={styles.datePicker}
+              /> */}
+                {showPicker && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    mode={mode}
+                    value={dateNow}
+                    display="inline"
+                    onChange={onChange}
+                    is24Hour={true}
+                  />
+                )}
+              </Pressable>
+            )
+            // Code specific to iOS
+          }
 
-      {daysWeek.map((item, index) => (
-        <OptionButton
-          key={index}
-          text={item}
-          isSelected={selectedOptions.includes(item)}
-          onPress={() => handleOptionPress(item)}
-        />
-      ))}
+          {/* Options */}
+          <View
+            style={{
+              // backgroundColor: "pink",
+              // height: "50%",
+              flex: 1,
+              overflow: "scroll",
+              marginBottom: 100,
+            }}
+          >
+            <Text style={styles.subtitle}>
+              Days of the week you want to study
+            </Text>
 
+            {daysWeek.map((item, index) => (
+              <OptionButton
+                key={index}
+                text={item}
+                isSelected={selectedOptions.includes(item)}
+                onPress={() => handleOptionPress(item)}
+              />
+            ))}
+          </View>
+        </View>
+      </ScrollView>
       {/* Buttons */}
       <View style={styles.btnContainerSelector}>
         <Pressable
@@ -144,7 +204,7 @@ const ExamSchedule = ({ name, prev, next }) => {
           <Text style={styles.btnTextOption}>Finish</Text>
         </Pressable>
       </View>
-    </View>
+    </>
   );
 };
 

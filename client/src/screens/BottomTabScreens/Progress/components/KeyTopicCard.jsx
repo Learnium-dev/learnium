@@ -26,16 +26,7 @@ const KeyTopicCard = ({ item }) => {
   };
 
   return (
-    <Pressable
-      onPress={() =>
-        navigate("SingleKeyTopic", {
-          name: item?.name,
-          duedate: formatDate(item?.duedate),
-          materialName: item?.folderid?.name,
-          id: item?._id,
-        })
-      }
-    >
+    <Pressable onPress={() => navigate("SingleKeyTopic", { item: item })}>
       <View
         style={{ ...styles.card, borderColor: accentColor(item?.progress) }}
       >

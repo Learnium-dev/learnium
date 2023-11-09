@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     color: "#7000FF",
   },
   cardSubtitle: {
-    fontFamily: "Gabarito-Bold",
+    fontFamily: "Gabarito-Regular",
     fontSize: 16,
     color: "#262626",
   },

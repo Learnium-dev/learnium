@@ -13,19 +13,22 @@ import * as DocumentPicker from "expo-document-picker";
 // axios
 import axios from "axios";
 
+// redux
+import { useSelector, useDispatch } from "react-redux";
+import { setUploaded } from "../../../../../slices/examSlice";
+
 const CreateContent = () => {
+  const { token } = useSelector((state) => state.credentials);
+  const dispatch = useDispatch();
   const [content, setContent] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [token, setToken] = useState(false);
   const [userId, setUserId] = useState("why jwt for userID not showing");
   const [folderResponse, setFolderResponse] = useState({});
   const [postFolderIsDone, setPostFolderIsDone] = useState(false);
 
-  useEffect(() => {
-    // postFolderToDB();
-  }, [content, folderResponse]);
-
   const handleCreateContent = async () => {
+    console.log("Loading......");
+    dispatch(setUploaded(false));
     setIsLoading(true);
 
     try {
@@ -39,6 +42,7 @@ const CreateContent = () => {
         type: res.assets[0].mimeType,
       });
 
+      console.log("hey this is token", token);
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content`,
         formData,
@@ -52,17 +56,16 @@ const CreateContent = () => {
       );
 
       const data = response.data;
-      const dataJson = JSON.parse(data);
-      setContent(JSON.parse(data));
+      dispatch(setUploaded(true));
       setIsLoading(false);
+      console.log("PDF UPLOADED SUCCESSFULLY! 🚀🚀🚀", data);
       // !temporarily commented out postToDB(JSON.parse(data)) to post the content to the database without calling the openAI API
-      postFolderToDB(dataJson);
+      // postFolderToDB(dataJson);
       // postFolderIsDone && postMaterialToDB();
 
       // postToDB(JSON.parse(data));
     } catch (error) {
       console.log(error?.message);
-      setIsLoading(false);
     }
   };
 

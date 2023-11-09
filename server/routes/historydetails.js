@@ -12,41 +12,19 @@ router.get(`/`, async (req, res)=>{
     let quizzesList = null;
     let detailList = null;
 
-    // Find Quiz by Keytopic Id
-    if(req.query.keytopicid){
-
+    // GET Comprehensive History
+    if(req.query.folderid){
+        filter = {folderid: req.query.folderid}
+        quizzesList = await historyquizmodel.findOne(filter)
+        filterDetail = {historyquizid: quizzesList?._id}
+        detailList = await historydetailmodel.find(filterDetail);
+    }
+    // GET Keytopic History
+    else if(req.query.keytopicid){
         filter = {keytopicid: req.query.keytopicid}
         quizzesList = await historyquizmodel.findOne(filter)
-
-        filterDetail = {quizid: quizzesList?._id}
-
-        if(req.query.truefalse ||
-            req.query.multiplechoice ||
-            req.query.written)
-        {
-            let filterConditions = [];
-    
-            if (req.query.truefalse) {
-                filterConditions.push({ type: "true/false" });
-            }
-    
-            if (req.query.multiplechoice) {
-                filterConditions.push({ type: "multiple choice" });
-            }
-    
-            if (req.query.written) {
-                filterConditions.push({ type: "written" });
-            }
-        
-            filterDetail = { quizid: quizzesList?._id, $or: filterConditions };    
-            // console.log(filterDetail)
-        }
-        
-        detailList = await historydetailmodel.find(filterDetail).limit(10);
-    }
-    else if(req.query.folderid){
-        filter = {folderid: req.query.folderid}
-        detailList = await historydetailmodel.find(filter);
+        filterDetail = {historyquizid: quizzesList?._id}
+        detailList = await historydetailmodel.find(filterDetail);
     }
 
     if(!detailList){
@@ -55,7 +33,13 @@ router.get(`/`, async (req, res)=>{
             message:'There are no Details'
         })
     }
-    res.status(200).send(detailList);
+
+    const result = {
+        historyquizzes: quizzesList,
+        historydetails: detailList,
+    }
+
+    res.status(200).send(result);
 })
 
 // GET Count Details

@@ -4,28 +4,39 @@ import { Feather } from "@expo/vector-icons";
 import { globalStyles } from "../../assets/common/global-styles";
 import Timer from "../../assets/icons/Timer.svg";
 import { useState, useEffect } from "react";
+import ProgressBarAnimated from "react-native-progress-bar-animated";
+import { Bar } from "react-native-progress";
+import { useSelector } from "react-redux";
 
 const FlashCardsQuizHeader = ({
   closeSheet,
-  cardIndex,
-  numberOfCards,
-  practicing,
   isQuizTrue,
   isQuizStart,
+  timeConsumed,
+  cardIndex,
+  numberOfCards,
 }) => {
 
   const [seconds, setSeconds] = useState(0);
   const [isQuiz, setIsQuiz] = useState(isQuizTrue);
-  const progress = ((cardIndex + 1) / numberOfCards) * 100;
   const [isActive, setIsActive] = useState(true);
+
+  // Selectors
+  const currentIndex = useSelector((state) => state.flashCards.cardIndex);
+  const practicing = useSelector((state) => state.flashCards.practicing);
+  const cards = useSelector((state) => state.flashCards.cards);
+
+  const progress = ((currentIndex + 1) / cards.length);
+
   useEffect(() => {
     let interval;
 
-    if (isActive) {
+    if (isActive && isQuiz) {
       interval = setInterval(() => {
         setSeconds(seconds + 1);
+        timeConsumed(seconds+1);
       }, 1000);
-    } else if (!isActive && seconds !== 0) {
+    } else if (!isActive && seconds !== 0 && isQuiz) {
       clearInterval(interval);
     }
 
@@ -43,83 +54,89 @@ const FlashCardsQuizHeader = ({
     return formattedTime;
   };
   return (
-    <View style={styles.header}>
-      <View style={styles.left}>
-        <Pressable onPress={closeSheet}>
-          <AntDesign name="close" size={24} color="black" />
-        </Pressable>
-        {isQuiz ? (
-          isQuizStart ? null : (
-            <Text style={styles.title}>Quiz</Text>
-          )
-        ) : (
-          <Text style={styles.title}>Flashcards</Text>
-        )}
-      </View>
-      {isQuizStart && (
-        <>
-          <View style={styles.timer}>
-            <Timer />
-            {/* <Text>00:00:01</Text> */}
-            <Text> {formatTime(seconds)} </Text>
-          </View>
-          <View style={styles.index}>
-            <Text style={styles.indexText}>
-              {" "}
-              {cardIndex + 1} / {numberOfCards}
-            </Text>
-          </View>
-        </>
-      )}
+    <View style={styles.headerContainer}>
+      <View style={styles.header}>
+        <View style={styles.left}>
+          <Pressable onPress={closeSheet}>
+            <AntDesign name="close" size={24} color="black" />
+          </Pressable>
+          {isQuiz ? (
+            isQuizStart ? null : (
+              <Text style={styles.title}>Quiz</Text>
+            )
+          ) : (
+            <Text style={styles.title}>Flashcards</Text>
+          )}
+        </View>
 
-      {practicing && (
-        <View style={styles.right}>
-          <View style={styles.index}>
-            <Text style={styles.indexText}>
-              {" "}
-              {cardIndex + 1} / {numberOfCards}
-            </Text>
+        {isQuizStart && (
+          <>
+            <View style={styles.timer}>
+              <Timer />
+              {/* <Text>00:00:01</Text> */}
+              <Text> {formatTime(seconds)} </Text>
+            </View>
+            <View style={styles.index}>
+              <Text style={styles.indexText}>
+                {" "}
+                {cardIndex + 1} / {numberOfCards}
+              </Text>
+            </View>
+          </>
+        )}
+
+        {practicing && (
+          <View style={styles.right}>
+            <View style={styles.index}>
+              <Text style={styles.indexText}>
+                {" "}
+                {currentIndex + 1} / {cards.length}
+              </Text>
+            </View>
             <Pressable>
               <Feather name="more-vertical" size={24} color="black" />
             </Pressable>
           </View>
-        </View>
-      )}
+        )}
+      </View>
 
       {practicing && (
-        <View style={{ height: 40, width: "100%" }}>
-          <ProgressBarAnimated
-            width={"100%"}
-            height={20}
-            value={progress}
-            backgroundColor={"#7000FF"}
-            borderRadius={100}
-            useNativeDriver={false}
-            borderColor={"#ECECEC"}
-            borderWidth={2}
-          />
-        </View>
-      )}
+          <View style={styles.progressBar}>
+            <Bar
+              width={null}
+              height={20}
+              progress={progress}
+              color={"#7000FF"}
+              borderRadius={100}
+              useNativeDriver={false}
+              unfilledColor={"#ECECEC"}
+              borderWidth={0}
+            />
+          </View>
+        )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: 'column'
+  },
   header: {
     flexDirection: "row",
-
-    // justifyContent: "center",
-    // textAlign: "center",
-
-    // justifyContent: "space-around",
-    // justifyContent: "space-evenly",
+    justifyContent: "center",
+    textAlign: "center",
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
+    marginTop: 20,
     marginBottom: 20,
     // display: "grid",
     // gridTemplateColumns: "1fr 1fr 1fr",
     // backgroundColor: "red",
+    marginBottom: 10,
   },
 
   left: {
@@ -139,7 +156,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
   },
-
   timer: {
     // backgroundColor: "gold",
     display: "flex",
@@ -160,6 +176,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Gabarito-Regular",
   },
+  progressBar: {
+    height: 20,
+    width: "100%",
+    marginBottom: 20
+  }
 });
 
 export default FlashCardsQuizHeader;

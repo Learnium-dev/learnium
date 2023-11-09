@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const historyDetailSchema = mongoose.Schema({
     historyquizid: {
         type: mongoose.ObjectId,
-        ref: "histories",
+        ref: "historyquizzes",
     },
     folderid: {
         type: mongoose.ObjectId,
@@ -14,6 +14,10 @@ const historyDetailSchema = mongoose.Schema({
         type: Number,
         min: [0, "Progress must be greater than 0"],
         max: [100, "Progress must not be greater than 100"],
+        default: 0,
+    },
+    index: {
+        type: Number,
         default: 0,
     },
     correct: {
