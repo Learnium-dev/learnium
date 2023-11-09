@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native-gesture-handler";
+import baseURL from "../../../../assets/common/baseUrl";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -78,12 +79,13 @@ const AskAI = ({ route }) => {
       { text: inputText, isUser: true },
     ]);
     setInputText("");
-    console.log(`${process.env.EXPO_PUBLIC_HOSTNAME}/askai`);
+    console.log(`${baseURL}/askai`);
+    // console.log(`${process.env.EXPO_PUBLIC_HOSTNAME}/askai`);
     const submitChat = async () => {
       setLumiState(lumiHeadline[1]);
       try {
         const response = await fetch(
-          `${process.env.EXPO_PUBLIC_HOSTNAME}/askai`,
+          `${baseURL}askai`,
           {
             method: "POST",
             headers: {
