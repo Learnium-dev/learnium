@@ -51,6 +51,7 @@ import Toast from "react-native-toast-message";
 import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
 import { useEffect } from "react";
 import MaterialSummary from "./src/screens/BottomTabScreens/Study/MaterialSummary";
+import KeyTopicSummary from "./src/screens/BottomTabScreens/Study/KeyTopicSummary";
 
 const Stack = createNativeStackNavigator();
 // tab bottom navigator
@@ -61,10 +62,12 @@ function TabBottomNavigator() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          height: 64,
+          height: 66,
           margin: 0,
-          marginBottom: 15,
-          padding: 14,
+          marginBottom: 0,
+          paddingHorizontal: 10,
+          paddingTop: 10,
+          paddingBottom: 28,
         },
       }}
     >
@@ -72,7 +75,6 @@ function TabBottomNavigator() {
         name="StudyHome"
         component={StudyStackNavigator}
         options={({ route }) => ({
-          tabBarStyle: { display: getRouteName(route) },
           headerShown: false,
           tabBarIcon: ({ focused }) => <StudyTabIcon />,
           tabBarShowLabel: false,
@@ -237,6 +239,11 @@ export default function Navigation() {
         <StudyStack.Screen
           name="KeyTopic"
           component={KeyTopic}
+          options={{ headerShown: false }}
+        />
+        <StudyStack.Screen
+          name="KeyTopicSummary"
+          component={KeyTopicSummary}
           options={{ headerShown: false }}
         />
         <StudyStack.Screen

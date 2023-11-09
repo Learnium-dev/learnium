@@ -10,9 +10,9 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    paddingTop: 50,
-    paddingBottom: 30,
-    paddingHorizontal: 16,
+    paddingTop: 40,
+    // paddingBottom: 30,
+    // paddingHorizontal: 16,
     margin: 0,
   },
   title: {

@@ -64,11 +64,11 @@ const styles = StyleSheet.create({
     fontFamily: "Gabarito-Bold",
   },
   labelText: {
-    marginTop: 40, 
-    marginBottom: 10, 
-    fontSize: 18, 
-    fontFamily: 'Gabarito-Bold',
-    color: globalStyles.colors.primary 
+    marginTop: 40,
+    marginBottom: 10,
+    fontSize: 18,
+    fontFamily: "Gabarito-Bold",
+    color: globalStyles.colors.primary,
   },
   definitionContainer: {
     fontSize: 18,
@@ -76,14 +76,15 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito-Regular",
   },
   textInput: {
-    padding: 10, 
+    padding: 10,
     backgroundColor: "white",
     width: "100%",
-    height: "100%", 
+    height: "100%",
     borderWidth: 1,
     borderColor: globalStyles.colors.primary,
     borderRadius: 10,
-  }
+    textAlignVertical: "top",
+  },
 });
 
 export default TermFirstView;

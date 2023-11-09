@@ -2,32 +2,23 @@ import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native"
 import { globalStyles } from "../../../../assets/common/global-styles"
 import NavHeader from "../../../components/NavHeader";
 
-export const MaterialSummary = (props) => {
+export const KeyTopicSummary = (props) => {
 
-  const { keyTopics, material, openBottomSheet } = props.route.params;
+  const { keyTopic, openBottomSheet } = props.route.params;
 
   return (
     <View style={{ ...styles.container, paddingTop: 60 }}>
       <NavHeader
-        title={material?.name}
+        title={keyTopic?.name}
         showMenu={false}
+        style={{ marginTop: 20 }}
       />
       <ScrollView style={styles.scrollView}>
         <Text style={styles.summaryTitle}>Summary</Text>
 
-        {keyTopics.map((keyTopic, index) => (
-          <View style={{ marginBottom: 20 }} key={keyTopic._id}>
-            <Text
-              style={{
-                ...styles.summaryText,
-                fontFamily: "Nunito-SemiBold",
-              }}
-            >
-              Key Topic {index + 1}: {keyTopic.name}
-            </Text>
-            <Text style={styles.summaryText}>{keyTopic.summary}</Text>
-          </View>
-        ))}
+        <View style={{ marginBottom: 20 }} key={keyTopic._id}>
+          <Text style={styles.summaryText}>{keyTopic.summary}</Text>
+        </View>
       </ScrollView>
       <View style={styles.buttonContainer}>
         <Pressable style={styles.flashCardsButton} onPress={openBottomSheet}>
@@ -42,12 +33,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-   
+    // paddingTop: 20,
   },
   scrollView: {
     flex: 1,
     backgroundColor: "white",
-    padding: 30,
+    padding: 20,
     marginBottom: 120,
   },
   summary: {
@@ -97,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MaterialSummary;
+export default KeyTopicSummary;

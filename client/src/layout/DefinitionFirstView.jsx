@@ -36,7 +36,7 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer }) => {
               onChangeText={(text) => onAnswer(text)}
               value={answer}
               style={styles.textInput}
-              placeholder={"Write your term here"}
+                placeholder={"Write your term here"}
             />
           </View>
         </View>
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: globalStyles.colors.primary,
     borderRadius: 10,
+    textAlignVertical: "top"
   }
 });
 

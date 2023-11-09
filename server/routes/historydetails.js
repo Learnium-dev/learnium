@@ -7,24 +7,26 @@ const {historyquizmodel} = require('../models/historyquizzes');
 
 // GET
 router.get(`/`, async (req, res)=>{
-    let filter = {};
+     let filter = {};
     let filterDetail = {};
     let quizzesList = null;
     let detailList = null;
 
+    // TEMPORALY CHANGED TO GET ALL QUIZZES
+
     // GET Comprehensive History
-    if(req.query.folderid){
-        filter = {folderid: req.query.folderid}
-        quizzesList = await historyquizmodel.findOne(filter)
-        filterDetail = {historyquizid: quizzesList?._id}
-        detailList = await historydetailmodel.find(filterDetail);
+    if (req.query.folderid) {
+      filter = { folderid: req.query.folderid };
+      quizzesList = await historyquizmodel.find(filter);
+      filterDetail = { historyquizid: { $in: quizzesList.map((quiz) => quiz._id) } }; 
+      detailList = await historydetailmodel.find(filterDetail);
     }
     // GET Keytopic History
-    else if(req.query.keytopicid){
-        filter = {keytopicid: req.query.keytopicid}
-        quizzesList = await historyquizmodel.findOne(filter)
-        filterDetail = {historyquizid: quizzesList?._id}
-        detailList = await historydetailmodel.find(filterDetail);
+    else if (req.query.keytopicid) {
+      filter = { keytopicid: req.query.keytopicid };
+      quizzesList = await historyquizmodel.find(filter);
+      filterDetail = { historyquizid: { $in: quizzesList.map((quiz) => quiz._id) } };
+      detailList = await historydetailmodel.find(filterDetail);
     }
 
     if(!detailList){
@@ -36,7 +38,7 @@ router.get(`/`, async (req, res)=>{
 
     const result = {
         historyquizzes: quizzesList,
-        historydetails: detailList,
+        // historydetails: detailList,
     }
 
     res.status(200).send(result);

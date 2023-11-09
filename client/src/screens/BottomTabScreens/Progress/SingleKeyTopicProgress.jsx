@@ -78,40 +78,17 @@ const SingleKeyTopicProgress = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View style={{ padding: 20}}> */}
+      <View style={{ padding: 20 }}>
         {/* Header */}
-      <Header name={keyTopic?.name} materialName={keyTopic?.folderid?.name} />
+        <Header name={keyTopic?.name} materialName={keyTopic?.folderid?.name} />
 
-      {/* Banner */}
-      <View style={styles.banner}>
-        <LumiGrade width={200} height={190} />
-        <View style={{ width: 160 }}>
-          <Text style={styles.bannerText}>
-            Complete this topic with an average of B+ or higher in at least
-            three quizzes
-          </Text>
-          <View style={styles.checkMarksContainer}>
-            {quizzes &&
-              quizzes
-                .sort((a, b) => b.progress - a.progress)
-                .map((quiz) =>
-                  quiz.progress >= 85 ? (
-                    <CheckOn key={quiz.id} width={40} height={40} />
-                  ) : (
-                    <CheckOff key={quiz.id} width={40} height={40} />
-                  )
-                )}
-          </View>
-        </View>
-      </View>
-      {/* Info of KeyTopic */}
-      <View style={styles.containerInfo}>
-        <View style={styles.subContainerInfo}>
-          <Calendar width={50} height={50} />
-          <View>
-            <Text style={styles.subContainerInfoTitle}>Due Date</Text>
-            <Text style={styles.subContainerInfoText}>
-              {formatDate(keyTopic?.duedate)}
+        {/* Banner */}
+        <View style={styles.banner}>
+          <LumiGrade width={200} height={190} />
+          <View style={{ width: 160 }}>
+            <Text style={styles.bannerText}>
+              Complete this topic with an average of B+ or higher in at least
+              three quizzes
             </Text>
             <View style={styles.checkMarksContainer}>
               {quizzes && quizzes.length > 0
@@ -160,7 +137,7 @@ const SingleKeyTopicProgress = (props) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-start",
-              gap: 15,
+              gap: 10,
               width: "100%",
               marginVertical: 15,
             }}

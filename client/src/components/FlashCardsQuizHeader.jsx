@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
 import { Bar } from "react-native-progress";
 import { useSelector } from "react-redux";
+import PopupMenu from "./PopupMenu";
 
 const FlashCardsQuizHeader = ({
   closeSheet,
@@ -53,6 +54,26 @@ const FlashCardsQuizHeader = ({
     
     return formattedTime;
   };
+
+  const flashCardsMenuOptions = [
+    {
+      text: "Edit card",
+      onSelect: () => console.log("Edit"),
+      disabled: true,
+    },
+    {
+      text: "Add a card",
+      onSelect: () => console.log("Add"),
+      disabled: true,
+    },
+    {
+      text: "Delete card",
+      onSelect: () => console.log("Delete"),
+      disabled: true,
+    },
+  ];
+
+
   return (
     <View style={styles.headerContainer}>
       <View style={styles.header}>
@@ -94,7 +115,7 @@ const FlashCardsQuizHeader = ({
               </Text>
             </View>
             <Pressable>
-              <Feather name="more-vertical" size={24} color="black" />
+              <PopupMenu options={ isQuiz ? [] : flashCardsMenuOptions} />
             </Pressable>
           </View>
         )}

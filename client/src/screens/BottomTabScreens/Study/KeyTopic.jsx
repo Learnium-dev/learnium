@@ -6,8 +6,16 @@ import {
   Pressable,
   Touchable,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
-import { useState, useRef, useMemo, useCallback } from "react";
+
+// React
+import { useState, useRef, useMemo, useCallback, useEffect } from "react";
+
+// Axios
+import axios from "axios";
+
+// Components
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import FlashCardsContainer from "../../../containers/FlashCardsContainer";
 import NavHeader from "../../../components/NavHeader";
@@ -15,18 +23,33 @@ import DueCalendar from "../../../../assets/icons/due-calendar.svg";
 import StudiedCalendar from "../../../../assets/icons/studied-calendar.svg";
 import BadgeIcon from "../../../../assets/icons/badge-icon.svg";
 import { shortDateOptions } from "../../../../utils/helpers";
-import { globalStyles } from "../../../../assets/common/global-styles";
 import QuizContainer from "../../../containers/QuizContainer";
 import ConfirmModal from "../../../components/ConfirmModal";
+import QuizCard from "../Progress/components/QuizCard";
+
+// Styles
+import { globalStyles } from "../../../../assets/common/global-styles";
+
+// React Navigation
 import { useNavigation } from "@react-navigation/native";
-import AskAI from "../../../../assets/icons/askAI.svg";
+
 import { SafeAreaView } from "react-native-safe-area-context";
+
+// Base Url
+import baseURL from "../../../../assets/common/baseUrl";
+
+// Redux
+import { useSelector } from "react-redux";
+
+// SVG
+import LumiBanner from "../../../../assets/images/characters/lumi_banner_kt.svg";
+import AskAI from "../../../../assets/icons/askAI.svg";
 
 const KeyTopic = (props) => {
   const { navigate } = useNavigation();
   const { keyTopic } = props.route.params;
-
-  console.log("keyTopic", keyTopic);
+  const { token } = useSelector((state) => state.credentials);
+  const [quizzes, setQuizzes] = useState([]);
 
   const bottomSheetModalRef = useRef(null);
   const quizModalRef = useRef(null);
@@ -72,6 +95,29 @@ const KeyTopic = (props) => {
     navigate("AskAI", askAIprops);
   };
 
+  // fetch quizzes
+  useEffect(() => {
+    const fetchQuizzes = async (jwtToken) => {
+      try {
+        const response = await axios.get(
+          `${baseURL}historyquizzes?keytopicid=${keyTopic?._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
+        const sortingQuizzes = response?.data.sort(
+          (a, b) => b?.progress - a?.progress
+        );
+        setQuizzes(sortingQuizzes);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchQuizzes(token);
+  }, []);
+
   return (
     <SafeAreaView
       style={{
@@ -84,6 +130,7 @@ const KeyTopic = (props) => {
           flex: 1,
           display: "flex",
           flexDirection: "column",
+          marginTop: 20,
         }}
       >
         <NavHeader title={keyTopic.name} keyTopic={keyTopic} showMenu={true} />
@@ -119,10 +166,18 @@ const KeyTopic = (props) => {
           </View>
 
           {/*  SUMMARY */}
-          <View style={styles.summary}>
+          <Pressable
+            style={styles.summary}
+            onPress={() =>
+              navigate("KeyTopicSummary", {
+                keyTopic: keyTopic,
+                openBottomSheet: openBottomSheet,
+              })
+            }
+          >
             <Text style={styles.summaryTitle}>Summary</Text>
             <Text style={styles.summaryText}>{keyTopic.summary}</Text>
-          </View>
+          </Pressable>
 
           {/*  FLASHCARD */}
           <Pressable style={styles.flashCardsButton} onPress={openBottomSheet}>
@@ -158,6 +213,41 @@ const KeyTopic = (props) => {
           >
             <AskAI />
           </TouchableOpacity>
+
+          {/* Quiz History */}
+          <View
+            style={{
+              display: "flex",
+              width: "100%",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              marginTop: "auto",
+              marginBottom: 70,
+            }}
+          >
+            <Text style={styles.historyTitle}>Quiz History</Text>
+            {/* Banner */}
+            <LumiBanner width={355} height={100} />
+            <FlatList
+              horizontal={true}
+              contentContainerStyle={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: 10,
+                width: "100%",
+                marginVertical: 15,
+              }}
+              data={quizzes}
+              renderItem={({ item }) => {
+                if (item?.progress > 0) {
+                  return <QuizCard item={item} />;
+                }
+              }}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
 
           {/*  QUIZ */}
           <Pressable style={styles.quizButton} onPress={openQuiz}>
@@ -281,6 +371,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "absolute",
     bottom: 20,
+  },
+
+  historyTitle: {
+    fontFamily: "Nunito-Bold",
+    fontSize: 18,
+    marginVertical: 16,
+    color: "#7000FF",
   },
 });
 
