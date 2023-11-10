@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet } from "react-native";
+import {
+  Image,
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useEffect } from "react";
 import NavHeader from "../../../components/NavHeader";
 import { useState, useRef } from "react";
@@ -19,6 +25,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { globalStyles } from "../../../../assets/common/global-styles";
 import LumiWithTextLeft from "../../../../assets/images/characters/lumiWithTextBubbleLeft.svg";
 import LumiAskAI from "../../../../assets/images/characters/LumiAskAI.svg";
+import baseURL from "../../../../assets/common/baseUrl";
+import ChatLoader from "../../../../assets/images/loader/ChatLoader.gif";
 
 const lumiHeadline = [
   "Hi there. Ask me anything!",
@@ -78,12 +86,12 @@ const AskAI = ({ route }) => {
       { text: inputText, isUser: true },
     ]);
     setInputText("");
-    console.log(`${process.env.EXPO_PUBLIC_HOSTNAME}/askai`);
+    console.log(`${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/askai`);
     const submitChat = async () => {
       setLumiState(lumiHeadline[1]);
       try {
         const response = await fetch(
-          `${process.env.EXPO_PUBLIC_HOSTNAME}/askai`,
+          `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/askai`,
           {
             method: "POST",
             headers: {
@@ -214,7 +222,7 @@ const AskAI = ({ route }) => {
           <View
             style={{
               display: "flex",
-              // backgroundColor: "yellow",
+              // backgroundColor: "hotpink",
               backgroundColor: globalStyles.colors.background,
               flex: 1,
 
@@ -245,9 +253,6 @@ const AskAI = ({ route }) => {
                 Suggestions:
               </Text>
 
-              {/* <View
-                style={{ borderWidth: 2, borderColor: "grey", width: "50%" }}
-              > */}
               {suggestionArray.map((suggestion, index) => {
                 return (
                   <View style={{ flexDirection: "row" }}>
@@ -284,7 +289,7 @@ const AskAI = ({ route }) => {
                           zIndex: 1,
                           // position: "absolute",
                           // left: 10,
-                          width: "90%",
+                          // width: "90%",
                         }}
                       >
                         {suggestion}
@@ -382,8 +387,8 @@ const AskAI = ({ route }) => {
                           // marginBottom: 5,
                           marginTop: 10,
                           // backgroundColor: "red",
-                          // backgroundColor: "white",
-                          backgroundColor: globalStyles.colors.background,
+                          backgroundColor: "white",
+                          // backgroundColor: globalStyles.colors.background,
                           // display: "flex",
                           // flexDirection: "column",
                           flexDirection: "row",
@@ -444,34 +449,61 @@ const AskAI = ({ route }) => {
                     </View>
                   );
                 })}
+        
+
+                {lumiState == lumiHeadline[1] && (
+                  <View >
+                    {/* <ChatLoader /> */}
+                    <Image source={ChatLoader} height={10} width={10} />
+                    {/* <LumiAskAI/> */}
+                  </View>
+                )}
               </ScrollView>
             </View>
+            {/* add the GIF if the lumistate is at [1] */}
           </View>
         </View>
         {/* input */}
-        <View
+
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={100}
           style={{
+            // flex: 1,
+            // flexDirection: "column",
+            // alignSelf: "flex-end",
+            // justifyContent: "flex-end",
+            // flexShrink: 0,
+            paddingBottom: 10,
+            // marginBottom: 10,
             // backgroundColor: "orange",
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: "transparent",
-            borderRadius: 16,
-            borderWidth: 2,
-            borderColor: globalStyles.colors.primary,
-            padding: 10,
           }}
         >
-          <TextInput
-            multiline={true}
-            numberOfLines={2}
-            style={{ flex: 1, height: 50 }}
-            value={inputText}
-            onChangeText={(text) => onChangeText(text)}
-          ></TextInput>
-          <TouchableOpacity onPress={handleChat}>
-            <ChatSendBtn />
-          </TouchableOpacity>
-        </View>
+          <View
+            style={{
+              // backgroundColor: "orange",
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: "transparent",
+              borderRadius: 16,
+              borderWidth: 2,
+              borderColor: globalStyles.colors.primary,
+              padding: 10,
+              // width: "100%",
+            }}
+          >
+            <TextInput
+              multiline={true}
+              numberOfLines={2}
+              style={{ flex: 1, height: 50 }}
+              value={inputText}
+              onChangeText={(text) => onChangeText(text)}
+            ></TextInput>
+            <TouchableOpacity onPress={handleChat}>
+              <ChatSendBtn />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
       </View>
     </SafeAreaView>
   );
