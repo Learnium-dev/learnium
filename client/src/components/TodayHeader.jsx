@@ -56,6 +56,7 @@ const TodayHeader = ({ selectedView, accentColor }) => {
       {getCharacter()}
       <View style={{ flex: 1, width: "auto" }}>
         <View style={{ ...styles.bubble, backgroundColor: accentColor }}>
+          <View style={{ ...styles.triangle, borderRightColor: accentColor }}></View>
           <Text style={styles.headline}>{getHeadline()}</Text>
           <Text style={styles.subHeadline}>{getSubHeadline()}</Text>
         </View>
@@ -71,14 +72,26 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     flexDirection: "row",
     alignItems: "start",
+    paddingTop: 20,
   },
   bubble: {
     borderRadius: 24,
-    marginTop: 10,
     marginLeft: 10,
-    padding: 20,
+    padding: 15,
     maxWidth: "90%",
+    position: "relative",
   },
+  triangle: {
+    content: "''",
+    position: "absolute",
+    top: "40%", 
+    left: -7, 
+    marginLeft: -10, 
+    borderStyle: "solid",
+    borderWidth: 9,
+    borderColor: "transparent", 
+  },
+
   headline: {
     color: "white",
     fontFamily: globalStyles.fonts.gabaritoBold,

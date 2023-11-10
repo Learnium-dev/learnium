@@ -10,6 +10,7 @@ import {
 } from "react-native-popup-menu";
 
 const PopupMenu = ({ options }) => {
+  // const [selectedOption, setSelectedOption] = useState(null);
   const menuRef = useRef(null);
 
   const closeMenu = () => menuRef.current.close();
@@ -19,7 +20,7 @@ const PopupMenu = ({ options }) => {
       <MenuTrigger>
         <Feather name="more-vertical" size={24} color="black" />
       </MenuTrigger>
-      <MenuOptions customStyles={optionsStyles} >
+      <MenuOptions customStyles={optionsStyles}>
         <Pressable onPress={closeMenu} style={optionsStyles.closeButton}>
           <AntDesign name="close" size={24} color="black" />
         </Pressable>
@@ -30,6 +31,14 @@ const PopupMenu = ({ options }) => {
             disabled={option.disabled}
             text={option.text}
             customStyles={optionsStyles}
+
+            // onSelect={() => setSelectedOption(option.text)}
+            //customStyles={{
+            //   ...optionsStyles,
+            //   optionText: {
+            //     color: selectedOption === option.text ? "#7000FF" : "black",
+            //   },
+            // }}
           />
         ))}
       </MenuOptions>
@@ -49,17 +58,14 @@ const optionsStyles = {
   },
   optionsContainer: {
     width: '100%',
-    // backgroundColor: 'green',
     padding: 5,
     paddingBottom: 10,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
   optionsWrapper: {
-    // backgroundColor: 'purple',
   },
   optionWrapper: {
-    // backgroundColor: 'yellow',
     margin: 5,
   },
   optionTouchable: {
@@ -68,6 +74,7 @@ const optionsStyles = {
   optionText: {
     color: 'black',
     fontFamily: "Nunito-SemiBold",
+    fontSize: 14,
   },
 };
 

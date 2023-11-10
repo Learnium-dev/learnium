@@ -15,6 +15,7 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, isCorrectFe
 
   return (
     <View style={styles.mainContainer}>
+      <TextInput style={styles.invisibleInput} editable={false} />
       {isFlipped ? (
         <View style={styles.container}>
           <Text style={{
@@ -81,15 +82,22 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito-Regular",
   },
   textInput: {
-    padding: 10, 
+    padding: 10,
     backgroundColor: "white",
     width: "100%",
-    height: "100%", 
+    height: "100%",
     borderWidth: 1,
     borderColor: globalStyles.colors.primary,
     borderRadius: 10,
-    textAlignVertical: "top"
-  }
+    textAlignVertical: "top",
+  },
+  invisibleInput: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "110%",
+    height: "110%",
+  },
 });
 
 export default DefinitionFirstView;

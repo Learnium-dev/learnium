@@ -184,6 +184,7 @@ const KeyTopic = (props) => {
           >
             <Text style={styles.summaryTitle}>Summary</Text>
             <Text style={styles.summaryText}>{keyTopic.summary}</Text>
+            <Text style={styles.ellipsis}>...</Text>
           </Pressable>
 
           {/*  FLASHCARD */}
@@ -338,7 +339,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "start",
     justifyContent: "space-between",
-    marginBottom: 30,
+    marginBottom: 23,
+    marginTop: -1,
   },
   statsItem: {
     display: "flex",
@@ -352,13 +354,14 @@ const styles = StyleSheet.create({
   summary: {
     display: "flex",
     width: "100%",
+    height: 220,
     flexDirection: "column",
     alignItems: "start",
     borderWidth: 2,
     borderColor: globalStyles.colors.primary,
     padding: 20,
     borderRadius: 20,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   summaryTitle: {
     fontFamily: "Nunito-Bold",
@@ -369,6 +372,7 @@ const styles = StyleSheet.create({
   summaryText: {
     fontFamily: "Nunito-Regular",
     fontSize: 14,
+    paddingBottom: 60,
   },
   flashCardsButton: {
     width: "100%",
@@ -377,6 +381,8 @@ const styles = StyleSheet.create({
     borderColor: globalStyles.colors.primary,
     borderRadius: 40,
     padding: 20,
+    marginTop: 8,
+    marginBottom: 5,
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
@@ -419,6 +425,14 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     paddingHorizontal: 20,
     borderTopColor: "#CDCDCD",
+  },
+  ellipsis: {
+    position: "absolute",
+    bottom: 15, 
+    right: 30, 
+    color: globalStyles.colors.primary,
+    fontSize: 30,
+    fontWeight: "bold",
   },
 });
 
