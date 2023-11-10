@@ -28,7 +28,7 @@ export const loginUser = (user, dispatch) => {
       }
     })
     .catch((err) => {
-      console.log('Here!!!');
+      console.log('Auth.action.js, Please provide correct credentials!!!');
       Toast.show({
         topOffset: 60,
         type: "error",

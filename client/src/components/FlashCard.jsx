@@ -1,64 +1,150 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useState, useEffect } from "react";
 import TermFirstView from "../layout/TermFirstView";
 import DefinitionFirstView from "../layout/DefinitionFirstView";
 import { globalStyles } from "../../assets/common/global-styles";
-import FlipCard from 'react-native-flip-card'
-import BookmarkFront from '../../assets/icons/bookmarkFront.svg'
-import BookmarkFrontFilled from '../../assets/icons/bookmarkFrontFilled.svg'
-import BookmarkBack from '../../assets/icons/bookmarkBack.svg'
-import BookmarkBackFilled from '../../assets/icons/bookmarkBackFilled.svg'
+import FlipCard from "react-native-flip-card";
+import BookmarkFront from "../../assets/icons/bookmarkFront.svg";
+import BookmarkFrontFilled from "../../assets/icons/bookmarkFrontFilled.svg";
+import BookmarkBack from "../../assets/icons/bookmarkBack.svg";
+import BookmarkBackFilled from "../../assets/icons/bookmarkBackFilled.svg";
 import { useDispatch, useSelector } from "react-redux";
 import flashCardsSlice from "../../slices/flashCardsSlice";
 import BookmarkWhite from "../../assets/icons/bookmarkWhite.svg";
 import BookmarkInfo from "../../assets/icons/bookmark-info.svg";
 import TapToSeeAnswer from "../../assets/icons/tap-to-view.svg";
-import Previous from '../../assets/icons/previous.svg';
-import Next from '../../assets/icons/next.svg';
+import Previous from "../../assets/icons/previous.svg";
+import Next from "../../assets/icons/next.svg";
+
+// import { useSelector } from "react-redux";
 
 const FlashCard = ({ card, termFirst, markDifficult }) => {
+  // get token from useSelector
+  const { token } = useSelector((state) => state.credentials);
 
-  const cardIndex = useSelector(state => state.flashCards.cardIndex);
-  const showingInfo = useSelector(state => state.flashCards.showingInfo);
+  const [cardCorrectanswer, setCardCorrectanswer] = useState(
+    card.correctanswer
+  );
+  const [cardQuestion, setCardQuestion] = useState(card.question);
+  const cardIndex = useSelector((state) => state.flashCards.cardIndex);
+  const showingInfo = useSelector((state) => state.flashCards.showingInfo);
   const dispatch = useDispatch();
   const { updateCardAnswer, setShowingInfo } = flashCardsSlice.actions;
-
   const [answer, setAnswer] = useState("");
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isCorrectLoading, setIsCorrectLoading] = useState(false);
+
+  const isCorrectArray = [
+    "Correct",
+    "Almost Correct",
+    "Somewhat Correct",
+    "Incorrect",
+  ];
+  const [isCorrect, setIsCorrect] = useState("");
+  const [isCorrectFeedback, setIsCorrectFeedback] = useState("");
 
   const flipCard = () => {
+    console.log("cardIndex", cardIndex);
     setIsFlipped(!isFlipped);
     handleSubmitAnswer();
+    compareAnswer();
   };
 
   const handleSubmitAnswer = () => {
     // Save the answer to the flashcards state (not the database)
     // If we need to save to database, we can do it in flashCardsSlice (similar to updateFlashcard)
-    dispatch(updateCardAnswer({index: cardIndex, answer: answer}));
+    dispatch(updateCardAnswer({ index: cardIndex, answer: answer }));
+  };
+
+  // function to compare the answer to the correct answer and use openAI to compare whether the answer is correct, almost correct, somewhat correct, or incorrect
+  const compareAnswer = async () => {
+    console.log("isFlipped", isFlipped);
+
+    // only compare the answer if the card is flipped. isFlipped is true
+    if (!isFlipped) {
+      return;
+    }
+
+    // check if the answer is empty, if it is, return
+    if (answer === "") {
+      return;
+    }
+    setIsCorrectLoading(true);
+    // get the string from the answer and create object to send as body in fetch request
+    const inputToOpenAI = {
+      answer: answer,
+      correctAnswer: termFirst ? cardQuestion : cardCorrectanswer,
+    };
+
+    console.log("inputToOpenAI", inputToOpenAI);
+
+    // fetch request to openAI to compare the answer to the correct answer
+    // if the answer is correct, set isCorrect to "Correct" "Almost Correct" "Somewhat Correct" "Incorrect"
+    const submitToOpenAI = async () => {
+      console.log(
+        `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/validateflashcardanswer`
+      );
+      const response = await fetch(
+        // `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/askai`,
+        // `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/test`,
+        `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/validateflashcardanswer`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(inputToOpenAI),
+        }
+      );
+
+      console.log("response", response);
+      const data = await response.json();
+      // console.log("response", response);
+      console.log("data", data);
+      console.log("data", data.feedback);
+      console.log("data", data.response);
+      setIsCorrect(data.response);
+      setIsCorrectFeedback(data.feedback);
+      setIsCorrectLoading(false);
+    };
+    submitToOpenAI();
   };
 
   const renderSide = () => {
     return (
-      <View style={{width: '100%', flex: 1}}>
-        <Pressable style={{...styles.bookmark, display: showingInfo ? 'none' : 'block'}} onPress={() => markDifficult(card)}>
-          { !card.isdone ? 
-              <BookmarkFront style={styles.bookmarkIcon} /> : 
-            isFlipped ? 
-              <BookmarkBackFilled style={styles.bookmarkIcon} /> : <BookmarkFrontFilled style={styles.bookmarkIcon} />
-          }
+      <View style={{ width: "100%", flex: 1 }}>
+        <Pressable
+          style={{
+            ...styles.bookmark,
+            display: showingInfo ? "none" : "block",
+          }}
+          onPress={() => markDifficult(card)}
+        >
+          {!card.isdone ? (
+            <BookmarkFront style={styles.bookmarkIcon} />
+          ) : isFlipped ? (
+            <BookmarkBackFilled style={styles.bookmarkIcon} />
+          ) : (
+            <BookmarkFrontFilled style={styles.bookmarkIcon} />
+          )}
         </Pressable>
         {termFirst ? (
-          <TermFirstView isFlipped={isFlipped} details={card} answer={answer} onAnswer={setAnswer} />
+          <TermFirstView
+            isFlipped={isFlipped}
+            details={card}
+            answer={answer}
+            aiFeedback={isCorrectFeedback}
+            aiResponse={isCorrect}
+            onAnswer={setAnswer}
+          />
         ) : (
           <DefinitionFirstView
             isFlipped={isFlipped}
             details={card}
             answer={answer}
+            aiFeedback={isCorrectFeedback}
+            aiResponse={isCorrect}
             onAnswer={setAnswer}
           />
         )}
@@ -75,6 +161,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
         style={{ ...styles.deckTwo, display: showingInfo ? "none" : "block" }}
       ></View>
       <View style={styles.cardContainer}>
+        {/* SHOW FLASHCARD INTRODUCTION */}
         {showingInfo && (
           <View
             style={{
@@ -164,6 +251,8 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
             </View>
           </View>
         )}
+
+        {/* SHOW FLASHCARD */}
         <FlipCard
           style={{
             ...styles.card,
@@ -179,6 +268,8 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
           {renderSide()}
         </FlipCard>
       </View>
+
+      {/* INFO BUTTON */}
       <View style={styles.infoButtonContainer}>
         <Pressable
           style={{
@@ -199,6 +290,12 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
           </Text>
         </Pressable>
       </View>
+
+      {isCorrectLoading && <Text style={styles.labelText}>Loading...</Text>}
+      {isCorrectFeedback && (
+        <Text style={styles.labelText}>{isCorrectFeedback}</Text>
+      )}
+      {isCorrect && <Text style={styles.labelText}>{isCorrect}</Text>}
     </View>
   );
 };
@@ -211,42 +308,42 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "start",
     paddingTop: 40,
-    marginBottom: 60
+    marginBottom: 60,
   },
   deckOne: {
     height: 30,
-    width: '92%',
-    height: '86%',
-    alignSelf: 'center',
-    position: 'absolute',
+    width: "92%",
+    height: "86%",
+    alignSelf: "center",
+    position: "absolute",
     borderWidth: 2,
     borderColor: globalStyles.colors.primary,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     top: 28,
-    zIndex: -1
+    zIndex: -1,
   },
   deckTwo: {
     height: 30,
-    width: '84%',
-    height: '80%',
-    alignSelf: 'center',
-    position: 'absolute',
+    width: "84%",
+    height: "80%",
+    alignSelf: "center",
+    position: "absolute",
     borderWidth: 2,
     borderColor: globalStyles.colors.primary,
     borderRadius: 20,
     top: 18,
-    zIndex: -2
-    },
+    zIndex: -2,
+  },
   bookmark: {
-    position: 'absolute',
+    position: "absolute",
     right: 30,
     top: -6,
     zIndex: 1,
   },
   bookmarkInfoIcon: {
     opacity: 1,
-    position: 'absolute',
+    position: "absolute",
     right: 32,
     top: -20, // -4
     zIndex: 3,
@@ -256,12 +353,12 @@ const styles = StyleSheet.create({
     width: "100%",
     display: "flex",
     marginBottom: 40,
-    position: 'relative',
+    position: "relative",
   },
   card: {
     borderWidth: 2,
     borderColor: globalStyles.colors.primary,
-    borderRadius: 20
+    borderRadius: 20,
   },
   topButtonsContainer: {
     flexDirection: "row",
@@ -269,32 +366,32 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   infoButtonContainer: {
-    width: '100%', 
-    display: 'flex', 
-    flexDirection: 'row', 
-    justifyContent: 'center', 
-    marginBottom: -5
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: -5,
   },
   infoButton: {
-    width: 50, 
-    height: 50, 
-    borderRadius: 30, 
-    backgroundColor: globalStyles.colors.primary
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    backgroundColor: globalStyles.colors.primary,
   },
   infoButtonText: {
-    color: 'white', 
-    fontSize: 25, 
-    fontFamily: 'Gabarito-Bold',
-    margin: 'auto',
+    color: "white",
+    fontSize: 25,
+    fontFamily: "Gabarito-Bold",
+    margin: "auto",
     marginBottom: 5,
-    textAlign: 'center',
-    position: 'relative',
-    top: 10
+    textAlign: "center",
+    position: "relative",
+    top: 10,
   },
   instructions: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%'
+    position: "absolute",
+    width: "100%",
+    height: "100%",
   },
 });
 
