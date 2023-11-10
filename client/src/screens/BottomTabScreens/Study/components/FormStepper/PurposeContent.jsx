@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 // icons
 import Exam from "../../../../../../assets/icons/exam.svg";
-import ExamSelected from "../../../../../../assets/icons/examSelected.svg";
+import ExamSelected from "../../../../../../assets/icons/examSelectedPro.svg";
 import Pro from "../../../../../../assets/icons/professional.svg";
 import ProSelected from "../../../../../../assets/icons/professionalSelected.svg";
 import Fun from "../../../../../../assets/icons/fun.svg";
@@ -64,7 +64,11 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
 
   return (
     <View
-      style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}
+      style={{
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "flex-start",
+      }}
     >
       {/* Options */}
       <View style={styles.optionsContainer}>
@@ -102,7 +106,13 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
       </View>
 
       {/* Buttons */}
-      <View style={styles.btnContainerSelector}>
+      <View
+        style={{
+          ...styles.btnContainerSelector,
+          paddingVertical: 12,
+          paddingHorizontal: 20,
+        }}
+      >
         <Pressable
           style={{
             ...styles.btnContent,

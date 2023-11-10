@@ -59,12 +59,6 @@ const CreateContent = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <ScrollView
-        showsVerticalScrollIndicator={true}
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
-      > */}
       <View
         style={{
           flexGrow: 1,

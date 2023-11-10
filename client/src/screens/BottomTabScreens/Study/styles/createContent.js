@@ -6,12 +6,13 @@ export const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 10,
     paddingHorizontal: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#F5F5F5",
   },
   title: {
     fontSize: 28,
     fontFamily: "Gabarito-Bold",
     margin: 0,
+    color: "#262626",
   },
   subtitle: {
     fontSize: 24,
@@ -45,26 +46,26 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 2,
     borderColor: "#262626",
-    paddingVertical: 15,
+    paddingVertical: 20,
     paddingHorizontal: 30,
   },
   btnText: {
     fontFamily: "Nunito-Regular",
+    fontSize: 12,
   },
   dividerText: {
     fontFamily: "Gabarito-Bold",
     fontSize: 32,
     textAlign: "center",
     marginVertical: 10,
+    color: "#262626",
   },
   textarea: {
     fontFamily: "Nunito-Regular",
     fontSize: 16,
-    height: "100%",
-    // height: 350,
+    height: 335,
     borderWidth: 2,
     borderRadius: 8,
-    borderColor: "#262626",
     padding: 16,
   },
   btnContent: {
@@ -74,7 +75,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 100,
     backgroundColor: "#7000FF",
-    paddingVertical: 20,
+    paddingVertical: 16,
     marginTop: "auto",
   },
 
@@ -98,6 +99,7 @@ export const styles = StyleSheet.create({
   optionText: {
     fontFamily: "Gabarito-Bold",
     fontSize: 19,
+    color: "#262626",
   },
   btnTextOption: {
     fontFamily: "Gabarito-Bold",
@@ -106,7 +108,8 @@ export const styles = StyleSheet.create({
   },
   selectedOption: {
     backgroundColor: "#7000FF",
-    borderWidth: 0,
+    borderWidth: 2,
+    borderColor: "#7000FF",
   },
   selectedOptionText: {
     color: "white",
@@ -116,11 +119,18 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: "auto",
     gap: 10,
+    borderTopColor: "#CDCDCD",
+    borderTopWidth: 2,
+    backgroundColor: "#FFF",
+    position: "absolute",
+    bottom: -6,
+    left: -16,
+    right: -16,
+    zIndex: 100,
   },
   btnDisabled: {
-    backgroundColor: "#FFFF",
+    backgroundColor: "#F5F5F5",
     borderColor: "#CDCDCD",
     borderWidth: 2,
   },

@@ -1,6 +1,7 @@
 import { Platform } from "react-native";
 
 
+
 console.log("EXPO_PUBLIC_HOSTNAME", process.env.EXPO_PUBLIC_HOSTNAME)
 
 
