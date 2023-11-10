@@ -175,11 +175,20 @@ const ExamSchedule = ({ name, prev, next }) => {
       </ScrollView>
 
       {/* Buttons */}
-      <View style={styles.btnContainerSelector}>
+      <View
+        style={{
+          ...styles.btnContainerSelector,
+          paddingTop: 16,
+          paddingHorizontal: 20,
+        }}
+      >
         <Pressable
           style={{
             ...styles.btnContent,
             backgroundColor: "white",
+            borderWidth: 2,
+            borderColor: "#7000FF",
+            paddingVertical: 15,
           }}
         >
           <Text
@@ -192,7 +201,16 @@ const ExamSchedule = ({ name, prev, next }) => {
           </Text>
         </Pressable>
 
-        <Pressable onPress={onFinish} style={styles.btnContent}>
+        <Pressable
+          onPress={onFinish}
+          style={{
+            ...styles.btnContent,
+            flex: 1,
+            borderWidth: 2,
+            borderColor: "#7000FF",
+            paddingVertical: 15,
+          }}
+        >
           <Text style={styles.btnTextOption}>Finish</Text>
         </Pressable>
       </View>

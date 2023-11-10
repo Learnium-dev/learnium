@@ -3,6 +3,10 @@ import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import { useState } from "react";
 import { globalStyles } from "../../assets/common/global-styles";
 
+// SVGs
+import LumiCloseQuiz from "../../assets/images/characters/lumiQuizClose.svg";
+import LumiFinishQuiz from "../../assets/images/characters/lumiQuizFinish.svg";
+
 function ConfirmModal({
   isOpen,
   leftBtnFunction,
@@ -29,10 +33,6 @@ function ConfirmModal({
 
   return (
     <View>
-      {/* <TouchableOpacity onPress={openModal}>
-        <Text>Show Modal</Text>
-      </TouchableOpacity> */}
-
       <Modal
         animationType="slide" // You can use different animation types
         transparent={true}
@@ -40,14 +40,21 @@ function ConfirmModal({
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text>{title}</Text>
-            <Text>{subTitle}</Text>
+            {!subTitle ? <LumiFinishQuiz /> : <LumiCloseQuiz />}
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.subTitle}>{subTitle}</Text>
             <View style={styles.navigationButton}>
               <TouchableOpacity
                 onPress={handleLeftBtn}
                 style={[styles.previousButton]}
               >
-                <Text style={[styles.textBold, styles.textAlignCenter]}>
+                <Text
+                  style={[
+                    styles.textBold,
+                    styles.textAlignCenter,
+                    { color: "#7000FF" },
+                  ]}
+                >
                   {leftBtnText}
                 </Text>
               </TouchableOpacity>
@@ -76,25 +83,41 @@ function ConfirmModal({
 export default ConfirmModal;
 
 const styles = StyleSheet.create({
+  title: {
+    fontFamily: "Gabarito-Bold",
+    fontSize: 19,
+    textAlign: "center",
+    lineHeight: 23,
+    marginTop: 10,
+  },
+  subTitle: {
+    fontFamily: "Nunito-Regular",
+    fontSize: 14,
+    lineHeight: 23,
+  },
   navigationButton: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    gap: 10,
+    marginTop: 20,
   },
   previousButton: {
-    width: "45%",
+    // width: "45%",
+    flex: 1,
     backgroundColor: "white",
     borderColor: globalStyles.colors.primary,
     borderRadius: 40,
-    padding: 20,
+    padding: 16,
     borderWidth: 2,
   },
   nextButton: {
-    width: "45%",
+    // width: "45%",
+    flex: 1,
     backgroundColor: globalStyles.colors.primary,
     borderRadius: 40,
-    padding: 20,
+    padding: 16,
   },
   textWhite: {
     color: "white",
@@ -123,16 +146,12 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: "white",
-    width: "80%",
+    width: "90%",
     height: "50%",
     borderRadius: 20,
-    padding: 35,
+    padding: 17,
     alignItems: "center",
-    // shadowColor: "black",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.5,
+    justifyContent: "center",
+    flexDirection: "column",
   },
 });

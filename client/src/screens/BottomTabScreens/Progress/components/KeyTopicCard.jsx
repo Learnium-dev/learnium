@@ -25,10 +25,23 @@ const KeyTopicCard = ({ item }) => {
     }
   };
 
+  const accentColorBorder = (progress) => {
+    if (progress >= 85) {
+      return "#7000FF";
+    } else if (progress < 85 && progress > 0) {
+      return "#7A0000";
+    } else {
+      return "#5F5F5F";
+    }
+  };
+
   return (
     <Pressable onPress={() => navigate("SingleKeyTopic", { keyTopic: item })}>
       <View
-        style={{ ...styles.card, borderColor: accentColor(item?.progress) }}
+        style={{
+          ...styles.card,
+          borderColor: accentColorBorder(item?.progress),
+        }}
       >
         <Text
           style={{ ...styles.cardTitle, color: accentColor(item?.progress) }}

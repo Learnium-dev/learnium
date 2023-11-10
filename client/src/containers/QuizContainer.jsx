@@ -17,6 +17,7 @@ import { calculateQuizPercentage } from "../services/calculateQuizResult";
 import axios from "axios";
 // URL
 import baseURL from "../../assets/common/baseUrl";
+import { ScrollView } from "react-native-gesture-handler";
 
 const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
   const { navigate } = useNavigation();
@@ -174,7 +175,7 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
         isQuizStart={isQuizStart}
         timeConsumed={getTimeConsumed}
       />
-
+      {/* <ScrollView showsVerticalScrollIndicator={false}> */}
       {isQuizStart ? (
         <PagerView
           ref={pagerRef}
@@ -213,6 +214,7 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
           rightBtnText={"Finish"}
         ></ConfirmModal>
       ) : null}
+      {/* </ScrollView> */}
     </View>
   );
 };
@@ -222,7 +224,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     height: "100%",
-    backgroundColor: globalStyles.colors.background,
+    flex: 1,
+    backgroundColor: "#F5f5f5",
   },
   header: {
     flexDirection: "row",
@@ -232,6 +235,7 @@ const styles = StyleSheet.create({
   pagerView: {
     flex: 1,
     width: "100%",
+    // backgroundColor: "red",
   },
 });
 

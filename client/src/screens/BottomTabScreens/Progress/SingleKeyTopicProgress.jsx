@@ -31,6 +31,7 @@ import { formatDate } from "../../../../utils/helpers";
 // Axios
 import axios from "axios";
 import Header from "./components/Header";
+import { ScrollView } from "react-native-gesture-handler";
 
 const SingleKeyTopicProgress = (props) => {
   const { token } = useSelector((state) => state.credentials);
@@ -77,98 +78,108 @@ const SingleKeyTopicProgress = (props) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{ ...styles.container }}>
       <View style={{ padding: 20 }}>
         {/* Header */}
         <Header name={keyTopic?.name} materialName={keyTopic?.folderid?.name} />
 
-        {/* Banner */}
-        <View style={styles.banner}>
-          <LumiGrade width={200} height={190} />
-          <View style={{ width: 160 }}>
-            <Text style={styles.bannerText}>
-              Complete this topic with an average of B+ or higher in at least
-              three quizzes
-            </Text>
-            <View style={styles.checkMarksContainer}>
-              {quizzes && quizzes.length > 0
-                ? quizzes
-                    .sort((a, b) => b.progress - a.progress)
-                    .map((quiz) =>
-                      quiz.progress >= 85 ? (
-                        <CheckOn key={quiz.id} width={40} height={40} />
-                      ) : (
-                        <CheckOff key={quiz.id} width={40} height={40} />
-                      )
-                    )
-                : Array.from({ length: 3 }, (_, index) => (
-                    <CheckOff key={index} width={40} height={40} />
-                  ))}
-            </View>
-          </View>
-        </View>
-        {/* Info of KeyTopic */}
-        <View style={styles.containerInfo}>
-          <View style={styles.subContainerInfo}>
-            <Calendar width={50} height={50} />
-            <View>
-              <Text style={styles.subContainerInfoTitle}>Due Date</Text>
-              <Text style={styles.subContainerInfoText}>
-                {formatDate(keyTopic?.duedate)}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ marginBottom: 50 }}
+        >
+          {/* Banner */}
+          <View style={styles.banner}>
+            <LumiGrade width={140} height={125} />
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+            >
+              <Text style={styles.bannerText}>
+                Complete this topic with an average of B+ or higher in at least
+                three quizzes
               </Text>
+              <View style={styles.checkMarksContainer}>
+                {quizzes && quizzes.length > 0
+                  ? quizzes
+                      .sort((a, b) => b.progress - a.progress)
+                      .slice(0, 3)
+                      .map((quiz) =>
+                        quiz.progress >= 85 ? (
+                          <CheckOn key={quiz.id} width={40} height={40} />
+                        ) : (
+                          <CheckOff key={quiz.id} width={40} height={40} />
+                        )
+                      )
+                  : Array.from({ length: 3 }, (_, index) => (
+                      <CheckOff key={index} width={40} height={40} />
+                    ))}
+              </View>
             </View>
           </View>
-          <View style={styles.subContainerInfo}>
-            <Badge width={41} height={52} />
-            <View>
-              <Text style={styles.subContainerInfoTitle}>Best Score</Text>
-              <Text style={styles.subContainerInfoText}>{highestScore}%</Text>
+          {/* Info of KeyTopic */}
+          <View style={styles.containerInfo}>
+            <View style={styles.subContainerInfo}>
+              <Calendar width={40} height={40} />
+              <View>
+                <Text style={styles.subContainerInfoTitle}>Due Date</Text>
+                <Text style={styles.subContainerInfoText}>
+                  {formatDate(keyTopic?.duedate)}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Badge width={31} height={42} />
+              <View>
+                <Text style={styles.subContainerInfoTitle}>Best Score</Text>
+                <Text style={styles.subContainerInfoText}>{highestScore}%</Text>
+              </View>
             </View>
           </View>
-        </View>
-        {/* Quiz History */}
-        <View>
-          <Text style={{ ...styles.title, color: "#7000FF" }}>
-            Quiz History
-          </Text>
-          <FlatList
-            horizontal={true}
-            contentContainerStyle={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              gap: 10,
-              width: "100%",
-              marginVertical: 15,
+          {/* Quiz History */}
+          <View>
+            <Text style={{ ...styles.title, color: "#7000FF" }}>
+              Quiz History
+            </Text>
+            <FlatList
+              horizontal={true}
+              contentContainerStyle={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: 10,
+                width: "100%",
+                marginVertical: 15,
+              }}
+              data={quizzes}
+              renderItem={({ item }) => {
+                if (item?.progress > 0) {
+                  return <QuizCard item={item} />;
+                }
+              }}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
+          {/* Buttons */}
+          <Pressable
+            onPress={() => navigate("KeyTopic", { keyTopic })}
+            style={{
+              ...styles.btn,
+              backgroundColor: "#FFF",
+              borderColor: "#7000FF",
             }}
-            data={quizzes}
-            renderItem={({ item }) => {
-              if (item?.progress > 0) {
-                return <QuizCard item={item} />;
-              }
-            }}
-            keyExtractor={(item) => item.id}
-          />
-        </View>
-        {/* Buttons */}
-        {/* const { name, materialName, id, duedate } = route.params; */}
-
-        <Pressable
-          onPress={() => navigate("KeyTopic", { keyTopic })}
-          style={{
-            ...styles.btn,
-            backgroundColor: "#FFF",
-            borderColor: "#7000FF",
-          }}
-        >
-          <Text style={{ ...styles.btnText, color: "#7000FF" }}>Study</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => navigate("KeyTopic", { keyTopic })}
-          style={styles.btn}
-        >
-          <Text style={styles.btnText}>Start a Quiz</Text>
-        </Pressable>
+          >
+            <Text style={{ ...styles.btnText, color: "#7000FF" }}>Study</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => navigate("KeyTopic", { keyTopic })}
+            style={styles.btn}
+          >
+            <Text style={styles.btnText}>Start a Quiz</Text>
+          </Pressable>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );

@@ -47,7 +47,7 @@ import axios from "axios";
 
 // SVGs
 import { Feather } from "@expo/vector-icons";
-import LumiBanner from "../../../../assets/images/characters/lumi_banner_kt.svg";
+import LumiBanner from "../../../../assets/images/characters/quizHistoryLumi.svg";
 
 const Material = (props) => {
   const { navigate } = useNavigation();

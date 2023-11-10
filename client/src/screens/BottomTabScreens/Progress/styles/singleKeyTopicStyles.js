@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
     paddingTop: 40,
     // paddingBottom: 30,
     // paddingHorizontal: 16,
-    margin: 0,
   },
   title: {
     fontSize: 24,
@@ -35,14 +34,15 @@ export const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-around",
     marginVertical: 20,
   },
   bannerText: {
     fontFamily: "Gabarito-Regular",
     fontSize: 16,
-    lineHeight: 27,
-    marginBottom: 10,
+    flex: 1,
+    lineHeight: 22,
+    width: "100%",
   },
   checkMarksContainer: {
     display: "flex",
@@ -71,13 +71,13 @@ export const styles = StyleSheet.create({
   },
   subContainerInfoTitle: {
     fontFamily: "Gabarito-Regular",
-    fontSize: 15,
+    fontSize: 14,
     lineHeight: 25,
     textAlign: "center",
   },
   subContainerInfoText: {
     fontFamily: "Gabarito-Bold",
-    fontSize: 18,
+    fontSize: 16,
     textAlign: "center",
   },
   btn: {

@@ -144,6 +144,7 @@ function StudyStackNavigator() {
   useEffect(() => {
     const showToast = () => {
       Toast.show({
+        autoHide: false,
         position: "bottom",
         type: "success",
         text1: "PDF uploaded successfully! ⭐",
