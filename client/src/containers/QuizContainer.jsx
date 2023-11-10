@@ -28,6 +28,9 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
   const [isQuizStart, setIsQuizStart] = useState(false);
   const [result, setResult] = useState([]);
   const { token } = useSelector((state) => state.credentials);
+  // console.log("⭐⭐⭐⭐", getKeyTopic);
+
+  // console.log("token", token);
   const [cardIndex, setCardIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [timeConsumed, setTimeConsumed] = useState(0);

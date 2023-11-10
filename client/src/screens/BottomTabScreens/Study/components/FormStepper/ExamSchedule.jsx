@@ -88,7 +88,7 @@ const ExamSchedule = ({ name, prev, next }) => {
 
   const onFinish = () => {
     dispatch(setDays(selectedOptions));
-    navigation.navigate("Study");
+    navigation.navigate("Study",{ reload: Math.random() });
   };
 
   return (

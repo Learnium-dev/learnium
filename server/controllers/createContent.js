@@ -46,6 +46,9 @@ const { ConversationChain } = require("langchain/chains");
 // ********** get PDF from client and generate .txt file and text content **********
 // ====================================================================================================
 const createContent = async (req, res) => {
+  console.log("req", req.body)
+  console.log("req.body.email", req.body.email)
+  console.log("req.token", req.body.token)
   const buffer = req.file.buffer;
   const pdfFileName = req.file.originalname;
 
@@ -75,12 +78,12 @@ const createContent = async (req, res) => {
         // res.json(result);
 
         // ?call function to the langchain 2nd, 3rd approach
-        // const result = await embedInput(txtFileName);
-        // // res.json(result);
-        // // result is text content so we need to use res.send instead of res.json
+        // const resultA = await embedInput(txtFileName);
+        // res.json(result);
+        // result is text content so we need to use res.send instead of res.json
         // res.send(result);
 
-        // MOCK UP RESPONSE FAKE DATA
+        // ?MOCK UP RESPONSE FAKE DATA
 
         const result = {
           folders: {
@@ -341,62 +344,62 @@ const createContent = async (req, res) => {
               flashcards: [
                 {
                   question: "Who are the Indigenous peoples of Canada?",
-                  answer: ["First Nations, Inuit, Métis"],
+                  answers: ["First Nations, Inuit, Métis"],
                 },
                 {
                   question:
                     "What is the Indian Act's significance in Canadian history?",
-                  answer: [
+                  answers: [
                     "It imposed restrictions on Indigenous cultures and rights.",
                   ],
                 },
                 {
                   question:
                     "What is the 'Sixties Scoop' in Canadian Indigenous history?",
-                  answer: [
+                  answers: [
                     "The mass removal of Indigenous children from their families in the 1960s.",
                   ],
                 },
                 {
                   question:
                     "Who primarily inhabits the Arctic and Northern regions of Canada?",
-                  answer: ["Inuit"],
+                  answers: ["Inuit"],
                 },
                 {
                   question:
                     "What is the primary cause of Indigenous land disputes in Canada?",
-                  answer: ["Historical land treaties and agreements"],
+                  answers: ["Historical land treaties and agreements"],
                 },
                 {
                   question:
                     "What are the three main Indigenous groups in Canada?",
-                  answer: ["First Nations, Inuit, Métis"],
+                  answers: ["First Nations, Inuit, Métis"],
                 },
                 {
                   question:
                     "What is the significance of the National Indigenous Peoples Day in Canada?",
-                  answer: [
+                  answers: [
                     "It celebrates and recognizes the contributions of Indigenous peoples.",
                   ],
                 },
                 {
                   question:
                     "What is the purpose of the Truth and Reconciliation Commission in Canada?",
-                  answer: [
+                  answers: [
                     "To address the historical abuses of Indigenous children in residential schools.",
                   ],
                 },
                 {
                   question:
                     "What is the significance of the Mi'kmaq people in Canadian history?",
-                  answer: [
+                  answers: [
                     "They have a rich cultural heritage and played a key role in early interactions with Europeans.",
                   ],
                 },
                 {
                   question:
                     "What is the role of the Assembly of First Nations in Canadian politics?",
-                  answer: [
+                  answers: [
                     "It represents the interests of First Nations across Canada to the government.",
                   ],
                 },
@@ -662,26 +665,26 @@ const createContent = async (req, res) => {
                 {
                   question:
                     "Which European explorer had the first contact with Indigenous peoples in Canada?",
-                  answer: ["Jacques Cartier"],
+                  answers: ["Jacques Cartier"],
                 },
                 {
                   question:
                     "What year did the British North America Act create the Dominion of Canada?",
-                  answer: ["1867"],
+                  answers: ["1867"],
                 },
                 {
                   question:
                     "Which provinces joined the Dominion of Canada in 1867?",
-                  answer: ["Ontario, Quebec, New Brunswick, Nova Scotia"],
+                  answers: ["Ontario, Quebec, New Brunswick, Nova Scotia"],
                 },
                 {
                   question: "Who was the first Prime Minister of Canada?",
-                  answer: ["Sir John A. Macdonald"],
+                  answers: ["Sir John A. Macdonald"],
                 },
                 {
                   question:
                     "What is the purpose of the Canadian Confederation in 1867?",
-                  answer: [
+                  answers: [
                     "To unify British North American colonies into a single dominion.",
                   ],
                 },
@@ -956,31 +959,31 @@ const createContent = async (req, res) => {
               flashcards: [
                 {
                   question: "What was Canada's role in World War I?",
-                  answer: [
+                  answers: [
                     "Canada served as a major combatant in World War I.",
                   ],
                 },
                 {
                   question:
                     "During which World War did Canada introduce conscription?",
-                  answer: ["World War I"],
+                  answers: ["World War I"],
                 },
                 {
                   question:
                     "Which international organization was founded in 1945 to promote peace and cooperation?",
-                  answer: ["United Nations"],
+                  answers: ["United Nations"],
                 },
                 {
                   question:
                     "What role did Lester B. Pearson play in international diplomacy?",
-                  answer: [
+                  answers: [
                     "He introduced the idea of peacekeeping forces and won the Nobel Peace Prize.",
                   ],
                 },
                 {
                   question:
                     "What was the purpose of the Canadian Flag Debate in 1964?",
-                  answer: [
+                  answers: [
                     "To establish a new national flag for Canada, resulting in the Maple Leaf flag.",
                   ],
                 },
@@ -1275,37 +1278,37 @@ const createContent = async (req, res) => {
                 {
                   question:
                     "What year did Canada officially adopt multiculturalism as a policy?",
-                  answer: ["1971"],
+                  answers: ["1971"],
                 },
                 {
                   question:
                     "What is the significance of the Chinese Head Tax in Canadian history?",
-                  answer: [
+                  answers: [
                     "It was a discriminatory tax imposed on Chinese immigrants in the late 19th and early 20th centuries.",
                   ],
                 },
                 {
                   question:
                     "True or False: Canada has two official languages, English and French.",
-                  answer: ["True"],
+                  answers: ["True"],
                 },
                 {
                   question:
                     "What is the purpose of the Canadian Multiculturalism Act?",
-                  answer: [
+                  answers: [
                     "To preserve and enhance multiculturalism in Canada.",
                   ],
                 },
                 {
                   question:
                     "Which cultural community was forcibly relocated during the Japanese-Canadian internment in World War II?",
-                  answer: ["Japanese Canadians"],
+                  answers: ["Japanese Canadians"],
                 },
               ],
             },
           ],
         };
-        const DBresponse = await postToDBServerSide(result);
+        const DBresponse = await postToDBServerSide(result, req.body.email, req.body.token);
         res.json(DBresponse);
       }
     });
@@ -1319,7 +1322,7 @@ const createContent = async (req, res) => {
   // res.json(result);
 };
 
-// ====================================================================================================
+
 // ********** use text content to call openAI with primitive approach
 // : wrap everything in prompt and send**********
 // ====================================================================================================
@@ -1445,7 +1448,7 @@ const embedInput = async (txtFileName) => {
   // return response;
 };
 
-// ====================================================================================================
+
 // ********** sending prompt to openAI with different method
 // 1. **********
 // ====================================================================================================
@@ -1525,7 +1528,7 @@ const chainCall = async () => {
   // const formattedResponse = await parser.parse(response);
   // console.log(formattedResponse);
   // return formattedResponse;
-
+// 
   // ! approach 2 : RetrievalQAChain
 
   // const embeddings = new OpenAIEmbeddings({ openAIApiKey: AIKEY });
@@ -1742,7 +1745,7 @@ module.exports = createContent;
 // ********** make a POST request to DB **********
 // ====================================================================================================
 
-const postToDBServerSide = async (result) => {
+const postToDBServerSide = async (result, email, token) => {
   try {
     // const newFolderData = {
     //   name: "test", // Replace with the actual folder name you want to create
@@ -1752,9 +1755,8 @@ const postToDBServerSide = async (result) => {
     console.log(result);
     console.log(JSON.stringify(result))
     // console.log(req.query.email)
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTJiODczYzRhMmQxZDQ0OTMyNmFmMzQiLCJpYXQiOjE2OTkwOTY4MzMsImV4cCI6MTY5OTE4MzIzM30.mUn2JS5E-qI5wuBTiihaH7_rX2QurrxIBI7sdwwa6XA";
-    const tokenEmail = "a@a.com";
+
+    const tokenEmail = email;
     const requestOptions = {
       method: "POST",
       headers: {

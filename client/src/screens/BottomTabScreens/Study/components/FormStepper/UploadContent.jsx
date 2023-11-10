@@ -41,6 +41,9 @@ import baseURL from "../../../../../../assets/common/baseUrl";
 const UploadContent = ({ name, next, setCurrentStep }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.credentials);
+  const { email } = useSelector((state) => state.credentials);
+  console.log("🚀 ~ file: UploadContent.jsx:45 ~ email:", email)
+  
   const { content } = useSelector((state) => state.exam);
   const [disabled, setDisabled] = useState(true);
   const [text, setText] = useState(content);
@@ -83,13 +86,17 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
       dispatch(setPDFName(pdfname));
 
       const formData = new FormData();
+      
       formData.append("pdf", {
         uri: res.assets[0].uri,
         name: res.assets[0].name,
         type: res.assets[0].mimeType,
       });
+      formData.append("email", email);
+      formData.append("token", token);
       next();
       console.log("hey this is token", token);
+      console.log("🚀 ~ file: UploadContent.jsx:86 ~ formData:", formData)
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/create-content`,
         // `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content?email=${tokenEmail}&toke=${token}`,
@@ -115,6 +122,9 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
       console.log("Something bad happened..." + error?.message);
     }
   };
+
+  // COMBINE RESPONSE WITH DATE SELECTED TO DB
+  
 
   // Camera functionality
   const pickImageCamera = async () => {
