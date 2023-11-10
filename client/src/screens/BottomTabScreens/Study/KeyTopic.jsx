@@ -7,6 +7,7 @@ import {
   Touchable,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from "react-native";
 
 // React
@@ -42,8 +43,14 @@ import baseURL from "../../../../assets/common/baseUrl";
 import { useSelector } from "react-redux";
 
 // SVG
-import LumiBanner from "../../../../assets/images/characters/lumi_banner_kt.svg";
+import LumiBanner from "../../../../assets/images/characters/quizHistoryLumi.svg";
 import AskAI from "../../../../assets/icons/askAI.svg";
+
+// responsive sizes
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const KeyTopic = (props) => {
   const { navigate } = useNavigation();
@@ -135,7 +142,7 @@ const KeyTopic = (props) => {
       >
         <NavHeader title={keyTopic.name} keyTopic={keyTopic} showMenu={true} />
 
-        <View style={styles.main}>
+        <ScrollView contentContainerStyle={styles.main}>
           <View style={styles.stats}>
             <View style={styles.statsItem}>
               <DueCalendar style={{ marginRight: 8 }} />
@@ -222,43 +229,68 @@ const KeyTopic = (props) => {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "flex-start",
-              marginTop: "auto",
-              marginBottom: 70,
+              marginBottom: 60,
             }}
           >
             <Text style={styles.historyTitle}>Quiz History</Text>
-            {/* Banner */}
-            <LumiBanner width={355} height={100} />
-            <FlatList
-              horizontal={true}
-              contentContainerStyle={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                gap: 10,
-                width: "100%",
-                marginVertical: 15,
-              }}
-              data={quizzes}
-              renderItem={({ item }) => {
-                if (item?.progress > 0) {
-                  return <QuizCard item={item} />;
-                }
-              }}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
 
-          {/*  QUIZ */}
-          <Pressable style={styles.quizButton} onPress={openQuiz}>
-            <Text style={styles.quizButtonText}>Start a Quiz</Text>
-          </Pressable>
+            {/* Banner */}
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                borderRadius: 8,
+                overflow: "hidden",
+              }}
+            >
+              <LumiBanner width={140} height={95} />
+
+              <Text
+                style={{
+                  flexShrink: 1,
+                  fontSize: 18,
+                  fontFamily: "Gabarito-Bold",
+                  color: "#262626",
+                  textAlign: "center",
+                  backgroundColor: "white",
+                }}
+              >
+                Average Score in your past quizzes
+              </Text>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <FlatList
+                horizontal={true}
+                contentContainerStyle={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  gap: 10,
+                  width: "100%",
+                  marginVertical: 15,
+                }}
+                data={quizzes}
+                renderItem={({ item }) => {
+                  if (item?.progress > 0) {
+                    return <QuizCard item={item} />;
+                  }
+                }}
+                keyExtractor={(item) => item.id}
+              />
+            </ScrollView>
+          </View>
 
           <BottomSheetModal
             ref={quizModalRef}
             index={0}
             snapPoints={snapPoints}
             name="Quiz"
+            handleStyle={{ backgroundColor: "#f5f5f5" }}
           >
             <QuizContainer
               keyTopic={keyTopic}
@@ -266,6 +298,12 @@ const KeyTopic = (props) => {
               isSubmit={handleLeftBtn}
             />
           </BottomSheetModal>
+        </ScrollView>
+        {/*  QUIZ */}
+        <View style={styles.startBtn}>
+          <Pressable style={styles.quizButton} onPress={openQuiz}>
+            <Text style={styles.quizButtonText}>Start Quiz</Text>
+          </Pressable>
         </View>
         {isModalOpen ? (
           <ConfirmModal
@@ -288,15 +326,11 @@ const KeyTopic = (props) => {
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
-    height: 100,
     alignItems: "center",
     justifyContent: "start",
     backgroundColor: "white",
     padding: 20,
-    position: "relative",
     // backgroundColor: globalStyles.colors.background,
-    backgroundColor: "white",
   },
   stats: {
     display: "flex",
@@ -361,16 +395,12 @@ const styles = StyleSheet.create({
   quizButton: {
     width: "100%",
     backgroundColor: "white",
-
     backgroundColor: globalStyles.colors.primary,
-
     borderRadius: 40,
-    padding: 20,
+    padding: 16,
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    position: "absolute",
-    bottom: 20,
   },
 
   historyTitle: {
@@ -378,6 +408,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical: 16,
     color: "#7000FF",
+  },
+  startBtn: {
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: "white",
+    width: "100%",
+    paddingTop: 16,
+    paddingBottom: 5,
+    borderTopWidth: 2,
+    paddingHorizontal: 20,
+    borderTopColor: "#CDCDCD",
   },
 });
 

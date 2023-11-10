@@ -114,21 +114,6 @@ const QuizResult = ({ route }) => {
               return (
                 <View key={index}>
                   <AnswerCard item={item} />
-                  {/* <Text>Question: {item.question}</Text>
-                <Text>Answer: {item.answer}</Text>
-                {item.correct ? (
-                  <Text>Correct</Text>
-                ) : (
-                  <View>
-                    <Text>Incorrect</Text>
-
-                    <TouchableOpacity
-                      onPress={() => handleAskAI(item.question, item.answer)}
-                    >
-                      <Text>ASK AI Button</Text>
-                    </TouchableOpacity>
-                  </View>
-                )} */}
                 </View>
               );
             })}
@@ -145,7 +130,7 @@ const QuizResult = ({ route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ ...styles.btns, backgroundColor: "#7000FF" }}
-            onPress={() => navigate("ProgressPage")}
+            onPress={() => navigate("Progress", { screen: "ProgressPage" })}
           >
             <Text style={{ ...styles.btnsText, color: "#FFF" }}>
               View Progress

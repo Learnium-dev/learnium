@@ -2,14 +2,13 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     paddingTop: 20,
-    paddingBottom: 10,
     paddingHorizontal: 16,
-    backgroundColor: "#F5F5F5",
+    // backgroundColor: "yellow",
   },
   title: {
-    fontSize: 28,
+    fontSize: 25,
     fontFamily: "Gabarito-Bold",
     margin: 0,
     color: "#262626",
@@ -63,7 +62,7 @@ export const styles = StyleSheet.create({
   textarea: {
     fontFamily: "Nunito-Regular",
     fontSize: 16,
-    height: 335,
+    height: 300,
     borderWidth: 2,
     borderRadius: 8,
     padding: 16,
@@ -76,7 +75,6 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "#7000FF",
     paddingVertical: 16,
-    marginTop: "auto",
   },
 
   optionsContainer: {
@@ -122,9 +120,9 @@ export const styles = StyleSheet.create({
     gap: 10,
     borderTopColor: "#CDCDCD",
     borderTopWidth: 2,
-    backgroundColor: "#FFF",
+    // backgroundColor: "#FFF",
     position: "absolute",
-    bottom: -6,
+    bottom: 0,
     left: -16,
     right: -16,
     zIndex: 100,

@@ -117,9 +117,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     flex: 1,
-
-    // paddingBottom: 20,
-    // backgroundColor: "gold",
     marginBottom: 20,
   },
   imageContainer: {
@@ -129,7 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // paddingHorizontal: 40,
     // backgroundColor: "hotpink",
-    marginTop: 20,
+    marginTop: 10,
   },
   headerContainerText: {
     fontSize: 54,
@@ -138,13 +135,13 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: "100%",
-    minHeight: "20%",
     // height: 200,
+    maxHeight: "70%",
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
     borderRadius: 20,
-    
+
     // backgroundColor: "green",
   },
   topicTitle: {
@@ -165,8 +162,6 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "start",
     gap: 10,
-
-    // backgroundColor: "orange",
   },
   subTitle: {
     textAlign: "center",
@@ -182,7 +177,9 @@ const styles = StyleSheet.create({
     // backgroundColor: "hotpink",
   },
   label: {
+    color: "#262626",
     fontSize: 18,
+    fontFamily: "Nunito-Regular",
   },
   instructions: {
     textAlign: "center",
@@ -190,13 +187,11 @@ const styles = StyleSheet.create({
     // marginBottom: 80,
   },
   button: {
-    // marginTop: "auto",
     color: "#fff",
     backgroundColor: globalStyles.colors.primary,
     paddingVertical: 16,
     width: "100%",
     borderRadius: 30,
-    // marginBottom: 20,
   },
   buttonText: {
     color: "#fff",

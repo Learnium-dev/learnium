@@ -65,9 +65,10 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
   return (
     <View
       style={{
-        flex: 1,
+        flexGrow: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
+        // backgroundColor: "red",
       }}
     >
       {/* Options */}
@@ -104,12 +105,11 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
           isSelected={selectedOption === "fun"}
         />
       </View>
-
       {/* Buttons */}
       <View
         style={{
           ...styles.btnContainerSelector,
-          paddingVertical: 12,
+          paddingTop: 16,
           paddingHorizontal: 20,
         }}
       >

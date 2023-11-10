@@ -76,7 +76,7 @@ const Quizzes = ({ index, question }) => {
         <Text>Set up your quiz</Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ color: 'black' }}>True/False:</Text>
+        <Text style={{ color: '#262626', fontFamily: "Nunito-Bold" }}>True/False:</Text>
         <Switch
           value={isTrueFalseEnabled}
           onValueChange={handleTrueFalseSwitch}
@@ -84,7 +84,7 @@ const Quizzes = ({ index, question }) => {
         />
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ color: 'black' }}>Multiple Choice:</Text>
+        <Text style={{ color: '#262626', fontFamily: "Nunito-Bold" }}>Multiple Choice:</Text>
         <Switch
           value={isMultipleChoiceEnabled}
           onValueChange={handleMultipleChoiceSwitch}
@@ -92,7 +92,7 @@ const Quizzes = ({ index, question }) => {
         />
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ color: 'black' }}>Written:</Text>
+        <Text style={{ color: '#262626', fontFamily: "Nunito-Bold" }}>Written:</Text>
         <Switch
           value={isWrittenEnabled}
           onValueChange={handleWrittenSwitch}
