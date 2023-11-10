@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-nativ
 import { globalStyles } from "../../assets/common/global-styles";
 import { useState } from "react";
 
-const TermFirstView = ({ isFlipped, details, answer, onAnswer }) => {
+const TermFirstView = ({ isFlipped, details, answer, onAnswer, isCorrectFeedback, isCorrectResponse }) => {
 
   return (
     <View style={styles.container}>
@@ -19,6 +19,8 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer }) => {
             <Text style={{color: 'white', fontSize: 18, fontFamily: 'Gabarito-Bold'}}>You answered:</Text>
             <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>{answer}</Text>
           </View>}
+          <Text style={styles.labelText}>{isCorrectFeedback}</Text>
+          <Text style={styles.labelText}>{isCorrectResponse}</Text>
 
         </View>
       ) : (
@@ -39,6 +41,8 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer }) => {
               placeholder={"Write your definition here"}
             />
           </View>
+          <Text style={styles.labelText}>{isCorrectFeedback}</Text>
+          <Text style={styles.labelText}>{isCorrectResponse}</Text>
         </View>
       )}
     </View>

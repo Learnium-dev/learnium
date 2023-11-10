@@ -91,7 +91,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
       next();
       console.log("hey this is token", token);
       const response = await axios.post(
-        `${baseURL}create-content`,
+        `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/create-content`,
         // `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content?email=${tokenEmail}&toke=${token}`,
         formData,
         {

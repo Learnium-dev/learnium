@@ -162,8 +162,6 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "start",
     gap: 10,
-
-    // backgroundColor: "yellow",
   },
   subTitle: {
     textAlign: "center",

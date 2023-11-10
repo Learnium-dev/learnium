@@ -2,8 +2,15 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-nativ
 import { useState } from "react";
 import { globalStyles } from "../../assets/common/global-styles";
 
-const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer }) => {
+const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, isCorrectFeedback, isCorrectResponse }) => {
 
+
+  const [aiFeedback, setAiFeedback] = useState(isCorrectFeedback);
+  console.log("🚀 ~ file: DefinitionFirstView.jsx:9 ~ aiFeedback:", aiFeedback)
+  const [aiResponse, setAiResponse] = useState(isCorrectResponse);
+  console.log("🚀 ~ file: DefinitionFirstView.jsx:11 ~ aiResponse:", aiResponse)
+
+  
   // const [value, onChangeText] = useState('');
 
   return (
@@ -21,6 +28,8 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer }) => {
             <Text style={{color: 'white', fontSize: 18, fontFamily: 'Gabarito-Bold'}}>You answered:</Text>
             <Text style={{color: 'white', fontSize: 16, fontFamily: 'Nunito-Regular'}}>{answer}</Text>
           </View> }
+          <Text style={styles.labelText}>{isCorrectFeedback}</Text>
+          <Text style={styles.labelText}>{isCorrectResponse}</Text>
 
         </View>
       ) : (
@@ -39,6 +48,8 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer }) => {
                 placeholder={"Write your term here"}
             />
           </View>
+          <Text style={styles.labelText}>{isCorrectFeedback}</Text>
+          <Text style={styles.labelText}>{isCorrectResponse}</Text>
         </View>
       )}
     </View>
