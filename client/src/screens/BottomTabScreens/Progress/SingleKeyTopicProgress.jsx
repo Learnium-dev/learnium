@@ -143,24 +143,29 @@ const SingleKeyTopicProgress = (props) => {
             <Text style={{ ...styles.title, color: "#7000FF" }}>
               Quiz History
             </Text>
-            <FlatList
+            <ScrollView
               horizontal={true}
-              contentContainerStyle={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                gap: 10,
-                width: "100%",
-                marginVertical: 15,
-              }}
-              data={quizzes}
-              renderItem={({ item }) => {
-                if (item?.progress > 0) {
-                  return <QuizCard item={item} />;
-                }
-              }}
-              keyExtractor={(item) => item.id}
-            />
+              showsHorizontalScrollIndicator={false}
+            >
+              <FlatList
+                horizontal={true}
+                contentContainerStyle={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  gap: 10,
+                  width: "100%",
+                  marginVertical: 15,
+                }}
+                data={quizzes}
+                renderItem={({ item }) => {
+                  if (item?.progress > 0) {
+                    return <QuizCard item={item} />;
+                  }
+                }}
+                keyExtractor={(item) => item.id}
+              />
+            </ScrollView>
           </View>
           {/* Buttons */}
           <Pressable

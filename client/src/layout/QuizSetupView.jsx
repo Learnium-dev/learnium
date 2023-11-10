@@ -53,7 +53,6 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
         <View style={styles.headerContainer}>
           <View>
             <Text style={styles.topicTitle}>{keyTopic.name}</Text>
-            <Text style={styles.topicSummary}>{keyTopic.summary}</Text>
           </View>
 
           <View style={styles.imageContainer}>
