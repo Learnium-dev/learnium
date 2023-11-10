@@ -11,7 +11,7 @@ router.get(`/`, async (req, res)=>{
     // Find UserId
     const userdata = await usermodel.findOne({email: req.query.email});
     console.log("userdata",userdata)
-    const folderdata = await foldermodel.findOne({userid: userdata?._id});
+    const folderdata = await foldermodel.find({userid: userdata?._id});
     console.log("🚀 ~ file: keytopics.js:15 ~ folderdata:", folderdata)
     // Filter by Date
     let filter = {};
@@ -23,19 +23,24 @@ router.get(`/`, async (req, res)=>{
         startdate = new Date(req.query.startdate);
         enddate = new Date(req.query.enddate);
         enddate.setHours(enddate.getHours()+23, 59, 59, 999);
-        filter = {duedate: { $gte: startdate, $lte: enddate }, folderid: folderdata?._id}
     }
     // Filter by Folder Id
-    else{
-        filter = { folderid: folderdata?._id }
+    let keytopicList = [];
+    for(let folder of folderdata){
+        if (req.query.startdate && req.query.enddate){
+            filter = {duedate: { $gte: startdate, $lte: enddate }, folderid: folder._id}
+        }
+        else{
+            filter = { folderid: folder._id }
+        }
+        console.log("filter",filter)
+        const keytopics = await keytopicmodel.find(filter).populate({
+            path: 'folderid',
+            select: '_id name'
+        });
+        keytopicList = [...keytopicList, ...keytopics];
     }
-    console.log("filter",filter)
-    const keytopicList = await keytopicmodel.find(filter).populate({
-        path: 'folderid',
-        select: '_id name'
-      });
-    if(!keytopicList){
-      
+    if(!keytopicList.length){
         res.status(500).json({
             success:false,
             message:'There are no Keytopics'

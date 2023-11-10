@@ -31,6 +31,10 @@ import { setEmail, setToken } from "../../../../slices/credentialsSlice";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { useRoute } from "@react-navigation/native";
+
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 const Study = () => {
   const dispatch = useDispatch();
@@ -38,6 +42,7 @@ const Study = () => {
   const [firstName, setFirstName] = useState("");
   const [isFirstNameLoaded, setIsFirstNameLoaded] = useState(false);
   const [keyTopics, setKeyTopics] = useState([]);
+  console.log("🚀 ~ file: index.jsx:41 ~ keyTopics:", keyTopics);
   const [isKeyTopicsLoaded, setIsKeyTopicsLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [index, setIndex] = useState(1); // default to today's content for tab view
@@ -46,7 +51,40 @@ const Study = () => {
     { key: "today", title: "Today's content" },
     { key: "review", title: "Review content" },
   ]);
+  const route = useRoute();
 
+  useFocusEffect(
+    useCallback(() => {
+      // Get token
+      AsyncStorage.getItem("jwt").then((token) => {
+        if (token) {
+          dispatch(setToken(token));
+
+          // Get email
+          AsyncStorage.getItem("email").then((email) => {
+            if (email) {
+              dispatch(setEmail(email));
+            }
+          });
+        }
+      });
+      loadUserFirstName();
+      loadKeyTopics();
+      setRandomReload(Math.random());
+
+      return () => {};
+    }, [])
+  );
+
+  useEffect(() => {
+    setRandomReload(route.params?.reload);
+  }, [randomReload]);
+  console.log(
+    "🚀 ~ file: index.jsx:58 ~ route.params?.reload",
+    route.params?.reload
+  );
+  const [randomReload, setRandomReload] = useState(route.params?.reload);
+  console.log("🚀 ~ file: index.jsx:63 ~ randomReload:", randomReload);
 
   useEffect(() => {
     // Get token
@@ -64,20 +102,21 @@ const Study = () => {
     });
     loadUserFirstName();
     loadKeyTopics();
+    setRandomReload(Math.random());
   }, []);
 
-    const loadUserFirstName = async () => {
-      getFirstName().then(
-        (firstName) => {
-          console.log("First name loaded", firstName);
-          setFirstName(firstName);
-          setIsFirstNameLoaded(true);
-        },
-        (error) => {
-          alert("Error", `Couldn't load user's first name! ${error}`);
-        }
-      );
-    };
+  const loadUserFirstName = async () => {
+    getFirstName().then(
+      (firstName) => {
+        console.log("First name loaded", firstName);
+        setFirstName(firstName);
+        setIsFirstNameLoaded(true);
+      },
+      (error) => {
+        alert("Error", `Couldn't load user's first name! ${error}`);
+      }
+    );
+  };
 
   const loadKeyTopics = () => {
     getKeyTopics().then(
@@ -101,7 +140,9 @@ const Study = () => {
       case "today":
         return keyTopics.filter((keyTopic) => isToday(keyTopic.duedate));
       case "review":
-        return keyTopics.filter((keyTopic) => keyTopic.progress > 0 && keyTopic.progress < 80);
+        return keyTopics.filter(
+          (keyTopic) => keyTopic.progress > 0 && keyTopic.progress < 80
+        );
       default:
         return keyTopics;
     }
