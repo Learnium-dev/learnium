@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
     paddingTop: 40,
     // paddingBottom: 30,
     // paddingHorizontal: 16,
-    margin: 0,
   },
   title: {
     fontSize: 24,

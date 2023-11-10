@@ -82,7 +82,6 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "red",
       }}
     >
       <LinearGradient
@@ -153,10 +152,12 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
           paddingVertical: 15,
           paddingHorizontal: 20,
           borderRadius: 100,
-          marginTop: 40,
+          marginTop: 50,
           borderWidth: 2,
           borderColor: "#7000FF",
           width: 350,
+          position: "absolute",
+          bottom: 0,
         }}
       >
         <Text

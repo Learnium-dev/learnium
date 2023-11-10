@@ -1,4 +1,11 @@
-import { View, Text, Pressable, TextInput, Button } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { useState, useEffect } from "react";
 
 // Components
@@ -29,6 +36,7 @@ import * as DocumentPicker from "expo-document-picker";
 import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
 import ModalCamera from "../ModalCamera";
+import baseURL from "../../../../../../assets/common/baseUrl";
 
 const UploadContent = ({ name, next, setCurrentStep }) => {
   const dispatch = useDispatch();
@@ -68,7 +76,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
     dispatch(setUploaded(false));
     try {
       const res = await DocumentPicker.getDocumentAsync();
-      // console.log("this is the pdf content: ", res?.assets[0]?.name);
+      console.log("this is the pdf content: ", res?.assets[0]?.name);
       // remove the .pdf extension from the name
       const name = res?.assets[0]?.name;
       const pdfname = name.split(".")[0];
@@ -81,12 +89,11 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
         type: res.assets[0].mimeType,
       });
       next();
-      // console.log("hey this is token", token);
+      console.log("hey this is token", token);
       const response = await axios.post(
-        `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content`,
+        `${baseURL}create-content`,
         // `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content?email=${tokenEmail}&toke=${token}`,
         formData,
-
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -150,52 +157,39 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-      }}
-    >
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View
         style={{
           flex: 1,
-          // backgroundColor: "gold",
+          flexDirection: "column",
         }}
       >
-        {/* <ModalCamera isOpened={isOpened} setIsOpened={setIsOpened} /> */}
-        {/* Buttons */}
-        <View style={styles.btnContainer}>
-          <Pressable style={styles.uploadBtn} onPress={pickImageCamera}>
-            <LumiCamera width={63} height={90} />
-            <Text style={styles.btnText}>Take Picture</Text>
-          </Pressable>
-          <Pressable style={styles.uploadBtn} onPress={handleUploadPDF}>
-            <LumiPdf width={63} height={90} />
-            <Text style={styles.btnText}>Upload PDF</Text>
-          </Pressable>
-        </View>
-
-        {/* Divider Text */}
-        <View>
-          <Text style={styles.dividerText}>OR</Text>
-        </View>
-
-        {/* Paste Text */}
-        <Text style={styles.subtitle}>Paste Text</Text>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: "flex-end",
-          }}
+        <View
           style={{
-            // backgroundColor:"pink",
-            // flex: 1,
-            marginBottom: 20,
-            overflow: "scroll",
+            flex: 1,
           }}
         >
+          {/* Buttons */}
+          <View style={styles.btnContainer}>
+            <Pressable style={styles.uploadBtn} onPress={pickImageCamera}>
+              <LumiCamera width={63} height={90} />
+              <Text style={styles.btnText}>Take Picture</Text>
+            </Pressable>
+            <Pressable style={styles.uploadBtn} onPress={handleUploadPDF}>
+              <LumiPdf width={63} height={90} />
+              <Text style={styles.btnText}>Upload PDF</Text>
+            </Pressable>
+          </View>
+
+          {/* Divider Text */}
+          <View>
+            <Text style={styles.dividerText}>OR</Text>
+          </View>
+
+          {/* Paste Text */}
+          <Text style={styles.subtitle}>Paste Text</Text>
           <TextInput
+            keyboardAppearance="dark"
             underlineColorAndroid={"transparent"}
             placeholder="Paste your text here..."
             numberOfLines={15}
@@ -207,19 +201,26 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
             onBlur={() => setBorderColor("#262626")}
             onFocus={() => setBorderColor("#7000FF")}
           />
-        </ScrollView>
+
+          {/* Create Course Button */}
+          <Pressable
+            disabled={disabled}
+            style={[
+              styles.btnContent,
+              disabled && styles.btnDisabled,
+              { marginTop: 20 },
+            ]}
+            onPress={handlePress}
+          >
+            <Text
+              style={[styles.btnTextOption, disabled && styles.textDisabled]}
+            >
+              Create Course
+            </Text>
+          </Pressable>
+        </View>
       </View>
-      {/* Create Course Button */}
-      <Pressable
-        disabled={disabled}
-        style={[styles.btnContent, disabled && styles.btnDisabled]}
-        onPress={handlePress}
-      >
-        <Text style={[styles.btnTextOption, disabled && styles.textDisabled]}>
-          Create Course
-        </Text>
-      </Pressable>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

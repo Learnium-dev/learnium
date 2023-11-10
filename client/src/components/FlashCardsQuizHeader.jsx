@@ -17,7 +17,6 @@ const FlashCardsQuizHeader = ({
   cardIndex,
   numberOfCards,
 }) => {
-
   const [seconds, setSeconds] = useState(0);
   const [isQuiz, setIsQuiz] = useState(isQuizTrue);
   const [isActive, setIsActive] = useState(true);
@@ -27,7 +26,7 @@ const FlashCardsQuizHeader = ({
   const practicing = useSelector((state) => state.flashCards.practicing);
   const cards = useSelector((state) => state.flashCards.cards);
 
-  const progress = ((currentIndex + 1) / cards.length);
+  const progress = (currentIndex + 1) / cards.length;
 
   useEffect(() => {
     let interval;
@@ -35,7 +34,7 @@ const FlashCardsQuizHeader = ({
     if (isActive && isQuiz) {
       interval = setInterval(() => {
         setSeconds(seconds + 1);
-        timeConsumed(seconds+1);
+        timeConsumed(seconds + 1);
       }, 1000);
     } else if (!isActive && seconds !== 0 && isQuiz) {
       clearInterval(interval);
@@ -44,14 +43,15 @@ const FlashCardsQuizHeader = ({
     return () => clearInterval(interval);
   }, [isActive, seconds]);
 
-
   const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor((timeInSeconds % 3600) / 60);
     const seconds = timeInSeconds % 60;
 
-    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
+    const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
     return formattedTime;
   };
 
@@ -73,7 +73,6 @@ const FlashCardsQuizHeader = ({
     },
   ];
 
-
   return (
     <View style={styles.headerContainer}>
       <View style={styles.header}>
@@ -83,7 +82,7 @@ const FlashCardsQuizHeader = ({
           </Pressable>
           {isQuiz ? (
             isQuizStart ? null : (
-              <Text style={styles.title}>Quiz</Text>
+              ""
             )
           ) : (
             <Text style={styles.title}>Flashcards</Text>
@@ -115,26 +114,26 @@ const FlashCardsQuizHeader = ({
               </Text>
             </View>
             <Pressable>
-              <PopupMenu options={ isQuiz ? [] : flashCardsMenuOptions} />
+              <PopupMenu options={isQuiz ? [] : flashCardsMenuOptions} />
             </Pressable>
           </View>
         )}
       </View>
 
       {practicing && (
-          <View style={styles.progressBar}>
-            <Bar
-              width={null}
-              height={20}
-              progress={progress}
-              color={"#7000FF"}
-              borderRadius={100}
-              useNativeDriver={false}
-              unfilledColor={"#ECECEC"}
-              borderWidth={0}
-            />
-          </View>
-        )}
+        <View style={styles.progressBar}>
+          <Bar
+            width={null}
+            height={20}
+            progress={progress}
+            color={"#7000FF"}
+            borderRadius={100}
+            useNativeDriver={false}
+            unfilledColor={"#ECECEC"}
+            borderWidth={0}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: "100%",
     display: "flex",
-    flexDirection: 'column'
+    flexDirection: "column",
   },
   header: {
     flexDirection: "row",
@@ -200,8 +199,8 @@ const styles = StyleSheet.create({
   progressBar: {
     height: 20,
     width: "100%",
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });
 
 export default FlashCardsQuizHeader;

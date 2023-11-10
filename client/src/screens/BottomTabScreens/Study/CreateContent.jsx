@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Pressable, Text, Dimensions } from "react-native";
 import { useLayoutEffect, useState } from "react";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,6 +20,8 @@ import { useNavigation } from "@react-navigation/native";
 
 const CreateContent = () => {
   const navigation = useNavigation();
+  const windowHeight = Dimensions.get("window").height;
+
   const [currentStep, setCurrentStep] = useState(0);
   const [purpose, setPurpose] = useState("");
   const { days, date } = useSelector((state) => state.exam);
@@ -58,31 +60,32 @@ const CreateContent = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          flexGrow: 1,
-          // backgroundColor: "pink",
-        }}
-      >
-        {/* Header */}
-        <Header step={currentStep} back={handlePreviousStep} />
-        {currentStep === 0 && (
-          <UploadContent
-            name="Upload Content"
-            next={handleNextStep}
-            setCurrentStep={setCurrentStep}
-          />
-        )}
-        {currentStep === 1 && (
-          <PurposeContent next={handleNextStep} setPurpose={setPurpose} />
-        )}
-        {currentStep === 2 && <GrowProf next={handleNextStep} />}
-        {currentStep === 3 && <LearningTime next={handleNextStep} />}
-        {currentStep === 4 && <ExamSchedule next={handleFinish} />}
-      </View>
-      {/* </ScrollView> */}
-    </SafeAreaView>
+    <View style={{ height: windowHeight }}>
+      <SafeAreaView style={styles.container}>
+        <View
+          style={{
+            flexGrow: 1,
+            // backgroundColor: "green",
+          }}
+        >
+          {/* Header */}
+          <Header step={currentStep} back={handlePreviousStep} />
+          {currentStep === 0 && (
+            <UploadContent
+              name="Upload Content"
+              next={handleNextStep}
+              setCurrentStep={setCurrentStep}
+            />
+          )}
+          {currentStep === 1 && (
+            <PurposeContent next={handleNextStep} setPurpose={setPurpose} />
+          )}
+          {currentStep === 2 && <GrowProf next={handleNextStep} />}
+          {currentStep === 3 && <LearningTime next={handleNextStep} />}
+          {currentStep === 4 && <ExamSchedule next={handleFinish} />}
+        </View>
+      </SafeAreaView>
+    </View>
   );
 };
 

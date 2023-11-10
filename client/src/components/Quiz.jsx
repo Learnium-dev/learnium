@@ -31,7 +31,6 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
       quizResult(result);
     } else {
       setIsOptionSelected(option);
-      
     }
 
     if (option == correctanswer && !isOptionSelected) {
@@ -46,7 +45,7 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
       console.log("correctanswer", correctanswer);
       console.log("option", option);
       console.log("correct");
-    } else if (option != correctanswer && !isOptionSelected ){
+    } else if (option != correctanswer && !isOptionSelected) {
       let result = {
         index: index,
         correct: false,
@@ -66,7 +65,7 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
       </View>
 
       <View style={styles.questionWrap}>
-        <Text>{quiz[index].question}</Text>
+        <Text style={{ marginBottom: 10 }}>{quiz[index].question}</Text>
 
         {quiz[index].options.length > 0 ? (
           quiz[index].options.map((option, index) => (
@@ -106,8 +105,23 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
       </View>
 
       <View style={styles.navigationButton}>
-        <Pressable onPress={() => previous()} style={index == 0 ? [styles.previousButtonDisable] : styles.previousButton}>
-          <Text style={index == 0 ? [styles.textDisable,styles.textAlignCenter] : [styles.textBold, styles.textAlignCenter]}>
+        <Pressable
+          onPress={() => previous()}
+          style={
+            index == 0 ? [styles.previousButtonDisable] : styles.previousButton
+          }
+        >
+          <Text
+            style={
+              index == 0
+                ? [styles.textDisable, styles.textAlignCenter]
+                : [
+                    styles.textBold,
+                    styles.textAlignCenter,
+                    { color: "#7000FF" },
+                  ]
+            }
+          >
             Previous
           </Text>
         </Pressable>
@@ -130,6 +144,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "start",
     paddingBottom: 40,
+    // backgroundColor: "red",
   },
   questionWrap: {
     flex: 1,
@@ -140,7 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    marginBottom: 60,
+    marginBottom: 40,
     borderWidth: 2,
     borderColor: globalStyles.colors.primary,
     borderRadius: 20,
@@ -213,29 +228,35 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   previousButton: {
-    width: "45%",
+    // width: "45%",
+    flex: 1,
     backgroundColor: "white",
     borderColor: globalStyles.colors.primary,
     borderRadius: 40,
-    padding: 20,
+    padding: 16,
     borderWidth: 2,
   },
-  previousButtonDisable:{
-    width: "45%",
+  previousButtonDisable: {
+    // width: "45%",
+    flex: 1,
     backgroundColor: "white",
     borderRadius: 40,
-    padding: 20,
+    padding: 16,
   },
   nextButton: {
-    width: "45%",
+    // width: "45%",
+    flex: 1,
     backgroundColor: globalStyles.colors.primary,
     borderRadius: 40,
-    padding: 20,
+    padding: 16,
+    borderWidth: 2,
+    borderColor: "#7000FF",
   },
   navigationButton: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    gap: 16,
   },
 });
