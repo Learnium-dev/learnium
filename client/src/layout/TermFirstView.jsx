@@ -6,6 +6,7 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer, isCorrectFeedback
 
   return (
     <View style={styles.container}>
+      <TextInput style={styles.invisibleInput} editable={false} />
       {isFlipped ? (
         <View style={styles.cardContent}>
           <Text style={{
@@ -88,6 +89,13 @@ const styles = StyleSheet.create({
     borderColor: globalStyles.colors.primary,
     borderRadius: 10,
     textAlignVertical: "top",
+  },
+  invisibleInput: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "110%",
+    height: "110%",
   },
 });
 

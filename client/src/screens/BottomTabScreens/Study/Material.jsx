@@ -141,7 +141,7 @@ const Material = (props) => {
         >
           <View style={{ height: 170, maxHeight: 170, overflow: "hidden" }}>
             <Text style={styles.summaryTitle}>Summary</Text>
-            <Text numberOfLines={6} ellipsizeMode="tail">
+            <Text numberOfLines={5} ellipsizeMode="tail">
               {keyTopics.map((keyTopic, index) => (
                 <Text
                   style={{ display: "flex", marginBottom: 20 }}
@@ -162,6 +162,7 @@ const Material = (props) => {
                 </Text>
               ))}
             </Text>
+            <Text style={styles.ellipsis}>...</Text>
           </View>
         </Pressable>
 
@@ -189,10 +190,10 @@ const Material = (props) => {
         >
           <Collapsible
             style={{}}
-            collapsedHeight={295}
+            collapsedHeight={288}
             collapsed={isKeyTopicsListCollapsed}
-            duration={50}
-            easing={Easing.ease}
+            duration={250}
+            easing={Easing.bezier(0.17, 0.67, 0.83, 0.67)}
           >
             <View style={{}}>
               <View
@@ -321,6 +322,7 @@ const styles = StyleSheet.create({
   summary: {
     display: "flex",
     width: "100%",
+    height: 220,
     flexDirection: "column",
     alignItems: "start",
     borderWidth: 2,
@@ -349,7 +351,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 30,
+    marginBottom: 20,
   },
   flashCardsButtonText: {
     fontFamily: "Gabarito-Bold",
@@ -381,6 +383,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#7000FF",
     marginBottom: 10,
+  },
+  ellipsis: {
+    position: "absolute",
+    bottom: 0,
+    right: 30,
+    color: globalStyles.colors.primary,
+    fontSize: 30,
+    fontWeight: "bold",
   },
 });
 

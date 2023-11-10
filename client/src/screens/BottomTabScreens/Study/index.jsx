@@ -154,20 +154,20 @@ const Study = () => {
             initialLayout={{ width: layout.width }}
             renderTabBar={StudyScreenTabBar}
           />
+          <Pressable
+            style={{
+              ...globalStyles.buttons.primary,
+              justifyContent: "center",
+              marginBottom: 34,
+            }}
+            onPress={() => navigate("CreateContent")}
+          >
+            <Text style={globalStyles.buttons.primary.text}>
+              Create New Learning Material
+            </Text>
+          </Pressable>
         </View>
       )}
-      <Pressable
-        style={{
-          ...globalStyles.buttons.primary,
-          justifyContent: "center",
-          marginBottom: 34,
-        }}
-        onPress={() => navigate("CreateContent")}
-      >
-        <Text style={globalStyles.buttons.primary.text}>
-          Create New Learning Material
-        </Text>
-      </Pressable>
     </SafeAreaView>
   );
 };

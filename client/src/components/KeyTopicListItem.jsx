@@ -22,15 +22,24 @@ const KeyTopicListItem = ({ topic, accentColor, selectedView, onPress }) => {
 
   return (
     <Pressable onPress={onPress}>
-      <View style={{...styles.itemContainer, borderColor: accentColor}}>
+      <View style={{ ...styles.itemContainer, borderColor: accentColor }}>
         <View style={styles.textContainer}>
-          <Text style={{...styles.topicTitle, color: accentColor}}>{topic.name}</Text>
-          <Text style={styles.subtitle}>From: {topic.folderid.name}</Text>
-          <Text style={styles.subtitle}>Due Date: {new Date(topic.duedate).toLocaleString(undefined, dateOptions)}</Text>
+          <Text
+            style={{ ...styles.topicTitle, color: accentColor }}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {topic.name}
+          </Text>
+          <Text style={styles.subtitle} numberOfLines={1} ellipsizeMode="tail">
+            From: {topic.folderid.name}
+          </Text>
+          <Text style={styles.subtitle}>
+            Due Date:{" "}
+            {new Date(topic.duedate).toLocaleString(undefined, dateOptions)}
+          </Text>
         </View>
-        <View style={styles.characterContainer}>
-          { renderCharacter() }
-        </View>
+        <View style={styles.characterContainer}>{renderCharacter()}</View>
       </View>
     </Pressable>
   );
@@ -40,7 +49,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     display: 'flex',
     flexDirection: 'row',
-    padding: 20, 
+    padding: 15, 
     borderWidth: 2,
     borderRadius: 20,
     marginVertical: 4,

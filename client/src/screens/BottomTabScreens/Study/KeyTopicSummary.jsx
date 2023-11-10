@@ -16,7 +16,7 @@ export const KeyTopicSummary = (props) => {
       <ScrollView style={styles.scrollView}>
         <Text style={styles.summaryTitle}>Summary</Text>
 
-        <View style={{ marginBottom: 20 }} key={keyTopic._id}>
+        <View style={{ marginBottom: 20, paddingHorizontal: 5 }} key={keyTopic._id}>
           <Text style={styles.summaryText}>{keyTopic.summary}</Text>
         </View>
       </ScrollView>
@@ -64,10 +64,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingTop: 15,
+    marginBottom: 0,
+    marginTop: 40,
     position: "absolute",
     bottom: 0,
     width: "100%",
+    height: 115,
   },
   flashCardsButton: {
     width: "100%",
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 30,
+    marginBottom: 0,
   },
   flashCardsButtonText: {
     fontFamily: "Gabarito-Bold",

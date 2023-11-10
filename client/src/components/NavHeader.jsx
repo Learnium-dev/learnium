@@ -24,7 +24,7 @@ const NavHeader = ({
 
   const menuOptions = [
     {
-      text: "View material",
+      text: "View Material",
       onSelect: () => navigation.navigate("Material", { keyTopic: keyTopic })
     },
     {
@@ -118,10 +118,13 @@ const styles = StyleSheet.create({
     fontFamily: "Gabarito-Bold",
     fontSize: 20,
     color: globalStyles.colors.primary,
+    paddingHorizontal: 10,
+    textAlign: "center",
   },
   textBlack: {
     color: globalStyles.colors.black,
   },
+  
 });
 
 export default NavHeader;

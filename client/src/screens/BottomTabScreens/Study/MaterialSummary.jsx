@@ -16,11 +16,14 @@ export const MaterialSummary = (props) => {
         <Text style={styles.summaryTitle}>Summary</Text>
 
         {keyTopics.map((keyTopic, index) => (
-          <View style={{ marginBottom: 20 }} key={keyTopic._id}>
+          <View style={{ marginBottom: 40 }} key={keyTopic._id}>
             <Text
               style={{
                 ...styles.summaryText,
-                fontFamily: "Nunito-SemiBold",
+                fontFamily: "Nunito-Bold",
+                color: globalStyles.colors.primary,
+                marginBottom: 10,
+                marginTop: 10,
               }}
             >
               Key Topic {index + 1}: {keyTopic.name}
@@ -42,7 +45,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-   
   },
   scrollView: {
     flex: 1,
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   flashCardsButtonText: {
     fontFamily: "Gabarito-Bold",

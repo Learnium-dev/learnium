@@ -1,44 +1,47 @@
 import { View, Text, StyleSheet, Switch, Pressable } from "react-native";
 import { useState } from "react";
-import FlashCardsCharacter from '../../assets/images/characters/flashcards-character.svg'
+import FlashCardsCharacter from "../../assets/images/characters/flashcards-character.svg";
 import { globalStyles } from "../../assets/common/global-styles";
 
 const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
-
   const [termFirst, setTermFirst] = useState(true);
-  
-  const toggleSwitch = () => setTermFirst(isEnabled => !isEnabled);
+
+  const toggleSwitch = () => setTermFirst((isEnabled) => !isEnabled);
 
   const handleStart = () => {
     onStartPracticing(termFirst);
-  }
+  };
 
   return (
     <View style={styles.container}>
-
-      
       <View style={styles.headerContainer}>
         <FlashCardsCharacter />
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <Text style={styles.headerContainerText}>Study Time</Text>
         </View>
       </View>
-      
+
       <View style={styles.imageContainer}>
+        <Text style={styles.folderTitle}>{keyTopic.folderid.name}</Text>
         <Text style={styles.topicTitle}>{keyTopic.name}</Text>
-        <Text style={styles.topicSummary}>{keyTopic.summary}</Text>
       </View>
 
       <View style={styles.setup}>
-        <Text style={styles.subTitle}>
-          Set Up Your Flash Cards
-        </Text>
+        <Text style={styles.subTitle}>Set Up Your Flash Cards</Text>
 
         <View style={styles.switchContainer}>
           <Text style={styles.label}>Term first</Text>
           <Switch
-            style={{transform: [{ scale: 0.8 }]}}
-            trackColor={{false: 'grey', true: globalStyles.colors.primary}}
+            style={{
+              transform: [{ scale: 1.5 }],
+              // width: 50,
+              // height: 30,
+              margin: 0,
+              padding: 0,
+            }}
+            trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+            thumbColor={termFirst ? "white" : "white"}
+            trackHeight={30}
             onValueChange={toggleSwitch}
             value={termFirst}
           />
@@ -47,8 +50,15 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
         <View style={styles.switchContainer}>
           <Text style={styles.label}>Definition first</Text>
           <Switch
-            style={{transform: [{ scale: 0.8 }]}}
-            trackColor={{false: 'grey', true: globalStyles.colors.primary}}
+            style={{
+              transform: [{ scale: 1 }],
+              // width: 50,
+              // height: 30,
+              margin: 0,
+              padding: 0,
+            }}
+            trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+            thumbColor={termFirst ? "white" : "white"}
             onValueChange={toggleSwitch}
             value={!termFirst}
           />
@@ -56,14 +66,15 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
       </View>
 
       <Pressable onPress={() => handleStart()} style={styles.button}>
-        {({pressed}) => (
-          <Text style={pressed ? styles.buttonTextPressed : styles.buttonText}>Start Practicing</Text>
+        {({ pressed }) => (
+          <Text style={pressed ? styles.buttonTextPressed : styles.buttonText}>
+            Start Practicing
+          </Text>
         )}
       </Pressable>
-
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -73,13 +84,14 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingBottom: 100
+    paddingBottom: 100,
   },
   headerContainer: {
     width: "100%",
     display: "flex",
     flexDirection: "row",
-    marginBottom: 20,
+    marginVertical: 20,
+
     paddingHorizontal: 40,
   },
   headerContainerText: {
@@ -89,7 +101,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: "100%",
-    height: 200,
+    maxHeight: 200,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -98,64 +110,83 @@ const styles = StyleSheet.create({
     borderColor: globalStyles.colors.primary,
     borderRadius: 20,
   },
+  folderTitle: {
+    textAlign: "auto",
+    fontFamily: "Gabarito-Bold",
+    fontSize: 33,
+    fontWeight: "bold",
+    marginBottom: 10,
+    marginTop: 10,
+    textAlign: "center",
+  },
   topicTitle: {
     textAlign: "auto",
     fontFamily: "Gabarito-Bold",
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 14,
+    marginTop: 0,
+    textAlign: "center",
   },
   topicSummary: {
     fontSize: 16,
-    fontFamily: 'Nunito-Regular',
+    fontFamily: "Nunito-Regular",
     marginBottom: 20,
   },
   setup: {
     width: "100%",
-    alignItems: "start"
+    alignItems: "start",
+    display: "flex",
+    flexDirection: "column",
   },
   subTitle: {
-    textAlign: "center",
+    textAlign: "flex-start",
     fontFamily: "Gabarito-Bold",
-    fontSize: 18,
-    marginBottom: 20,
+    fontSize: 22,
+    marginBottom: 35,
   },
   switchContainer: {
+    display: "flex",
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20
+    alignItems: "center",
+    marginBottom: 20,
   },
   label: {
     fontSize: 16,
-    fontFamily: 'Nunito-Regular',
+    fontFamily: "Nunito-Regular",
+    margin: 0,
+    padding: 0,
+
   },
   instructions: {
-    textAlign: "center",
+    textAlign: "flex-end",
     fontSize: 16,
     marginBottom: 80,
   },
   button: {
-    marginTop: 'auto',
-    color: '#fff',
+    marginTop: "auto",
+    marginBottom: 8,
+    color: "#fff",
     backgroundColor: globalStyles.colors.primary,
-    paddingVertical: 16,
-    width: '100%',
+    paddingVertical: 20,
+    width: "100%",
     borderRadius: 30,
   },
   buttonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
-    fontFamily: 'Gabarito-Bold',
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    fontFamily: "Gabarito-Bold",
   },
   buttonTextPressed: {
-    color: 'grey',
-    textAlign: 'center',
+    color: "grey",
+    textAlign: "center",
     fontSize: 16,
-    fontWeight: 'bold',
-  }
+    fontWeight: "bold",
+  },
 });
 
 export default FlashCardsSetupView;

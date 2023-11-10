@@ -190,14 +190,14 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
                 fontFamily: "Nunito-Regular",
               }}
             >
-              Tap to mark difficult
+              Tap to mark as difficult
             </Text>
             <BookmarkInfo style={styles.bookmarkInfoIcon} />
 
             <View
               style={{
                 position: "absolute",
-                top: "80%",
+                top: "45%",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
@@ -213,7 +213,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
             <View
               style={{
                 position: "absolute",
-                bottom: "33%",
+                bottom: "20%",
                 width: "100%",
                 display: "flex",
                 flexDirection: "row",
