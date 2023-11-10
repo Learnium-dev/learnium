@@ -89,8 +89,14 @@ const SingleKeyTopicProgress = (props) => {
         >
           {/* Banner */}
           <View style={styles.banner}>
-            <LumiGrade width={200} height={190} />
-            <View style={{ width: 160 }}>
+            <LumiGrade width={140} height={125} />
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+            >
               <Text style={styles.bannerText}>
                 Complete this topic with an average of B+ or higher in at least
                 three quizzes
@@ -116,7 +122,7 @@ const SingleKeyTopicProgress = (props) => {
           {/* Info of KeyTopic */}
           <View style={styles.containerInfo}>
             <View style={styles.subContainerInfo}>
-              <Calendar width={50} height={50} />
+              <Calendar width={40} height={40} />
               <View>
                 <Text style={styles.subContainerInfoTitle}>Due Date</Text>
                 <Text style={styles.subContainerInfoText}>
@@ -125,7 +131,7 @@ const SingleKeyTopicProgress = (props) => {
               </View>
             </View>
             <View style={styles.subContainerInfo}>
-              <Badge width={41} height={52} />
+              <Badge width={31} height={42} />
               <View>
                 <Text style={styles.subContainerInfoTitle}>Best Score</Text>
                 <Text style={styles.subContainerInfoText}>{highestScore}%</Text>

@@ -1,5 +1,5 @@
-import APlus from "../assets/images/progress/grades/a_plus.svg";
-import CPlus from "../assets/images/progress/grades/c_plus.svg";
+import APlus from "../assets/images/progress/grades/a_plus_lumi.svg";
+import CPlus from "../assets/images/progress/grades/c_plus_lumi.svg";
 import Inactive from "../assets/images/progress/grades/inactive.svg";
 
 export const getLumi = (score) => {
