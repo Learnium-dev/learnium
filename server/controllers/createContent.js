@@ -46,9 +46,9 @@ const { ConversationChain } = require("langchain/chains");
 // ********** get PDF from client and generate .txt file and text content **********
 // ====================================================================================================
 const createContent = async (req, res) => {
-  console.log("req", req.body)
-  console.log("req.body.email", req.body.email)
-  console.log("req.token", req.body.token)
+  // console.log("req", req.body)
+  // console.log("req.body.email", req.body.email)
+  // console.log("req.token", req.body.token)
   const buffer = req.file.buffer;
   const pdfFileName = req.file.originalname;
 
@@ -94,6 +94,7 @@ const createContent = async (req, res) => {
           },
 
           keytopics: [
+            // keytopic #1
             {
               name: "Indigenous Peoples in Canada",
               summary:
@@ -405,6 +406,7 @@ const createContent = async (req, res) => {
                 },
               ],
             },
+            // keytopic #2
             {
               name: "Colonization and Confederation",
               summary:
@@ -690,6 +692,7 @@ const createContent = async (req, res) => {
                 },
               ],
             },
+            // keytopic #3
             {
               name: "World Wars and International Relations",
               summary:
@@ -989,6 +992,7 @@ const createContent = async (req, res) => {
                 },
               ],
             },
+            // keytopic #4
             {
               name: "Cultural Diversity and Multiculturalism",
               summary:
@@ -1441,7 +1445,7 @@ const embedInput = async (txtFileName) => {
   const vectorstore = await FaissStore.fromDocuments(documents, embeddings);
   await vectorstore.save("./");
   const response = await chainCall();
-  console.log("🚀 ~ file: createContent.js:214 ~ response:", response);
+  // console.log("🚀 ~ file: createContent.js:214 ~ response:", response);
   return response;
   // return vectorstore;
   // const response = await getChatResponse();
@@ -1752,9 +1756,6 @@ const postToDBServerSide = async (result, email, token) => {
     //   userid: "651c6b5cf7a8d6f181bdf41d", // Replace with the actual user ID
     // };
     console.log("postToDBServerSide");
-    console.log(result);
-    console.log(JSON.stringify(result))
-    // console.log(req.query.email)
 
     const tokenEmail = email;
     const requestOptions = {
@@ -1767,7 +1768,7 @@ const postToDBServerSide = async (result, email, token) => {
     };
 
     const folderRes = await fetch(
-      `${hostname}:${port}${api}/folders/createcontent?email=${tokenEmail}`,
+      `http://localhost:3000/api/v1/folders/createcontent?email=${tokenEmail}`,
       requestOptions
     ); // Assuming your API endpoint is correct
     console.log("URL",`${hostname}:${port}${api}/folders`);
@@ -1777,7 +1778,6 @@ const postToDBServerSide = async (result, email, token) => {
       throw new Error(`Network response was not ok ${error}`);
     }
     console.log("folderRes");
-    console.log(folderRes);
     return folderRes.json();
   } catch (error) {
     console.log(error);

@@ -16,6 +16,10 @@ import { setDate, setDays } from "../../../../../../slices/examSlice";
 
 // helpers
 import { daysWeek } from "../../../../../../utils/helpers";
+import baseURL from "../../../../../../assets/common/baseUrl";
+
+// axios
+import axios from "axios";
 
 // Styles
 import { styles } from "../../styles/createContent2";
@@ -39,9 +43,10 @@ const OptionButton = ({ text, isSelected, onPress }) => {
 };
 
 const ExamSchedule = ({ name, prev, next }) => {
+  const { folderId, date } = useSelector((state) => state.exam);
+  const { token } = useSelector((state) => state.credentials);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  // const { date, days, content } = useSelector((state) => state.exam);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [dateNow, setDateNow] = useState(new Date());
   const [examDate, setExamDate] = useState("");
@@ -59,15 +64,15 @@ const ExamSchedule = ({ name, prev, next }) => {
   const formattedDate = (date) => {
     const formatted = date.toLocaleDateString("en-US", {
       year: "numeric",
-      month: "short",
+      month: "long",
       day: "2-digit",
     });
     return formatted;
   };
 
-  useEffect(() => {
-    dispatch(setDate(examDate));
-  }, [examDate]);
+  // useEffect(() => {
+  //   dispatch(setDate(examDate));
+  // }, [examDate]);
 
   const showMode = (currentMode) => {
     setShowPicker(true);
@@ -84,11 +89,35 @@ const ExamSchedule = ({ name, prev, next }) => {
 
     let tempDate = new Date(currentDate);
     setExamDate(formattedDate(tempDate));
+    dispatch(setDate(formattedDate(tempDate)));
   };
 
-  const onFinish = () => {
+  const onFinish = async () => {
     dispatch(setDays(selectedOptions));
-    navigation.navigate("Study",{ reload: Math.random() });
+
+    console.log("✅✅✅✅✅✅", date);
+
+    // make a PUT request to update the keytopics
+    const options = {
+      method: "PUT",
+      url: `${baseURL}keytopics/newContent/updateDate`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        days: selectedOptions,
+        date: examDate,
+        folderId,
+      },
+    };
+
+    try {
+      const response = await axios(options);
+      navigation.navigate("Study", { reload: Math.random() });
+    } catch (err) {
+      console.log("Error: ", err.message);
+    }
   };
 
   return (

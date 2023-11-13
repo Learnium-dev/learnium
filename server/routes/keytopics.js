@@ -49,6 +49,7 @@ router.get(`/`, async (req, res)=>{
     console.log("🚀 ~ file: keytopics.js:35 ~ keytopicList:", keytopicList)
     res.status(200).send(keytopicList);
 })
+
 // GET - Find by Id
 router.get(`/:id`, async (req, res)=>{
     const keytopicList = await keytopicmodel.findById(req.params.id);
@@ -60,6 +61,7 @@ router.get(`/:id`, async (req, res)=>{
     }
     res.status(200).send(keytopicList);
 })
+
 // UPDATE
 router.put(`/:id`, async (req, res)=>{
     const updateKeytopic = await keytopicmodel.findByIdAndUpdate(
@@ -80,6 +82,44 @@ router.put(`/:id`, async (req, res)=>{
     }
     res.status(200).send(updateKeytopic);
 })
+
+// UPDATE - Update Date
+router.put(`/newContent/updateDate`,async (req, res) => {
+  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const folderId = req.body.folderId;
+  const studyDays = req.body.days;
+  const date = req.body.date;
+
+  console.log("THIS IS THE DATE!", date);
+
+    // Get the dates range
+    const todayDate = new Date().toISOString();
+    const examDate = new Date(date).toISOString();
+
+    // get the number of days between today and exam date
+    const daysBetween = Math.floor((Date.parse(examDate) - Date.parse(todayDate)) / 86400000);
+
+    // get all the dates from the days of the week in the array studyDays between today and exam date
+    const studyDates = [];
+    for (let i = 0; i <= daysBetween; i++) {
+      const date = new Date(todayDate);
+      date.setDate(date.getDate() + i);
+      if (studyDays.includes(daysOfWeek[date.getDay()])) {
+        studyDates.push(date);
+      }
+    }
+
+    // get all the keytopics with the same folderid and update their duedate
+    const keytopics = await keytopicmodel.find({folderid: folderId});
+    for (let i = 0; i < keytopics.length; i++) {
+      keytopics[i].duedate = studyDates[i];
+      keytopics[i].save();
+    }
+    res.status(200).send(keytopics);
+})
+
+
+
 // POST
 router.post(`/`,(req, res)=>{
     const newKeytopic = new keytopicmodel({
@@ -117,4 +157,5 @@ router.delete('/:id',(req,res)=>{
         })
     })
 })
+
 module.exports = router;

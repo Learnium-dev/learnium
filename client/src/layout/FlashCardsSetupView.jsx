@@ -33,7 +33,7 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
           <Text style={styles.label}>Term first</Text>
           <Switch
             style={{
-              transform: [{ scale: 1.5 }],
+              transform: [{ scale: 1 }],
               // width: 50,
               // height: 30,
               margin: 0,
@@ -151,14 +151,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 5,
   },
   label: {
     fontSize: 16,
     fontFamily: "Nunito-Regular",
     margin: 0,
     padding: 0,
-
   },
   instructions: {
     textAlign: "flex-end",
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   button: {
-    marginTop: "auto",
+    // marginTop: "auto",
     marginBottom: 8,
     color: "#fff",
     backgroundColor: globalStyles.colors.primary,

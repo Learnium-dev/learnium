@@ -129,7 +129,6 @@ router.post(`/createcontent`, async (req, res)=>{
 
     // POST Keytopics data
     let newKeyTopic;
-    console.log("req.body.keytopics)",req.body.keytopics);
     const keyTopics = req.body.keytopics?.map(async (keytopic) => {
 
         newKeyTopic = new keytopicmodel({
@@ -186,10 +185,9 @@ router.post(`/createcontent`, async (req, res)=>{
     const result = {
         userid: userdata._id,
         folderid: newfolder._id,
-    }
+      }
 
     res.status(200).send(result);
-    // res.status(200).send('API');
 })
 
 module.exports = router;

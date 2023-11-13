@@ -16,8 +16,12 @@ import { styles } from "../../styles/createContent";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setContent, setPDFName } from "../../../../../../slices/examSlice";
-import { setUploaded } from "../../../../../../slices/examSlice";
+import {
+  setContent,
+  setPDFName,
+  setUploaded,
+  setFolderId,
+} from "../../../../../../slices/examSlice";
 
 // Camera
 import * as ImagePicker from "expo-image-picker";
@@ -42,8 +46,8 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.credentials);
   const { email } = useSelector((state) => state.credentials);
-  console.log("🚀 ~ file: UploadContent.jsx:45 ~ email:", email)
-  
+  console.log("🚀 ~ file: UploadContent.jsx:45 ~ email:", email);
+
   const { content } = useSelector((state) => state.exam);
   const [disabled, setDisabled] = useState(true);
   const [text, setText] = useState(content);
@@ -86,7 +90,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
       dispatch(setPDFName(pdfname));
 
       const formData = new FormData();
-      
+
       formData.append("pdf", {
         uri: res.assets[0].uri,
         name: res.assets[0].name,
@@ -96,7 +100,8 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
       formData.append("token", token);
       next();
       console.log("hey this is token", token);
-      console.log("🚀 ~ file: UploadContent.jsx:86 ~ formData:", formData)
+      console.log("🚀 ~ file: UploadContent.jsx:86 ~ formData:", formData);
+
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/create-content`,
         // `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content?email=${tokenEmail}&toke=${token}`,
@@ -112,11 +117,8 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
       const data = response.data;
       console.log("PDF UPLOADED SUCCESSFULLY! 🚀🚀🚀", data);
       dispatch(setUploaded(true));
-      // !temporarily commented out postToDB(JSON.parse(data)) to post the content to the database without calling the openAI API
-      // postFolderToDB(dataJson);
-      // postFolderIsDone && postMaterialToDB();
+      dispatch(setFolderId(data.folderid));
 
-      // postToDB(JSON.parse(data));
       setContent(4);
     } catch (error) {
       console.log("Something bad happened..." + error?.message);
@@ -124,7 +126,6 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
   };
 
   // COMBINE RESPONSE WITH DATE SELECTED TO DB
-  
 
   // Camera functionality
   const pickImageCamera = async () => {
