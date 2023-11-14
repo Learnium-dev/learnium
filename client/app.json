@@ -21,28 +21,12 @@
       ]
     ],
     "ios": {
-      "supportsTablet": true,
-      "permissions": {
-        "camera": {
-          "allowsRecording": true,
-          "allowsExternalPlayback": true,
-          "requiresPermission": true
-        },
-        "mediaLibrary": {
-          "writeOnly": true
-        }
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "permissions": {
-        "camera": {},
-        "mediaLibrary": {
-          "writeOnly": true
-        }
       }
     },
     "web": {
