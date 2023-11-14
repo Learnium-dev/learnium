@@ -26,7 +26,7 @@ import Navigation from "./navigation";
 import { useEffect, useState } from "react";
 
 // Ignore all warnings
-LogBox.ignoreAllLogs();
+// LogBox.ignoreAllLogs();
 
 const Stack = createStackNavigator();
 

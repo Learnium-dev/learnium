@@ -25,6 +25,7 @@ import {
 
 // Camera
 import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 
 // SVGs
 import LumiCamera from "../../../../../../assets/images/characters/create content/lumi_picture.svg";
@@ -129,6 +130,13 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
 
   // Camera functionality
   const pickImageCamera = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status !== "granted") {
+      console.log("Camera permission denied");
+    } else {
+      console.log("Camera permission granted");
+    }
+
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
