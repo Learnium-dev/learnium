@@ -4,10 +4,9 @@ import {
   StyleSheet,
   Pressable,
   useWindowDimensions,
-  TouchableOpacity,
-  ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
-import { TabView, TabBar, SceneMap } from "react-native-tab-view";
+import { TabView } from "react-native-tab-view";
 import StudyScreenTabBar from "../../../components/StudyScreenTabBar";
 import StudyTabView from "../../../layout/StudyTabView";
 import { globalStyles } from "../../../../assets/common/global-styles";
@@ -15,7 +14,7 @@ import { getFirstName } from "../../../services/userService";
 import { getKeyTopics } from "../../../services/keyTopicsService";
 import { isBeforeToday, isToday } from "../../../../utils/helpers";
 
-import { SafeAreaView } from "react-native-safe-area-context";
+// import { SafeAreaView } from "react-native-safe-area-context";
 
 // react navigation imports
 import { useNavigation } from "@react-navigation/native";
@@ -27,11 +26,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail, setToken } from "../../../../slices/credentialsSlice";
 
-// axios
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-import { useRoute } from "@react-navigation/native";
 
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
@@ -42,49 +37,13 @@ const Study = () => {
   const [firstName, setFirstName] = useState("");
   const [isFirstNameLoaded, setIsFirstNameLoaded] = useState(false);
   const [keyTopics, setKeyTopics] = useState([]);
-  console.log("🚀 ~ file: index.jsx:41 ~ keyTopics:", keyTopics);
   const [isKeyTopicsLoaded, setIsKeyTopicsLoaded] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [index, setIndex] = useState(1); // default to today's content for tab view
   const [routes] = useState([
     { key: "missed", title: "Missed content" },
     { key: "today", title: "Today's content" },
     { key: "review", title: "Review content" },
   ]);
-  const route = useRoute();
-
-  useFocusEffect(
-    useCallback(() => {
-      // Get token
-      AsyncStorage.getItem("jwt").then((token) => {
-        if (token) {
-          dispatch(setToken(token));
-
-          // Get email
-          AsyncStorage.getItem("email").then((email) => {
-            if (email) {
-              dispatch(setEmail(email));
-            }
-          });
-        }
-      });
-      loadUserFirstName();
-      loadKeyTopics();
-      setRandomReload(Math.random());
-
-      return () => {};
-    }, [])
-  );
-
-  useEffect(() => {
-    setRandomReload(route.params?.reload);
-  }, [randomReload]);
-  console.log(
-    "🚀 ~ file: index.jsx:58 ~ route.params?.reload",
-    route.params?.reload
-  );
-  const [randomReload, setRandomReload] = useState(route.params?.reload);
-  console.log("🚀 ~ file: index.jsx:63 ~ randomReload:", randomReload);
 
   useEffect(() => {
     // Get token
@@ -102,7 +61,6 @@ const Study = () => {
     });
     loadUserFirstName();
     loadKeyTopics();
-    setRandomReload(Math.random());
   }, []);
 
   const loadUserFirstName = async () => {
@@ -121,7 +79,6 @@ const Study = () => {
   const loadKeyTopics = () => {
     getKeyTopics().then(
       (keyTopics) => {
-        console.log("Key Topics loaded", keyTopics);
         setKeyTopics(keyTopics);
         setIsKeyTopicsLoaded(true);
       },
@@ -153,11 +110,7 @@ const Study = () => {
       selectedView: route.key,
       keyTopics: filteredKeyTopics(route.key),
     });
-  // const askAIprops = {
-  //   askTopic: "key topic asked",
-  //   questionAsk: "question that you get wrong",
-  //   wrongAnswer: "here is your wrong answer",
-  // };
+
   return (
     <SafeAreaView
       style={{
@@ -165,9 +118,6 @@ const Study = () => {
         fontFamily: globalStyles.fonts.gabaritoBold,
       }}
     >
-      {/* <TouchableOpacity onPress={() => navigate("AskAI", askAIprops)}>
-        <Text>AskAI</Text>
-      </TouchableOpacity> */}
       <View
         style={{
           paddingHorizontal: 20,
@@ -218,7 +168,6 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "white",
     paddingBottom: -34,
   },
   tabContainer: {

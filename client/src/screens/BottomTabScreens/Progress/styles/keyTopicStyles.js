@@ -17,8 +17,9 @@ export const styles = StyleSheet.create({
   },
   cardTitle: {
     fontFamily: "Gabarito-Bold",
-    fontSize: 20,
+    fontSize: 18,
     color: "#7000FF",
+    marginBottom: 8,
   },
   cardSubtitle: {
     fontFamily: "Gabarito-Regular",
@@ -29,6 +30,7 @@ export const styles = StyleSheet.create({
     fontFamily: "Gabarito-Regular",
     fontSize: 16,
     color: "#262626",
+    marginBottom: 4,
   },
   cardCharacter: {
     position: "absolute",

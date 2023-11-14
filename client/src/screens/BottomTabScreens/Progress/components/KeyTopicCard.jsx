@@ -48,7 +48,7 @@ const KeyTopicCard = ({ item }) => {
         >
           {item?.name}
         </Text>
-        <Text style={styles.cardSubtitle}>From: {item?.materialName}</Text>
+        <Text style={styles.cardSubtitle}>From: {item?.folderid?.name}</Text>
         <Text style={styles.cardDueDate}>
           Due Date: {formatDate(item?.duedate)}
         </Text>

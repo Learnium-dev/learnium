@@ -64,11 +64,20 @@ const Material = (props) => {
   const [isKeyTopicsListCollapsed, setIsKeyTopicsListCollapsed] =
     useState(true);
   const [quizzes, setQuizzes] = useState([]);
+  const [completedKeyTopics, setCompletedKeyTopics] = useState(0);
 
   useEffect(() => {
     dispatch(fetchMaterial(keyTopic.folderid._id));
     dispatch(fetchKeyTopics());
   }, [dispatch]);
+
+  // Update completed key topics when keyTopics or keyTopic changes
+  useEffect(() => {
+    const completedKeyTopicsCount = keyTopics.filter(
+      (topic) => topic.progress === 100
+    ).length;
+    setCompletedKeyTopics(completedKeyTopicsCount);
+  }, [keyTopics]);
 
   const openBottomSheet = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -123,7 +132,7 @@ const Material = (props) => {
             <BadgeIcon style={{ marginRight: 8 }} />
             <View>
               <Text style={styles.statsItemText}>Best Score:</Text>
-              <Text style={styles.statsItemText}>N/A</Text>
+              <Text style={styles.statsItemText}>{quizzes[0]?.progress}</Text>
             </View>
           </View>
         </View>
@@ -214,7 +223,7 @@ const Material = (props) => {
                   }}
                 >
                   <Text style={{ fontFamily: "Nunito-Bold" }}>
-                    0 / {keyTopics.length}
+                    {completedKeyTopics} / {keyTopics.length}
                   </Text>
                 </View>
               </View>
@@ -261,25 +270,65 @@ const Material = (props) => {
             alignItems: "flex-start",
           }}
         >
-          <Text style={styles.historyTitle}>Comprehensive Test History</Text>
-          <LumiBanner width={340} height={100} />
-          <FlatList
-            horizontal={true}
-            contentContainerStyle={{
-              alignItems: "center",
-              justifyContent: "flex-start",
-              gap: 10,
-              marginVertical: 15,
-              flex: 1,
+          <View
+            style={{
+              display: "flex",
+              width: "100%",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex-start",
             }}
-            data={quizzes}
-            renderItem={({ item }) => {
-              if (item?.progress > 0) {
-                return <QuizCard item={item} />;
-              }
-            }}
-            keyExtractor={(item) => item.id}
-          />
+          >
+            <Text style={styles.historyTitle}>Comprehensive Test History</Text>
+            {/* Banner */}
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                borderRadius: 8,
+                overflow: "hidden",
+              }}
+            >
+              <LumiBanner width={140} height={95} />
+              <Text
+                style={{
+                  flexShrink: 1,
+                  fontSize: 18,
+                  fontFamily: "Gabarito-Bold",
+                  color: "#262626",
+                  textAlign: "center",
+                  backgroundColor: "white",
+                }}
+              >
+                Average Score in your past quizzes
+              </Text>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <FlatList
+                horizontal={true}
+                contentContainerStyle={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  gap: 10,
+                  width: "100%",
+                  marginTop: 15,
+                }}
+                data={quizzes}
+                renderItem={({ item }) => {
+                  if (item?.progress > 0) {
+                    return <QuizCard item={item} />;
+                  }
+                }}
+                keyExtractor={(item) => item.id}
+              />
+            </ScrollView>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

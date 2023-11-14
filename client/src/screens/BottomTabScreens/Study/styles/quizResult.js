@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
   header: {
     backgroundColor: "#7000FF",
     padding: 25,
+    paddingLeft: 16,
     paddingBottom: 10,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
@@ -35,7 +36,7 @@ export const styles = StyleSheet.create({
   },
   score: {
     fontFamily: "Gabarito-Bold",
-    fontSize: 67,
+    fontSize: 62,
     color: "#FFF",
   },
   totalAnsBox: {
@@ -77,8 +78,9 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 8,
     borderRadius: 10,
-    gap: 5,
+    gap: 8,
     height: 65,
+    width: 40,
   },
   answers: {
     fontSize: 16,

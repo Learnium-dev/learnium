@@ -9,7 +9,7 @@ import {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#f5f5f5",
     paddingTop: 40,
     // paddingBottom: 30,
     // paddingHorizontal: 16,
@@ -39,17 +39,19 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: "#ECECEC",
     borderRadius: 100,
+    height: 35,
+    overflow: "hidden",
   },
   progressBar: {
-    position: "relative",
-    backgroundColor: "#ECECEC",
-    overflow: "hidden",
+    height: "100%",
+    backgroundColor: "#7000FF",
+    borderRadius: 100,
   },
   progressText: {
     position: "absolute",
     top: "50%",
     left: 20,
-    marginTop: -13,
+    marginTop: -10,
     fontFamily: "Gabarito-Bold",
     fontSize: 18,
     color: "#FFF",

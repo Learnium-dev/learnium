@@ -1,7 +1,10 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Animated, Dimensions } from "react-native";
 
 // styles
 import { styles } from "../styles/createContent";
+
+// React
+import { useRef, useEffect } from "react";
 
 // icons
 import ArrowBack from "../../../../../assets/icons/arrow_back.svg";
@@ -12,8 +15,22 @@ import { Bar } from "react-native-progress";
 // navigation
 import { useNavigation } from "@react-navigation/native";
 
+const { width } = Dimensions.get("window");
+
 const Header = ({ step, back }) => {
   const navigation = useNavigation();
+  const barWidth = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const targetValue = step === 1 ? width * 0.25 : width * 0.75;
+
+    Animated.spring(barWidth, {
+      toValue: targetValue,
+      bounciness: 10,
+      useNativeDriver: false,
+      speed: 2,
+    }).start();
+  }, [step]);
 
   const getName = () => {
     switch (step) {
@@ -48,19 +65,23 @@ const Header = ({ step, back }) => {
         </Pressable>
         <Text style={styles.title}>{getName()}</Text>
       </View>
+
       {/* Progress Bar */}
       {step !== 0 && (
-        <Bar
-          width={null}
-          height={15}
-          progress={step === 1 ? 0.25 : 0.75}
-          color={"#7000FF"}
-          borderRadius={100}
-          useNativeDriver={false}
-          unfilledColor={"#ECECEC"}
-          borderWidth={0}
-          style={{ marginTop: 16, marginVertical: 42 }}
-        />
+        <View style={styles.progressBarContainer}>
+          <Animated.View style={{ ...styles.progressBar, width: barWidth }} />
+        </View>
+        // <Bar
+        //   width={null}
+        //   height={15}
+        //   progress={step === 1 ? 0.25 : 0.75}
+        //   color={"#7000FF"}
+        //   borderRadius={100}
+        //   useNativeDriver={false}
+        //   unfilledColor={"#ECECEC"}
+        //   borderWidth={0}
+        //   style={{ marginTop: 16, marginVertical: 42 }}
+        // />
       )}
     </>
   );

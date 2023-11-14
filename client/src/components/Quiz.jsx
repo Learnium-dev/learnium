@@ -65,7 +65,15 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
       </View>
 
       <View style={styles.questionWrap}>
-        <Text style={{ marginBottom: 10 }}>{quiz[index].question}</Text>
+        <Text
+          style={{
+            marginBottom: 20,
+            fontSize: 20,
+            fontFamily: "Gabarito-Bold",
+          }}
+        >
+          {quiz[index].question}
+        </Text>
 
         {quiz[index].options.length > 0 ? (
           quiz[index].options.map((option, index) => (
@@ -162,7 +170,7 @@ const styles = StyleSheet.create({
   },
   paragraphInput: {
     width: "100%",
-    height: 200,
+    height: 270,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,

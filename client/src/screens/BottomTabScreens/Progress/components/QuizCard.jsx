@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 // helpers
 import { formatDate } from "../../../../../utils/helpers";
 
-const QuizCard = ({ item }) => {
+const QuizCard = ({ item, index }) => {
   const styles = StyleSheet.create({
     container: {
       display: "flex",
@@ -14,7 +14,7 @@ const QuizCard = ({ item }) => {
       borderRadius: 10,
       borderWidth: 2,
       borderColor: "#7000FF",
-      padding: 10,
+      padding: index === 0 ? 15 : 10,
       gap: 5,
     },
     score: {

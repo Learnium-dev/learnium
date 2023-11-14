@@ -79,14 +79,11 @@ const SingleKeyTopicProgress = (props) => {
 
   return (
     <SafeAreaView style={{ ...styles.container }}>
-      <View style={{ padding: 20 }}>
+      <View style={{ padding: 20, flex: 1 }}>
         {/* Header */}
         <Header name={keyTopic?.name} materialName={keyTopic?.folderid?.name} />
 
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{ marginBottom: 50 }}
-        >
+        <ScrollView showsVerticalScrollIndicator={false}>
           {/* Banner */}
           <View style={styles.banner}>
             <LumiGrade width={140} height={125} />
@@ -119,6 +116,7 @@ const SingleKeyTopicProgress = (props) => {
               </View>
             </View>
           </View>
+
           {/* Info of KeyTopic */}
           <View style={styles.containerInfo}>
             <View style={styles.subContainerInfo}>
@@ -138,8 +136,9 @@ const SingleKeyTopicProgress = (props) => {
               </View>
             </View>
           </View>
+
           {/* Quiz History */}
-          <View>
+          <View style={{ marginBottom: 15 }}>
             <Text style={{ ...styles.title, color: "#7000FF" }}>
               Quiz History
             </Text>
@@ -158,32 +157,35 @@ const SingleKeyTopicProgress = (props) => {
                   marginVertical: 15,
                 }}
                 data={quizzes}
-                renderItem={({ item }) => {
+                renderItem={({ item, index }) => {
                   if (item?.progress > 0) {
-                    return <QuizCard item={item} />;
+                    return <QuizCard item={item} index={index} />;
                   }
                 }}
                 keyExtractor={(item) => item.id}
               />
             </ScrollView>
           </View>
+
           {/* Buttons */}
-          <Pressable
-            onPress={() => navigate("KeyTopic", { keyTopic })}
-            style={{
-              ...styles.btn,
-              backgroundColor: "#FFF",
-              borderColor: "#7000FF",
-            }}
-          >
-            <Text style={{ ...styles.btnText, color: "#7000FF" }}>Study</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => navigate("KeyTopic", { keyTopic })}
-            style={styles.btn}
-          >
-            <Text style={styles.btnText}>Start a Quiz</Text>
-          </Pressable>
+          <View>
+            <Pressable
+              onPress={() => navigate("KeyTopic", { keyTopic })}
+              style={{
+                ...styles.btn,
+                backgroundColor: "#FFF",
+                borderColor: "#7000FF",
+              }}
+            >
+              <Text style={{ ...styles.btnText, color: "#7000FF" }}>Study</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => navigate("KeyTopic", { keyTopic })}
+              style={styles.btn}
+            >
+              <Text style={styles.btnText}>Start a Quiz</Text>
+            </Pressable>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>

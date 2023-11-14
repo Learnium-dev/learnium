@@ -47,6 +47,15 @@ const QuizResult = ({ route }) => {
     setIsModalOpen(false);
   };
 
+  // Function to format seconds into MM:SS
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(remainingSeconds).padStart(2, "0");
+    return `${formattedMinutes}:${formattedSeconds}`;
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {isModalOpen ? (
@@ -65,7 +74,10 @@ const QuizResult = ({ route }) => {
               Check out what you might have missed in this quiz.
             </Text>
             <View style={styles.scoreBox}>
-              <Text style={styles.score}>{percentage}%</Text>
+              <Text style={styles.score}>
+                {" "}
+                {isNaN(percentage) ? "0%" : `${percentage}%`}
+              </Text>
               <View style={styles.totalAnsBox}>
                 <Text style={styles.totalAns}>
                   {score?.correctCount}/
@@ -73,8 +85,8 @@ const QuizResult = ({ route }) => {
                 </Text>
               </View>
             </View>
-            <View style={{ position: "absolute", right: -15, bottom: -100 }}>
-              <Lumi width={200} height={200} />
+            <View style={{ position: "absolute", right: -25, bottom: -90 }}>
+              <Lumi width={200} height={180} />
             </View>
           </View>
           {/* Content Box */}
@@ -98,13 +110,16 @@ const QuizResult = ({ route }) => {
                 <View
                   style={{
                     ...styles.answersBox,
+                    width: "auto",
                     backgroundColor: "#E8E8E8",
                     borderWidth: 2,
                     borderColor: "#7000FF",
                   }}
                 >
                   <Clock width={30} height={24} />
-                  <Text style={styles.timeConsumed}>00:{timeConsumed}</Text>
+                  <Text style={styles.timeConsumed}>
+                    {formatTime(timeConsumed)}
+                  </Text>
                 </View>
               </View>
             </View>

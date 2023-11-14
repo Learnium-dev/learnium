@@ -128,7 +128,7 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
             color: "#5901e5",
           }}
         >
-          {percentage}%
+          {isNaN(percentage) ? "0%" : `${percentage}%`}
         </Text>
       </View>
       <View

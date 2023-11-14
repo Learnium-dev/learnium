@@ -23,7 +23,7 @@ import NavHeader from "../../../components/NavHeader";
 import DueCalendar from "../../../../assets/icons/due-calendar.svg";
 import StudiedCalendar from "../../../../assets/icons/studied-calendar.svg";
 import BadgeIcon from "../../../../assets/icons/badge-icon.svg";
-import { shortDateOptions } from "../../../../utils/helpers";
+import { formatDate, shortDateOptions } from "../../../../utils/helpers";
 import QuizContainer from "../../../containers/QuizContainer";
 import ConfirmModal from "../../../components/ConfirmModal";
 import QuizCard from "../Progress/components/QuizCard";
@@ -160,14 +160,18 @@ const KeyTopic = (props) => {
               <StudiedCalendar style={{ marginRight: 8 }} />
               <View>
                 <Text style={styles.statsItemText}>Studied:</Text>
-                <Text style={styles.statsItemText}>N/A</Text>
+                <Text style={styles.statsItemText}>
+                  {formatDate(quizzes[0]?.duedate)}
+                </Text>
               </View>
             </View>
             <View style={styles.statsItem}>
               <BadgeIcon style={{ marginRight: 8 }} />
               <View>
                 <Text style={styles.statsItemText}>Best Score:</Text>
-                <Text style={styles.statsItemText}>N/A</Text>
+                <Text style={styles.statsItemText}>
+                  {quizzes[0]?.progress || 0}
+                </Text>
               </View>
             </View>
           </View>
@@ -428,8 +432,8 @@ const styles = StyleSheet.create({
   },
   ellipsis: {
     position: "absolute",
-    bottom: 15, 
-    right: 30, 
+    bottom: 15,
+    right: 30,
     color: globalStyles.colors.primary,
     fontSize: 30,
     fontWeight: "bold",
