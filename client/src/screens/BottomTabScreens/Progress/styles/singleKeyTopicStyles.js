@@ -9,13 +9,10 @@ import {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
     paddingTop: 40,
-    // paddingBottom: 30,
-    // paddingHorizontal: 16,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: "Gabarito-Bold",
     margin: 0,
   },
@@ -29,6 +26,7 @@ export const styles = StyleSheet.create({
     gap: 15,
     alignItems: "center",
     justifyContent: "flex-start",
+    paddingBottom: 10,
   },
   banner: {
     display: "flex",
@@ -89,13 +87,13 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     paddingVertical: 16,
     paddingHorizontal: 24,
-    marginVertical: 10,
+    marginVertical: 8,
     borderWidth: 2,
     borderColor: "#7000FF",
   },
   btnText: {
     fontFamily: "Gabarito-Bold",
-    fontSize: 20,
+    fontSize: 19,
     color: "#FFF",
   },
 });

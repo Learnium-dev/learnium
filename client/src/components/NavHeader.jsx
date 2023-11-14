@@ -25,7 +25,7 @@ const NavHeader = ({
   const menuOptions = [
     {
       text: "View Material",
-      onSelect: () => navigation.navigate("Material", { keyTopic: keyTopic })
+      onSelect: () => navigation.navigate("Material", { keyTopic: keyTopic }),
     },
     {
       text: "Edit Key Topic",
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     paddingHorizontal: 20,
+    paddingBottom: 10,
     // backgroundColor: "gold",
     // backgroundColor: globalStyles.colors.background,
     backgroundColor: "white",
@@ -124,7 +125,6 @@ const styles = StyleSheet.create({
   textBlack: {
     color: globalStyles.colors.black,
   },
-  
 });
 
 export default NavHeader;

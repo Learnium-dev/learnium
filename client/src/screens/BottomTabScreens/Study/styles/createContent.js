@@ -93,6 +93,8 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 16,
     borderColor: "#262626",
+    backgroundColor: "#F5f5f5",
+    height: 69,
   },
   optionText: {
     fontFamily: "Gabarito-Bold",
@@ -134,5 +136,20 @@ export const styles = StyleSheet.create({
   },
   textDisabled: {
     color: "#CDCDCD",
+  },
+  progressBarContainer: {
+    display: "flex",
+    position: "relative",
+    marginTop: 16,
+    marginBottom: 48,
+    backgroundColor: "#ECECEC",
+    borderRadius: 100,
+    height: 20,
+    overflow: "hidden",
+  },
+  progressBar: {
+    height: "100%",
+    backgroundColor: "#7000FF",
+    borderRadius: 100,
   },
 });

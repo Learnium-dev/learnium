@@ -68,7 +68,6 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
         flexGrow: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
-        // backgroundColor: "red",
       }}
     >
       {/* Options */}
@@ -89,8 +88,7 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
               ? renderIcon("Pro Selected")
               : renderIcon("Pro")
           }
-          text="Professional 
-        Growth"
+          text="Professional Growth"
           onPress={() => handleOptionPress("pro")}
           isSelected={selectedOption === "pro"}
         />
@@ -117,7 +115,7 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
           style={{
             ...styles.btnContent,
             flex: 1,
-            backgroundColor: "white",
+            backgroundColor: "#f5f5f5",
             borderWidth: 2,
             borderColor: "#7000FF",
             paddingVertical: 15,

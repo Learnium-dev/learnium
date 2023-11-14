@@ -28,6 +28,7 @@ import { styles } from "../../styles/createContent2";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const OptionButton = ({ text, isSelected, onPress }) => {
   return (
@@ -49,7 +50,7 @@ const ExamSchedule = ({ name, prev, next }) => {
   const navigation = useNavigation();
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [dateNow, setDateNow] = useState(new Date());
-  const [examDate, setExamDate] = useState("");
+  const [examDate, setExamDate] = useState("Select a Date");
   const [showPicker, setShowPicker] = useState(false);
   const [mode, setMode] = useState("date");
 
@@ -123,6 +124,7 @@ const ExamSchedule = ({ name, prev, next }) => {
   return (
     <>
       <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
           overflow: "scroll",
@@ -142,7 +144,7 @@ const ExamSchedule = ({ name, prev, next }) => {
               <TextInput
                 placeholder={`${formattedDate(dateNow)}`}
                 placeholderTextColor={"gray"}
-                value={examDate}
+                value={"examDate"}
                 editable={false}
                 style={styles.datePicker}
               />
@@ -151,7 +153,7 @@ const ExamSchedule = ({ name, prev, next }) => {
                   testID="dateTimePicker"
                   mode={mode}
                   value={dateNow}
-                  display="calendar"
+                  display="default"
                   onChange={onChange}
                   is24Hour={true}
                   // style={{ backgroundColor: "gold" }}
@@ -169,7 +171,7 @@ const ExamSchedule = ({ name, prev, next }) => {
                     testID="dateTimePicker"
                     mode={mode}
                     value={dateNow}
-                    display="inline"
+                    display="spinner"
                     onChange={onChange}
                     is24Hour={true}
                   />
@@ -214,7 +216,7 @@ const ExamSchedule = ({ name, prev, next }) => {
         <Pressable
           style={{
             ...styles.btnContent,
-            backgroundColor: "white",
+            backgroundColor: "#f5f5f5",
             borderWidth: 2,
             borderColor: "#7000FF",
             paddingVertical: 15,

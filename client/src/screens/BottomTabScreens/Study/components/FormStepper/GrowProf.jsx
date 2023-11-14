@@ -56,7 +56,7 @@ const GrowProf = ({ name, prev, next }) => {
         <Pressable
           style={{
             ...styles.btnContent,
-            backgroundColor: "white",
+            backgroundColor: "#f5f5f5",
           }}
         >
           <Text

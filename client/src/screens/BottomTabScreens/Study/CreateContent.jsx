@@ -1,5 +1,5 @@
-import { View, ScrollView, Pressable, Text, Dimensions } from "react-native";
-import { useLayoutEffect, useState } from "react";
+import { View, Dimensions } from "react-native";
+import { useState } from "react";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 

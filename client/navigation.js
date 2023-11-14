@@ -62,12 +62,10 @@ function TabBottomNavigator() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          height: 66,
           margin: 0,
           marginBottom: 0,
-          paddingHorizontal: 10,
-          paddingTop: 10,
-          paddingBottom: 28,
+          paddingTop: 20,
+          paddingBottom: 40,
         },
       }}
     >
@@ -78,19 +76,9 @@ function TabBottomNavigator() {
           headerShown: false,
           tabBarIcon: ({ focused }) => <StudyTabIcon />,
           tabBarShowLabel: false,
-          tabBarStyle: { display: getRouteName(route) },
+          tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
         })}
       />
-      {/* <Tab.Screen
-        name="KeyTopic"
-        component={KeyTopic}
-        options={{ headerShown: false, tabBarStyle: { display: "none" } }}
-      />
-      <Tab.Screen
-        name="QuizResult"
-        component={QuizResult}
-        options={{ headerShown: false, tabBarStyle: { display: "none" } }}
-      /> */}
       <Tab.Screen
         name="Progress"
         component={ProgressStackNavigator}
@@ -132,7 +120,7 @@ const getRouteName = (route) => {
   if (routeName === "CreateContent") {
     return "none";
   } else {
-    return "";
+    return "flex";
   }
 };
 
@@ -176,17 +164,6 @@ function StudyStackNavigator() {
         // options={{ headerShown: false }}
       />
       <StudyStack.Screen name="MaterialsStudy" component={MaterialsStudy} />
-      {/* //       <StudyStack.Screen
-//         name="KeyTopic"
-//         component={KeyTopic}
-//         options={{ headerShown: false }}
-//       />
-//       <StudyStack.Screen
-//         name="QuizResult"
-//         component={QuizResult}
-//         // options={{ headerShown: false }}
-//       />
-// >>>>>>> dev */}
       <StudyStack.Screen name="NextDayPlan" component={NextDayPlan} />
       <StudyStack.Screen
         name="CreateNewMaterial"
@@ -231,7 +208,7 @@ export default function Navigation() {
           component={TabBottomNavigator}
           options={{
             headerShown: false,
-            tabBarIcon: ({ focused }) => <StudyTabIcon />,
+            // tabBarIcon: ({ focused }) => <StudyTabIcon />,
             tabBarShowLabel: false,
           }}
         />
@@ -268,14 +245,7 @@ export default function Navigation() {
           name="AskAI"
           component={AskAI}
           options={{ headerShown: false }}
-          // options={{
-          //   headerShown: true,
-          //   headerTitleStyle: { color: "black" }
-          //   ,headerTitle: "Ask Dr. Lumi"
-          // }}
         />
-        {/* <TabBottomNavigator />
-        <StudyStackNavigator /> */}
       </Stack.Navigator>
       {/* </NavigationContainer> */}
     </BottomSheetModalProvider>
