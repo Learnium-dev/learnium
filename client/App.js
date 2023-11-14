@@ -26,7 +26,7 @@ import Navigation from "./navigation";
 import { useEffect, useState } from "react";
 
 // Ignore all warnings
-// LogBox.ignoreAllLogs();
+LogBox.ignoreAllLogs();
 
 const Stack = createStackNavigator();
 
@@ -41,7 +41,6 @@ const loadFonts = async () => {
 };
 
 export default function App() {
-
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
@@ -68,7 +67,7 @@ export default function App() {
   }
 
   return (
-   <Auth>
+    <Auth>
       <Provider store={store}>
         <MenuProvider
           customStyles={{
