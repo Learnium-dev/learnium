@@ -9,13 +9,6 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
   const [correctanswer, setCorrectanswer] = useState(quiz[index].correctanswer);
   const [isOptionSelected, setIsOptionSelected] = useState("");
 
-  const handleTextChange = (text) => {
-    console.log("text", text);
-    // if(text.length > 0){
-    //     setIsTextFilled(true);
-    // }
-  };
-
   const selectQuizOption = (option) => {
     console.log("🚀 ~ file: Quiz.jsx:26 ~ option:", option);
     console.log("correctanswer", correctanswer);
