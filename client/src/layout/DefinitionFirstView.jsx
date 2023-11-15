@@ -25,32 +25,65 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback,
       <TextInput style={styles.invisibleInput} editable={false} />
       {isFlipped ? (
         <View style={styles.container}>
-          <Text style={{
-            ...styles.textContainer,
-            color: isFlipped ? 'white': globalStyles.colors.primary
-          }}>
+          <Text
+            style={{
+              ...styles.textContainer,
+              color: isFlipped ? "white" : globalStyles.colors.primary,
+            }}
+          >
             {details.question}
           </Text>
 
-          { answer && <View style={{ marginTop: 40, width: '100%'}}>
-            <Text style={styles.primaryLabelText}>You answered:</Text>
-            <Text style={styles.regularText}>{answer}</Text>
-          </View> }
+          {answer && (
+            <View style={{ marginTop: 40, width: "100%" }}>
+              <Text style={styles.primaryLabelText}>You answered:</Text>
+              <Text style={styles.regularText}>{answer}</Text>
+            </View>
+          )}
 
-          <View style={{ marginTop: 20}}>
-            {(feedbackLoading || aiFeedback) && <Text style={styles.primaryLabelText}>AI Assistant feedback</Text>}
-            {feedbackLoading && <Text style={styles.regularText}>Loading...</Text>}
-            {(!feedbackLoading && aiResponse) && <Text style={styles.regularText}>{aiResponse}</Text>}
-            {/* Using multiline TextInput to make sure AI answer fits in card, it can be scrolled if there is a lot of text */}
-            {(!feedbackLoading && aiFeedback) && <ScrollView style={{ height: 140, width: "100%", marginTop: 10 }}><TextInput numberOfLines={15} multiline={true} style={styles.regularText}>{aiFeedback}</TextInput></ScrollView>}
+          <View style={{ marginTop: 20, height: 220 }}>
+            {feedbackLoading && (
+              <Text style={{ color: globalStyles.colors.primary }}>
+                Loading...
+              </Text>
+            )}
+            {!feedbackLoading && aiResponse && (
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 24,
+                  fontFamily: "Gabarito-Bold",
+                  textAlign: "center",
+                }}
+              >
+                {aiResponse}!
+              </Text>
+            )}
+
+            {!feedbackLoading && aiFeedback && (
+              <ScrollView style={{ width: "100%", marginTop: 15 }}>
+                <Text style={styles.regularText}>{aiFeedback}</Text>
+              </ScrollView>
+            )}
           </View>
-
         </View>
       ) : (
-        <View style={{width: '100%'}}>
-          <Text style={styles.definitionContainer}>{details.correctanswer[0]}</Text>
-          <Text style={{ marginTop: 40, marginBottom: 10, fontSize: 18, fontFamily: 'Gabarito-Bold', color: globalStyles.colors.primary }}>Term</Text>
-          <View style={{ height: 100, width: '100%' }}>
+        <View style={{ width: "100%" }}>
+          <Text style={styles.definitionContainer}>
+            {details.correctanswer[0]}
+          </Text>
+          <Text
+            style={{
+              marginTop: 40,
+              marginBottom: 10,
+              fontSize: 18,
+              fontFamily: "Gabarito-Bold",
+              color: globalStyles.colors.primary,
+            }}
+          >
+            Term
+          </Text>
+          <View style={{ height: 100, width: "100%" }}>
             <TextInput
               editable
               multiline={true}
@@ -86,12 +119,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: "Gabarito-Bold",
+    paddingHorizontal: 10,
   },
   definitionContainer: {
     fontSize: 16,
     textAlign: "left",
     fontFamily: "Nunito-Bold",
     color: globalStyles.colors.primary,
+    paddingHorizontal: 10,
   },
   textInput: {
     padding: 10,

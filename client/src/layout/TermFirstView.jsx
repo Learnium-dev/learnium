@@ -39,24 +39,29 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiRes
             </View>
           )}
 
-          <View style={{ marginTop: 20 }}>
-            {(feedbackLoading || aiFeedback) && (
-              <Text style={styles.primaryLabelText}>AI Assistant feedback</Text>
+          <View style={{ marginTop: 20, height: 220 }}>
+            {feedbackLoading && (
+              <Text style={{ color: globalStyles.colors.primary }}>
+                Loading...
+              </Text>
             )}
-            {feedbackLoading && <Text>Loading...</Text>}
             {!feedbackLoading && aiResponse && (
-              <Text style={styles.regularText}>{aiResponse}</Text>
+              <Text
+                style={{
+                  color: globalStyles.colors.primary,
+                  fontSize: 24,
+                  fontFamily: "Gabarito-Bold",
+                  textAlign: "center",
+                }}
+              >
+                {aiResponse}!
+              </Text>
             )}
-            {/* Using multiline TextInput to make sure AI answer fits in card, it can be scrolled if there is a lot of text */}
             {!feedbackLoading && aiFeedback && (
-              <ScrollView style={{ height: 140, width: "100%", marginTop: 10 }}>
-                <TextInput
-                  numberOfLines={15}
-                  multiline={true}
-                  style={styles.regularText}
-                >
+              <ScrollView style={{ width: "100%", marginTop: 15 }}>
+                <Text style={{ ...styles.regularText }}>
                   {aiFeedback}
-                </TextInput>
+                </Text>
               </ScrollView>
             )}
           </View>
@@ -84,7 +89,6 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiRes
 };
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     width: "100%",
@@ -102,6 +106,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Gabarito-Bold",
     color: "white",
+    paddingHorizontal: 10,
   },
   labelText: {
     marginTop: 40,
@@ -120,6 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     fontFamily: "Nunito-Bold",
+    paddingHorizontal: 10,
   },
   regularText: {
     fontFamily: "Nunito-Regular",
