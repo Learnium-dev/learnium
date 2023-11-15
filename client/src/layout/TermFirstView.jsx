@@ -41,7 +41,12 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiRes
 
           <View style={{ marginTop: 20, height: 220 }}>
             {feedbackLoading && (
-              <Text style={{ color: globalStyles.colors.primary }}>
+              <Text
+                style={{
+                  color: globalStyles.colors.primary,
+                  fontWeight: "600"
+                }}
+              >
                 Loading...
               </Text>
             )}
@@ -59,9 +64,7 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiRes
             )}
             {!feedbackLoading && aiFeedback && (
               <ScrollView style={{ width: "100%", marginTop: 15 }}>
-                <Text style={{ ...styles.regularText }}>
-                  {aiFeedback}
-                </Text>
+                <Text style={{ ...styles.regularText }}>{aiFeedback}</Text>
               </ScrollView>
             )}
           </View>

@@ -43,7 +43,7 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback,
 
           <View style={{ marginTop: 20, height: 220 }}>
             {feedbackLoading && (
-              <Text style={{ color: globalStyles.colors.primary }}>
+              <Text style={{ color: "white", fontWeight: "600" }}>
                 Loading...
               </Text>
             )}
