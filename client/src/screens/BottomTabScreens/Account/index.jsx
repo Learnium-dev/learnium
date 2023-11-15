@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   FlatList,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -67,9 +68,23 @@ const Profile = () => {
                 width: 90,
                 height: 90,
                 borderRadius: 100,
-                backgroundColor: "#7000FF",
+                overflow: "hidden",
+                backgroundColor: "#FEE702",
               }}
-            />
+            >
+              <Image
+                source={require("../../../../assets/images/characters/lumi_profile.png")}
+                style={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 100,
+                  position: "absolute",
+                  top: -50,
+                  left: -50,
+                  transform: [{ scale: 0.5 }],
+                }}
+              />
+            </View>
             <Flame
               width={30}
               height={30}

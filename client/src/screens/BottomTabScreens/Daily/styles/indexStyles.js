@@ -94,7 +94,6 @@ export const styles = StyleSheet.create({
     fontFamily: "Gabarito-Bold",
     fontSize: 20,
     color: "#fff",
-    lineHeight: 24,
   },
   answer: {
     borderRadius: 8,

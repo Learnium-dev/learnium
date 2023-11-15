@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 
 // React
@@ -18,6 +19,9 @@ import { useSelector } from "react-redux";
 
 // React Navigation
 import { useNavigation } from "@react-navigation/native";
+
+// axios
+import axios from "axios";
 
 // Styles
 import { styles } from "./styles/indexStyles";
@@ -39,26 +43,28 @@ const DailyQuestion = () => {
   const { dailyKeyTopicId } = useSelector((state) => state.exam);
   const { token } = useSelector((state) => state.credentials);
 
-  // useEffect(() => {
-  //   const fetchDailyQuestion = async () => {
-  //     const options = {
-  //       method: "GET",
-  //       url: `${baseURL}keytopics?email=${tokenEmail}`,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     };
+  useEffect(() => {
+    const fetchDailyQuestion = async () => {
+      const options = {
+        method: "GET",
+        url: `${baseURL}details/singlequestion?keytopicid=${dailyKeyTopicId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-  //     try {
-  //       const response = await axios(options);
-  //       return response.data;
-  //     } catch (error) {
-  //       console.error("Error getting keyTopics", error);
-  //     }
-  //   };
-  //   fetchDailyQuestion();
-  // }, []);
+      try {
+        const response = await axios(options);
+        console.log("This is the daily quesion: ", response.data);
+        setDailyQuestion(response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Error getting keyTopics", error);
+      }
+    };
+    fetchDailyQuestion();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -110,14 +116,15 @@ const DailyQuestion = () => {
                     fontSize: 14,
                   }}
                 >
-                  Dec 5, 2023
+                  Dec 6, 2023
                 </Text>
                 <Ionicons name="ios-chevron-forward" size={24} color="white" />
               </View>
               {/* question */}
               <Text style={styles.question}>
-                What were the turning points of World War II and which country
-                was responsible?
+                {dailyQuestion?.question || (
+                  <ActivityIndicator size="large" color="#FFF" />
+                )}
               </Text>
               {/* answer */}
               <View style={{ width: "100%" }}>
@@ -144,7 +151,7 @@ const DailyQuestion = () => {
                     fontSize: 14,
                   }}
                 >
-                  Dec 5, 2023
+                  Dec 12, 2023
                 </Text>
                 <Ionicons name="ios-chevron-forward" size={24} color="white" />
               </View>
