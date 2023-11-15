@@ -58,6 +58,44 @@ router.get(`/`, async (req, res)=>{
     res.status(200).send(detailList);
 })
 
+// GET Single Question
+router.get(`/singlequestion`, async (req, res)=>{
+    let filter = {};
+    let quizzesList = [];
+    
+    // Find Quiz by Keytopic Id
+    if (req.query.keytopicid) {
+        filter = { keytopicid: req.query.keytopicid };
+        quizzesList = await quizmodel.findOne(filter);
+        if (!quizzesList) {
+            return res.status(404).json({
+                success: false,
+                message: 'Quiz not found with the provided key topic ID',
+            });
+        }
+    } else {
+        return res.status(400).json({
+            success: false,
+            message: 'Key topic ID is required',
+        });
+    }
+
+    const filterDetail = { quizid: quizzesList._id };
+    const detailList = await detailmodel.aggregate([
+        { $match: filterDetail },
+        { $sample: { size: 1 } }
+    ]);
+
+    if (!detailList || detailList.length === 0) {
+        return res.status(404).json({
+            success: false,
+            message: 'Details not found for the quiz',
+        });
+    }
+
+    res.status(200).json(detailList[0]);
+})
+
 // GET Count Details
 router.get(`/countfalse`, async (req, res)=>{
 
