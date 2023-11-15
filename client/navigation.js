@@ -1,5 +1,4 @@
 // react navigation imports
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -35,9 +34,12 @@ import ProfileTabIcon from "./assets/icons/profile-tab.svg";
 // screens - progress
 import Progress from "./src/screens/BottomTabScreens/Progress";
 import AllMaterials from "./src/screens/BottomTabScreens/Progress/AllMaterials";
+import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
 
 // screens - daily
-import Daily from "./src/screens/BottomTabScreens/Daily";
+import Daily from "./src/screens/BottomTabScreens/Daily/Daily";
+import DailyQuestion from "./src/screens/BottomTabScreens/Daily/DailyQuestion";
+import DailyChallenge from "./src/screens/BottomTabScreens/Daily/DailyChallenge";
 
 // screens - account
 import Account from "./src/screens/BottomTabScreens/Account";
@@ -48,7 +50,6 @@ import TestAPI from "./src/screens/User/TestAPI";
 // toaster
 import Toast from "react-native-toast-message";
 
-import SingleKeyTopicProgress from "./src/screens/BottomTabScreens/Progress/SingleKeyTopicProgress";
 import { useEffect } from "react";
 import MaterialSummary from "./src/screens/BottomTabScreens/Study/MaterialSummary";
 import KeyTopicSummary from "./src/screens/BottomTabScreens/Study/KeyTopicSummary";
@@ -90,7 +91,7 @@ function TabBottomNavigator() {
       />
       <Tab.Screen
         name="Daily"
-        component={Daily}
+        component={DailyStackNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => <DailyTabIcon />,
@@ -98,8 +99,8 @@ function TabBottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="TestAPI"
-        component={TestAPI}
+        name="Account"
+        component={Account}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => <ProfileTabIcon />,
@@ -195,6 +196,30 @@ function ProgressStackNavigator() {
         component={AllMaterials}
       />
     </ProgressStack.Navigator>
+  );
+}
+
+// daily stack navigator
+const DailyStack = createNativeStackNavigator();
+function DailyStackNavigator() {
+  return (
+    <DailyStack.Navigator>
+      <DailyStack.Screen
+        options={{ headerShown: false }}
+        name="Daily"
+        component={Daily}
+      />
+      <DailyStack.Screen
+        name="DailyQuestion"
+        component={DailyQuestion}
+        options={{ headerShown: false }}
+      />
+      <DailyStack.Screen
+        options={{ headerShown: false }}
+        name="DailyChallenge"
+        component={DailyChallenge}
+      />
+    </DailyStack.Navigator>
   );
 }
 

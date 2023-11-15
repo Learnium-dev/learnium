@@ -118,3 +118,11 @@ export const minutesDay = [
   { minutes: 15, label: "15 minutes / day" },
   { minutes: 0, label: "Other" },
 ];
+
+export const profileOptions = [
+  "Materials",
+  "Notifications",
+  "Settings",
+  "About",
+  "Logout",
+];

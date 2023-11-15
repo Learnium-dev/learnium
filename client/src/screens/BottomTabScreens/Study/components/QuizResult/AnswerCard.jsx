@@ -45,7 +45,7 @@ const AnswerCard = ({ item }) => {
           style={styles.askAI}
           onPress={() => handleAskAI(item?.question, item?.answer)}
         >
-          <Text style={styles.askAIText}>Ask AI</Text>
+          <Text style={styles.askAIText}>Explanation</Text>
         </Pressable>
       )}
       <View

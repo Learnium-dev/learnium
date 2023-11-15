@@ -66,7 +66,10 @@ const QuizResult = ({ route }) => {
           percentage={percentage}
         ></ResultModal>
       ) : (
-        <ScrollView contentContainerStyle={{ paddingBottom: 70 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 70 }}
+        >
           {/* Header */}
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Strengthen Your Skills!</Text>

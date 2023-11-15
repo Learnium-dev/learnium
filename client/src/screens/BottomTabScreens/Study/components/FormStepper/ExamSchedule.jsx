@@ -171,7 +171,7 @@ const ExamSchedule = ({ name, prev, next }) => {
                     testID="dateTimePicker"
                     mode={mode}
                     value={dateNow}
-                    display="spinner"
+                    display="inline"
                     onChange={onChange}
                     is24Hour={true}
                   />
