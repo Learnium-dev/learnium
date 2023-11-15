@@ -121,7 +121,7 @@ const Study = () => {
       <View
         style={{
           paddingHorizontal: 20,
-          paddingTop: 20,
+          paddingTop: 40,
           fontFamily: globalStyles.fonts.gabaritoBold,
         }}
       >
@@ -149,7 +149,7 @@ const Study = () => {
             style={{
               ...globalStyles.buttons.primary,
               justifyContent: "center",
-              marginBottom: 34,
+              marginBottom: 24,
             }}
             onPress={() => navigate("CreateContent")}
           >

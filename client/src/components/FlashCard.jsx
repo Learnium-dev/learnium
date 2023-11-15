@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useState, useEffect } from "react";
 import TermFirstView from "../layout/TermFirstView";
 import DefinitionFirstView from "../layout/DefinitionFirstView";
@@ -123,10 +130,8 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
         >
           {!card.isdone ? (
             <BookmarkFront style={styles.bookmarkIcon} />
-          ) : isFlipped ? (
-            <BookmarkBackFilled style={styles.bookmarkIcon} />
           ) : (
-            <BookmarkFrontFilled style={styles.bookmarkIcon} />
+            <BookmarkBackFilled style={styles.bookmarkIcon} />
           )}
         </Pressable>
         {termFirst ? (
@@ -137,12 +142,14 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
             aiFeedback={isCorrectFeedback}
             aiResponse={isCorrect}
             onAnswer={setAnswer}
+            feedbackLoading={isCorrectLoading}
           />
         ) : (
           <DefinitionFirstView
             isFlipped={isFlipped}
             details={card}
             answer={answer}
+            feedbackLoading={isCorrectLoading}
             aiFeedback={isCorrectFeedback}
             aiResponse={isCorrect}
             onAnswer={setAnswer}
@@ -153,86 +160,83 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <View
-        style={{ ...styles.deckOne, display: showingInfo ? "none" : "block" }}
-      ></View>
-      <View
-        style={{ ...styles.deckTwo, display: showingInfo ? "none" : "block" }}
-      ></View>
-      <View style={styles.cardContainer}>
-        {/* SHOW FLASHCARD INTRODUCTION */}
-        {showingInfo && (
-          <View
-            style={{
-              position: "absolute",
-              zIndex: 1,
-              width: "100%",
-              height: "100%",
-            }}
-          >
+    <KeyboardAvoidingView
+      behavior={
+        Platform.OS === "ios"
+          ? "padding"
+          : Platform.OS === "android"
+          ? "height"
+          : null
+      }
+      style={styles.keyboardContainer}
+    >
+      <View style={styles.mainContainer}>
+        <View
+          style={{ ...styles.deckOne, display: showingInfo ? "none" : "block" }}
+        ></View>
+        <View
+          style={{ ...styles.deckTwo, display: showingInfo ? "none" : "block" }}
+        ></View>
+        <View style={styles.cardContainer}>
+          {/* SHOW FLASHCARD INTRODUCTION */}
+          {showingInfo && (
             <View
               style={{
                 position: "absolute",
+                zIndex: 1,
                 width: "100%",
                 height: "100%",
-                backgroundColor: "black",
-                opacity: 0.7,
-                borderRadius: 20,
-              }}
-            ></View>
-            <Text
-              style={{
-                color: "white",
-                position: "absolute",
-                right: 26,
-                top: -43,
-                fontFamily: "Nunito-Regular",
-              }}
-            >
-              Tap to mark as difficult
-            </Text>
-            <BookmarkInfo style={styles.bookmarkInfoIcon} />
-
-            <View
-              style={{
-                position: "absolute",
-                top: "45%",
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ color: "white", fontFamily: "Nunito-Regular" }}>
-                Tap to see answer
-              </Text>
-              <TapToSeeAnswer />
-            </View>
-
-            <View
-              style={{
-                position: "absolute",
-                bottom: "20%",
-                width: "100%",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
               }}
             >
               <View
                 style={{
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "black",
+                  opacity: 0.7,
+                  borderRadius: 20,
+                }}
+              ></View>
+              <Text
+                style={{
+                  color: "white",
+                  position: "absolute",
+                  right: 26,
+                  top: -43,
+                  fontFamily: "Nunito-Regular",
+                }}
+              >
+                Tap to mark as difficult
+              </Text>
+              <BookmarkInfo style={styles.bookmarkInfoIcon} />
+
+              <View
+                style={{
+                  position: "absolute",
+                  top: "45%",
+                  width: "100%",
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: "column",
                   alignItems: "center",
                 }}
               >
-                <Previous style={{ marginLeft: 20, marginRight: 5 }} />
                 <Text style={{ color: "white", fontFamily: "Nunito-Regular" }}>
-                  Previous
+                  Tap to see answer
                 </Text>
+                <TapToSeeAnswer />
               </View>
-              <View>
+
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: "20%",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
                 <View
                   style={{
                     display: "flex",
@@ -240,67 +244,88 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
                     alignItems: "center",
                   }}
                 >
+                  <Previous style={{ marginLeft: 20, marginRight: 5 }} />
                   <Text
                     style={{ color: "white", fontFamily: "Nunito-Regular" }}
                   >
-                    Next
+                    Previous
                   </Text>
-                  <Next style={{ marginLeft: 5, marginRight: 20 }} />
+                </View>
+                <View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{ color: "white", fontFamily: "Nunito-Regular" }}
+                    >
+                      Next
+                    </Text>
+                    <Next style={{ marginLeft: 5, marginRight: 20 }} />
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-        )}
+          )}
 
-        {/* SHOW FLASHCARD */}
-        <FlipCard
-          style={{
-            ...styles.card,
-            backgroundColor: isFlipped ? globalStyles.colors.primary : "white",
-          }}
-          friction={10}
-          flipHorizontal={true}
-          flipVertical={false}
-          clickable={true}
-          onFlipStart={flipCard}
-        >
-          {renderSide()}
-          {renderSide()}
-        </FlipCard>
-      </View>
-
-      {/* INFO BUTTON */}
-      <View style={styles.infoButtonContainer}>
-        <Pressable
-          style={{
-            ...styles.infoButton,
-            backgroundColor: showingInfo
-              ? "white"
-              : globalStyles.colors.primary,
-          }}
-          onPress={() => dispatch(setShowingInfo(!showingInfo))}
-        >
-          <Text
+          {/* SHOW FLASHCARD */}
+          <FlipCard
             style={{
-              ...styles.infoButtonText,
-              color: showingInfo ? "black" : "white",
+              ...styles.card,
+              backgroundColor: isFlipped
+                ? globalStyles.colors.primary
+                : "white",
             }}
+            friction={10}
+            flipHorizontal={true}
+            flipVertical={false}
+            clickable={true}
+            onFlipStart={flipCard}
           >
-            i
-          </Text>
-        </Pressable>
-      </View>
+            {renderSide()}
+            {renderSide()}
+          </FlipCard>
+        </View>
 
-      {isCorrectLoading && <Text style={styles.labelText}>Loading...</Text>}
-      {isCorrectFeedback && (
-        <Text style={styles.labelText}>{isCorrectFeedback}</Text>
-      )}
-      {isCorrect && <Text style={styles.labelText}>{isCorrect}</Text>}
-    </View>
+        {/* INFO BUTTON */}
+        <View style={styles.infoButtonContainer}>
+          <Pressable
+            style={{
+              ...styles.infoButton,
+              backgroundColor: showingInfo
+                ? "white"
+                : globalStyles.colors.primary,
+            }}
+            onPress={() => dispatch(setShowingInfo(!showingInfo))}
+          >
+            <Text
+              style={{
+                ...styles.infoButtonText,
+                color: showingInfo ? "black" : "white",
+              }}
+            >
+              i
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  keyboardContainer: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 18,
+  },
   mainContainer: {
     flex: 1,
     width: "100%",
@@ -308,7 +333,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "start",
     paddingTop: 40,
-    marginBottom: 60,
+    marginBottom: 50,
   },
   deckOne: {
     height: 30,

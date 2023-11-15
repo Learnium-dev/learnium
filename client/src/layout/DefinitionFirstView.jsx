@@ -1,14 +1,21 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useState } from "react";
 import { globalStyles } from "../../assets/common/global-styles";
 
-const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, isCorrectFeedback, isCorrectResponse }) => {
+const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiResponse, feedbackLoading }) => {
 
 
-  const [aiFeedback, setAiFeedback] = useState(isCorrectFeedback);
-  console.log("🚀 ~ file: DefinitionFirstView.jsx:9 ~ aiFeedback:", aiFeedback)
-  const [aiResponse, setAiResponse] = useState(isCorrectResponse);
-  console.log("🚀 ~ file: DefinitionFirstView.jsx:11 ~ aiResponse:", aiResponse)
+  // const [aiFeedback, setAiFeedback] = useState(isCorrectFeedback);
+  // console.log("🚀 ~ file: DefinitionFirstView.jsx:9 ~ aiFeedback:", aiFeedback)
+  // const [aiResponse, setAiResponse] = useState(isCorrectResponse);
+  // console.log("🚀 ~ file: DefinitionFirstView.jsx:11 ~ aiResponse:", aiResponse)
 
   
   // const [value, onChangeText] = useState('');
@@ -22,20 +29,26 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, isCorrectFe
             ...styles.textContainer,
             color: isFlipped ? 'white': globalStyles.colors.primary
           }}>
-            {details.correctanswer[0]}
+            {details.question}
           </Text>
 
           { answer && <View style={{ marginTop: 40, width: '100%'}}>
-            <Text style={{color: 'white', fontSize: 18, fontFamily: 'Gabarito-Bold'}}>You answered:</Text>
-            <Text style={{color: 'white', fontSize: 16, fontFamily: 'Nunito-Regular'}}>{answer}</Text>
+            <Text style={styles.primaryLabelText}>You answered:</Text>
+            <Text style={styles.regularText}>{answer}</Text>
           </View> }
-          <Text style={styles.labelText}>{isCorrectFeedback}</Text>
-          <Text style={styles.labelText}>{isCorrectResponse}</Text>
+
+          <View style={{ marginTop: 20}}>
+            {(feedbackLoading || aiFeedback) && <Text style={styles.primaryLabelText}>AI Assistant feedback</Text>}
+            {feedbackLoading && <Text style={styles.regularText}>Loading...</Text>}
+            {(!feedbackLoading && aiResponse) && <Text style={styles.regularText}>{aiResponse}</Text>}
+            {/* Using multiline TextInput to make sure AI answer fits in card, it can be scrolled if there is a lot of text */}
+            {(!feedbackLoading && aiFeedback) && <ScrollView style={{ height: 140, width: "100%", marginTop: 10 }}><TextInput numberOfLines={15} multiline={true} style={styles.regularText}>{aiFeedback}</TextInput></ScrollView>}
+          </View>
 
         </View>
       ) : (
         <View style={{width: '100%'}}>
-          <Text style={styles.definitionContainer}>{details.question}</Text>
+          <Text style={styles.definitionContainer}>{details.correctanswer[0]}</Text>
           <Text style={{ marginTop: 40, marginBottom: 10, fontSize: 18, fontFamily: 'Gabarito-Bold', color: globalStyles.colors.primary }}>Term</Text>
           <View style={{ height: 100, width: '100%' }}>
             <TextInput
@@ -46,11 +59,9 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, isCorrectFe
               onChangeText={(text) => onAnswer(text)}
               value={answer}
               style={styles.textInput}
-                placeholder={"Write your term here"}
+              placeholder={"Write your term here"}
             />
           </View>
-          <Text style={styles.labelText}>{isCorrectFeedback}</Text>
-          <Text style={styles.labelText}>{isCorrectResponse}</Text>
         </View>
       )}
     </View>
@@ -79,7 +90,8 @@ const styles = StyleSheet.create({
   definitionContainer: {
     fontSize: 16,
     textAlign: "left",
-    fontFamily: "Nunito-Regular",
+    fontFamily: "Nunito-Bold",
+    color: globalStyles.colors.primary,
   },
   textInput: {
     padding: 10,
@@ -87,8 +99,20 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderWidth: 1,
-    borderColor: globalStyles.colors.primary,
     borderRadius: 10,
+    borderColor: globalStyles.colors.primary,
+    fontFamily: "Nunito-Regular",
+    textAlignVertical: "top",
+  },
+  primaryLabelText: {
+    marginBottom: 10,
+    fontSize: 18,
+    fontFamily: "Gabarito-Bold",
+    color: "white",
+  },
+  regularText: {
+    color: "white",
+    fontFamily: "Nunito-Regular",
     textAlignVertical: "top",
   },
   invisibleInput: {

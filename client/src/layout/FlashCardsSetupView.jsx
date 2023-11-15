@@ -2,9 +2,12 @@ import { View, Text, StyleSheet, Switch, Pressable } from "react-native";
 import { useState } from "react";
 import FlashCardsCharacter from "../../assets/images/characters/flashcards-character.svg";
 import { globalStyles } from "../../assets/common/global-styles";
+import { useDispatch, useSelector } from 'react-redux'
 
-const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
+const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
   const [termFirst, setTermFirst] = useState(true);
+  const [focusOn, setFocusOn] = useState(false);
+  const cards = useSelector(state => state.flashCards.cards);
 
   const toggleSwitch = () => setTermFirst((isEnabled) => !isEnabled);
 
@@ -26,52 +29,59 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic }) => {
         <Text style={styles.topicTitle}>{keyTopic.name}</Text>
       </View>
 
-      <View style={styles.setup}>
-        <Text style={styles.subTitle}>Set Up Your Flash Cards</Text>
-
-        <View style={styles.switchContainer}>
-          <Text style={styles.label}>Term first</Text>
-          <Switch
-            style={{
-              transform: [{ scale: 1 }],
-              // width: 50,
-              // height: 30,
-              margin: 0,
-              padding: 0,
-            }}
-            trackColor={{ false: "grey", true: globalStyles.colors.primary }}
-            thumbColor={termFirst ? "white" : "white"}
-            trackHeight={30}
-            onValueChange={toggleSwitch}
-            value={termFirst}
-          />
-        </View>
-
-        <View style={styles.switchContainer}>
-          <Text style={styles.label}>Definition first</Text>
-          <Switch
-            style={{
-              transform: [{ scale: 1 }],
-              // width: 50,
-              // height: 30,
-              margin: 0,
-              padding: 0,
-            }}
-            trackColor={{ false: "grey", true: globalStyles.colors.primary }}
-            thumbColor={termFirst ? "white" : "white"}
-            onValueChange={toggleSwitch}
-            value={!termFirst}
-          />
-        </View>
+      <View style={{...styles.switchContainer, marginBottom: 40}}>
+            <Text style={styles.label}>Focus mode</Text>
+            <Switch
+              trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              thumbColor={"white"}
+              value={focusOn}
+              onValueChange={() => setFocusOn(!focusOn)}
+            />
       </View>
 
-      <Pressable onPress={() => handleStart()} style={styles.button}>
+      {cards && cards.length ?
+        <View style={styles.setup}>
+          <Text style={styles.subTitle}>Set Up Your Flash Cards</Text>
+
+          <View style={styles.switchContainer}>
+            <Text style={styles.label}>Term first</Text>
+            <Switch
+              trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              thumbColor={"white"}
+              onValueChange={toggleSwitch}
+              value={termFirst}
+            />
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Text style={styles.label}>Definition first</Text>
+            <Switch
+              trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              thumbColor={"white"}
+              onValueChange={toggleSwitch}
+              value={!termFirst}
+            />
+          </View>
+        </View> 
+        :
+        <View style={styles.setup}>
+          <Text style={styles.subTitle}>No Flashcards available for this topic.</Text>
+        </View>
+      }
+
+      { cards && cards.length ?
+        <Pressable onPress={() => handleStart()} style={styles.button} disabled={!cards.length}>
         {({ pressed }) => (
           <Text style={pressed ? styles.buttonTextPressed : styles.buttonText}>
             Start Practicing
           </Text>
         )}
-      </Pressable>
+        </Pressable>
+        :
+        <View></View>
+      }
+
+
     </View>
   );
 };
@@ -84,14 +94,13 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingBottom: 100,
+    paddingBottom: 30,
   },
   headerContainer: {
     width: "100%",
     display: "flex",
     flexDirection: "row",
     marginVertical: 20,
-
     paddingHorizontal: 40,
   },
   headerContainerText: {
@@ -105,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    marginBottom: 60,
+    marginBottom: 10,
     borderWidth: 2,
     borderColor: globalStyles.colors.primary,
     borderRadius: 20,
@@ -143,7 +152,7 @@ const styles = StyleSheet.create({
     textAlign: "flex-start",
     fontFamily: "Gabarito-Bold",
     fontSize: 22,
-    marginBottom: 35,
+    marginBottom: 20,
   },
   switchContainer: {
     display: "flex",
@@ -151,10 +160,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 5,
+    paddingVertical: 0,
+    marginBottom: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "Nunito-Regular",
     margin: 0,
     padding: 0,
@@ -165,7 +175,8 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   button: {
-    // marginTop: "auto",
+    position: "absolute",
+    bottom: 100,
     marginBottom: 8,
     color: "#fff",
     backgroundColor: globalStyles.colors.primary,
