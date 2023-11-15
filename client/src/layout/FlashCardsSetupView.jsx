@@ -29,23 +29,31 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
         <Text style={styles.topicTitle}>{keyTopic.name}</Text>
       </View>
 
-      <View style={{...styles.switchContainer, marginBottom: 40}}>
-            <Text style={styles.label}>Focus mode</Text>
-            <Switch
-              trackColor={{ false: "grey", true: globalStyles.colors.primary }}
-              thumbColor={"white"}
-              value={focusOn}
-              onValueChange={() => setFocusOn(!focusOn)}
-            />
+      <View style={{ ...styles.switchContainer, marginBottom: 40 }}>
+        <Text style={styles.label}>Focus mode</Text>
+        <Switch
+          trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+          thumbColor={"white"}
+          value={focusOn}
+          onValueChange={() => setFocusOn(!focusOn)}
+          style={{
+            transform:
+              Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
+          }}
+        />
       </View>
 
-      {cards && cards.length ?
+      {cards && cards.length ? (
         <View style={styles.setup}>
           <Text style={styles.subTitle}>Set Up Your Flash Cards</Text>
 
           <View style={styles.switchContainer}>
             <Text style={styles.label}>Term first</Text>
             <Switch
+              style={{
+                transform:
+                  Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
+              }}
               trackColor={{ false: "grey", true: globalStyles.colors.primary }}
               thumbColor={"white"}
               onValueChange={toggleSwitch}
@@ -56,32 +64,39 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
           <View style={styles.switchContainer}>
             <Text style={styles.label}>Definition first</Text>
             <Switch
+              style={{ transform: Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }] }}
               trackColor={{ false: "grey", true: globalStyles.colors.primary }}
               thumbColor={"white"}
               onValueChange={toggleSwitch}
               value={!termFirst}
             />
           </View>
-        </View> 
-        :
-        <View style={styles.setup}>
-          <Text style={styles.subTitle}>No Flashcards available for this topic.</Text>
         </View>
-      }
-
-      { cards && cards.length ?
-        <Pressable onPress={() => handleStart()} style={styles.button} disabled={!cards.length}>
-        {({ pressed }) => (
-          <Text style={pressed ? styles.buttonTextPressed : styles.buttonText}>
-            Start Practicing
+      ) : (
+        <View style={styles.setup}>
+          <Text style={styles.subTitle}>
+            No Flashcards available for this topic.
           </Text>
-        )}
+        </View>
+      )}
+
+      {cards && cards.length ? (
+        <Pressable
+          onPress={() => handleStart()}
+          style={styles.button}
+          disabled={!cards.length}
+        >
+          {({ pressed }) => (
+            <Text
+              style={pressed ? styles.buttonTextPressed : styles.buttonText}
+            >
+              Start Practicing
+            </Text>
+          )}
         </Pressable>
-        :
+      ) : (
         <View></View>
-      }
-
-
+      )}
     </View>
   );
 };
