@@ -55,7 +55,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic, studyMaterial }) => {
         isQuizTrue={false}
       />
 
-      {practicing ?
+      { practicing && cards && cards.length ? 
         <PagerView
           style={styles.pagerView}
           initialPage={0}
@@ -80,6 +80,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic, studyMaterial }) => {
       :
         <FlashCardsSetupView
           onStartPracticing={handleStart}
+          handleClose={handleClose}
           keyTopic={keyTopic}
         />
       }

@@ -1,49 +1,82 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  ImageBackground,
+  ScrollView,
+} from "react-native";
 import { globalStyles } from "../../assets/common/global-styles";
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const TermFirstView = ({ isFlipped, details, answer, onAnswer, isCorrectFeedback, isCorrectResponse }) => {
+const TermFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiResponse, feedbackLoading }) => {
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        ...styles.container,
+        backgroundColor: isFlipped ? "white" : globalStyles.colors.primary,
+      }}
+    >
       <TextInput style={styles.invisibleInput} editable={false} />
       {isFlipped ? (
         <View style={styles.cardContent}>
-          <Text style={{
-            ...styles.definitionContainer,
-            color: isFlipped ? 'white': globalStyles.colors.primary
-          }}>
-            {details?.question}
+          <Text
+            style={{
+              ...styles.definitionContainer,
+              color: isFlipped ? globalStyles.colors.primary : "white",
+            }}
+          >
+            {details?.correctanswer[0]}
           </Text>
 
-          { answer && <View style={{ marginTop: 40}}>
-            <Text style={{color: 'white', fontSize: 18, fontFamily: 'Gabarito-Bold'}}>You answered:</Text>
-            <Text style={{color: 'white', fontFamily: 'Nunito-Regular'}}>{answer}</Text>
-          </View>}
-          <Text style={styles.labelText}>{isCorrectFeedback}</Text>
-          <Text style={styles.labelText}>{isCorrectResponse}</Text>
+          {answer && (
+            <View style={{ marginTop: 40 }}>
+              <Text style={styles.primaryLabelText}>You answered:</Text>
+              <Text style={styles.regularText}>{answer}</Text>
+            </View>
+          )}
 
+          <View style={{ marginTop: 20 }}>
+            {(feedbackLoading || aiFeedback) && (
+              <Text style={styles.primaryLabelText}>AI Assistant feedback</Text>
+            )}
+            {feedbackLoading && <Text>Loading...</Text>}
+            {!feedbackLoading && aiResponse && (
+              <Text style={styles.regularText}>{aiResponse}</Text>
+            )}
+            {/* Using multiline TextInput to make sure AI answer fits in card, it can be scrolled if there is a lot of text */}
+            {!feedbackLoading && aiFeedback && (
+              <ScrollView style={{ height: 140, width: "100%", marginTop: 10 }}>
+                <TextInput
+                  numberOfLines={15}
+                  multiline={true}
+                  style={styles.regularText}
+                >
+                  {aiFeedback}
+                </TextInput>
+              </ScrollView>
+            )}
+          </View>
         </View>
       ) : (
         <View style={styles.cardContent}>
-          <Text style={styles.termContainer}>{details?.correctanswer[0]}</Text>
-          <Text style={styles.labelText}>
-              Definition
-            </Text>
-          <View style={{ height: 100, width: '100%' }}>
+          <Text style={styles.termContainer}>{details?.question}</Text>
+          <Text style={styles.labelText}>Definition</Text>
+          <View style={{ height: 100, width: "100%" }}>
             <TextInput
               editable
               multiline={true}
               numberOfLines={4}
-              maxLength={40}
+              maxLength={500}
               onChangeText={(text) => onAnswer(text)}
               value={answer}
               style={styles.textInput}
               placeholder={"Write your definition here"}
             />
           </View>
-          <Text style={styles.labelText}>{isCorrectFeedback}</Text>
-          <Text style={styles.labelText}>{isCorrectResponse}</Text>
         </View>
       )}
     </View>
@@ -51,13 +84,14 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer, isCorrectFeedback
 };
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     width: "100%",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 20,
+    borderRadius: 18,
     padding: 10,
   },
   cardContent: {
@@ -67,9 +101,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: "center",
     fontFamily: "Gabarito-Bold",
+    color: "white",
   },
   labelText: {
     marginTop: 40,
+    marginBottom: 10,
+    fontSize: 18,
+    fontFamily: "Gabarito-Bold",
+    color: "white",
+  },
+  primaryLabelText: {
     marginBottom: 10,
     fontSize: 18,
     fontFamily: "Gabarito-Bold",
@@ -78,7 +119,11 @@ const styles = StyleSheet.create({
   definitionContainer: {
     fontSize: 18,
     textAlign: "center",
+    fontFamily: "Nunito-Bold",
+  },
+  regularText: {
     fontFamily: "Nunito-Regular",
+    textAlignVertical: "top",
   },
   textInput: {
     padding: 10,
@@ -86,9 +131,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderWidth: 1,
-    borderColor: globalStyles.colors.primary,
+    borderColor: "white",
     borderRadius: 10,
     textAlignVertical: "top",
+    fontFamily: "Nunito-Regular",
   },
   invisibleInput: {
     position: "absolute",
