@@ -26,6 +26,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail, setToken } from "../../../../slices/credentialsSlice";
 
+import { setDailyKeyTopicId } from "../../../../slices/examSlice";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useFocusEffect } from "@react-navigation/native";
@@ -79,6 +81,11 @@ const Study = () => {
   const loadKeyTopics = () => {
     getKeyTopics().then(
       (keyTopics) => {
+        const firstKeyTopicToday = keyTopics.filter((keyTopic) =>
+          isToday(keyTopic.duedate)
+        )[0]?._id;
+        console.log("ID: ", firstKeyTopicToday);
+        dispatch(setDailyKeyTopicId(firstKeyTopicToday));
         setKeyTopics(keyTopics);
         setIsKeyTopicsLoaded(true);
       },

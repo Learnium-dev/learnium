@@ -7,6 +7,7 @@ const initialState = {
   uploaded: false,
   pdfName: "",
   folderId: "",
+  dailyKeyTopicId: "",
 };
 
 export const examSlice = createSlice({
@@ -31,6 +32,9 @@ export const examSlice = createSlice({
     setFolderId: (state, action) => {
       state.folderId = action.payload;
     },
+    setDailyKeyTopicId: (state, action) => {
+      state.dailyKeyTopicId = action.payload;
+    },
     resetValues: (state) => {
       state.date = "";
       state.days = [];
@@ -38,6 +42,7 @@ export const examSlice = createSlice({
       state.uploaded = false;
       state.pdfName = "";
       state.folderId = "";
+      state.dailyKeyTopicId = "";
     },
   },
 });
@@ -48,6 +53,7 @@ export const getContent = (state) => state.exam.content;
 export const getUploaded = (state) => state.exam.uploaded;
 export const getPDFName = (state) => state.exam.pdfName;
 export const getFolderId = (state) => state.exam.folderId;
+export const getDailyKeyTopicId = (state) => state.exam.dailyKeyTopicId;
 
 export const {
   setDate,
@@ -57,5 +63,6 @@ export const {
   setUploaded,
   setPDFName,
   setFolderId,
+  setDailyKeyTopicId,
 } = examSlice.actions;
 export default examSlice.reducer;

@@ -124,44 +124,41 @@ const Profile = () => {
         </View>
 
         {/* User Options */}
-        <FlatList
-          data={profileOptions}
-          renderItem={({ item, index }) => {
-            const dynamicMarginTop =
-              index === profileOptions.length - 1 ? 55 : 12;
-            const isToggled = buttonStates[index].isToggled;
-            return (
-              <TouchableOpacity
-                onPress={() => toggleButtons(index)}
-                key={index}
+        {profileOptions.map((item, index) => {
+          const dynamicMarginTop =
+            index === profileOptions.length - 1 ? 55 : 12;
+          const isToggled = buttonStates[index].isToggled;
+          return (
+            <TouchableOpacity
+              onPress={() => toggleButtons(index)}
+              key={index}
+              style={{
+                ...styles.dailyBox,
+                borderColor: isToggled ? "#7000FF" : "#E8E8E8",
+                backgroundColor: isToggled ? "#7000FF" : "#f5f5f5",
+                marginTop: dynamicMarginTop,
+                marginBottom: 0,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
                 style={{
-                  ...styles.dailyBox,
-                  borderColor: isToggled ? "#7000FF" : "#E8E8E8",
-                  backgroundColor: isToggled ? "#7000FF" : "#f5f5f5",
-                  marginTop: dynamicMarginTop,
-                  marginBottom: 0,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  ...styles.userOption,
+                  color: isToggled ? "#fff" : "#262626",
                 }}
               >
-                <Text
-                  style={{
-                    ...styles.userOption,
-                    color: isToggled ? "#fff" : "#262626",
-                  }}
-                >
-                  {item}
-                </Text>
-                <Ionicons
-                  name="ios-chevron-forward"
-                  size={24}
-                  color={isToggled ? "#fff" : "#262626"}
-                />
-              </TouchableOpacity>
-            );
-          }}
-        />
+                {item}
+              </Text>
+              <Ionicons
+                name="ios-chevron-forward"
+                size={24}
+                color={isToggled ? "#fff" : "#262626"}
+              />
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
     </SafeAreaView>
   );

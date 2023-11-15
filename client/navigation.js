@@ -90,7 +90,7 @@ function TabBottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="Daily"
+        name="DailyHome"
         component={DailyStackNavigator}
         options={{
           headerShown: false,
