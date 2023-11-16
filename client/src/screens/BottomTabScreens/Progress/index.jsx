@@ -8,6 +8,7 @@ import {
   FlatList,
   Animated,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 
 // React
@@ -28,37 +29,18 @@ import LumiText from "../../../../assets/images/progress/lumi banner/lumi_messag
 
 //Another way to fetch key topics from the API and filter by progress
 import { getKeyTopics } from "../../../services/keyTopicsService";
-import { useDispatch } from "react-redux";
-import { setEmail, setToken } from "../../../../slices/credentialsSlice";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width } = Dimensions.get("window");
 
 const Progress = () => {
   const barWidth = useRef(new Animated.Value(0)).current;
-  const dispatch = useDispatch();
   const [inProgress, setInProgress] = useState([]);
   const [completed, setCompleted] = useState([]);
-  const [keyTopics, setKeyTopics] = useState([]);
-  const [isKeyTopicsLoaded, setIsKeyTopicsLoaded] = useState(false);
   const [progress, setProgress] = useState(1);
+  const [fetched, setFetched] = useState(false);
   const { navigate } = useNavigation();
 
   useEffect(() => {
-    // Get token
-    AsyncStorage.getItem("jwt").then((token) => {
-      if (token) {
-        dispatch(setToken(token));
-
-        // Get email
-        AsyncStorage.getItem("email").then((email) => {
-          if (email) {
-            dispatch(setEmail(email));
-          }
-        });
-      }
-    });
     loadKeyTopics();
   }, []);
 
@@ -74,9 +56,6 @@ const Progress = () => {
   const loadKeyTopics = () => {
     getKeyTopics().then(
       (keyTopics) => {
-        setKeyTopics(keyTopics);
-        setIsKeyTopicsLoaded(true);
-
         const inProgressData = keyTopics.filter(
           (keyTopic) => keyTopic.progress < 100
         );
@@ -93,6 +72,7 @@ const Progress = () => {
           100
         ).toFixed(0);
         setProgress(calculatedProgress || 1);
+        setFetched(true);
       },
       (error) => {
         alert("Error", `Couldn't load Key Topics! ${error}`);
@@ -135,31 +115,49 @@ const Progress = () => {
         {/* Divider */}
         <View style={styles.divider} />
 
-        {/* In Progress */}
-        <View>
-          <Text style={styles.subtitle}>In Progress</Text>
-          <FlatList
-            scrollEnabled={false}
-            data={inProgress}
-            renderItem={({ item }) => <KeyTopicCard item={item} />}
-            keyExtractor={(item) => item._id}
-          />
-        </View>
-        {/* Completed */}
-        <View>
-          <Text style={{ ...styles.subtitle, color: "#7000FF" }}>
-            Completed
-          </Text>
-          <FlatList
-            scrollEnabled={false}
-            data={completed}
-            renderItem={({ item }) => <KeyTopicCard item={item} />}
-            keyExtractor={(item) => item._id}
-          />
-        </View>
-        <Pressable style={styles.btn} onPress={() => navigate("AllMaterials")}>
-          <Text style={styles.btnText}>All Material's Progress</Text>
-        </Pressable>
+        {fetched ? (
+          <>
+            <View>
+              <Text style={styles.subtitle}>In Progress</Text>
+              <FlatList
+                scrollEnabled={false}
+                data={inProgress}
+                renderItem={({ item }) => <KeyTopicCard item={item} />}
+                keyExtractor={(item) => item._id}
+              />
+            </View>
+
+            <View>
+              <Text style={{ ...styles.subtitle, color: "#7000FF" }}>
+                Completed
+              </Text>
+              <FlatList
+                scrollEnabled={false}
+                data={completed}
+                renderItem={({ item }) => <KeyTopicCard item={item} />}
+                keyExtractor={(item) => item._id}
+              />
+            </View>
+
+            <Pressable
+              style={styles.btn}
+              onPress={() => navigate("AllMaterials")}
+            >
+              <Text style={styles.btnText}>All Material's Progress</Text>
+            </Pressable>
+          </>
+        ) : (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              flex: 1,
+            }}
+          >
+            <ActivityIndicator size="large" color="#7000FF" />
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

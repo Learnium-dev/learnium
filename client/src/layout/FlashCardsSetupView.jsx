@@ -2,12 +2,12 @@ import { View, Text, StyleSheet, Switch, Pressable } from "react-native";
 import { useState } from "react";
 import FlashCardsCharacter from "../../assets/images/characters/flashcards-character.svg";
 import { globalStyles } from "../../assets/common/global-styles";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 
 const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
   const [termFirst, setTermFirst] = useState(true);
   const [focusOn, setFocusOn] = useState(false);
-  const cards = useSelector(state => state.flashCards.cards);
+  const cards = useSelector((state) => state.flashCards.cards);
 
   const toggleSwitch = () => setTermFirst((isEnabled) => !isEnabled);
 
@@ -64,7 +64,10 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
           <View style={styles.switchContainer}>
             <Text style={styles.label}>Definition first</Text>
             <Switch
-              style={{ transform: Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }] }}
+              style={{
+                transform:
+                  Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
+              }}
               trackColor={{ false: "grey", true: globalStyles.colors.primary }}
               thumbColor={"white"}
               onValueChange={toggleSwitch}
@@ -164,7 +167,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   subTitle: {
-    textAlign: "flex-start",
+    textAlign: "left",
     fontFamily: "Gabarito-Bold",
     fontSize: 22,
     marginBottom: 20,
@@ -185,7 +188,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   instructions: {
-    textAlign: "flex-end",
+    textAlign: "right",
     fontSize: 16,
     marginBottom: 80,
   },

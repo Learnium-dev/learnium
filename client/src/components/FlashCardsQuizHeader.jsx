@@ -1,13 +1,20 @@
-import { View, Pressable, StyleSheet, Text } from "react-native";
+import {
+  View,
+  Pressable,
+  StyleSheet,
+  Text,
+  Dimensions,
+  Animated,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { globalStyles } from "../../assets/common/global-styles";
 import Timer from "../../assets/icons/Timer.svg";
-import { useState, useEffect } from "react";
-import ProgressBarAnimated from "react-native-progress-bar-animated";
-import { Bar } from "react-native-progress";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import PopupMenu from "./PopupMenu";
+
+const { width } = Dimensions.get("window");
 
 const FlashCardsQuizHeader = ({
   closeSheet,
@@ -17,31 +24,32 @@ const FlashCardsQuizHeader = ({
   cardIndex,
   numberOfCards,
 }) => {
-  const [seconds, setSeconds] = useState(0);
-  const [isQuiz, setIsQuiz] = useState(isQuizTrue);
-  const [isActive, setIsActive] = useState(true);
+  let barWidth = useRef(new Animated.Value(0)).current;
 
   // Selectors
   const currentIndex = useSelector((state) => state.flashCards.cardIndex);
   const practicing = useSelector((state) => state.flashCards.practicing);
   const cards = useSelector((state) => state.flashCards.cards);
+  const [seconds, setSeconds] = useState(0);
+  const [isQuiz, setIsQuiz] = useState(isQuizTrue);
 
-  const progress = (currentIndex + 1) / cards.length;
+  console.log("barWidth", barWidth);
+
+  const barStyle = {
+    ...styles.progressBar,
+    width: barWidth,
+  };
 
   useEffect(() => {
-    let interval;
-
-    if (isActive && isQuiz) {
-      interval = setInterval(() => {
-        setSeconds(seconds + 1);
-        timeConsumed(seconds + 1);
-      }, 1000);
-    } else if (!isActive && seconds !== 0 && isQuiz) {
-      clearInterval(interval);
+    if (cards.length > 0) {
+      Animated.spring(barWidth, {
+        toValue: width * ((currentIndex + 1) / cards.length),
+        bounciness: 10,
+        useNativeDriver: false,
+        speed: 2,
+      }).start();
     }
-
-    return () => clearInterval(interval);
-  }, [isActive, seconds]);
+  }, [currentIndex, cards.length]);
 
   const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);
@@ -121,17 +129,8 @@ const FlashCardsQuizHeader = ({
       </View>
 
       {practicing && (
-        <View style={styles.progressBar}>
-          <Bar
-            width={null}
-            height={20}
-            progress={progress}
-            color={"#7000FF"}
-            borderRadius={100}
-            useNativeDriver={false}
-            unfilledColor={"#ECECEC"}
-            borderWidth={0}
-          />
+        <View style={styles.progressBarContainer}>
+          <Animated.View style={barStyle} />
         </View>
       )}
     </View>
@@ -196,10 +195,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Gabarito-Regular",
   },
+  // progressBar: {
+  //   height: 20,
+  //   width: "100%",
+  //   marginBottom: 20,
+  // },
+  progressBarContainer: {
+    display: "flex",
+    position: "relative",
+    marginVertical: 10,
+    backgroundColor: "#ECECEC",
+    borderRadius: 100,
+    height: 25,
+    overflow: "hidden",
+  },
   progressBar: {
-    height: 20,
-    width: "100%",
-    marginBottom: 20,
+    height: "100%",
+    backgroundColor: "#7000FF",
+    borderRadius: 100,
   },
 });
 
