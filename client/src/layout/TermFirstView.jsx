@@ -62,11 +62,11 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiRes
                 {aiResponse}!
               </Text>
             )}
-            {!feedbackLoading && aiFeedback && (
+            {/* {!feedbackLoading && aiFeedback && (
               <ScrollView style={{ width: "100%", marginTop: 15 }}>
                 <Text style={{ ...styles.regularText }}>{aiFeedback}</Text>
               </ScrollView>
-            )}
+            )} */}
           </View>
         </View>
       ) : (
