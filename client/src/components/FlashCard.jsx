@@ -40,7 +40,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
   const [answer, setAnswer] = useState("");
   const [isFlipped, setIsFlipped] = useState(false);
   const [isCorrectLoading, setIsCorrectLoading] = useState(false);
-
+  const [isValidated, setIsValidated] = useState(false);
   const isCorrectArray = [
     "Correct",
     "Almost Correct",
@@ -53,8 +53,12 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
   const flipCard = () => {
     console.log("cardIndex", cardIndex);
     setIsFlipped(!isFlipped);
+    console.log("🚀 ~ file: FlashCard.jsx:56 ~ isFlipped:", isFlipped)
     handleSubmitAnswer();
-    compareAnswer();
+    console.log("isValidated", isValidated);
+    if (!isValidated) {
+      compareAnswer();
+    }
   };
 
   const handleSubmitAnswer = () => {
@@ -67,8 +71,8 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
   const compareAnswer = async () => {
     console.log("isFlipped", isFlipped);
 
-    // only compare the answer if the card is flipped. isFlipped is true
-    if (!isFlipped) {
+    // only compare the answer if the card is flipped. isFlipped is false
+    if (isFlipped) {
       return;
     }
 
@@ -88,12 +92,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
     // fetch request to openAI to compare the answer to the correct answer
     // if the answer is correct, set isCorrect to "Correct" "Almost Correct" "Somewhat Correct" "Incorrect"
     const submitToOpenAI = async () => {
-      console.log(
-        `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/validateflashcardanswer`
-      );
       const response = await fetch(
-        // `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/askai`,
-        // `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/test`,
         `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/validateflashcardanswer`,
         {
           method: "POST",
@@ -105,15 +104,13 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
         }
       );
 
-      console.log("response", response);
       const data = await response.json();
-      // console.log("response", response);
       console.log("data", data);
-      console.log("data", data.feedback);
-      console.log("data", data.response);
+      
       setIsCorrect(data.response);
-      setIsCorrectFeedback(data.feedback);
+      // setIsCorrectFeedback(data.feedback);
       setIsCorrectLoading(false);
+      setIsValidated(true);
     };
     submitToOpenAI();
   };
@@ -139,7 +136,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
             isFlipped={isFlipped}
             details={card}
             answer={answer}
-            aiFeedback={isCorrectFeedback}
+            // aiFeedback={isCorrectFeedback}
             aiResponse={isCorrect}
             onAnswer={setAnswer}
             feedbackLoading={isCorrectLoading}
@@ -150,7 +147,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
             details={card}
             answer={answer}
             feedbackLoading={isCorrectLoading}
-            aiFeedback={isCorrectFeedback}
+            // aiFeedback={isCorrectFeedback}
             aiResponse={isCorrect}
             onAnswer={setAnswer}
           />

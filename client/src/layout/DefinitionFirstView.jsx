@@ -60,11 +60,11 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback,
               </Text>
             )}
 
-            {!feedbackLoading && aiFeedback && (
+            {/* {!feedbackLoading && aiFeedback && (
               <ScrollView style={{ width: "100%", marginTop: 15 }}>
                 <Text style={styles.regularText}>{aiFeedback}</Text>
               </ScrollView>
-            )}
+            )} */}
           </View>
         </View>
       ) : (
