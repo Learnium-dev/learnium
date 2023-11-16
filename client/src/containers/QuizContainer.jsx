@@ -150,6 +150,7 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
   };
   // console.log("previous", cardIndex);
 
+  // !SET QUIZ RESULT
   const setQuizResult = (res) => {
     let updateResult = () => {
       // store res to result array base on index

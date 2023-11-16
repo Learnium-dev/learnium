@@ -22,14 +22,18 @@ const validateFlashcardAnswer = async (req, res) => {
         { role: "system", content: "You are a college instructor." },
         {
           role: "user",
-          content: `${req.body.answer} is the answer student gave and ${req.body.correctAnswer} is the correct answer. Compare the two and return in JSON format structure as 
+
+          content: `${req.body.answer} is the answer student gave and ${req.body.correctAnswer} is the correct answer. Compare the two and return only in JSON format structure as 
+
           {
             response: "response to the student's answer only in 1 of this answer in this array ["Correct",
             "Almost Correct",
             "Somewhat Correct",
             "Incorrect"]
           
-          }`,
+
+          } and nothing else`,
+
           // content: `${req.body.answer} is the answer student gave and ${req.body.correctAnswer} is the correct answer. Compare the two and give feedback to the student in JSON format structure as 
           // {
           //   feedback: "feedback how to improve the answer",

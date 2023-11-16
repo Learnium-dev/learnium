@@ -31,6 +31,7 @@ const FlashCardsQuizHeader = ({
   const practicing = useSelector((state) => state.flashCards.practicing);
   const cards = useSelector((state) => state.flashCards.cards);
   const [seconds, setSeconds] = useState(0);
+  const [isActive, setIsActive] = useState(false);
   const [isQuiz, setIsQuiz] = useState(isQuizTrue);
 
   const barStyle = {
@@ -48,6 +49,24 @@ const FlashCardsQuizHeader = ({
       }).start();
     }
   }, [currentIndex, cards.length]);
+
+  useEffect(() => {
+    let interval;
+    if (isQuizStart) {
+      setIsActive(true);
+    }
+
+    if (isActive) {
+      interval = setInterval(() => {
+        setSeconds(seconds + 1);
+      }, 1000);
+    } else if (!isActive && seconds !== 0) {
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
+  }, [isActive, seconds, isQuizStart]);
+
 
   const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);
@@ -104,7 +123,7 @@ const FlashCardsQuizHeader = ({
             </View>
             <View style={styles.index}>
               <Text style={styles.indexText}>
-                {" "}
+         
                 {cardIndex + 1} / {numberOfCards}
               </Text>
             </View>
@@ -115,7 +134,7 @@ const FlashCardsQuizHeader = ({
           <View style={styles.right}>
             <View style={styles.index}>
               <Text style={styles.indexText}>
-                {" "}
+          
                 {currentIndex + 1} / {cards.length}
               </Text>
             </View>
