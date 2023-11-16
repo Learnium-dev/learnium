@@ -99,6 +99,7 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     width: "100%",
     padding: 16,
+    paddingRight: 40,
     backgroundColor: "#fff",
     fontFamily: "Nunito-Bold",
     fontSize: 14,
@@ -116,5 +117,11 @@ export const styles = StyleSheet.create({
     fontFamily: "Gabarito-Bold",
     fontSize: 20,
     color: "#fff",
+  },
+  icons: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    transform: [{ translateY: -18 }, { translateX: -16 }],
   },
 });

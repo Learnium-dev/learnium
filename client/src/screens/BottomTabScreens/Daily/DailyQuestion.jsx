@@ -33,6 +33,8 @@ import PagerView from "react-native-pager-view";
 import LumiStreak from "../../../../assets/images/characters/daily/lumiStreak.svg";
 import ArrowBack from "../../../../assets/icons/arrow_back.svg";
 import { Ionicons } from "@expo/vector-icons";
+import Correct from "../../../../assets/icons/checkmark.svg";
+import Wrong from "../../../../assets/icons/crossWrong.svg";
 
 // helpers
 import baseURL from "../../../../assets/common/baseUrl";
@@ -42,6 +44,24 @@ const DailyQuestion = () => {
   const [dailyQuestion, setDailyQuestion] = useState("");
   const { dailyKeyTopicId } = useSelector((state) => state.exam);
   const { token } = useSelector((state) => state.credentials);
+  const [answer, setAnswer] = useState("");
+
+  const validateUserAnswer = () => {
+    const correctAnswer = dailyQuestion?.correctanswer[0]?.toLowerCase();
+    const userAnswer = answer.toLowerCase();
+
+    return correctAnswer === userAnswer;
+  };
+
+  const renderIcon = () => {
+    if (answer) {
+      if (validateUserAnswer()) {
+        return <Correct width={20} height={20} style={styles.icons} />;
+      } else {
+        return <Wrong width={20} height={20} style={styles.icons} />;
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchDailyQuestion = async () => {
@@ -129,10 +149,12 @@ const DailyQuestion = () => {
               {/* answer */}
               <View style={{ width: "100%" }}>
                 <TextInput
-                  onBlur={() => console.log("Text out!")}
+                  onBlur={validateUserAnswer}
+                  onChangeText={(text) => setAnswer(text)}
                   style={styles.answer}
                   placeholder="Type answer here"
                 />
+                {renderIcon()}
               </View>
             </View>
 
@@ -164,6 +186,7 @@ const DailyQuestion = () => {
               <View style={{ width: "100%" }}>
                 <TextInput
                   onBlur={() => console.log("Text out!")}
+                  onChangeText={(text) => setAnswer(text)}
                   style={styles.answer}
                   placeholder="Type answer here"
                 />

@@ -132,7 +132,9 @@ const Material = (props) => {
             <BadgeIcon style={{ marginRight: 8 }} />
             <View>
               <Text style={styles.statsItemText}>Best Score:</Text>
-              <Text style={styles.statsItemText}>{quizzes[0]?.progress}</Text>
+              <Text style={styles.statsItemText}>
+                {quizzes[0]?.progress || 0}
+              </Text>
             </View>
           </View>
         </View>

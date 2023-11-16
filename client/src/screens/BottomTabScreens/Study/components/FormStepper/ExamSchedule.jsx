@@ -80,11 +80,8 @@ const ExamSchedule = ({ name, prev, next }) => {
     setMode(currentMode);
   };
 
-  console.log("showPicker: ", showPicker);
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || dateNow;
-    // setShowPicker(Platform.OS === "ios");
     setShowPicker(!showPicker);
     setDateNow(currentDate);
 
@@ -144,7 +141,7 @@ const ExamSchedule = ({ name, prev, next }) => {
               <TextInput
                 placeholder={`${formattedDate(dateNow)}`}
                 placeholderTextColor={"gray"}
-                value={"examDate"}
+                value={dateNow}
                 editable={false}
                 style={styles.datePicker}
               />

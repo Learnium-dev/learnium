@@ -33,8 +33,6 @@ const FlashCardsQuizHeader = ({
   const [seconds, setSeconds] = useState(0);
   const [isQuiz, setIsQuiz] = useState(isQuizTrue);
 
-  console.log("barWidth", barWidth);
-
   const barStyle = {
     ...styles.progressBar,
     width: barWidth,
@@ -204,6 +202,7 @@ const styles = StyleSheet.create({
     display: "flex",
     position: "relative",
     marginVertical: 10,
+    marginBottom: 50,
     backgroundColor: "#ECECEC",
     borderRadius: 100,
     height: 25,
