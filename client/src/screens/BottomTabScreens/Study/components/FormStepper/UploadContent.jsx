@@ -117,7 +117,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
 
       const data = response.data;
       console.log("PDF UPLOADED SUCCESSFULLY! 🚀🚀🚀", data);
-      dispatch(setUploaded(true));
+      // dispatch(setUploaded(true));
       dispatch(setFolderId(data.folderid));
 
       setContent(4);

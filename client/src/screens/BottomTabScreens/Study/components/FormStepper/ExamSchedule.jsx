@@ -12,7 +12,11 @@ import { useEffect, useState } from "react";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { setDate, setDays } from "../../../../../../slices/examSlice";
+import {
+  setDate,
+  setDays,
+  setUploaded,
+} from "../../../../../../slices/examSlice";
 
 // helpers
 import { daysWeek } from "../../../../../../utils/helpers";
@@ -112,6 +116,7 @@ const ExamSchedule = ({ name, prev, next }) => {
 
     try {
       const response = await axios(options);
+      dispatch(setUploaded(true));
       navigation.navigate("Study", { reload: Math.random() });
     } catch (err) {
       console.log("Error: ", err.message);

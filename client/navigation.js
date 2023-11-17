@@ -134,7 +134,7 @@ function StudyStackNavigator() {
     const showToast = () => {
       Toast.show({
         autoHide: false,
-        position: "bottom",
+        position: "top",
         type: "success",
         text1: "PDF uploaded successfully! ⭐",
         text2: `Title: ${pdfName || "Untitled"}`,
