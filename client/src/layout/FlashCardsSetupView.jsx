@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   headerContainerText: {
-    fontSize: 64,
+    fontSize: 55,
     fontFamily: "Gabarito-Bold",
     lineHeight: 64,
   },
