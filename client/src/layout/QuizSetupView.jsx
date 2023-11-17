@@ -69,11 +69,15 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
           // height={100}
           />
         </View> */}
-        <View style={styles.setup}>
+        <View
+          style={{
+            ...styles.setup
+          }}
+        >
           <View
             style={{
               ...styles.switchContainer,
-              marginBottom: 40,
+              marginBottom: 10,
               marginTop: 20,
             }}
           >
@@ -84,6 +88,8 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
               value={focusOn}
               onValueChange={() => setFocusOn(!focusOn)}
               style={{
+                marginVertical: Platform.OS === "android" ? -10 : 0,
+                padding: 0,
                 transform:
                   Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
               }}
@@ -100,6 +106,8 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
               onValueChange={toggleTrueFalse}
               value={trueFalse}
               style={{
+                marginVertical: Platform.OS === "android" ? -10 : 0,
+                padding: 0,
                 transform:
                   Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
               }}
@@ -114,6 +122,8 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
               onValueChange={toggleMultipleChoice}
               value={multipleChoice}
               style={{
+                marginVertical: Platform.OS === "android" ? -10 : 0,
+                padding: 0,
                 transform:
                   Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
               }}
@@ -128,6 +138,8 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
               onValueChange={toggleWritten}
               value={written}
               style={{
+                marginVertical: Platform.OS === "android" ? -10 : 0,
+                padding: 0,
                 transform:
                   Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
               }}
@@ -202,14 +214,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     alignItems: "start",
-    gap: 0,
+    gap: 10,
     justifyContent: "flex-start",
   },
   subTitle: {
     textAlign: "left",
     fontFamily: "Gabarito-Bold",
     fontSize: 22,
-    marginBottom: 20,
+    marginVertical: 20,
   },
   switchContainer: {
     width: "100%",
