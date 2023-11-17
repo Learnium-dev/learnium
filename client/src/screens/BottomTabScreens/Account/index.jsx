@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,14 +13,65 @@ import { Ionicons } from "@expo/vector-icons";
 import Flame from "../../../../assets/icons/fireIcon.svg";
 import { styles } from "../Daily/styles/indexStyles";
 import { profileOptions } from "../../../../utils/helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { setEmail, setToken } from "../../../../slices/credentialsSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getFirstName } from "../../../services/userService";
+import { getLastName } from "../../../services/userService";
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const { navigate } = useNavigation();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [buttonStates, setButtonStates] = useState(
     profileOptions.map(() => ({
       isToggled: false,
     }))
   );
+
+  useEffect(() => {
+    // Get token
+    AsyncStorage.getItem("jwt").then((token) => {
+      if (token) {
+        dispatch(setToken(token));
+
+        // Get email
+        AsyncStorage.getItem("email").then((email) => {
+          if (email) {
+            dispatch(setEmail(email));
+          }
+        });
+      }
+    });
+    loadUserFirstName();
+    loadUserLastName();
+  }, []);
+
+  const loadUserFirstName = async () => {
+    getFirstName().then(
+      (firstName) => {
+        console.log("First name loaded", firstName);
+        setFirstName(firstName);
+        setIsFirstNameLoaded(true);
+      },
+      (error) => {
+        alert("Error", `Couldn't load user's first name! ${error}`);
+      }
+    );
+  };
+    const loadUserLastName = async () => {
+      getLastName().then(
+        (lastName) => {
+          console.log("Last name loaded", lastName);
+          setLastName(lastName);
+          setIsLastNameLoaded(true);
+        },
+        (error) => {
+          alert("Error", `Couldn't load user's last name! ${error}`);
+        }
+      );
+    };
 
   const toggleButtons = (index) => {
     setButtonStates((prevStates) => {
@@ -124,7 +175,7 @@ const Profile = () => {
                 marginBottom: 5,
               }}
             >
-              Thea Lanes
+              {firstName || "User"} {lastName ? ` ${lastName}` : ""}
             </Text>
             <Text
               style={{
