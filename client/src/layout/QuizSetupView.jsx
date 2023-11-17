@@ -96,6 +96,7 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
             <Text style={styles.label}>True/False</Text>
             <Switch
               trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              thumbColor={"white"}
               onValueChange={toggleTrueFalse}
               value={trueFalse}
               style={{
@@ -109,6 +110,7 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
             <Text style={styles.label}>Multiple Choice</Text>
             <Switch
               trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              thumbColor={"white"}
               onValueChange={toggleMultipleChoice}
               value={multipleChoice}
               style={{
@@ -122,6 +124,7 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
             <Text style={styles.label}>Written</Text>
             <Switch
               trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              thumbColor={"white"}
               onValueChange={toggleWritten}
               value={written}
               style={{
@@ -172,7 +175,7 @@ const styles = StyleSheet.create({
     maxHeight: "70%",
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    padding: 0,
     borderRadius: 20,
   },
   folderTitle: {
@@ -193,21 +196,17 @@ const styles = StyleSheet.create({
     marginTop: 0,
     textAlign: "center",
   },
-  topicSummary: {
-    fontSize: 16,
-    textAlign: "center",
-    fontFamily: "Nunito-Regular",
-    // marginBottom: 20,
-  },
+
   setup: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
     alignItems: "start",
-    gap: 10,
+    gap: 0,
+    justifyContent: "flex-start",
   },
   subTitle: {
-    textAlign: "center",
+    textAlign: "left",
     fontFamily: "Gabarito-Bold",
     fontSize: 22,
     marginBottom: 20,
@@ -216,7 +215,8 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    // marginBottom: 20,
+    marginBottom: 10,
+    alignItems: "center",
   },
   label: {
     color: "#262626",
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     width: "100%",
     borderRadius: 30,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   buttonText: {
     color: "#fff",

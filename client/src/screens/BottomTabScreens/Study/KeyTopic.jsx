@@ -409,6 +409,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
+    marginBottom: 5,
   },
 
   historyTitle: {
@@ -422,11 +423,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: "white",
     width: "100%",
-    paddingTop: 16,
+    paddingTop: 10,
     paddingBottom: 5,
-    borderTopWidth: 2,
+    // borderTopWidth: 1,
     paddingHorizontal: 20,
-    borderTopColor: "#CDCDCD",
+    // borderTopColor: "#CDCDCD",
+    backgroundColor: "#F5f5f5",
   },
   ellipsis: {
     position: "absolute",
