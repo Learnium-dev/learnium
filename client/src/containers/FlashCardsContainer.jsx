@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Keyboard } from "react-native";
 import { useRef, useState, useEffect } from "react";
 import PagerView from "react-native-pager-view";
 import FlashCard from "../components/FlashCard";
@@ -53,7 +53,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic, studyMaterial }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={() => Keyboard.dismiss()}>
       <FlashCardsQuizHeader closeSheet={handleClose} isQuizTrue={false} />
 
       {practicing && cards && cards.length ? (
@@ -88,7 +88,7 @@ const FlashCardsContainer = ({ closeSheet, keyTopic, studyMaterial }) => {
       )}
 
       {showingInfo && <View style={styles.instructions} />}
-    </View>
+    </Pressable>
   );
 };
 
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     height: "100%",
-    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",

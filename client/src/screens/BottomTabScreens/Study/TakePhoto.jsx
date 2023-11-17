@@ -95,7 +95,7 @@ export default function App() {
 
       <Text style={styles.text1}>Extracted text:</Text>
       <Text style={styles.text1}>{extractedText}</Text>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
     </SafeAreaView>
   );
 }

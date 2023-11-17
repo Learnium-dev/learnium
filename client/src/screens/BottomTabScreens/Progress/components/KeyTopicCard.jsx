@@ -44,7 +44,9 @@ const KeyTopicCard = ({ item }) => {
         }}
       >
         <Text
-          style={{ ...styles.cardTitle, color: accentColor(item?.progress) }}
+          style={{ ...styles.cardTitle, paddingRight: 70, color: accentColor(item?.progress) }}
+          numberOfLines={1}
+          ellipsizeMode="tail"
         >
           {item?.name}
         </Text>

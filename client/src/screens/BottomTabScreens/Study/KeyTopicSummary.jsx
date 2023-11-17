@@ -32,12 +32,9 @@ export const KeyTopicSummary = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    // paddingTop: 20,
   },
   scrollView: {
     flex: 1,
-    backgroundColor: "white",
     padding: 20,
     marginBottom: 120,
   },
@@ -71,6 +68,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     height: 115,
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: 'lightgrey',
   },
   flashCardsButton: {
     width: "100%",

@@ -2,11 +2,13 @@ import React, { useEffect, useContext, useState, useCallback } from "react";
 import {
   View,
   Text,
+  TextInput,
   StyleSheet,
   Button,
   Pressable,
   Platform,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import FormContainer from "../../shared/Form/FormContainer";
 import Input from "../../shared/Form/Input";
@@ -48,112 +50,124 @@ const Login = (props) => {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        alignItems: "center",
-        paddingHorizontal: 20,
-        paddingTop: 10,
-      }}
-    >
-      <KeyboardAvoidingView
-        behavior={
-          Platform.OS === "ios"
-            ? "padding"
-            : Platform.OS === "android"
-            ? "padding"
-            : null
-        }
-        style={styles.keyboardContainer}
-        keyboardShouldPersistTaps="handled"
+    <Pressable style={styles.container} onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          alignItems: "center",
+          paddingHorizontal: 20,
+          paddingTop: 10,
+        }}
       >
-        {/* Lumi */}
-        <View
-          style={{
-            borderRadius: 10,
-            overflow: "hidden",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: 150,
-            height: 150,
-            marginBottom: 10,
-          }}
+        <KeyboardAvoidingView
+          behavior={
+            Platform.OS === "ios"
+              ? "padding"
+              : Platform.OS === "android"
+              ? "padding"
+              : null
+          }
+          style={styles.keyboardContainer}
+          keyboardShouldPersistTaps="handled"
         >
-          <Lumi width={160} height={200} />
-        </View>
-
-        <FormContainer title={"Login"}>
-          <View style={{ width: "100%", marginBottom: 20 }}>
-            <Text style={styles.inputLabel}>Email</Text>
-            <Input
-              placeholder={"Enter Email"}
-              name={"email"}
-              id={"email"}
-              value={email}
-              onChangeText={(text) => setEmail(text.toLowerCase())}
-            />
-          </View>
-          <View style={{ width: "100%", marginBottom: 6 }}>
-            <Text style={styles.inputLabel}>Password</Text>
-            <Input
-              placeholder={"Enter Password"}
-              name={"password"}
-              id={"password"}
-              secureTextEntry={true}
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-            />
-          </View>
-          <Text
-            style={{
-              fontFamily: "Nunito-Bold",
-              fontSize: 16,
-              color: "#262626",
-              alignSelf: "flex-end",
-              marginBottom: 16,
-            }}
-          >
-            Forgot Password?
-          </Text>
-
-          <View style={styles.buttonGroup}>
-            {error ? <Error message={error} /> : null}
-            <Pressable style={styles.loginBtn} onPress={() => handleSubmit()}>
-              <Text style={styles.loginTxt}>Login</Text>
-            </Pressable>
-          </View>
-
+          {/* Lumi */}
           <View
             style={{
-              flexDirection: "row",
+              borderRadius: 10,
+              overflow: "hidden",
+              display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: 50,
-              gap: 8,
+              width: 150,
+              height: 150,
+              marginBottom: 10,
             }}
           >
-            <Text style={styles.middleText}>Don't have an account?</Text>
-            <Pressable onPress={() => props.navigation.navigate("Register")}>
+            <Lumi width={160} height={200} />
+          </View>
+
+          <FormContainer title={"Login"}>
+            <View style={{ width: "100%", marginBottom: 20 }}>
+              <Text style={styles.title}>Login</Text>
+              <Text style={styles.subtitle}>Please sign in to continue</Text>
+              <Text style={styles.inputLabel}>Email</Text>
+              <TextInput
+                placeholder={"Enter Email"}
+                name={"email"}
+                id={"email"}
+                value={email}
+                onChangeText={(text) => setEmail(text.toLowerCase())}
+                style={styles.textInput}
+              />
+            </View>
+            <View style={{ width: "100%", marginBottom: 6 }}>
+              <Text style={styles.inputLabel}>Password</Text>
+              <TextInput
+                placeholder={"Enter Password"}
+                name={"password"}
+                id={"password"}
+                secureTextEntry={true}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                style={styles.textInput}
+              />
               <Text
                 style={{
                   fontFamily: "Nunito-Bold",
-                  color: "#7000FF",
-                  fontSize: 14,
-                  alignSelf: "center",
+                  fontSize: 16,
+                  color: "#262626",
+                  alignSelf: "flex-end",
+                  marginTop: 10,
+                  marginBottom: 16,
                 }}
               >
-                Sign up
+                Forgot Password?
               </Text>
-            </Pressable>
-          </View>
-        </FormContainer>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+            </View>
+
+            <View style={styles.buttonGroup}>
+              {error ? <Error message={error} /> : null}
+              <Pressable style={styles.loginBtn} onPress={() => handleSubmit()}>
+                <Text style={styles.loginTxt}>Login</Text>
+              </Pressable>
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 50,
+                gap: 8,
+              }}
+            >
+              <Text style={styles.middleText}>Don't have an account?</Text>
+              <Pressable onPress={() => props.navigation.navigate("Register")}>
+                <Text
+                  style={{
+                    fontFamily: "Nunito-Bold",
+                    color: "#7000FF",
+                    fontSize: 14,
+                    alignSelf: "center",
+                  }}
+                >
+                  Sign up
+                </Text>
+              </Pressable>
+            </View>
+          </FormContainer>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    height: "100%",
+  },
   keyboardContainer: {
     display: "flex",
     width: "100%",
@@ -192,6 +206,28 @@ const styles = StyleSheet.create({
     fontFamily: "Gabarito-Bold",
     fontSize: 19,
     color: "#fff",
+  },
+  textInput: {
+    width: "100%",
+    borderWidth: 1,
+    // borderColor: "#262626",
+    borderRadius: 10,
+    padding: 15,
+    backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 26,
+    fontFamily: "Gabarito-Bold",
+    color: "#262626",
+    alignSelf: "flex-start",
+  },
+  subtitle: {
+    fontSize: 14,
+    fontFamily: "Nunito-Bold",
+    color: "#262626",
+    alignSelf: "flex-start",
+    marginTop: 5,
+    marginBottom: 30,
   },
 });
 

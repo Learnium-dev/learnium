@@ -18,6 +18,7 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
   const [multipleChoice, setMultipleChoice] = useState(true);
   const [written, setWritten] = useState(true);
   const [isQuizStart, setIsQuizStart] = useState(true);
+  const [focusOn, setFocusOn] = useState(false);
 
   const toggleTrueFalse = () => {
     setTrueFalse((isEnabled) => !isEnabled);
@@ -43,7 +44,7 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
       <View
         style={{
           flex: 1,
-          justifyContent: "space-between",
+          // justifyContent: "space-between",
           // gap: 20,
           paddingBottom: 10,
 
@@ -52,6 +53,7 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
       >
         <View style={styles.headerContainer}>
           <View>
+            <Text style={styles.folderTitle}>{keyTopic.folderid.name}</Text>
             <Text style={styles.topicTitle}>{keyTopic.name}</Text>
           </View>
 
@@ -67,8 +69,27 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
           // height={100}
           />
         </View> */}
-
         <View style={styles.setup}>
+          <View
+            style={{
+              ...styles.switchContainer,
+              marginBottom: 40,
+              marginTop: 20,
+            }}
+          >
+            <Text style={styles.label}>Focus mode</Text>
+            <Switch
+              trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              thumbColor={"white"}
+              value={focusOn}
+              onValueChange={() => setFocusOn(!focusOn)}
+              style={{
+                transform:
+                  Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
+              }}
+            />
+          </View>
+
           <Text style={styles.subTitle}>Set Up Your Quiz</Text>
 
           <View style={styles.switchContainer}>
@@ -77,6 +98,10 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
               trackColor={{ false: "grey", true: globalStyles.colors.primary }}
               onValueChange={toggleTrueFalse}
               value={trueFalse}
+              style={{
+                transform:
+                  Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
+              }}
             />
           </View>
 
@@ -86,6 +111,10 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
               trackColor={{ false: "grey", true: globalStyles.colors.primary }}
               onValueChange={toggleMultipleChoice}
               value={multipleChoice}
+              style={{
+                transform:
+                  Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
+              }}
             />
           </View>
 
@@ -95,6 +124,10 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
               trackColor={{ false: "grey", true: globalStyles.colors.primary }}
               onValueChange={toggleWritten}
               value={written}
+              style={{
+                transform:
+                  Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
+              }}
             />
           </View>
         </View>
@@ -115,8 +148,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    height: "100%",
     flex: 1,
     marginBottom: 20,
+    justifyContent: "flex-start",
   },
   imageContainer: {
     width: "100%",
@@ -124,7 +159,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     // paddingHorizontal: 40,
-    // backgroundColor: "hotpink",
     marginTop: 10,
   },
   headerContainerText: {
@@ -140,16 +174,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     borderRadius: 20,
-
-    // backgroundColor: "green",
+  },
+  folderTitle: {
+    textAlign: "auto",
+    fontFamily: "Gabarito-Bold",
+    fontSize: 33,
+    fontWeight: "bold",
+    marginBottom: 10,
+    marginTop: 10,
+    textAlign: "center",
   },
   topicTitle: {
     textAlign: "auto",
     fontFamily: "Gabarito-Bold",
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
+    marginBottom: 14,
+    marginTop: 0,
     textAlign: "center",
-    // marginBottom: 20,
   },
   topicSummary: {
     fontSize: 16,
@@ -158,24 +200,23 @@ const styles = StyleSheet.create({
     // marginBottom: 20,
   },
   setup: {
+    display: "flex",
+    flexDirection: "column",
     width: "100%",
     alignItems: "start",
     gap: 10,
-
-    // backgroundColor: "orange",
   },
   subTitle: {
     textAlign: "center",
     fontFamily: "Gabarito-Bold",
-    fontSize: 18,
-    // marginBottom: 20,
+    fontSize: 22,
+    marginBottom: 20,
   },
   switchContainer: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     // marginBottom: 20,
-    // backgroundColor: "hotpink",
   },
   label: {
     color: "#262626",
@@ -190,9 +231,10 @@ const styles = StyleSheet.create({
   button: {
     color: "#fff",
     backgroundColor: globalStyles.colors.primary,
-    paddingVertical: 16,
+    paddingVertical: 20,
     width: "100%",
     borderRadius: 30,
+    marginBottom: 20,
   },
   buttonText: {
     color: "#fff",
