@@ -9,12 +9,13 @@ import {
 
 export const globalStyles = StyleSheet.create({
   colors: {
-    primary: "#7000FF",
-    secondary: "#FF4C4C",
-    white: "#fff",
-    accent: "#FEE702",
-    textColor: "#262626",
-    background: "#FFF",
+    primary: "#7000FF", // purple
+    secondary: "#FF4C4C", // orange
+    white: "#fff", // white
+    accent: "#FEE702", // yellow
+    textColor: "#262626", // dark grey
+    background: "#FFF", // white
+    buttonPressed: '#3A179D' // dark purple
   },
   buttons: {
     primary: {

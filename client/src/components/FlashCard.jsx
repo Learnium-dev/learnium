@@ -6,22 +6,17 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TermFirstView from "../layout/TermFirstView";
 import DefinitionFirstView from "../layout/DefinitionFirstView";
 import { globalStyles } from "../../assets/common/global-styles";
 import FlipCard from "react-native-flip-card";
 import BookmarkFront from "../../assets/icons/bookmarkFront.svg";
-import BookmarkFrontFilled from "../../assets/icons/bookmarkFrontFilled.svg";
-import BookmarkBack from "../../assets/icons/bookmarkBack.svg";
 import BookmarkBackFilled from "../../assets/icons/bookmarkBackFilled.svg";
 import { useDispatch, useSelector } from "react-redux";
 import flashCardsSlice from "../../slices/flashCardsSlice";
-import BookmarkWhite from "../../assets/icons/bookmarkWhite.svg";
-import BookmarkInfo from "../../assets/icons/bookmark-info.svg";
-import TapToSeeAnswer from "../../assets/icons/tap-to-view.svg";
-import Previous from "../../assets/icons/previous.svg";
-import Next from "../../assets/icons/next.svg";
+import FlashCardInfoView from "../layout/FlashCardInfoView";
+
 
 // import { useSelector } from "react-redux";
 
@@ -167,148 +162,66 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
       }
       style={styles.keyboardContainer}
     >
-      <View style={styles.mainContainer}>
-        <View
-          style={{ ...styles.deckOne, display: showingInfo ? "none" : "block" }}
-        ></View>
-        <View
-          style={{ ...styles.deckTwo, display: showingInfo ? "none" : "block" }}
-        ></View>
-        <View style={styles.cardContainer}>
-          {/* SHOW FLASHCARD INTRODUCTION */}
-          {showingInfo && (
-            <View
+        <View style={styles.mainContainer} >
+          {/* Decorative card deck */}
+          <View
+            style={{
+              ...styles.deckOne,
+              display: showingInfo ? "none" : "block",
+            }}
+          />
+          <View
+            style={{
+              ...styles.deckTwo,
+              display: showingInfo ? "none" : "block",
+            }}
+          />
+
+          <View style={styles.cardContainer}>
+            {/* Show flashcard info */}
+            {showingInfo && <FlashCardInfoView />}
+
+            {/* SHOW FLASHCARD */}
+            <FlipCard
               style={{
-                position: "absolute",
-                zIndex: 1,
-                width: "100%",
-                height: "100%",
+                ...styles.card,
+                backgroundColor: isFlipped
+                  ? globalStyles.colors.primary
+                  : "white",
               }}
+              friction={10}
+              flipHorizontal={true}
+              flipVertical={false}
+              clickable={true}
+              onFlipStart={flipCard}
             >
-              <View
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "black",
-                  opacity: 0.7,
-                  borderRadius: 20,
-                }}
-              ></View>
+              {renderSide()}
+              {renderSide()}
+            </FlipCard>
+          </View>
+
+          {/* INFO BUTTON */}
+          <View style={styles.infoButtonContainer}>
+            <Pressable
+              style={{
+                ...styles.infoButton,
+                backgroundColor: showingInfo
+                  ? "white"
+                  : globalStyles.colors.primary,
+              }}
+              onPress={() => dispatch(setShowingInfo(!showingInfo))}
+            >
               <Text
                 style={{
-                  color: "white",
-                  position: "absolute",
-                  right: 26,
-                  top: -43,
-                  fontFamily: "Nunito-Regular",
+                  ...styles.infoButtonText,
+                  color: showingInfo ? "black" : "white",
                 }}
               >
-                Tap to mark as difficult
+                i
               </Text>
-              <BookmarkInfo style={styles.bookmarkInfoIcon} />
-
-              <View
-                style={{
-                  position: "absolute",
-                  top: "45%",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={{ color: "white", fontFamily: "Nunito-Regular" }}>
-                  Tap to see answer
-                </Text>
-                <TapToSeeAnswer />
-              </View>
-
-              <View
-                style={{
-                  position: "absolute",
-                  bottom: "20%",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Previous style={{ marginLeft: 20, marginRight: 5 }} />
-                  <Text
-                    style={{ color: "white", fontFamily: "Nunito-Regular" }}
-                  >
-                    Previous
-                  </Text>
-                </View>
-                <View>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text
-                      style={{ color: "white", fontFamily: "Nunito-Regular" }}
-                    >
-                      Next
-                    </Text>
-                    <Next style={{ marginLeft: 5, marginRight: 20 }} />
-                  </View>
-                </View>
-              </View>
-            </View>
-          )}
-
-          {/* SHOW FLASHCARD */}
-          <FlipCard
-            style={{
-              ...styles.card,
-              backgroundColor: isFlipped
-                ? globalStyles.colors.primary
-                : "white",
-            }}
-            friction={10}
-            flipHorizontal={true}
-            flipVertical={false}
-            clickable={true}
-            onFlipStart={flipCard}
-          >
-            {renderSide()}
-            {renderSide()}
-          </FlipCard>
+            </Pressable>
+          </View>
         </View>
-
-        {/* INFO BUTTON */}
-        <View style={styles.infoButtonContainer}>
-          <Pressable
-            style={{
-              ...styles.infoButton,
-              backgroundColor: showingInfo
-                ? "white"
-                : globalStyles.colors.primary,
-            }}
-            onPress={() => dispatch(setShowingInfo(!showingInfo))}
-          >
-            <Text
-              style={{
-                ...styles.infoButtonText,
-                color: showingInfo ? "black" : "white",
-              }}
-            >
-              i
-            </Text>
-          </Pressable>
-        </View>
-      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -362,13 +275,6 @@ const styles = StyleSheet.create({
     right: 30,
     top: -6,
     zIndex: 1,
-  },
-  bookmarkInfoIcon: {
-    opacity: 1,
-    position: "absolute",
-    right: 32,
-    top: -20, // -4
-    zIndex: 3,
   },
   cardContainer: {
     flex: 1,

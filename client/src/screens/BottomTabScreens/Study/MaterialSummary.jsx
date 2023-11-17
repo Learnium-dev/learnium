@@ -44,11 +44,11 @@ export const MaterialSummary = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    // backgroundColor: "white",
   },
   scrollView: {
     flex: 1,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     padding: 30,
     marginBottom: 120,
   },
@@ -75,10 +75,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingVertical: 20,
     position: "absolute",
     bottom: 0,
     width: "100%",
+    backgroundColor: "white",
+    borderTopWidth: 1,
+    borderTopColor: 'lightgrey',
   },
   flashCardsButton: {
     width: "100%",

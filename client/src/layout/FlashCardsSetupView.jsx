@@ -86,16 +86,12 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
       {cards && cards.length ? (
         <Pressable
           onPress={() => handleStart()}
-          style={styles.button}
+          style={({pressed}) => pressed ? { ...styles.button, ...styles.buttonPressed} : styles.button }
           disabled={!cards.length}
         >
-          {({ pressed }) => (
-            <Text
-              style={pressed ? styles.buttonTextPressed : styles.buttonText}
-            >
-              Start Practicing
-            </Text>
-          )}
+          <Text style={styles.buttonText}>
+            Start Practicing
+          </Text>
         </Pressable>
       ) : (
         <View></View>
@@ -120,11 +116,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 20,
     paddingHorizontal: 40,
+    zIndex: 1,
+    position: "relative",
   },
   headerContainerText: {
-    fontSize: 54,
+    fontSize: 64,
     fontFamily: "Gabarito-Bold",
-    lineHeight: 54,
+    lineHeight: 64,
   },
   imageContainer: {
     width: "100%",
@@ -132,10 +130,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    marginBottom: 10,
     borderWidth: 2,
     borderColor: globalStyles.colors.primary,
     borderRadius: 20,
+    position: "relative",
+    top: -30,
+    marginBottom: -20
   },
   folderTitle: {
     textAlign: "auto",
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontFamily: "Gabarito-Bold",
     fontSize: 22,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   switchContainer: {
     display: "flex",
@@ -201,6 +201,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     width: "100%",
     borderRadius: 30,
+  },
+  buttonPressed: {
+    backgroundColor: globalStyles.colors.buttonPressed
   },
   buttonText: {
     color: "#fff",

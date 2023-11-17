@@ -38,7 +38,7 @@ const NavHeader = ({
   ];
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#FFF" }}>
+    <SafeAreaView>
       <View style={styles.container}>
         <Pressable style={[styles.pressable]} onPress={handleBack}>
           <ArrowBack style={styles.backArrow} />
@@ -92,9 +92,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 20,
     paddingBottom: 10,
-    // backgroundColor: "gold",
-    // backgroundColor: globalStyles.colors.background,
-    backgroundColor: "white",
   },
   backArrow: {
     marginRight: 10,

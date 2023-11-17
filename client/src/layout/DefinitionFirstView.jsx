@@ -3,8 +3,7 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  ScrollView,
-  TouchableOpacity,
+  ImageBackground
 } from "react-native";
 import { useState } from "react";
 import { globalStyles } from "../../assets/common/global-styles";
@@ -20,9 +19,19 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback,
   
   // const [value, onChangeText] = useState('');
 
+  const backgroundSource = () => {
+    return isFlipped ? require("../../assets/images/decorative/card-back.png") : null
+  }
+
   return (
-    <View style={styles.mainContainer}>
-      <TextInput style={styles.invisibleInput} editable={false} />
+    <ImageBackground
+      resizeMode="cover"
+      source={backgroundSource()}
+      style={{
+        ...styles.mainContainer,
+        backgroundColor: isFlipped ? globalStyles.colors.primary : "white",
+      }}
+    >
       {isFlipped ? (
         <View style={styles.container}>
           <Text
@@ -41,7 +50,7 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback,
             </View>
           )}
 
-          <View style={{ marginTop: 20, height: 220 }}>
+          <View style={{ marginTop: 20 }}>
             {feedbackLoading && (
               <Text style={{ color: "white", fontWeight: "600" }}>
                 Loading...
@@ -97,7 +106,7 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback,
           </View>
         </View>
       )}
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -113,6 +122,10 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
   textContainer: {
     fontSize: 24,
@@ -122,7 +135,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   definitionContainer: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "left",
     fontFamily: "Nunito-Bold",
     color: globalStyles.colors.primary,

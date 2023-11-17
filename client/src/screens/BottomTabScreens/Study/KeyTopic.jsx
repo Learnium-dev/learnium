@@ -17,7 +17,7 @@ import { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import axios from "axios";
 
 // Components
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import FlashCardsContainer from "../../../containers/FlashCardsContainer";
 import NavHeader from "../../../components/NavHeader";
 import DueCalendar from "../../../../assets/icons/due-calendar.svg";
@@ -129,7 +129,6 @@ const KeyTopic = (props) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: "white",
       }}
     >
       <View
@@ -201,10 +200,12 @@ const KeyTopic = (props) => {
             index={0}
             snapPoints={snapPoints}
           >
+            <BottomSheetView style={{ backgroundColor: 'transparent' }}>
             <FlashCardsContainer
               keyTopic={keyTopic}
               closeSheet={closeBottomSheet}
             />
+            </BottomSheetView>
           </BottomSheetModal>
 
           {/* ASK AI */}
@@ -259,7 +260,6 @@ const KeyTopic = (props) => {
                   fontFamily: "Gabarito-Bold",
                   color: "#262626",
                   textAlign: "center",
-                  backgroundColor: "white",
                 }}
               >
                 Average Score in your past quizzes
@@ -333,9 +333,7 @@ const styles = StyleSheet.create({
   main: {
     alignItems: "center",
     justifyContent: "start",
-    backgroundColor: "white",
     padding: 20,
-    // backgroundColor: globalStyles.colors.background,
   },
   stats: {
     display: "flex",
@@ -393,12 +391,12 @@ const styles = StyleSheet.create({
   },
   flashCardsButtonText: {
     fontFamily: "Gabarito-Bold",
-    fontSize: 20,
+    fontSize: 18,
     color: globalStyles.colors.primary,
   },
   quizButtonText: {
     fontFamily: "Gabarito-Bold",
-    fontSize: 20,
+    fontSize: 18,
     color: "white",
   },
 
@@ -407,7 +405,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     backgroundColor: globalStyles.colors.primary,
     borderRadius: 40,
-    padding: 16,
+    padding: 20,
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",

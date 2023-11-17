@@ -28,8 +28,8 @@ const FormContainer = (props) => {
 
   return (
     <View onLayout={onLayoutRootView} style={styles.container}>
-      <Text style={styles.title}>{props.title}</Text>
-      <Text style={styles.subtitle}>Please sign in to continue</Text>
+      {/* <Text style={styles.title}>{props.title}</Text>
+      <Text style={styles.subtitle}>Please sign in to continue</Text> */}
       {props.children}
     </View>
   );

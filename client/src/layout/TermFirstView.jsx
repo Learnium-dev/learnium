@@ -13,16 +13,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const TermFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiResponse, feedbackLoading }) => {
 
+  const backgroundSource = () => {
+    return isFlipped ? null : require("../../assets/images/decorative/card-back.png")
+  }
+
   return (
-    <View
+    <ImageBackground
+      resizeMode="cover"
+      source={backgroundSource()}
       style={{
         ...styles.container,
         backgroundColor: isFlipped ? "white" : globalStyles.colors.primary,
       }}
     >
-      <TextInput style={styles.invisibleInput} editable={false} />
+      {/* This was an invisible input to make swipe better on Android */}
+      {/* <TextInput style={styles.invisibleInput} editable={false} /> */}
       {isFlipped ? (
-        <View style={styles.cardContent}>
+        <View style={styles.cardContent} >
           <Text
             style={{
               ...styles.definitionContainer,
@@ -39,12 +46,12 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiRes
             </View>
           )}
 
-          <View style={{ marginTop: 20, height: 220 }}>
+          <View style={{ marginTop: 20 }}>
             {feedbackLoading && (
               <Text
                 style={{
                   color: globalStyles.colors.primary,
-                  fontWeight: "600"
+                  fontWeight: "600",
                 }}
               >
                 Loading...
@@ -87,7 +94,7 @@ const TermFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiRes
           </View>
         </View>
       )}
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -112,7 +119,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   labelText: {
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 10,
     fontSize: 18,
     fontFamily: "Gabarito-Bold",
@@ -125,10 +132,11 @@ const styles = StyleSheet.create({
     color: globalStyles.colors.primary,
   },
   definitionContainer: {
-    fontSize: 18,
+    fontSize: 20,
     textAlign: "center",
     fontFamily: "Nunito-Bold",
     paddingHorizontal: 10,
+    justifyContent: "center",
   },
   regularText: {
     fontFamily: "Nunito-Regular",

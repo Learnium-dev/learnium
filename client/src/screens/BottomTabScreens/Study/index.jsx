@@ -86,7 +86,8 @@ const Study = () => {
         )[0]?._id;
         console.log("ID: ", firstKeyTopicToday);
         dispatch(setDailyKeyTopicId(firstKeyTopicToday));
-        setKeyTopics(keyTopics);
+        const sortedByProgress = keyTopics.sort((a, b) => b.progress - a.progress);
+        setKeyTopics(sortedByProgress);
         setIsKeyTopicsLoaded(true);
       },
       (error) => {
@@ -137,6 +138,7 @@ const Study = () => {
             fontFamily: globalStyles.fonts.gabaritoBold,
             fontSize: 24,
             lineHeight: 30,
+            paddingLeft: 10,
           }}
         >
           Welcome back, {firstName || "User"}!

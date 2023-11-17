@@ -23,7 +23,6 @@ import BadgeIcon from "../../../../assets/icons/badge-icon.svg";
 
 // Utils
 import { shortDateOptions } from "../../../../utils/helpers";
-import Collapsible from "react-native-collapsible";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Styles
@@ -61,8 +60,6 @@ const Material = (props) => {
   const { keyTopic } = props.route.params;
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ["95%"], []);
-  const [isKeyTopicsListCollapsed, setIsKeyTopicsListCollapsed] =
-    useState(true);
   const [quizzes, setQuizzes] = useState([]);
   const [completedKeyTopics, setCompletedKeyTopics] = useState(0);
 
@@ -111,8 +108,11 @@ const Material = (props) => {
     fetchQuizzes(token);
   }, []);
 
+  // Sort key topics by progress to show lowest last
+  const sortedKeyTopics = [...keyTopics].sort((a, b) => b.progress - a.progress);
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white", paddingTop: 20 }}>
+    <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
       <NavHeader title={material?.name} showMenu={false} />
       <ScrollView style={styles.main}>
         <View style={styles.stats}>
@@ -195,71 +195,57 @@ const Material = (props) => {
         </BottomSheetModal>
 
         {/*  KEY TOPICS LIST */}
-        <Pressable
-          style={styles.collapsibleKeytopics}
-          onPress={() => setIsKeyTopicsListCollapsed(!isKeyTopicsListCollapsed)}
-        >
-          <Collapsible
-            style={{}}
-            collapsedHeight={288}
-            collapsed={isKeyTopicsListCollapsed}
-            duration={250}
-            easing={Easing.bezier(0.17, 0.67, 0.83, 0.67)}
-          >
-            <View style={{}}>
+        <View style={styles.collapsibleKeytopics}>
+          <View style={{}}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: 10,
+              }}
+            >
+              <Text style={styles.summaryTitle}>Key Topics</Text>
               <View
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: 10,
+                  backgroundColor: globalStyles.colors.accent,
+                  padding: 10,
+                  borderRadius: 20,
                 }}
               >
-                <Text style={styles.summaryTitle}>Key Topics</Text>
-                <View
-                  style={{
-                    backgroundColor: globalStyles.colors.accent,
-                    padding: 10,
-                    borderRadius: 20,
-                  }}
-                >
-                  <Text style={{ fontFamily: "Nunito-Bold" }}>
-                    {completedKeyTopics} / {keyTopics.length}
-                  </Text>
-                </View>
+                <Text style={{ fontFamily: "Nunito-Bold" }}>
+                  {completedKeyTopics} / {keyTopics.length}
+                </Text>
               </View>
-
-              {keyTopics && keyTopics.length ? (
-                keyTopics.map((topic, index) => {
-                  return (
-                    <KeyTopicListItem
-                      key={index}
-                      topic={topic}
-                      onPress={() => navigate("KeyTopic", { keyTopic: topic })}
-                    />
-                  );
-                })
-              ) : (
-                <Text>There are no topics here!</Text>
-              )}
             </View>
-          </Collapsible>
-          <View
-            style={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              height: 20,
-              marginTop: 10,
-            }}
-          >
-            {isKeyTopicsListCollapsed ? (
-              <Feather name="chevron-down" size={24} color="gray" />
+
+            {keyTopics && keyTopics.length ? (
+              sortedKeyTopics.map((topic, index) => {
+                return (
+                  <KeyTopicListItem
+                    key={index}
+                    topic={topic}
+                    onPress={() => navigate("KeyTopic", { keyTopic: topic })}
+                  />
+                );
+              })
             ) : (
-              <Feather name="chevron-up" size={24} color="gray" />
+              <Text>There are no topics here!</Text>
             )}
           </View>
+        </View>
+
+        {/* Review button */}
+        <Pressable
+          onPress={() => console.log("Review")}
+          style={({ pressed }) =>
+            pressed
+              ? { ...styles.buttonPrimary, ...styles.buttonPrimaryPressed }
+              : styles.buttonPrimary
+          }
+        >
+          <Text style={styles.buttonText}>Review what you missed out</Text>
         </Pressable>
 
         {/* QUIZ HISTORY (COMPREHENSIVE) */}
@@ -301,7 +287,6 @@ const Material = (props) => {
                   fontFamily: "Gabarito-Bold",
                   color: "#262626",
                   textAlign: "center",
-                  backgroundColor: "white",
                 }}
               >
                 Average Score in your past quizzes
@@ -333,6 +318,19 @@ const Material = (props) => {
           </View>
         </View>
       </ScrollView>
+      {/* Start test button */}
+      <View style={styles.fixedButton}>
+        <Pressable
+          onPress={() => console.log("start test")}
+          style={({ pressed }) =>
+            pressed
+              ? { ...styles.buttonPrimary, ...styles.buttonPrimaryPressed }
+              : styles.buttonPrimary
+          }
+        >
+          <Text style={styles.buttonText}>Start a comprehensive test</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 };
@@ -340,9 +338,8 @@ const Material = (props) => {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-
-    backgroundColor: "white",
     padding: 20,
+    marginBottom: 90
   },
   stats: {
     display: "flex",
@@ -414,13 +411,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
   },
-
   quizButton: {
     width: "100%",
     backgroundColor: "white",
-
     backgroundColor: globalStyles.colors.primary,
-
     borderRadius: 40,
     padding: 20,
     display: "flex",
@@ -442,6 +436,33 @@ const styles = StyleSheet.create({
     color: globalStyles.colors.primary,
     fontSize: 30,
     fontWeight: "bold",
+  },
+  buttonPrimary: {
+    color: "#fff",
+    backgroundColor: globalStyles.colors.primary,
+    paddingVertical: 20,
+    width: "100%",
+    borderRadius: 30,
+    marginBottom: 20,
+  },
+  buttonPrimaryPressed: {
+    backgroundColor: globalStyles.colors.buttonPressed
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    fontFamily: "Gabarito-Bold",
+  },
+  fixedButton: {
+    position: "absolute",
+    bottom: 20,
+    width: "100%",
+    paddingHorizontal: 20,
+    borderTopWidth: 1,
+    borderTopColor: 'lightgrey',
+    paddingTop: 20,
   },
 });
 
