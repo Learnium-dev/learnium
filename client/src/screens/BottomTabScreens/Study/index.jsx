@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
+    paddingTop: 20,
     paddingBottom: -34,
   },
   tabContainer: {
