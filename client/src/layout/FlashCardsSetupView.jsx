@@ -51,6 +51,8 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
             <Text style={styles.label}>Term first</Text>
             <Switch
               style={{
+                marginVertical: Platform.OS === "android" ? -10 : 0,
+                padding: 0,
                 transform:
                   Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
               }}
@@ -65,6 +67,8 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
             <Text style={styles.label}>Definition first</Text>
             <Switch
               style={{
+                marginVertical: Platform.OS === "android" ? -10 : 0,
+                padding: 0,
                 transform:
                   Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
               }}
@@ -86,12 +90,14 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
       {cards && cards.length ? (
         <Pressable
           onPress={() => handleStart()}
-          style={({pressed}) => pressed ? { ...styles.button, ...styles.buttonPressed} : styles.button }
+          style={({ pressed }) =>
+            pressed
+              ? { ...styles.button, ...styles.buttonPressed }
+              : styles.button
+          }
           disabled={!cards.length}
         >
-          <Text style={styles.buttonText}>
-            Start Practicing
-          </Text>
+          <Text style={styles.buttonText}>Start Practicing</Text>
         </Pressable>
       ) : (
         <View></View>
