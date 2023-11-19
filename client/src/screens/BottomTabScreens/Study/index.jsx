@@ -30,6 +30,7 @@ import { setDailyKeyTopicId } from "../../../../slices/examSlice";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { useRoute } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 
@@ -46,6 +47,42 @@ const Study = () => {
     { key: "today", title: "Today's content" },
     { key: "review", title: "Review content" },
   ]);
+
+  const route = useRoute();
+
+  // MAKING HOME SCREEN REFRESH NEW DATA AFTER UPLOADING NEW CONTENT
+  useFocusEffect(
+    useCallback(() => {
+      // Get token
+      AsyncStorage.getItem("jwt").then((token) => {
+        if (token) {
+          dispatch(setToken(token));
+
+          // Get email
+          AsyncStorage.getItem("email").then((email) => {
+            if (email) {
+              dispatch(setEmail(email));
+            }
+          });
+        }
+      });
+      loadUserFirstName();
+      loadKeyTopics();
+      setRandomReload(Math.random());
+
+      return () => {};
+    }, [])
+  );
+
+  useEffect(() => {
+    setRandomReload(route.params?.reload);
+  }, [randomReload]);
+  console.log(
+    "🚀 ~ file: index.jsx:58 ~ route.params?.reload",
+    route.params?.reload
+  );
+  const [randomReload, setRandomReload] = useState(route.params?.reload);
+  console.log("🚀 ~ file: index.jsx:63 ~ randomReload:", randomReload);
 
   useEffect(() => {
     // Get token
