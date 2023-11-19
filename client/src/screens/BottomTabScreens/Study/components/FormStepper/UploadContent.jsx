@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
 
@@ -222,7 +223,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
           />
 
           {/* Create Course Button */}
-          <Pressable
+          <TouchableOpacity
             disabled={disabled}
             style={[
               styles.btnContent,
@@ -236,7 +237,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
             >
               Create Course
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </TouchableWithoutFeedback>

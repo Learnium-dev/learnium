@@ -74,20 +74,22 @@ export default function App() {
             backdrop: { backgroundColor: "black", opacity: 0.5 },
           }}
         >
-          <GestureHandlerRootView style={{ flex: 1 }}>
+          {/* <GestureHandlerRootView  style={{ flex: 1 }}> */}
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{
                   headerShown: false,
                 }}
               >
-                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen  name="Login" component={Login} />
                 <Stack.Screen name="Register" component={Register} />
-                <Stack.Screen name="Navigation" component={Navigation} />
+                <Stack.Screen options={{
+                  gestureEnabled: false
+                }} name="Navigation" component={Navigation} />
               </Stack.Navigator>
             </NavigationContainer>
             {/* <Navigation /> */}
-          </GestureHandlerRootView>
+          {/* </GestureHandlerRootView> */}
         </MenuProvider>
         {/* Toaster */}
         <Toast config={toastConfig} />

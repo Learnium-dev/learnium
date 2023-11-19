@@ -32,6 +32,7 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     if (context.stateUser.isAuthenticated === true) {
@@ -54,6 +55,14 @@ const Login = (props) => {
 
   return (
     <Pressable style={styles.container} onPress={() => Keyboard.dismiss()}>
+      {/* Splash Screen */}
+      <LottieView
+            style={{ position: "absolute", zIndex: 10, top: 0, left: 0, right: 0, bottom: 0, display: showSplash ? "flex" : "none"}}
+            source={require("../../../assets/splash/data.json")}
+            autoPlay
+            loop={false}
+            onAnimationFinish={() => setShowSplash(false)}
+          />
       <SafeAreaView
         style={{
           flex: 1,
@@ -62,14 +71,6 @@ const Login = (props) => {
           paddingTop: 10,
         }}
       >
-         {/* Splash Screen */}
-         <LottieView
-            style={{ position: "absolute", zIndex: 10, top: -30, left: -20, right: -30, bottom: -50}}
-            source={require("../../../assets/splash/data.json")}
-            autoPlay
-            loop={false}
-            onAnimationFinish={() => console.log("Finished!")}
-          />
         <KeyboardAvoidingView
           behavior={
             Platform.OS === "ios"

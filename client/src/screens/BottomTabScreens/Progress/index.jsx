@@ -40,13 +40,14 @@ const Progress = () => {
   const [fetched, setFetched] = useState(false);
   const { navigate } = useNavigation();
 
-  useEffect(() => {
-    loadKeyTopics();
-  }, []);
+  // useEffect(() => {
+  //   loadKeyTopics();
+  // }, []);
 
   useEffect(() => {
+    loadKeyTopics();
     Animated.spring(barWidth, {
-      toValue: width * (progress / 100),
+      toValue: width * (Math.max(progress, 1) / 100), // Set a minimum width of 1 to avoid blinking
       bounciness: 10,
       useNativeDriver: false,
       speed: 2,

@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import Header from "../Header";
 
 // React
@@ -111,7 +111,7 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
           paddingHorizontal: 20,
         }}
       >
-        <Pressable
+        <TouchableOpacity
           style={{
             ...styles.btnContent,
             flex: 1,
@@ -129,8 +129,8 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
           >
             Skip
           </Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={{
             ...styles.btnContent,
             flex: 1,
@@ -141,7 +141,7 @@ const PurposeContent = ({ name, prev, next, setPurpose }) => {
           onPress={next}
         >
           <Text style={styles.btnTextOption}>Next</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

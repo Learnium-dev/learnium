@@ -5,6 +5,7 @@ import {
   FlatList,
   TextInput,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 
 // React
@@ -215,7 +216,7 @@ const ExamSchedule = ({ name, prev, next }) => {
           paddingHorizontal: 20,
         }}
       >
-        <Pressable
+        <TouchableOpacity
           style={{
             ...styles.btnContent,
             backgroundColor: "#f5f5f5",
@@ -232,9 +233,9 @@ const ExamSchedule = ({ name, prev, next }) => {
           >
             Skip
           </Text>
-        </Pressable>
+        </TouchableOpacity>
 
-        <Pressable
+        <TouchableOpacity
           onPress={onFinish}
           style={{
             ...styles.btnContent,
@@ -245,7 +246,7 @@ const ExamSchedule = ({ name, prev, next }) => {
           }}
         >
           <Text style={styles.btnTextOption}>Finish</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </>
   );
