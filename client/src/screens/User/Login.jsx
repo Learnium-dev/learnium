@@ -77,7 +77,6 @@ const Login = (props) => {
           <LottieView
             style={{ height: 300, width: 300 }}
             source={require("../../../assets/splash/data.json")}
-            autoPlay
             loop
           />
           {/* Lumi */}
