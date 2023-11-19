@@ -14,6 +14,9 @@ import FormContainer from "../../shared/Form/FormContainer";
 import Input from "../../shared/Form/Input";
 import Error from "../../shared/Error";
 
+// Lottie files
+import LottieView from "lottie-react-native";
+
 // Context
 import AuthGlobal from "../../context/store/AuthGlobal";
 import { loginUser } from "../../context/actions/Auth.actions";
@@ -70,6 +73,13 @@ const Login = (props) => {
           style={styles.keyboardContainer}
           keyboardShouldPersistTaps="handled"
         >
+          {/* Splash Screen */}
+          <LottieView
+            style={{ height: 300, width: 300 }}
+            source={require("../../../assets/splash/data.json")}
+            autoPlay
+            loop
+          />
           {/* Lumi */}
           <View
             style={{
