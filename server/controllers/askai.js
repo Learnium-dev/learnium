@@ -53,7 +53,7 @@ const getChatResponse = async (questionParam) => {
   const vectorStore = await FaissStore.load("./", embeddings);
   
 
-  const model = new OpenAILangChain({ temperature: 0, openAIApiKey: AIKEY });
+  const model = new OpenAILangChain({ temperature: 0, openAIApiKey: AIKEY , modelName:"gpt-4"});
 
   const chat = new ChatOpenAI({ temperature: 0, openAIApiKey: AIKEY });
 
