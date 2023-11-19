@@ -62,6 +62,14 @@ const Login = (props) => {
           paddingTop: 10,
         }}
       >
+         {/* Splash Screen */}
+         <LottieView
+            style={{ position: "absolute", zIndex: 10, top: -30, left: -20, right: -30, bottom: -50}}
+            source={require("../../../assets/splash/data.json")}
+            autoPlay
+            loop={false}
+            onAnimationFinish={() => console.log("Finished!")}
+          />
         <KeyboardAvoidingView
           behavior={
             Platform.OS === "ios"
@@ -73,12 +81,6 @@ const Login = (props) => {
           style={styles.keyboardContainer}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Splash Screen */}
-          <LottieView
-            style={{ height: 300, width: 300 }}
-            source={require("../../../assets/splash/data.json")}
-            loop
-          />
           {/* Lumi */}
           <View
             style={{
