@@ -32,17 +32,13 @@ import { getKeyTopics } from "../../../services/keyTopicsService";
 
 const { width } = Dimensions.get("window");
 
-const Progress = () => {
+const Progress = ({route}) => {
   const barWidth = useRef(new Animated.Value(0)).current;
   const [inProgress, setInProgress] = useState([]);
   const [completed, setCompleted] = useState([]);
   const [progress, setProgress] = useState(1);
   const [fetched, setFetched] = useState(false);
   const { navigate } = useNavigation();
-
-  // useEffect(() => {
-  //   loadKeyTopics();
-  // }, []);
 
   useEffect(() => {
     loadKeyTopics();

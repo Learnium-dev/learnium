@@ -9,6 +9,7 @@ import {
   Platform,
   KeyboardAvoidingView,
   Keyboard,
+  TouchableOpacity,
 } from "react-native";
 import FormContainer from "../../shared/Form/FormContainer";
 import Input from "../../shared/Form/Input";
@@ -139,9 +140,9 @@ const Login = (props) => {
 
             <View style={styles.buttonGroup}>
               {error ? <Error message={error} /> : null}
-              <Pressable style={styles.loginBtn} onPress={() => handleSubmit()}>
+              <TouchableOpacity style={styles.loginBtn} onPress={() => handleSubmit()}>
                 <Text style={styles.loginTxt}>Login</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
 
             <View

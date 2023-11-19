@@ -46,12 +46,6 @@ import { useSelector } from "react-redux";
 import LumiBanner from "../../../../assets/images/characters/quizHistoryLumi.svg";
 import AskAI from "../../../../assets/icons/askAI.svg";
 
-// responsive sizes
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-
 const KeyTopic = (props) => {
   const { navigate } = useNavigation();
   const { keyTopic } = props.route.params;

@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 // react native
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { getFocusedRouteNameFromRoute, useNavigation } from "@react-navigation/native";
 
 // redux
 import { useSelector } from "react-redux";
@@ -44,13 +44,13 @@ import DailyChallenge from "./src/screens/BottomTabScreens/Daily/DailyChallenge"
 // screens - account
 import Account from "./src/screens/BottomTabScreens/Account";
 
-// screen to test API with token
-import TestAPI from "./src/screens/User/TestAPI";
-
 // toaster
 import Toast from "react-native-toast-message";
 
+// react
 import { useEffect } from "react";
+
+
 import MaterialSummary from "./src/screens/BottomTabScreens/Study/MaterialSummary";
 import KeyTopicSummary from "./src/screens/BottomTabScreens/Study/KeyTopicSummary";
 
@@ -128,16 +128,24 @@ const getRouteName = (route) => {
 // study stack navigator
 const StudyStack = createNativeStackNavigator();
 function StudyStackNavigator() {
-  const { uploaded, pdfName } = useSelector((state) => state.exam);
+  const { uploaded, pdfName, folderId } = useSelector((state) => state.exam);
+  const navigation = useNavigation();
+
+  console.log("This is the folderId: " , folderId)
 
   useEffect(() => {
     const showToast = () => {
       Toast.show({
-        autoHide: false,
+        autoHide: true,
+        visibilityTime: 4000,
         position: "top",
-        type: "success",
-        text1: "PDF uploaded successfully! ⭐",
+        type: "contentToast",
+        text1: "Explore New Content Now! 🚀 ",
         text2: `Title: ${pdfName || "Untitled"}`,
+        props: {
+          navigateToMaterial: () => navigation.navigate("Material", { keyTopic: folderId}),
+          closeToast: () => Toast.hide()
+        }
       });
     };
     if (uploaded) showToast();

@@ -115,6 +115,7 @@ router.put(`/newContent/updateDate`,async (req, res) => {
       keytopics[i].duedate = studyDates[i];
       keytopics[i].save();
     }
+    
     res.status(200).send(keytopics);
 })
 

@@ -17,6 +17,7 @@ import {
   setDate,
   setDays,
   setUploaded,
+  setFolderId
 } from "../../../../../../slices/examSlice";
 
 // helpers
@@ -97,9 +98,7 @@ const ExamSchedule = ({ name, prev, next }) => {
 
   const onFinish = async () => {
     dispatch(setDays(selectedOptions));
-
-    console.log("✅✅✅✅✅✅", date);
-
+    
     // make a PUT request to update the keytopics
     const options = {
       method: "PUT",

@@ -63,8 +63,13 @@ const Material = (props) => {
   const [quizzes, setQuizzes] = useState([]);
   const [completedKeyTopics, setCompletedKeyTopics] = useState(0);
 
+  function formatDate() {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date().toLocaleDateString('en-US', options);
+  }
+
   useEffect(() => {
-    dispatch(fetchMaterial(keyTopic.folderid._id));
+    dispatch(fetchMaterial(keyTopic?.folderid?._id || keyTopic));
     dispatch(fetchKeyTopics());
   }, [dispatch]);
 
@@ -86,11 +91,10 @@ const Material = (props) => {
 
   // fetch quizzes
   useEffect(() => {
-    console.log("This is the folder id: ", keyTopic?.folderid?._id);
     const fetchQuizzes = async (jwtToken) => {
       try {
         const response = await axios.get(
-          `${baseURL}historydetails?folderid=${keyTopic?.folderid?._id}`,
+          `${baseURL}historydetails?folderid=${keyTopic?.folderid?._id || keyTopic}`,
           {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
@@ -121,10 +125,10 @@ const Material = (props) => {
             <View>
               <Text style={styles.statsItemText}>Due date:</Text>
               <Text style={styles.statsItemText}>
-                {new Date(keyTopic.duedate).toLocaleDateString(
+                {keyTopic?.dueDate ? new Date(keyTopic?.duedate).toLocaleDateString(
                   undefined,
                   shortDateOptions
-                )}
+                ) : formatDate()}
               </Text>
             </View>
           </View>

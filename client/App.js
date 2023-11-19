@@ -25,6 +25,10 @@ import Auth from "./src/context/store/Auth";
 import Navigation from "./navigation";
 import { useEffect, useState } from "react";
 
+//react-native
+import { View, TouchableOpacity, Text } from "react-native";
+import { FontDisplay } from "expo-font";
+
 // Ignore all warnings
 LogBox.ignoreAllLogs();
 
@@ -49,17 +53,26 @@ export default function App() {
     });
   }, []);
 
-  // toaster config
   const toastConfig = {
-    success: (props) => (
-      <BaseToast
-        {...props}
-        style={{ borderLeftColor: "#7000FF" }}
-        text1Style={{ fontSize: 18, marginBottom: 5 }}
-        text2Style={{ fontSize: 16 }}
-      />
-    ),
-  };
+    contentToast: ({text1, text2, props}) => (
+      <View style={{backgroundColor: "white", width: "95%", padding: 16, borderLeftColor: "#7000FF", borderLeftWidth: 10, borderRadius: 10 }}>
+        <TouchableOpacity onPress={() => {
+          props.navigateToMaterial()
+          props.closeToast()
+        }}>
+          <Text style={{
+            fontFamily: "Nunito-Bold",
+            fontSize: 18,
+            marginBottom: 10
+          }}>{text1}</Text>
+          <Text style={{
+            fontFamily: "Nunito-Regular",
+            fontSize: 16,
+          }}>{text2}</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
 
   // To fix error that fonts are loaded after the app is rendered
   if (!fontsLoaded) {
@@ -87,12 +100,14 @@ export default function App() {
                   gestureEnabled: false
                 }} name="Navigation" component={Navigation} />
               </Stack.Navigator>
+                     {/* Toaster */}
+        <Toast config={toastConfig} />
             </NavigationContainer>
             {/* <Navigation /> */}
           {/* </GestureHandlerRootView> */}
         </MenuProvider>
-        {/* Toaster */}
-        <Toast config={toastConfig} />
+
+ 
       </Provider>
     </Auth>
   );
