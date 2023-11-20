@@ -83,7 +83,7 @@ const SingleKeyTopicProgress = (props) => {
         {/* Header */}
         <Header name={keyTopic?.name} materialName={keyTopic?.folderid?.name} />
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={{flex: 1}} showsVerticalScrollIndicator={false}>
           {/* Banner */}
           <View style={styles.banner}>
             <LumiGrade width={140} height={125} />
@@ -168,7 +168,8 @@ const SingleKeyTopicProgress = (props) => {
           </View>
 
           {/* Buttons */}
-          <View>
+          <View  style={{flex: 1, justifyContent: "flex-end"}}
+>
             <Pressable
               onPress={() => navigate("KeyTopic", { keyTopic })}
               style={{
@@ -186,6 +187,7 @@ const SingleKeyTopicProgress = (props) => {
               <Text style={styles.btnText}>Start a Quiz</Text>
             </Pressable>
           </View>
+
         </ScrollView>
       </View>
     </SafeAreaView>

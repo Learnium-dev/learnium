@@ -89,11 +89,13 @@ function TabBottomNavigator() {
       <Tab.Screen
         name="Progress"
         component={ProgressStackNavigator}
-        options={{
+        options={({ route, navigation }) => ({
           headerShown: false,
           tabBarIcon: ({ focused }) => <ProgressTabIcon />,
           tabBarShowLabel: false,
-        }}
+          tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
+
+        })}
       />
       <Tab.Screen
         name="DailyHome"
@@ -124,7 +126,8 @@ function TabBottomNavigator() {
 
 const getRouteName = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route);
-  if (routeName === "CreateContent") {
+  console.log("This is the route: ", routeName)
+  if (routeName === "CreateContent" || routeName === "SingleKeyTopic") {
     return "none";
   } else {
     return "flex";
