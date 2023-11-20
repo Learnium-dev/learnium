@@ -3,8 +3,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
-// react native
+// react native nav
 import { getFocusedRouteNameFromRoute, useNavigation } from "@react-navigation/native";
+
+// react native
+import {TouchableOpacity} from "react-native"
 
 // redux
 import { useSelector } from "react-redux";
@@ -48,7 +51,10 @@ import Account from "./src/screens/BottomTabScreens/Account";
 import Toast from "react-native-toast-message";
 
 // react
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
+
+// lottie files
+import LottieView from "lottie-react-native";
 
 
 import MaterialSummary from "./src/screens/BottomTabScreens/Study/MaterialSummary";
@@ -58,7 +64,6 @@ const Stack = createNativeStackNavigator();
 // tab bottom navigator
 function TabBottomNavigator() {
   const Tab = createBottomTabNavigator();
-
   return (
     <Tab.Navigator
       screenOptions={{
@@ -73,7 +78,8 @@ function TabBottomNavigator() {
       <Tab.Screen
         name="StudyHome"
         component={StudyStackNavigator}
-        options={({ route }) => ({
+        options={({ route, navigation }) => ({
+          tabBarButton: (props) => <TouchableOpacity onPress={() => console.log("Pressed Study")} {...props} />,
           headerShown: false,
           tabBarIcon: ({ focused }) => <StudyTabIcon />,
           tabBarShowLabel: false,

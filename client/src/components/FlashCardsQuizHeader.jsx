@@ -59,11 +59,12 @@ const FlashCardsQuizHeader = ({
     if (isActive) {
       interval = setInterval(() => {
         setSeconds(seconds + 1);
+        timeConsumed(seconds)
       }, 1000);
     } else if (!isActive && seconds !== 0) {
       clearInterval(interval);
     }
-
+    
     return () => clearInterval(interval);
   }, [isActive, seconds, isQuizStart]);
 
