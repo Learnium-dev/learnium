@@ -29,10 +29,7 @@ import AskAI from "./src/screens/BottomTabScreens/Study/AskAI";
 import remove from "./src/screens/BottomTabScreens/Study/OldCreateContent/remove";
 
 // Icons
-import StudyTabIcon from "./assets/icons/study-tab.svg";
-import ProgressTabIcon from "./assets/icons/progress-tab.svg";
-import DailyTabIcon from "./assets/icons/daily-tab.svg";
-import ProfileTabIcon from "./assets/icons/profile-tab.svg";
+import CustomIcon from "./src/screens/BottomTabScreens/Navigation/CustomIcon";
 
 // screens - progress
 import Progress from "./src/screens/BottomTabScreens/Progress";
@@ -53,80 +50,133 @@ import Toast from "react-native-toast-message";
 // react
 import { useEffect,useState } from "react";
 
-// lottie files
-import LottieView from "lottie-react-native";
-
-
 import MaterialSummary from "./src/screens/BottomTabScreens/Study/MaterialSummary";
 import KeyTopicSummary from "./src/screens/BottomTabScreens/Study/KeyTopicSummary";
 
 const Stack = createNativeStackNavigator();
+
 // tab bottom navigator
 function TabBottomNavigator() {
   const Tab = createBottomTabNavigator();
+
+  const TabArr = [
+    { route: 'StudyHome', component: StudyStackNavigator },
+    { route: 'Progress', component: ProgressStackNavigator },
+    { route: 'DailyHome', component: DailyStackNavigator },
+    { route: 'Account', component: Account },
+  ];
+
+  const TabButton = (props) => {
+    const { item, onPress, accessibilityState } = props;
+    const focused = accessibilityState.selected;
+  
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        activeOpacity={1}
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          // backgroundColor: "red",
+        }}>
+        <CustomIcon route={item?.route} active={focused} />
+      </TouchableOpacity>
+    )
+  }
+
   return (
     <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          margin: 0,
-          marginBottom: 0,
-          paddingTop: 20,
-          paddingBottom: 40,
-        },
-      }}
+    screenOptions={({route}) => ({
+      headerShown: false,
+      tabBarStyle: {
+        height: 80,
+        borderTopWidth: 2,
+        borderTopColor: "#CDCDCD",
+        bottom: 0,
+        right: 0,
+        left: 0,
+        paddingTop: 10,
+        display: getRouteName(route)
+      }
+    })}
     >
-      <Tab.Screen
-        name="StudyHome"
-        component={StudyStackNavigator}
-        options={({ route, navigation }) => ({
-          tabBarButton: (props) => <TouchableOpacity onPress={() => console.log("Pressed Study")} {...props} />,
-          headerShown: false,
-          tabBarIcon: ({ focused }) => <StudyTabIcon />,
-          tabBarShowLabel: false,
-          tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
-        })}
-      />
-      <Tab.Screen
-        name="Progress"
-        component={ProgressStackNavigator}
-        options={({ route, navigation }) => ({
-          headerShown: false,
-          tabBarIcon: ({ focused }) => <ProgressTabIcon />,
-          tabBarShowLabel: false,
-          tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
-
-        })}
-      />
-      <Tab.Screen
-        name="DailyHome"
-        component={DailyStackNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => <DailyTabIcon />,
-          tabBarShowLabel: false,
-        }}
-      />
-      <Tab.Screen
-        name="Account"
-        component={Account}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => <ProfileTabIcon />,
-          tabBarShowLabel: false,
-        }}
-      />
-      {/* <Tab.Screen
-        name="Account"
-        component={Account}
-        options={{ headerShown: false }}
-      /> */}
+      {TabArr.map((item, index) => {
+        return (
+          <Tab.Screen key={index} name={item.route} component={item.component}
+              options={({ route }) => ({
+                tabBarShowLabel: false,
+                tabBarButton: (props) => <TabButton {...props} item={item} />
+            })}
+          />
+        )
+      })}
     </Tab.Navigator>
-  );
+  )
+
+
+  // return (
+  //   <Tab.Navigator
+  //     screenOptions={{
+  //       tabBarStyle: {
+  //         margin: 0,
+  //         marginBottom: 0,
+  //         paddingTop: 20,
+  //         paddingBottom: 40,
+  //       },
+  //     }}
+  //   >
+  //     <Tab.Screen
+  //       name="StudyHome"
+  //       component={StudyStackNavigator}
+  //       options={({ route, navigation }) => ({
+  //         tabBarButton: (props) => <TouchableOpacity onPress={() => console.log("Pressed Study")} {...props} />,
+  //         headerShown: false,
+  //         tabBarIcon: ({ focused }) => <StudyTabIcon />,
+  //         tabBarShowLabel: false,
+  //         tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
+  //       })}
+  //     />
+  //     <Tab.Screen
+  //       name="Progress"
+  //       component={ProgressStackNavigator}
+  //       options={({ route, navigation }) => ({
+  //         headerShown: false,
+  //         tabBarIcon: ({ focused }) => <ProgressTabIcon />,
+  //         tabBarShowLabel: false,
+  //         tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
+
+  //       })}
+  //     />
+  //     <Tab.Screen
+  //       name="DailyHome"
+  //       component={DailyStackNavigator}
+  //       options={{
+  //         headerShown: false,
+  //         tabBarIcon: ({ focused }) => <DailyTabIcon />,
+  //         tabBarShowLabel: false,
+  //       }}
+  //     />
+  //     <Tab.Screen
+  //       name="Account"
+  //       component={Account}
+  //       options={{
+  //         headerShown: false,
+  //         tabBarIcon: ({ focused }) => <ProfileTabIcon />,
+  //         tabBarShowLabel: false,
+  //       }}
+  //     />
+  //     {/* <Tab.Screen
+  //       name="Account"
+  //       component={Account}
+  //       options={{ headerShown: false }}
+  //     /> */}
+  //   </Tab.Navigator>
+  // );
 }
 
 const getRouteName = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route);
-  console.log("This is the route: ", routeName)
   if (routeName === "CreateContent" || routeName === "SingleKeyTopic") {
     return "none";
   } else {
