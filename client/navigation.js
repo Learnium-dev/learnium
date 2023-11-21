@@ -7,7 +7,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { getFocusedRouteNameFromRoute, useNavigation } from "@react-navigation/native";
 
 // react native
-import {TouchableOpacity} from "react-native"
+import {TouchableOpacity, View} from "react-native"
 
 // redux
 import { useSelector } from "react-redux";
@@ -77,7 +77,7 @@ function TabBottomNavigator() {
         style={{
           flex: 1,
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'center',          
           // backgroundColor: "red",
         }}>
         <CustomIcon route={item?.route} active={focused} />

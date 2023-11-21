@@ -5,7 +5,7 @@ import React from 'react'
 import LottieView from "lottie-react-native";
 
 // Icons Inactive
-import StudyTabIcon from "../../../../assets/icons/study-tab.svg";
+import StudyTabIcon from "../../../../assets/icons/study_icon.svg";
 import ProgressTabIcon from "../../../../assets/icons/progress-tab.svg";
 import DailyTabIcon from "../../../../assets/icons/daily-tab.svg";
 import ProfileTabIcon from "../../../../assets/icons/profile-tab.svg";
