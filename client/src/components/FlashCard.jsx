@@ -180,6 +180,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
           <View style={styles.cardContainer}>
             {/* Show flashcard info */}
             {showingInfo && <FlashCardInfoView />}
+          
 
             {/* SHOW FLASHCARD */}
             <FlipCard

@@ -196,10 +196,12 @@ const Study = () => {
               ...globalStyles.buttons.primary,
               justifyContent: "center",
               marginBottom: 24,
+              width: "100%",
+              marginHorizontal: 0
             }}
             onPress={() => navigate("CreateContent")}
           >
-            <Text style={globalStyles.buttons.primary.text}>
+            <Text style={{...globalStyles.buttons.primary.text, textAlign: "center"}}>
               Create New Learning Material
             </Text>
           </Pressable>

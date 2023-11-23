@@ -6,12 +6,16 @@ import ReviewCharacter from '../../assets/images/characters/review-list-characte
 import InactiveCharacter from '../../assets/images/characters/inactive-list-character.svg';
 import { dateOptions } from "../../utils/helpers";
 
+// Lottie
+import LottieView from "lottie-react-native";
+
 const KeyTopicListItem = ({ topic, accentColor, selectedView, onPress }) => {
 
   const renderCharacter = () => {
 
     if (topic.progress === 0) {
-      return <InactiveCharacter />;
+      // return <InactiveCharacter />;
+      return <LottieView source={require("../../assets/icons/Study/sleeping_lumi.json")} autoPlay loop style={{width: 114, height: 134}} />
     }
 
     switch (selectedView) {
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   characterContainer: {
-    width: 50,
+    width: 60,
     height: 40,
   }
 });

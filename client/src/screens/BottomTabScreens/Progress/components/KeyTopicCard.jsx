@@ -15,6 +15,14 @@ import { formatDate } from "../../../../../utils/helpers";
 const KeyTopicCard = ({ item }) => {
   const { navigate } = useNavigation();
 
+  const getSleepingCharacterStyle = (progress) => {
+    if (progress === 0) {
+      return { right: -25, bottom: -45 };
+    } else {
+      return {};
+    }
+  };
+
   const accentColor = (progress) => {
     if (progress >= 85) {
       return "#7000FF";
@@ -54,7 +62,7 @@ const KeyTopicCard = ({ item }) => {
         <Text style={styles.cardDueDate}>
           Due Date: {formatDate(item?.duedate)}
         </Text>
-        <View style={styles.cardCharacter}>{getLumi(item?.progress)}</View>
+        <View style={{...styles.cardCharacter, ...getSleepingCharacterStyle(item?.progress)}}>{getLumi(item?.progress)}</View>
       </View>
     </Pressable>
   );
