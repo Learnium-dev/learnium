@@ -84,6 +84,6 @@ app.use("/", router);
 
 
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, process.env.HOSTNAME, () => {
   console.log(`Server is listening on port ${process.env.PORT}`);
 });
