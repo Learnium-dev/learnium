@@ -44,6 +44,8 @@ import { useSelector } from "react-redux";
 
 // SVG
 import LumiBanner from "../../../../assets/images/characters/quizHistoryLumi.svg";
+import LumiBannerB from "../../../../assets/images/characters/LumiBannerBPlus.svg";
+import LumiNoQuiz from "../../../../assets/images/characters/LumiNoQuiz.svg";
 import AskAI from "../../../../assets/icons/askAI.svg";
 
 const KeyTopic = (props) => {
@@ -194,11 +196,11 @@ const KeyTopic = (props) => {
             index={0}
             snapPoints={snapPoints}
           >
-            <BottomSheetView style={{ backgroundColor: 'transparent' }}>
-            <FlashCardsContainer
-              keyTopic={keyTopic}
-              closeSheet={closeBottomSheet}
-            />
+            <BottomSheetView style={{ backgroundColor: "transparent" }}>
+              <FlashCardsContainer
+                keyTopic={keyTopic}
+                closeSheet={closeBottomSheet}
+              />
             </BottomSheetView>
           </BottomSheetModal>
 
@@ -245,7 +247,11 @@ const KeyTopic = (props) => {
                 overflow: "hidden",
               }}
             >
-              <LumiBanner width={140} height={95} />
+              {!quizzes.length ? (
+                <LumiNoQuiz width={140} height={95} />
+              ) : (
+                <LumiBannerB width={140} height={95} />
+              )}
 
               <Text
                 style={{
@@ -256,31 +262,47 @@ const KeyTopic = (props) => {
                   textAlign: "center",
                 }}
               >
-                Average Score in your past quizzes
+                {!quizzes.length
+                  ? "Complete 3 quizzes to get a grade!"
+                  : "Average Score in your past quizzes"}
               </Text>
             </View>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             >
-              <FlatList
-                horizontal={true}
-                contentContainerStyle={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  gap: 10,
-                  width: "100%",
-                  marginVertical: 15,
-                }}
-                data={quizzes}
-                renderItem={({ item }) => {
-                  if (item?.progress > 0) {
-                    return <QuizCard item={item} />;
-                  }
-                }}
-                keyExtractor={(item) => item.id}
-              />
+              {!quizzes.length ? (
+                <Text
+                  style={{
+                    fontFamily: "Nunito-Bold",
+                    fontSize: 18,
+                    color: "#949494",
+                    marginTop: 32,
+                    marginLeft: 20,
+                  }}
+                >
+                  Take your first quiz now!
+                </Text>
+              ) : (
+                <FlatList
+                  horizontal={true}
+                  contentContainerStyle={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    gap: 10,
+                    width: "100%",
+                    marginVertical: 15,
+                  }}
+                  data={quizzes}
+                  renderItem={({ item }) => {
+                    if (item?.progress > 0) {
+                      return <QuizCard item={item} />;
+                    }
+                  }}
+                  keyExtractor={(item) => item.id}
+                />
+              )}
             </ScrollView>
           </View>
 

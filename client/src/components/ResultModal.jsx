@@ -15,6 +15,7 @@ import ResultMaster from "../../assets/resultCharacter/resultMaster.svg";
 // mockup SVG
 import LumiStar from "../../assets/images/characters/quiz lumi/Lumi Star.svg";
 import Star from "../../assets/images/characters/quiz lumi/Star Lumi.svg";
+import LumiQuizResult from "../../assets/images/characters/quiz lumi/lumi_quizresult.svg";
 
 // Linear Gradient
 import { LinearGradient } from "expo-linear-gradient";
@@ -44,6 +45,23 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
     };
     getScoreLevel();
   }, []);
+
+  // dynamic messages
+  const getDynamicMessage = () => {
+    if (percentage >= 0 && percentage <= 20) {
+      return "Keep Going!";
+    } else if (percentage > 20 && percentage <= 40) {
+      return "Not Bad!";
+    } else if (percentage > 40 && percentage <= 60) {
+      return "Good Job!";
+    } else if (percentage > 60 && percentage <= 80) {
+      return "Great Work!";
+    } else if (percentage > 80) {
+      return "Amazing!";
+    } else {
+      return "Keep Going!";
+    }
+  };
 
   //   function to return style based on score level
   const getScoreLevelStyle = () => {
@@ -81,7 +99,7 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
         flex: 1,
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
       }}
     >
       <LinearGradient
@@ -109,7 +127,7 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
-          marginBottom: 90,
+          marginTop: 30,
         }}
       >
         <Text
@@ -119,7 +137,7 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
             color: "#5901e5",
           }}
         >
-          Great Job!
+          {getDynamicMessage()}
         </Text>
         <Text
           style={{
@@ -135,16 +153,17 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
         style={{
           position: "absolute",
           zIndex: 0,
-          right: 70,
-          top: 300,
+          right: -90,
+          top: 80,
+          zIndex: -1,
         }}
       >
-        <Star width={250} height={280} />
+        <LumiQuizResult width={550} height={600} />
+        {/* <Star width={250} height={280} /> */}
       </View>
       {/* set the image to be displayed base on getScoreLevelImage */}
       {/* {getScoreLevelImage()} */}
-      <LumiStar width={250} height={280} />
-
+      {/* <LumiStar width={250} height={280} /> */}
       <TouchableOpacity
         onPress={() => CTAbtnFunction()}
         style={{
