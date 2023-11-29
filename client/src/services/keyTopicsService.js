@@ -2,7 +2,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import baseURL from "../../assets/common/baseUrl";
 
-export const getKeyTopics = async () => {
+export const getKeyTopics = async (folderId) => {
   let token = await AsyncStorage.getItem("jwt");
   console.log("🚀 ~ file: keyTopicsService.js:7 ~ token:", token)
   let tokenEmail = await AsyncStorage.getItem("email");
@@ -14,6 +14,9 @@ export const getKeyTopics = async () => {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
+    },
+    params: {
+      folderid: folderId,
     },
   };
 

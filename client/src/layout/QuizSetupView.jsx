@@ -77,8 +77,8 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
           <View
             style={{
               ...styles.switchContainer,
-              marginBottom: 10,
-              marginTop: 20,
+              // marginBottom: 10,
+              marginTop: 10,
             }}
           >
             <Text style={styles.label}>Focus mode</Text>
@@ -221,13 +221,13 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontFamily: "Gabarito-Bold",
     fontSize: 22,
-    marginVertical: 20,
+    marginVertical: 10,
   },
   switchContainer: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 0,
     alignItems: "center",
   },
   label: {

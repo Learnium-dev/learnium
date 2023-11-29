@@ -18,8 +18,8 @@ export const fetchMaterial = createAsyncThunk(
   }
 );
 
-export const fetchKeyTopics = createAsyncThunk("fetchKeyTopics", async () => {
-  const keyTopics = await getKeyTopics();
+export const fetchKeyTopics = createAsyncThunk("fetchKeyTopics", async (folderId) => {
+  const keyTopics = await getKeyTopics(folderId);
   return keyTopics;
 });
 
