@@ -17,6 +17,9 @@ import LumiStar from "../../assets/images/characters/quiz lumi/Lumi Star.svg";
 import Star from "../../assets/images/characters/quiz lumi/Star Lumi.svg";
 import LumiQuizResult from "../../assets/images/characters/quiz lumi/lumi_quizresult.svg";
 
+// Lottie View
+import LottieView from "lottie-react-native";
+
 // Linear Gradient
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -153,12 +156,18 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
         style={{
           position: "absolute",
           zIndex: 0,
-          right: -90,
-          top: 80,
+          right: -10,
+          top: -60,
           zIndex: -1,
         }}
       >
-        <LumiQuizResult width={550} height={600} />
+        <LottieView
+          source={require("../../assets/images/characters/quiz lumi/data.json")}
+          autoPlay
+          loop
+          style={{ width: 500, height: 900 }}
+        />
+        {/* <LumiQuizResult width={550} height={600} /> */}
         {/* <Star width={250} height={280} /> */}
       </View>
       {/* set the image to be displayed base on getScoreLevelImage */}
@@ -187,7 +196,7 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
             color: "#7000FF",
           }}
         >
-          See Results Test
+          See Results
         </Text>
       </TouchableOpacity>
     </View>
