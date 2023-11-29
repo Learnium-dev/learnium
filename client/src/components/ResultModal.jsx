@@ -187,7 +187,7 @@ const ResultModal = ({ isOpen, CTAbtnFunction, percentage, score }) => {
             color: "#7000FF",
           }}
         >
-          See Results
+          See Results Test
         </Text>
       </TouchableOpacity>
     </View>
