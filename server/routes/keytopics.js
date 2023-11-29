@@ -11,7 +11,9 @@ router.get(`/`, async (req, res)=>{
     // Find UserId
     const userdata = await usermodel.findOne({email: req.query.email});
     console.log("userdata",userdata)
-    const folderdata = await foldermodel.find({userid: userdata?._id});
+
+    console.log('FOLDER ID', req.query.folderid)
+    const folderdata = await foldermodel.find(req.query.folderid ? {_id: req.query.folderid} : {userid: userdata?._id});
     console.log("🚀 ~ file: keytopics.js:15 ~ folderdata:", folderdata)
     // Filter by Date
     let filter = {};

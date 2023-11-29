@@ -29,23 +29,25 @@ const FlashCardsSetupView = ({ onStartPracticing, keyTopic, handleClose }) => {
         <Text style={styles.topicTitle}>{keyTopic.name}</Text>
       </View>
 
-      <View style={{ ...styles.switchContainer, marginBottom: 40 }}>
-        <Text style={styles.label}>Focus mode</Text>
-        <Switch
-          trackColor={{ false: "grey", true: globalStyles.colors.primary }}
-          thumbColor={"white"}
-          value={focusOn}
-          onValueChange={() => setFocusOn(!focusOn)}
-          style={{
-            transform:
-              Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
-          }}
-        />
-      </View>
-
       {cards && cards.length ? (
         <View style={styles.setup}>
-          <Text style={styles.subTitle}>Set Up Your Flash Cards</Text>
+          <View style={{
+            ...styles.switchContainer, marginBottom: 15 }}>
+            <Text style={styles.label}>Focus mode</Text>
+            <Switch
+              trackColor={{ false: "grey", true: globalStyles.colors.primary }}
+              thumbColor={"white"}
+              value={focusOn}
+              onValueChange={() => setFocusOn(!focusOn)}
+              style={{
+                transform:
+                  Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1 }],
+              }}
+            />
+          </View>
+          <View> 
+            <Text style={styles.subTitle}>Set Up Your Flash Cards</Text>
+          </View>
 
           <View style={styles.switchContainer}>
             <Text style={styles.label}>Term first</Text>
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingBottom: 30,
+    paddingBottom: 20,
   },
   headerContainer: {
     width: "100%",
@@ -161,14 +163,11 @@ const styles = StyleSheet.create({
     marginTop: 0,
     textAlign: "center",
   },
-  topicSummary: {
-    fontSize: 16,
-    fontFamily: "Nunito-Regular",
-    marginBottom: 20,
-  },
+
   setup: {
     width: "100%",
-    alignItems: "start",
+    alignItems: "flex-start",
+    verticalAlign: "top",
     display: "flex",
     flexDirection: "column",
   },
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontFamily: "Gabarito-Bold",
     fontSize: 22,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   switchContainer: {
     display: "flex",
@@ -185,7 +184,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 0,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   label: {
     fontSize: 18,

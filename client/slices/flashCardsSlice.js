@@ -50,12 +50,14 @@ initialState,
   extraReducers: (builder) => {
     builder
     .addCase(fetchFlashcards.fulfilled, (state, action) => {
-      state.cards = action.payload;
+      sordedCards = action.payload.sort((a, b) => b.isdone - a.isdone);
+      state.cards = sordedCards;
     })
     .addCase(fetchFlashcards.rejected, (state, action) => {
       state.cards = [];
     })
-    .addCase(fetchMaterialFlashcards.fulfilled, (state, action) => {
+      .addCase(fetchMaterialFlashcards.fulfilled, (state, action) => {
+      sordedCards = action.payload.sort((a, b) => b.isdone - a.isdone);
       state.cards = action.payload;
     })
     .addCase(updateFlashcard.fulfilled, (state, action) => {

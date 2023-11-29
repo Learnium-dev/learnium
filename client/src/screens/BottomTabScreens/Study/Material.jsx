@@ -70,7 +70,7 @@ const Material = (props) => {
 
   useEffect(() => {
     dispatch(fetchMaterial(keyTopic?.folderid?._id || keyTopic));
-    dispatch(fetchKeyTopics());
+    dispatch(fetchKeyTopics(keyTopic?.folderid?._id));
   }, [dispatch]);
 
   // Update completed key topics when keyTopics or keyTopic changes
@@ -116,7 +116,7 @@ const Material = (props) => {
   const sortedKeyTopics = [...keyTopics].sort((a, b) => b.progress - a.progress);
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
+    <SafeAreaView style={{ flex: 1, paddingTop: 20, paddingBottom: 30 }}>
       <NavHeader title={material?.name} showMenu={false} />
       <ScrollView style={styles.main}>
         <View style={styles.stats}>
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     padding: 20,
-    marginBottom: 90
+    marginBottom: 50,
   },
   stats: {
     display: "flex",
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonPrimaryPressed: {
-    backgroundColor: globalStyles.colors.buttonPressed
+    backgroundColor: globalStyles.colors.buttonPressed,
   },
   buttonText: {
     color: "#fff",
@@ -461,12 +461,14 @@ const styles = StyleSheet.create({
   },
   fixedButton: {
     position: "absolute",
-    bottom: 20,
+    bottom: 0,
     width: "100%",
     paddingHorizontal: 20,
-    borderTopWidth: 1,
-    borderTopColor: 'lightgrey',
+    // borderTopWidth: 1,
+    // borderTopColor: 'lightgrey',
     paddingTop: 20,
+    paddingBottom: 10,
+    backgroundColor: "#f5f5f5"
   },
 });
 

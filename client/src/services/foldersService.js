@@ -29,7 +29,7 @@ export const getFolder = async (id) => {
 
   const options = {
     method: "GET",
-    url: `${baseURL}folders?id=${id}`,
+    url: `${baseURL}folders/${id}`,
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ export const getFolder = async (id) => {
 
   try {
     const response = await axios(options);
-    return response.data[0];
+    return response.data;
   } catch (error) {
     console.error("Error getting folder", error);
   }
