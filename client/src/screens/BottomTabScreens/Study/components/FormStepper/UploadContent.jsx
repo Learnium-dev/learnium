@@ -154,6 +154,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
 
   // Function to perform OCR on an image
   const performOCR = (file) => {
+    setText("Loading...")
     let myHeaders = new Headers();
     myHeaders.append("apikey", "FEmvQr5uj99ZUvk3essuYb6P5lLLBS20");
     myHeaders.append("Content-Type", "multipart/form-data");
