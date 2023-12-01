@@ -16,77 +16,112 @@ import ProfileTabIcon from "../../../../assets/icons/profile-tab.svg";
 import { globalStyles } from "../../../../assets/common/global-styles";
 
 const CustomIcon = ({ route, active }) => {
-
   const [showIcon, setShowIcon] = useState();
 
   useEffect(() => {
     const renderActiveIcons = () => {
       if (route == "StudyHome") {
         setShowIcon(
-          <LottieView
-            source={require("../../../../assets/icons/NavBar/Study/data.json")}
-            autoPlay
-            loop
-            // loop={false}
+          <View
             style={{
-              height: "90%",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              marginLeft: 3.5,
+              borderColor: globalStyles.colors.primary,
+              borderWidth: 2,
+              borderRadius: 8,
+
+              padding: 3,
             }}
-          />
+          >
+            <LottieView
+              source={require("../../../../assets/icons/NavBar/Study/data.json")}
+              autoPlay
+              loop
+              // loop={false}
+              style={{
+                height: "100%",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            />
+          </View>
         );
       }
       if (route == "Progress") {
         setShowIcon(
-          <LottieView
-            source={require("../../../../assets/icons/NavBar/Progress/data.json")}
-            autoPlay
-            // loop
-            loop={false}
+          <View
             style={{
-              height: "90%",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              marginLeft: 3.5,
+              borderColor: globalStyles.colors.primary,
+              borderWidth: 2,
+              borderRadius: 8,
+
+              padding: 3,
             }}
-          />
+          >
+            <LottieView
+              source={require("../../../../assets/icons/NavBar/Progress/data.json")}
+              autoPlay
+              // loop
+              loop={false}
+              style={{
+                height: "100%",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            />
+          </View>
         );
       }
       if (route == "DailyHome") {
         setShowIcon(
-          <LottieView
-            source={require("../../../../assets/icons/NavBar/Daily/data.json")}
-            autoPlay
-            loop
-            // loop={false}
+          <View
             style={{
-              height: "90%",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              marginLeft: 3.5,
+              borderColor: globalStyles.colors.primary,
+              borderWidth: 2,
+              borderRadius: 8,
+
+              padding: 3,
             }}
-          />
+          >
+            <LottieView
+              source={require("../../../../assets/icons/NavBar/Daily/data.json")}
+              autoPlay
+              loop
+              // loop={false}
+              style={{
+                height: "100%",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            />
+          </View>
         );
       }
       if (route == "Account") {
         setShowIcon(
-          <LottieView
-            source={require("../../../../assets/icons/NavBar/Profile/data.json")}
-            autoPlay
-            // loop
-            loop={false}
+          <View
             style={{
-              height: "90%",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              marginLeft: 3.5,
+              borderColor: globalStyles.colors.primary,
+              borderWidth: 2,
+              borderRadius: 8,
+
+              padding: 3,
             }}
-          />
+          >
+            <LottieView
+              source={require("../../../../assets/icons/NavBar/Profile/data.json")}
+              autoPlay
+              // loop
+              loop={false}
+              style={{
+                height: "100%",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            />
+          </View>
         );
       }
     };
@@ -102,66 +137,73 @@ const CustomIcon = ({ route, active }) => {
 
   const renderActiveIcons = () => {
     if (route == "StudyHome") {
-    return  <LottieView
-        source={require("../../../../assets/icons/NavBar/Study/data.json")}
-        autoPlay
-        loop
-        // loop={false}
-        style={{
-          height: "90%",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          marginLeft: 3.5,
-        }}
-      />;
+      return (
+        <LottieView
+          source={require("../../../../assets/icons/NavBar/Study/data.json")}
+          autoPlay
+          loop
+          // loop={false}
+          style={{
+            height: "90%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            marginLeft: 3.5,
+          }}
+        />
+      );
     }
     if (route == "Progress") {
-      return <LottieView
-        source={require("../../../../assets/icons/NavBar/Progress/data.json")}
-        autoPlay
-        loop
-        // loop={false}
-        style={{
-          height: "90%",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          marginLeft: 3.5,
-        }}
-      />;
+      return (
+        <LottieView
+          source={require("../../../../assets/icons/NavBar/Progress/data.json")}
+          autoPlay
+          loop
+          // loop={false}
+          style={{
+            height: "90%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            marginLeft: 3.5,
+          }}
+        />
+      );
     }
     if (route == "DailyHome") {
-      return <LottieView
-        source={require("../../../../assets/icons/NavBar/Daily/data.json")}
-        autoPlay
-        loop
-        // loop={false}
-        style={{
-          height: "90%",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          marginLeft: 3.5,
-        }}
-      />;
+      return (
+        <LottieView
+          source={require("../../../../assets/icons/NavBar/Daily/data.json")}
+          autoPlay
+          loop
+          // loop={false}
+          style={{
+            height: "90%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            marginLeft: 3.5,
+          }}
+        />
+      );
     }
     if (route == "Account") {
-      return <LottieView
-        source={require("../../../../assets/icons/NavBar/Profile/data.json")}
-        autoPlay
-        // loop
-        loop={false}
-        style={{
-          height: "90%",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          marginLeft: 3.5,
-        }}
-      />;
+      return (
+        <LottieView
+          source={require("../../../../assets/icons/NavBar/Profile/data.json")}
+          autoPlay
+          // loop
+          loop={false}
+          style={{
+            height: "90%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            marginLeft: 3.5,
+          }}
+        />
+      );
     }
-
   };
 
   const activeIcons = {
@@ -231,16 +273,17 @@ const CustomIcon = ({ route, active }) => {
     <>
       {active ? (
         <View
-          style={{
-            borderColor: globalStyles.colors.primary,
-            borderWidth: 2,
-            borderRadius: 8,
-            width: "50%",
-            height: "100%",
-            // backgroundColor: "red",
-
-            // padding:10
-          }}
+          style={
+            {
+              // borderColor: globalStyles.colors.primary,
+              // borderWidth: 2,
+              // borderRadius: 8,
+              // width: "50%",
+              // height: "100%",
+              // backgroundColor: "red",
+              // padding:10
+            }
+          }
         >
           {showIcon}
           {/* <View style={{width:10, height:10 , backgroundColor:"gold"}}></View> */}
