@@ -80,7 +80,9 @@ function TabBottomNavigator() {
           alignItems: 'center',          
           // backgroundColor: "red",
         }}>
-        <CustomIcon route={item?.route} active={focused} />
+        <CustomIcon route={item?.route} 
+        active={focused} 
+        />
       </TouchableOpacity>
     )
   }
