@@ -133,9 +133,28 @@ const KeyTopic = (props) => {
           display: "flex",
           flexDirection: "column",
           marginTop: 20,
+          // backgroundColor: "gold",
         }}
       >
         <NavHeader title={keyTopic.name} keyTopic={keyTopic} showMenu={true} />
+        {/* ASK AI */}
+
+        <TouchableOpacity
+          style={{
+            // backgroundColor: "red",
+            height: 40,
+            position: "absolute",
+            zIndex: 1,
+            bottom: 100,
+            right: 20,
+            borderRadius: 500,
+            display: "flex",
+            justifyContent: "center",
+          }}
+          onPress={() => handleAskAI({ keyTopic })}
+        >
+          <AskAI />
+        </TouchableOpacity>
 
         <ScrollView contentContainerStyle={styles.main}>
           <View style={styles.stats}>
@@ -203,25 +222,6 @@ const KeyTopic = (props) => {
               />
             </BottomSheetView>
           </BottomSheetModal>
-
-          {/* ASK AI */}
-
-          <TouchableOpacity
-            style={{
-              // backgroundColor: "red",
-              height: 40,
-              position: "absolute",
-              zIndex: 1,
-              bottom: 80,
-              right: 20,
-              borderRadius: 500,
-              display: "flex",
-              justifyContent: "center",
-            }}
-            onPress={() => handleAskAI({ keyTopic })}
-          >
-            <AskAI />
-          </TouchableOpacity>
 
           {/* Quiz History */}
           <View
