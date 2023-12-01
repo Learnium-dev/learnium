@@ -77,12 +77,12 @@ const Study = () => {
   useEffect(() => {
     setRandomReload(route.params?.reload);
   }, [randomReload]);
-  console.log(
-    "🚀 ~ file: index.jsx:58 ~ route.params?.reload",
-    route.params?.reload
-  );
+  // console.log(
+  //   "🚀 ~ file: index.jsx:58 ~ route.params?.reload",
+  //   route.params?.reload
+  // );
   const [randomReload, setRandomReload] = useState(route.params?.reload);
-  console.log("🚀 ~ file: index.jsx:63 ~ randomReload:", randomReload);
+  // console.log("🚀 ~ file: index.jsx:63 ~ randomReload:", randomReload);
 
   useEffect(() => {
     // Get token
