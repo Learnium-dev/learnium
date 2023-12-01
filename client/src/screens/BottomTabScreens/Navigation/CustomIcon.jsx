@@ -17,7 +17,6 @@ import { globalStyles } from "../../../../assets/common/global-styles";
 
 const CustomIcon = ({ route, active }) => {
   const [showIcon, setShowIcon] = useState();
-
   useEffect(() => {
     const renderActiveIcons = () => {
       if (route == "StudyHome") {
@@ -48,6 +47,7 @@ const CustomIcon = ({ route, active }) => {
       }
       if (route == "Progress") {
         setShowIcon(
+
           <View
             style={{
               borderColor: globalStyles.colors.primary,
@@ -134,7 +134,6 @@ const CustomIcon = ({ route, active }) => {
     DailyHome: <DailyTabIcon />,
     Account: <ProfileTabIcon />,
   };
-
   const renderActiveIcons = () => {
     if (route == "StudyHome") {
       return (
@@ -205,6 +204,7 @@ const CustomIcon = ({ route, active }) => {
       );
     }
   };
+
 
   const activeIcons = {
     StudyHome: (
