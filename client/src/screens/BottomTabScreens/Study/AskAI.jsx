@@ -69,13 +69,10 @@ const AskAI = ({ route }) => {
   };
 
   const handleSuggestionSelected = (e) => {
-    console.log("handleSuggestionSelected", e);
-
     setInputText(e);
   };
 
   const onChangeText = (text) => {
-    console.log("onChangeText", text);
     setInputText(text);
   };
 
@@ -86,7 +83,7 @@ const AskAI = ({ route }) => {
       { text: inputText, isUser: true },
     ]);
     setInputText("");
-    console.log(`${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/askai`);
+    `${process.env.EXPO_PUBLIC_HOSTNAME_COMPLETE}/askai`;
     const submitChat = async () => {
       setLumiState(lumiHeadline[1]);
       try {
@@ -106,20 +103,20 @@ const AskAI = ({ route }) => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("data", data);
-        // console.log(typeof data);
+        "data", data;
+        //  (typeof data);
         setChatHistory((prevArray) => [
           ...prevArray,
           { text: data, isUser: false },
         ]);
         setLumiState(lumiHeadline[2]);
       } catch (error) {
-        console.log(error?.message);
+        error?.message;
       }
     };
     submitChat();
   };
-  // console.log("chatHistory", chatHistory);
+  //  ("chatHistory", chatHistory);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -449,10 +446,9 @@ const AskAI = ({ route }) => {
                     </View>
                   );
                 })}
-        
 
                 {lumiState == lumiHeadline[1] && (
-                  <View >
+                  <View>
                     {/* <ChatLoader /> */}
                     <Image source={ChatLoader} height={10} width={10} />
                     {/* <LumiAskAI/> */}

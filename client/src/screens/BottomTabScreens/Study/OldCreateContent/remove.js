@@ -27,13 +27,13 @@ const CreateContent = () => {
   const [postFolderIsDone, setPostFolderIsDone] = useState(false);
 
   const handleCreateContent = async () => {
-    console.log("Loading......");
+    ("Loading......");
     dispatch(setUploaded(false));
     setIsLoading(true);
 
     try {
       const res = await DocumentPicker.getDocumentAsync();
-      console.log(res);
+      res;
 
       const formData = new FormData();
       formData.append("pdf", {
@@ -42,7 +42,7 @@ const CreateContent = () => {
         type: res.assets[0].mimeType,
       });
 
-      console.log("hey this is token", token);
+      "hey this is token", token;
       const response = await axios.post(
         `${process.env.EXPO_PUBLIC_HOSTNAME}/create-content`,
         formData,
@@ -58,14 +58,14 @@ const CreateContent = () => {
       const data = response.data;
       dispatch(setUploaded(true));
       setIsLoading(false);
-      console.log("PDF UPLOADED SUCCESSFULLY! 🚀🚀🚀", data);
+      "PDF UPLOADED SUCCESSFULLY! 🚀🚀🚀", data;
       // !temporarily commented out postToDB(JSON.parse(data)) to post the content to the database without calling the openAI API
       // postFolderToDB(dataJson);
       // postFolderIsDone && postMaterialToDB();
 
       // postToDB(JSON.parse(data));
     } catch (error) {
-      console.log(error?.message);
+      error?.message;
     }
   };
 
@@ -94,15 +94,15 @@ const CreateContent = () => {
         const error = folderRes.status;
         throw new Error(`Network response was not ok ${error}`);
       }
-      console.log("folderRes");
+      ("folderRes");
       const folderData = await folderRes.json();
-      console.log("folderData", folderData);
+      "folderData", folderData;
       setFolderResponse(folderData);
       setPostFolderIsDone(true);
       // !create another call to POST material to the database, using the folder ID from the response above, and the POST response from the openAI API to keyTopic, summary, and flashcard
       postMaterialToDB(folderData._id, dataJson);
     } catch (error) {
-      console.log("catch", error);
+      "catch", error;
     }
   };
 
@@ -132,12 +132,12 @@ const CreateContent = () => {
           `postMaterialToDB:Network response was not ok ${error}`
         );
       }
-      console.log("materialRes");
+      ("materialRes");
       const materialData = await materialRes.json();
-      console.log(materialData);
+      materialData;
       postkeyTopicToDB(materialData, dataJson);
     } catch (error) {
-      console.log("postMaterialToDB:catch", error);
+      "postMaterialToDB:catch", error;
     }
   };
 
@@ -168,26 +168,20 @@ const CreateContent = () => {
             `postkeyTopicToDB:Network response was not ok ${error}`
           );
         }
-        console.log("keyTopicRes");
+        ("keyTopicRes");
         const keyTopicData = await keyTopicRes.json();
-        console.log(keyTopicData);
+        keyTopicData;
         postFlashcardToDB(materialData, keyTopicData, dataJson);
       } catch (error) {
-        console.log("postkeyTopicToDB:catch", error);
+        "postkeyTopicToDB:catch", error;
       }
     });
   };
 
   const postFlashcardToDB = async (materialData, keyTopicData, dataJson) => {
-    console.log("🚀 ~ file: CreateContent.jsx:268 ~ dataJson:", dataJson);
-    console.log(
-      "🚀 ~ file: CreateContent.jsx:268 ~ keyTopicData:",
-      keyTopicData._id
-    );
-    console.log(
-      "🚀 ~ file: CreateContent.jsx:268 ~ materialData:",
-      materialData._id
-    );
+    "🚀 ~ file: CreateContent.jsx:268 ~ dataJson:", dataJson;
+    "🚀 ~ file: CreateContent.jsx:268 ~ keyTopicData:", keyTopicData._id;
+    "🚀 ~ file: CreateContent.jsx:268 ~ materialData:", materialData._id;
     try {
       const newFlashcardData = {
         // !change the keytopicid and materialid to the actual id from the database
@@ -196,8 +190,8 @@ const CreateContent = () => {
         // keyTopicid: keyTopicData._id,
         // materialid: materialData._id,
       };
-      console.log("newFlashcardData:");
-      console.log(newFlashcardData);
+      ("newFlashcardData:");
+      newFlashcardData;
       const requestOptions = {
         method: "POST",
         headers: {
@@ -217,14 +211,14 @@ const CreateContent = () => {
           `postFlashcardToDB:Network response was not ok ${error}`
         );
       }
-      console.log("flashcardRes");
+      ("flashcardRes");
       const flashcardData = await flashcardRes.json();
-      console.log(flashcardData);
+      flashcardData;
       dataJson.content.map(async (item2, index2) => {
-        console.log("item2:", item2);
+        "item2:", item2;
 
         item2.flashcard.map(async (item3, index3) => {
-          console.log("flashcardData", flashcardData);
+          "flashcardData", flashcardData;
           try {
             const newDetailsData = {
               // !change the flashcardid and quizid to the actual id from the database
@@ -253,16 +247,16 @@ const CreateContent = () => {
                 `postFlashcardToDB:Network response was not ok ${error}`
               );
             }
-            console.log("newDetailsData");
+            ("newDetailsData");
             const flashcardData = await flashcardRes.json();
-            console.log(flashcardData);
+            flashcardData;
           } catch (error) {
-            console.log("postDetailsToDB:catch", error);
+            "postDetailsToDB:catch", error;
           }
         });
       });
     } catch (error) {
-      console.log("postFlashcardToDB:catch", error);
+      "postFlashcardToDB:catch", error;
     }
 
     // dataJson.content.map(async (item, index) => {
@@ -270,11 +264,11 @@ const CreateContent = () => {
     // }
     // });
   };
-  console.log("content", content);
-  //  console.log("content.topics[1]", content?.topics[1]);
-  console.log("Summary: ", content?.summary);
-  console.log("Key Topics: ", content?.keyTopic);
-  console.log("Question and Answer: ", content?.questionAnswer);
+  "content", content;
+  //   ("content.topics[1]", content?.topics[1]);
+  "Summary: ", content?.summary;
+  "Key Topics: ", content?.keyTopic;
+  "Question and Answer: ", content?.questionAnswer;
 
   return (
     <View style={styles.container}>

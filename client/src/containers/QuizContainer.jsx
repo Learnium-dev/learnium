@@ -28,9 +28,9 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
   const [isQuizStart, setIsQuizStart] = useState(false);
   const [result, setResult] = useState([]);
   const { token } = useSelector((state) => state.credentials);
-  // console.log("⭐⭐⭐⭐", getKeyTopic);
+  //  ("⭐⭐⭐⭐", getKeyTopic);
 
-  // console.log("token", token);
+  //  ("token", token);
   const [cardIndex, setCardIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [timeConsumed, setTimeConsumed] = useState(0);
@@ -44,18 +44,44 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
   };
 
   const submitResult = async () => {
+    if (calculateQuizPercentage(result) >= 80) {
+      const options2 = {
+        method: "PUT",
+        url: `${baseURL}keytopics/update/progress?keytopicid=${getKeyTopic?._id}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      try {
+        const response = await axios(options2);
+        const data = response?.data;
+
+        if (data.error) {
+          alert(data.error);
+          return;
+        }
+
+        console.log(data);
+      } catch (error) {
+        console.error(
+          "Error occurred while making the request: ⚠️⚠️⚠️⚠️",
+          error.message
+        );
+      }
+    }
+
     const params = {
       result: result,
       keyTopic: getKeyTopic,
       quiz: quiz,
       timeConsumed: timeConsumed,
+      reload: Math.random(),
     };
     const requestBody = {
       quizzes: { progress: calculateQuizPercentage(result) },
       details: result,
     };
-
-    console.log("Request body 🎉🎉🎉", requestBody);
 
     const options = {
       method: "POST",
@@ -73,7 +99,6 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
         alert(data.error);
         return;
       }
-      console.log("✅✅ Posted to DB!");
       navigate("QuizResult", params);
       closeModal();
       isSubmit();
@@ -100,7 +125,6 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
 
     // Function to fetch quizzes
     const fetchQuizzesWithToken = async () => {
-      console.log("fetchQuizzesWithToken");
       if (!trueFalse && !multipleChoice && !written) {
         alert("Please select at least one quiz type");
         return;
@@ -112,7 +136,6 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
         multipleChoiceString(),
         writtenString()
       ).then((quizzes) => {
-        console.log("Quizzes loaded", quizzes);
         setQuiz(quizzes);
         setIsQuizStart(true);
       });
@@ -127,7 +150,6 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
   // !CONTROLING PAGERVIEW
   const next = (nextIndex) => {
     if (nextIndex > quiz.length - 1) {
-      console.log("nextIndex", nextIndex);
       openModal();
       return;
     }
@@ -144,11 +166,10 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
     if (prevIndex < 0) {
       return;
     }
-    console.log("🚀 ~ file: QuizContainer.jsx:84 ~ prevIndex:", prevIndex);
     pagerRef.current.setPage(prevIndex < 0 ? 0 : prevIndex);
     setCardIndex(prevIndex);
   };
-  // console.log("previous", cardIndex);
+  //  ("previous", cardIndex);
 
   // !SET QUIZ RESULT
   const setQuizResult = (res) => {
@@ -164,7 +185,7 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
   const getTimeConsumed = (time) => {
     setTimeConsumed(time);
   };
-  // console.log("result", result);
+  //  ("result", result);
   return (
     <View style={styles.container}>
       <FlashCardsQuizHeader

@@ -27,7 +27,6 @@ const Quizzes = ({ index, question }) => {
         if (jwt) {
           setToken(jwt);
           fetchQuizzesWithToken(jwt); // Fetch quizzes with the retrieved token
-          // console.log(quizzes)
         } else {
           setError("JWT token not found in AsyncStorage.");
         }

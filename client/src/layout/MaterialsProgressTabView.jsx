@@ -4,8 +4,6 @@ import MaterialCard from "../screens/BottomTabScreens/Progress/components/Materi
 import { globalStyles } from "../../assets/common/global-styles";
 
 const MaterialsProgressTabView = ({ selectedView, folders }) => {
-
-  console.log('folders', folders)
   const accentColor =
     selectedView === "inProgress"
       ? globalStyles.colors.primary
@@ -44,7 +42,6 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
-
   },
 });
 

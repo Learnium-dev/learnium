@@ -25,10 +25,6 @@ const CreateContent = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [purpose, setPurpose] = useState("");
   const { days, date } = useSelector((state) => state.exam);
-  console.log("Days: ", days || "");
-  console.log("Date: ", date || "");
-
-  console.log("CUrrent Step: ", currentStep);
 
   const handleNextStep = () => {
     if (currentStep < 4) {

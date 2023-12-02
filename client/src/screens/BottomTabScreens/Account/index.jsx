@@ -51,7 +51,7 @@ const Profile = () => {
   const loadUserFirstName = async () => {
     getFirstName().then(
       (firstName) => {
-        console.log("First name loaded", firstName);
+        "First name loaded", firstName;
         setFirstName(firstName);
         setIsFirstNameLoaded(true);
       },
@@ -60,18 +60,18 @@ const Profile = () => {
       }
     );
   };
-    const loadUserLastName = async () => {
-      getLastName().then(
-        (lastName) => {
-          console.log("Last name loaded", lastName);
-          setLastName(lastName);
-          setIsLastNameLoaded(true);
-        },
-        (error) => {
-          alert("Error", `Couldn't load user's last name! ${error}`);
-        }
-      );
-    };
+  const loadUserLastName = async () => {
+    getLastName().then(
+      (lastName) => {
+        "Last name loaded", lastName;
+        setLastName(lastName);
+        setIsLastNameLoaded(true);
+      },
+      (error) => {
+        alert("Error", `Couldn't load user's last name! ${error}`);
+      }
+    );
+  };
 
   const toggleButtons = (index) => {
     setButtonStates((prevStates) => {

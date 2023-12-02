@@ -199,7 +199,6 @@ const UploadScreen = () => {
       try {
         // postToDB();
         const response = await fetch(
-          console.log(token)
           `${process.env.EXPO_PUBLIC_HOSTNAME}/uploadcontent`,
           {
             method: "POST",
