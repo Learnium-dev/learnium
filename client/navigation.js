@@ -202,7 +202,9 @@ function StudyStackNavigator() {
     const showToast = () => {
       Toast.show({
         autoHide: false,
+
         // visibilityTime: 4000,
+
         position: "top",
         type: "contentToast",
         text1: "Explore New Content Now! 🚀 ",
