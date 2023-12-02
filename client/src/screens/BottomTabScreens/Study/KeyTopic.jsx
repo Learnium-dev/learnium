@@ -262,7 +262,7 @@ const KeyTopic = (props) => {
                   textAlign: "center",
                 }}
               >
-                {!quizzes.length
+                {quizzes.length < 3
                   ? "Complete 3 quizzes to get a grade!"
                   : "Average Score in your past quizzes"}
               </Text>

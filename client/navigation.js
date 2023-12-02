@@ -197,7 +197,7 @@ function StudyStackNavigator() {
   useEffect(() => {
     const showToast = () => {
       Toast.show({
-        autoHide: true,
+        autoHide: false,
         visibilityTime: 4000,
         position: "top",
         type: "contentToast",
