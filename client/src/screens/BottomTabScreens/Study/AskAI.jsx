@@ -476,6 +476,7 @@ const AskAI = ({ route }) => {
             // flexShrink: 0,
             paddingBottom: 10,
             // marginBottom: 10,
+            // backgroundColor: "white",
             backgroundColor: "white",
           }}
         >
