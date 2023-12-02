@@ -77,12 +77,12 @@ const Study = () => {
   useEffect(() => {
     setRandomReload(route.params?.reload);
   }, [randomReload]);
-  // console.log(
+  //  (
   //   "🚀 ~ file: index.jsx:58 ~ route.params?.reload",
   //   route.params?.reload
   // );
   const [randomReload, setRandomReload] = useState(route.params?.reload);
-  // console.log("🚀 ~ file: index.jsx:63 ~ randomReload:", randomReload);
+  //  ("🚀 ~ file: index.jsx:63 ~ randomReload:", randomReload);
 
   useEffect(() => {
     // Get token
@@ -105,7 +105,7 @@ const Study = () => {
   const loadUserFirstName = async () => {
     getFirstName().then(
       (firstName) => {
-        console.log("First name loaded", firstName);
+        "First name loaded", firstName;
         setFirstName(firstName);
         setIsFirstNameLoaded(true);
       },
@@ -121,9 +121,11 @@ const Study = () => {
         const firstKeyTopicToday = keyTopics.filter((keyTopic) =>
           isToday(keyTopic.duedate)
         )[0]?._id;
-        console.log("ID: ", firstKeyTopicToday);
+        "ID: ", firstKeyTopicToday;
         dispatch(setDailyKeyTopicId(firstKeyTopicToday));
-        const sortedByProgress = keyTopics.sort((a, b) => b.progress - a.progress);
+        const sortedByProgress = keyTopics.sort(
+          (a, b) => b.progress - a.progress
+        );
         setKeyTopics(sortedByProgress);
         setIsKeyTopicsLoaded(true);
       },
@@ -197,11 +199,16 @@ const Study = () => {
               justifyContent: "center",
               marginBottom: 24,
               width: "100%",
-              marginHorizontal: 0
+              marginHorizontal: 0,
             }}
             onPress={() => navigate("CreateContent")}
           >
-            <Text style={{...globalStyles.buttons.primary.text, textAlign: "center"}}>
+            <Text
+              style={{
+                ...globalStyles.buttons.primary.text,
+                textAlign: "center",
+              }}
+            >
               Create New Learning Material
             </Text>
           </Pressable>

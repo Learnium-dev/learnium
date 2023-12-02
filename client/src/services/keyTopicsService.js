@@ -4,7 +4,7 @@ import baseURL from "../../assets/common/baseUrl";
 
 export const getKeyTopics = async (folderId) => {
   let token = await AsyncStorage.getItem("jwt");
-  console.log("🚀 ~ file: keyTopicsService.js:7 ~ token:", token)
+  console.log("🚀 ~ file: keyTopicsService.js:7 ~ token:", token);
   let tokenEmail = await AsyncStorage.getItem("email");
 
   const options = {

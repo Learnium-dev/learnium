@@ -21,6 +21,7 @@ import { styles } from "../Progress/styles/singleKeyTopicStyles";
 
 // helpers
 import baseURL from "../../../../assets/common/baseUrl";
+import { getLumiOverall } from "../../../../utils/getLumiOverall";
 
 // components
 import QuizCard from "../Progress/components/QuizCard";
@@ -36,10 +37,9 @@ import { ScrollView } from "react-native-gesture-handler";
 const SingleKeyTopicProgress = (props) => {
   const { token } = useSelector((state) => state.credentials);
   const [quizzes, setQuizzes] = useState([]);
-  // const route = useRoute();
-  // const { name, materialName, id, duedate } = route.params;
   const { keyTopic } = props.route.params;
   const [highestScore, setHighestScore] = useState(0);
+  const [average, setAverage] = useState(0);
   const { navigate } = useNavigation();
 
   useEffect(() => {
@@ -54,6 +54,7 @@ const SingleKeyTopicProgress = (props) => {
           }
         );
         setQuizzes(response?.data);
+
         if (response?.data.length < 3) {
           const newQuizzes = Array.from(
             { length: 3 - response?.data.length },
@@ -64,6 +65,17 @@ const SingleKeyTopicProgress = (props) => {
           );
           setQuizzes([...response?.data, ...newQuizzes]);
         }
+
+        // Calculate the average of quizzes
+        let totalProgress = response.data.reduce(
+          (sum, quiz) => sum + quiz.progress,
+          0
+        );
+        const averageProgress = totalProgress / response.data.length;
+
+        setAverage(averageProgress);
+        console.log("THIS IS THE AVERAGE: ", average);
+
         setHighestScore(
           response.data.reduce(
             (max, quiz) => (quiz.progress > max ? quiz.progress : max),
@@ -83,10 +95,13 @@ const SingleKeyTopicProgress = (props) => {
         {/* Header */}
         <Header name={keyTopic?.name} materialName={keyTopic?.folderid?.name} />
 
-        <ScrollView contentContainerStyle={{flex: 1}} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={{ flex: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
           {/* Banner */}
           <View style={styles.banner}>
-            <LumiGrade width={140} height={125} />
+            {getLumiOverall(average)}
             <View
               style={{
                 flex: 1,
@@ -146,7 +161,7 @@ const SingleKeyTopicProgress = (props) => {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             >
-              <FlatList
+              {/* <FlatList
                 horizontal={true}
                 contentContainerStyle={{
                   display: "flex",
@@ -163,13 +178,30 @@ const SingleKeyTopicProgress = (props) => {
                   }
                 }}
                 keyExtractor={(item) => item.id}
-              />
+              /> */}
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  gap: 10,
+                  width: "100%",
+                  marginVertical: 15,
+                }}
+              >
+                {quizzes.map((item, index) => {
+                  if (item?.progress > 0) {
+                    return <QuizCard key={item.id} item={item} index={index} />;
+                  }
+                  return null; // Ensure you return null for items you don't want to render
+                })}
+              </View>
             </ScrollView>
           </View>
 
           {/* Buttons */}
-          <View  style={{flex: 1, justifyContent: "flex-end"}}
->
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <Pressable
               onPress={() => navigate("KeyTopic", { keyTopic })}
               style={{
@@ -187,7 +219,6 @@ const SingleKeyTopicProgress = (props) => {
               <Text style={styles.btnText}>Start a Quiz</Text>
             </Pressable>
           </View>
-
         </ScrollView>
       </View>
     </SafeAreaView>

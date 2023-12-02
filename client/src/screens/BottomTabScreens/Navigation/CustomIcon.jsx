@@ -33,8 +33,7 @@ const CustomIcon = ({ route, active }) => {
             <LottieView
               source={require("../../../../assets/icons/NavBar/Study/data.json")}
               autoPlay
-              loop
-              // loop={false}
+              loop={false}
               style={{
                 height: "100%",
                 width: "100%",
@@ -47,7 +46,6 @@ const CustomIcon = ({ route, active }) => {
       }
       if (route == "Progress") {
         setShowIcon(
-
           <View
             style={{
               borderColor: globalStyles.colors.primary,
@@ -60,7 +58,6 @@ const CustomIcon = ({ route, active }) => {
             <LottieView
               source={require("../../../../assets/icons/NavBar/Progress/data.json")}
               autoPlay
-              // loop
               loop={false}
               style={{
                 height: "100%",
@@ -86,8 +83,7 @@ const CustomIcon = ({ route, active }) => {
             <LottieView
               source={require("../../../../assets/icons/NavBar/Daily/data.json")}
               autoPlay
-              loop
-              // loop={false}
+              loop={false}
               style={{
                 height: "100%",
                 width: "100%",
@@ -112,7 +108,6 @@ const CustomIcon = ({ route, active }) => {
             <LottieView
               source={require("../../../../assets/icons/NavBar/Profile/data.json")}
               autoPlay
-              // loop
               loop={false}
               style={{
                 height: "100%",
@@ -140,8 +135,7 @@ const CustomIcon = ({ route, active }) => {
         <LottieView
           source={require("../../../../assets/icons/NavBar/Study/data.json")}
           autoPlay
-          loop
-          // loop={false}
+          loop={false}
           style={{
             height: "90%",
             width: "100%",
@@ -174,8 +168,7 @@ const CustomIcon = ({ route, active }) => {
         <LottieView
           source={require("../../../../assets/icons/NavBar/Daily/data.json")}
           autoPlay
-          loop
-          // loop={false}
+          loop={false}
           style={{
             height: "90%",
             width: "100%",
@@ -191,7 +184,6 @@ const CustomIcon = ({ route, active }) => {
         <LottieView
           source={require("../../../../assets/icons/NavBar/Profile/data.json")}
           autoPlay
-          // loop
           loop={false}
           style={{
             height: "90%",
@@ -204,7 +196,6 @@ const CustomIcon = ({ route, active }) => {
       );
     }
   };
-
 
   const activeIcons = {
     StudyHome: (
@@ -226,7 +217,6 @@ const CustomIcon = ({ route, active }) => {
       <LottieView
         source={require("../../../../assets/icons/NavBar/Progress/data.json")}
         autoPlay
-        // loop
         loop={false}
         style={{
           height: "90%",
@@ -241,8 +231,7 @@ const CustomIcon = ({ route, active }) => {
       <LottieView
         source={require("../../../../assets/icons/NavBar/Daily/data.json")}
         autoPlay
-        loop
-        // loop={false}
+        loop={false}
         style={{
           height: "90%",
           width: "100%",
@@ -256,7 +245,6 @@ const CustomIcon = ({ route, active }) => {
       <LottieView
         source={require("../../../../assets/icons/NavBar/Profile/data.json")}
         autoPlay
-        // loop
         loop={false}
         style={{
           height: "90%",

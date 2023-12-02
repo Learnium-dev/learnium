@@ -13,7 +13,7 @@ import LumiQuizSetup from "../../assets/images/characters/LumiQuizSetup.svg";
 import { globalStyles } from "../../assets/common/global-styles";
 
 const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
-  // console.log("keyTopic", keyTopic);
+  //  ("keyTopic", keyTopic);
   const [trueFalse, setTrueFalse] = useState(true);
   const [multipleChoice, setMultipleChoice] = useState(true);
   const [written, setWritten] = useState(true);
@@ -22,17 +22,17 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
 
   const toggleTrueFalse = () => {
     setTrueFalse((isEnabled) => !isEnabled);
-    console.log("toggleSwitch");
+    ("toggleSwitch");
   };
   const toggleWritten = () => {
     setWritten((isEnabled) => !isEnabled);
 
-    console.log("toggleSwitch");
+    ("toggleSwitch");
   };
   const toggleMultipleChoice = () => {
     setMultipleChoice((isEnabled) => !isEnabled);
 
-    console.log("toggleSwitch");
+    ("toggleSwitch");
   };
 
   const handleStart = () => {
@@ -71,7 +71,7 @@ const QuizSetupView = ({ onStartQuiz, keyTopic }) => {
         </View> */}
         <View
           style={{
-            ...styles.setup
+            ...styles.setup,
           }}
         >
           <View

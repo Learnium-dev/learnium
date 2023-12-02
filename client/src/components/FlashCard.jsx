@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import flashCardsSlice from "../../slices/flashCardsSlice";
 import FlashCardInfoView from "../layout/FlashCardInfoView";
 
-
 // import { useSelector } from "react-redux";
 
 const FlashCard = ({ card, termFirst, markDifficult }) => {
@@ -48,7 +47,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
   const flipCard = () => {
     console.log("cardIndex", cardIndex);
     setIsFlipped(!isFlipped);
-    console.log("🚀 ~ file: FlashCard.jsx:56 ~ isFlipped:", isFlipped)
+    console.log("🚀 ~ file: FlashCard.jsx:56 ~ isFlipped:", isFlipped);
     handleSubmitAnswer();
     console.log("isValidated", isValidated);
     if (!isValidated) {
@@ -101,7 +100,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
 
       const data = await response.json();
       console.log("data", data);
-      
+
       setIsCorrect(data.response);
       // setIsCorrectFeedback(data.feedback);
       setIsCorrectLoading(false);
@@ -162,67 +161,66 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
       }
       style={styles.keyboardContainer}
     >
-        <View style={styles.mainContainer} >
-          {/* Decorative card deck */}
-          <View
+      <View style={styles.mainContainer}>
+        {/* Decorative card deck */}
+        <View
+          style={{
+            ...styles.deckOne,
+            display: showingInfo ? "none" : "block",
+          }}
+        />
+        <View
+          style={{
+            ...styles.deckTwo,
+            display: showingInfo ? "none" : "block",
+          }}
+        />
+
+        <View style={styles.cardContainer}>
+          {/* Show flashcard info */}
+          {showingInfo && <FlashCardInfoView />}
+
+          {/* SHOW FLASHCARD */}
+          <FlipCard
             style={{
-              ...styles.deckOne,
-              display: showingInfo ? "none" : "block",
+              ...styles.card,
+              backgroundColor: isFlipped
+                ? globalStyles.colors.primary
+                : "white",
             }}
-          />
-          <View
-            style={{
-              ...styles.deckTwo,
-              display: showingInfo ? "none" : "block",
-            }}
-          />
-
-          <View style={styles.cardContainer}>
-            {/* Show flashcard info */}
-            {showingInfo && <FlashCardInfoView />}
-          
-
-            {/* SHOW FLASHCARD */}
-            <FlipCard
-              style={{
-                ...styles.card,
-                backgroundColor: isFlipped
-                  ? globalStyles.colors.primary
-                  : "white",
-              }}
-              friction={10}
-              flipHorizontal={true}
-              flipVertical={false}
-              clickable={true}
-              onFlipStart={flipCard}
-            >
-              {renderSide()}
-              {renderSide()}
-            </FlipCard>
-          </View>
-
-          {/* INFO BUTTON */}
-          <View style={styles.infoButtonContainer}>
-            <Pressable
-              style={{
-                ...styles.infoButton,
-                backgroundColor: showingInfo
-                  ? "white"
-                  : globalStyles.colors.primary,
-              }}
-              onPress={() => dispatch(setShowingInfo(!showingInfo))}
-            >
-              <Text
-                style={{
-                  ...styles.infoButtonText,
-                  color: showingInfo ? "black" : "white",
-                }}
-              >
-                i
-              </Text>
-            </Pressable>
-          </View>
+            friction={10}
+            flipHorizontal={true}
+            flipVertical={false}
+            clickable={true}
+            onFlipStart={flipCard}
+          >
+            {renderSide()}
+            {renderSide()}
+          </FlipCard>
         </View>
+
+        {/* INFO BUTTON */}
+        <View style={styles.infoButtonContainer}>
+          <Pressable
+            style={{
+              ...styles.infoButton,
+              backgroundColor: showingInfo
+                ? "white"
+                : globalStyles.colors.primary,
+            }}
+            onPress={() => dispatch(setShowingInfo(!showingInfo))}
+          >
+            <Text
+              style={{
+                ...styles.infoButtonText,
+                color: showingInfo ? "black" : "white",
+              }}
+            >
+              i
+            </Text>
+          </Pressable>
+        </View>
+      </View>
     </KeyboardAvoidingView>
   );
 };

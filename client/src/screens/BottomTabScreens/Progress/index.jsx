@@ -32,13 +32,20 @@ import { getKeyTopics } from "../../../services/keyTopicsService";
 
 const { width } = Dimensions.get("window");
 
-const Progress = ({route}) => {
+const Progress = ({ route }) => {
   const barWidth = useRef(new Animated.Value(0)).current;
   const [inProgress, setInProgress] = useState([]);
   const [completed, setCompleted] = useState([]);
   const [progress, setProgress] = useState(1);
   const [fetched, setFetched] = useState(false);
+  const [randomReload, setRandomReload] = useState(0);
+
   const { navigate } = useNavigation();
+
+  useEffect(() => {
+    setRandomReload(route.params?.reload);
+    loadKeyTopics();
+  }, [route.params?.reload]);
 
   useEffect(() => {
     loadKeyTopics();
@@ -54,10 +61,10 @@ const Progress = ({route}) => {
     getKeyTopics().then(
       (keyTopics) => {
         const inProgressData = keyTopics.filter(
-          (keyTopic) => keyTopic.progress < 100
+          (keyTopic) => keyTopic.progress < 99.99
         );
         const completedData = keyTopics.filter(
-          (keyTopic) => keyTopic.progress === 100
+          (keyTopic) => keyTopic.progress >= 99.99
         );
 
         setInProgress(inProgressData);

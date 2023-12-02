@@ -46,22 +46,22 @@ const askai = async (req, res) => {
 };
 
 const getChatResponse = async (questionParam) => {
-  console.log("questionParam",questionParam)
+  console.log("questionParam", questionParam);
   const embeddings = new OpenAIEmbeddings({ openAIApiKey: AIKEY });
 
-
   const vectorStore = await FaissStore.load("./", embeddings);
-  
 
-  const model = new OpenAILangChain({ temperature: 0, openAIApiKey: AIKEY , modelName:"gpt-4"});
+  const model = new OpenAILangChain({
+    temperature: 0,
+    openAIApiKey: AIKEY,
+    modelName: "gpt-4",
+  });
 
   const chat = new ChatOpenAI({ temperature: 0, openAIApiKey: AIKEY });
 
-
-
   const fasterModel = new ChatOpenAI({
     modelName: "gpt-3.5-turbo",
-    openAIApiKey: AIKEY
+    openAIApiKey: AIKEY,
   });
 
   const chain = ConversationalRetrievalQAChain.fromLLM(
@@ -90,7 +90,7 @@ const getChatResponse = async (questionParam) => {
     const resInput99 = await chain.call({
       question: question99,
     });
-    
+
     console.log(resInput99.text);
     return resInput99.text;
   } catch (error) {

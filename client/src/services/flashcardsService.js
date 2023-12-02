@@ -42,7 +42,7 @@ export const getMaterialFlashCards = async (folderid) => {
 
   try {
     const response = await axios(options);
-    console.log('response.data', response.data)
+    console.log("response.data", response.data);
     return response.data;
   } catch (error) {
     console.error("Error getting flashcards", error);

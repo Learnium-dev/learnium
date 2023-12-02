@@ -148,7 +148,12 @@ const QuizResult = ({ route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ ...styles.btns, backgroundColor: "#7000FF" }}
-            onPress={() => navigate("Progress", { screen: "ProgressPage" })}
+            onPress={() =>
+              navigate("Progress", {
+                screen: "ProgressPage",
+                params: { reload: Math.random() },
+              })
+            }
           >
             <Text style={{ ...styles.btnsText, color: "#FFF" }}>
               View Progress

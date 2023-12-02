@@ -10,8 +10,6 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
   const [isOptionSelected, setIsOptionSelected] = useState("");
 
   const selectQuizOption = (option) => {
-    console.log("🚀 ~ file: Quiz.jsx:26 ~ option:", option);
-    console.log("correctanswer", correctanswer);
     if (isOptionSelected == option) {
       setIsOptionSelected("");
       let result = {
@@ -35,9 +33,6 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
         correctanswer: correctanswer,
       };
       quizResult(result);
-      console.log("correctanswer", correctanswer);
-      console.log("option", option);
-      console.log("correct");
     } else if (option != correctanswer && !isOptionSelected) {
       let result = {
         index: index,
@@ -47,7 +42,6 @@ const Quiz = ({ keyTopic, card, index, next, previous, quiz, quizResult }) => {
         correctanswer: correctanswer,
       };
       quizResult(result);
-      console.log("incorrect");
     }
   };
   return (
