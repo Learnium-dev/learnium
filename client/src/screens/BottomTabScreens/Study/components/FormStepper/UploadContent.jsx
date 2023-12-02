@@ -48,7 +48,6 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.credentials);
   const { email } = useSelector((state) => state.credentials);
-  console.log("🚀 ~ file: UploadContent.jsx:45 ~ email:", email);
 
   const { content } = useSelector((state) => state.exam);
   const [disabled, setDisabled] = useState(true);
@@ -154,7 +153,7 @@ const UploadContent = ({ name, next, setCurrentStep }) => {
 
   // Function to perform OCR on an image
   const performOCR = (file) => {
-    setText("Loading...")
+    setText("Loading...");
     let myHeaders = new Headers();
     myHeaders.append("apikey", "FEmvQr5uj99ZUvk3essuYb6P5lLLBS20");
     myHeaders.append("Content-Type", "multipart/form-data");

@@ -39,12 +39,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Base Url
 import baseURL from "../../../../assets/common/baseUrl";
 
+// helpers
+import { getLumiHistory } from "../../../../utils/getLumiHistory";
+
 // Redux
 import { useSelector } from "react-redux";
 
 // SVG
-import LumiBanner from "../../../../assets/images/characters/quizHistoryLumi.svg";
-import LumiBannerB from "../../../../assets/images/characters/LumiBannerBPlus.svg";
 import LumiNoQuiz from "../../../../assets/images/characters/LumiNoQuiz.svg";
 import AskAI from "../../../../assets/icons/askAI.svg";
 
@@ -53,6 +54,7 @@ const KeyTopic = (props) => {
   const { keyTopic } = props.route.params;
   const { token } = useSelector((state) => state.credentials);
   const [quizzes, setQuizzes] = useState([]);
+  const [average, setAverage] = useState(0);
 
   const bottomSheetModalRef = useRef(null);
   const quizModalRef = useRef(null);
@@ -114,6 +116,16 @@ const KeyTopic = (props) => {
           (a, b) => b?.progress - a?.progress
         );
         setQuizzes(sortingQuizzes);
+
+        // Calculate the average of quizzes
+        let totalProgress = response?.data.reduce(
+          (sum, quiz) => sum + quiz.progress,
+          0
+        );
+        const averageProgress = totalProgress / response.data.length;
+        setAverage(averageProgress);
+
+        console.log("THIS IS THE AVERAGE: ", average);
       } catch (error) {
         console.log(error);
       }
@@ -247,10 +259,14 @@ const KeyTopic = (props) => {
                 overflow: "hidden",
               }}
             >
-              {!quizzes.length ? (
+              {false ? (
                 <LumiNoQuiz width={140} height={95} />
               ) : (
-                <LumiBannerB width={140} height={95} />
+                <View style={{ width: 140, height: 95 }}>
+                  <View style={{ position: "absolute", left: -53, top: -20 }}>
+                    {getLumiHistory(average)}
+                  </View>
+                </View>
               )}
 
               <Text

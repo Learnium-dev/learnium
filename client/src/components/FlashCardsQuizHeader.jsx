@@ -59,15 +59,14 @@ const FlashCardsQuizHeader = ({
     if (isActive) {
       interval = setInterval(() => {
         setSeconds(seconds + 1);
-        timeConsumed(seconds)
+        timeConsumed(seconds);
       }, 1000);
     } else if (!isActive && seconds !== 0) {
       clearInterval(interval);
     }
-    
+
     return () => clearInterval(interval);
   }, [isActive, seconds, isQuizStart]);
-
 
   const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);
@@ -124,7 +123,6 @@ const FlashCardsQuizHeader = ({
             </View>
             <View style={styles.index}>
               <Text style={styles.indexText}>
-         
                 {cardIndex + 1} / {numberOfCards}
               </Text>
             </View>
@@ -135,7 +133,6 @@ const FlashCardsQuizHeader = ({
           <View style={styles.right}>
             <View style={styles.index}>
               <Text style={styles.indexText}>
-          
                 {currentIndex + 1} / {cards.length}
               </Text>
             </View>

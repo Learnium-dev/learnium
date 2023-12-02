@@ -3,25 +3,32 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
 import { useState } from "react";
 import { globalStyles } from "../../assets/common/global-styles";
 
-const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback, aiResponse, feedbackLoading }) => {
-
-
+const DefinitionFirstView = ({
+  isFlipped,
+  details,
+  answer,
+  onAnswer,
+  aiFeedback,
+  aiResponse,
+  feedbackLoading,
+}) => {
   // const [aiFeedback, setAiFeedback] = useState(isCorrectFeedback);
-  // console.log("🚀 ~ file: DefinitionFirstView.jsx:9 ~ aiFeedback:", aiFeedback)
+  //  ("🚀 ~ file: DefinitionFirstView.jsx:9 ~ aiFeedback:", aiFeedback)
   // const [aiResponse, setAiResponse] = useState(isCorrectResponse);
-  // console.log("🚀 ~ file: DefinitionFirstView.jsx:11 ~ aiResponse:", aiResponse)
+  //  ("🚀 ~ file: DefinitionFirstView.jsx:11 ~ aiResponse:", aiResponse)
 
-  
   // const [value, onChangeText] = useState('');
 
   const backgroundSource = () => {
-    return isFlipped ? require("../../assets/images/decorative/card-back.png") : null
-  }
+    return isFlipped
+      ? require("../../assets/images/decorative/card-back.png")
+      : null;
+  };
 
   return (
     <ImageBackground
@@ -108,7 +115,7 @@ const DefinitionFirstView = ({ isFlipped, details, answer, onAnswer, aiFeedback,
       )}
     </ImageBackground>
   );
-}
+};
 
 const styles = StyleSheet.create({
   mainContainer: {

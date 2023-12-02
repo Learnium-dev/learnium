@@ -24,9 +24,9 @@ const KeyTopicCard = ({ item }) => {
   };
 
   const accentColor = (progress) => {
-    if (progress >= 85) {
+    if (progress >= 66.66) {
       return "#7000FF";
-    } else if (progress < 85 && progress > 0) {
+    } else if (progress < 66.66 && progress > 0) {
       return "#FF4C4C";
     } else {
       return "#5F5F5F";
@@ -34,12 +34,31 @@ const KeyTopicCard = ({ item }) => {
   };
 
   const accentColorBorder = (progress) => {
-    if (progress >= 85) {
+    if (progress >= 66.66) {
       return "#7000FF";
-    } else if (progress < 85 && progress > 0) {
+    } else if (progress < 66.66 && progress > 0) {
       return "#7A0000";
     } else {
       return "#5F5F5F";
+    }
+  };
+
+  const setPositionLumi = (progress) => {
+    if (progress === 99.99) {
+      return {
+        right: 0,
+        bottom: 0,
+      };
+    } else if (progress <= 66.66 && progress > 33.33) {
+      return {
+        right: -30,
+        bottom: -35,
+      };
+    } else {
+      return {
+        right: 0,
+        bottom: 0,
+      };
     }
   };
 
@@ -52,7 +71,11 @@ const KeyTopicCard = ({ item }) => {
         }}
       >
         <Text
-          style={{ ...styles.cardTitle, paddingRight: 70, color: accentColor(item?.progress) }}
+          style={{
+            ...styles.cardTitle,
+            paddingRight: 70,
+            color: accentColor(item?.progress),
+          }}
           numberOfLines={1}
           ellipsizeMode="tail"
         >
@@ -62,7 +85,15 @@ const KeyTopicCard = ({ item }) => {
         <Text style={styles.cardDueDate}>
           Due Date: {formatDate(item?.duedate)}
         </Text>
-        <View style={{...styles.cardCharacter, ...getSleepingCharacterStyle(item?.progress)}}>{getLumi(item?.progress)}</View>
+        <View
+          style={{
+            ...styles.cardCharacter,
+            ...setPositionLumi(item?.progress),
+            ...getSleepingCharacterStyle(item?.progress),
+          }}
+        >
+          {getLumi(item?.progress)}
+        </View>
       </View>
     </Pressable>
   );
