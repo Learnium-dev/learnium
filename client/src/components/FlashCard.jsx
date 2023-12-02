@@ -5,6 +5,7 @@ import {
   Pressable,
   Platform,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
 import { useState } from "react";
 import TermFirstView from "../layout/TermFirstView";
@@ -201,7 +202,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
 
         {/* INFO BUTTON */}
         <View style={styles.infoButtonContainer}>
-          <Pressable
+          <TouchableOpacity
             style={{
               ...styles.infoButton,
               backgroundColor: showingInfo
@@ -218,7 +219,7 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
             >
               i
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </KeyboardAvoidingView>

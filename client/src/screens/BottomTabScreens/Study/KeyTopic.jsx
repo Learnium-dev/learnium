@@ -259,7 +259,7 @@ const KeyTopic = (props) => {
                 overflow: "hidden",
               }}
             >
-              {false ? (
+              {!quizzes.length ? (
                 <LumiNoQuiz width={140} height={95} />
               ) : (
                 <View style={{ width: 140, height: 95 }}>

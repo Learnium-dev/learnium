@@ -1,24 +1,49 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 
 // lottie view
 import LottieView from "lottie-react-native";
 
-// static icons
-import BookmarkInfo from "../../assets/icons/bookmark-info.svg";
-import TapToSeeAnswer from "../../assets/icons/tap-to-view.svg";
-import Previous from "../../assets/icons/previous.svg";
-import Next from "../../assets/icons/next.svg";
+// react
+import { useRef, useEffect } from "react";
+
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import flashCardsSlice from "../../slices/flashCardsSlice";
 
 const FlashCardInfoView = () => {
+  const animation = useRef(null);
+  const animation2 = useRef(null);
+  const animation3 = useRef(null);
+  const animation4 = useRef(null);
+
+  const dispatch = useDispatch();
+  const showingInfo = useSelector((state) => state.flashCards.showingInfo);
+  const { setShowingInfo } = flashCardsSlice.actions;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      animation.current?.play();
+      animation2.current?.play();
+      animation3.current?.play();
+      animation4.current?.play();
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <View style={styles.mainContainer}>
+    <Pressable
+      onPress={() => dispatch(setShowingInfo(!showingInfo))}
+      style={styles.mainContainer}
+    >
       <View style={styles.overlay} />
       <Text style={styles.tapToMark}>Tap to mark as difficult</Text>
       <View style={styles.bookmarkInfoIconA}>
         <LottieView
+          ref={animation}
           source={require("../../assets/icons/Study/Bookmark/data.json")}
           autoPlay
-          loop
+          loop={true}
           style={{ width: 30, height: 60 }}
         />
       </View>
@@ -26,9 +51,10 @@ const FlashCardInfoView = () => {
       <View style={styles.tapToSeeAnswer}>
         <Text style={styles.textItem}>Tap to see answer</Text>
         <LottieView
+          ref={animation2}
           source={require("../../assets/icons/Study/Tap to see answer/data.json")}
           autoPlay
-          loop
+          loop={true}
           style={{ width: 30, height: 60 }}
         />
         {/* <TapToSeeAnswer /> */}
@@ -38,9 +64,10 @@ const FlashCardInfoView = () => {
         <View style={styles.navHelpItem}>
           <View style={styles.prevImageA}>
             <LottieView
+              ref={animation3}
               source={require("../../assets/icons/Study/Previous/data.json")}
               autoPlay
-              loop
+              loop={true}
               style={{ width: 30, height: 60 }}
             />
           </View>
@@ -51,18 +78,17 @@ const FlashCardInfoView = () => {
           <View style={styles.navHelpItem}>
             <View style={styles.nextImageA}>
               <LottieView
+                ref={animation4}
                 source={require("../../assets/icons/Study/Next/data.json")}
                 autoPlay
-                loop
+                loop={true}
                 style={{ width: 30, height: 60 }}
               />
             </View>
-            {/* <Text style={styles.textItem}>Next</Text>
-            <Next style={styles.nextImage} /> */}
           </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

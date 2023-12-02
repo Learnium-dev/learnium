@@ -94,7 +94,7 @@ function TabBottomNavigator() {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: {
-          height: 80,
+          height: 85,
           borderTopWidth: 2,
           borderTopColor: "#CDCDCD",
           bottom: 0,
@@ -120,65 +120,6 @@ function TabBottomNavigator() {
       })}
     </Tab.Navigator>
   );
-
-  // return (
-  //   <Tab.Navigator
-  //     screenOptions={{
-  //       tabBarStyle: {
-  //         margin: 0,
-  //         marginBottom: 0,
-  //         paddingTop: 20,
-  //         paddingBottom: 40,
-  //       },
-  //     }}
-  //   >
-  //     <Tab.Screen
-  //       name="StudyHome"
-  //       component={StudyStackNavigator}
-  //       options={({ route, navigation }) => ({
-  //         tabBarButton: (props) => <TouchableOpacity onPress={() =>  ("Pressed Study")} {...props} />,
-  //         headerShown: false,
-  //         tabBarIcon: ({ focused }) => <StudyTabIcon />,
-  //         tabBarShowLabel: false,
-  //         tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
-  //       })}
-  //     />
-  //     <Tab.Screen
-  //       name="Progress"
-  //       component={ProgressStackNavigator}
-  //       options={({ route, navigation }) => ({
-  //         headerShown: false,
-  //         tabBarIcon: ({ focused }) => <ProgressTabIcon />,
-  //         tabBarShowLabel: false,
-  //         tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
-
-  //       })}
-  //     />
-  //     <Tab.Screen
-  //       name="DailyHome"
-  //       component={DailyStackNavigator}
-  //       options={{
-  //         headerShown: false,
-  //         tabBarIcon: ({ focused }) => <DailyTabIcon />,
-  //         tabBarShowLabel: false,
-  //       }}
-  //     />
-  //     <Tab.Screen
-  //       name="Account"
-  //       component={Account}
-  //       options={{
-  //         headerShown: false,
-  //         tabBarIcon: ({ focused }) => <ProfileTabIcon />,
-  //         tabBarShowLabel: false,
-  //       }}
-  //     />
-  //     {/* <Tab.Screen
-  //       name="Account"
-  //       component={Account}
-  //       options={{ headerShown: false }}
-  //     /> */}
-  //   </Tab.Navigator>
-  // );
 }
 
 const getRouteName = (route) => {
