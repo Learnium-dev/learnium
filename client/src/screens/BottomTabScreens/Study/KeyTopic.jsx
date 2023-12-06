@@ -279,7 +279,7 @@ const KeyTopic = (props) => {
                 }}
               >
                 {quizzes.length < 3
-                  ? "Complete 3 quizzes to get a grade!"
+                  ? "Complete 3 quizzes to complete this topic!"
                   : "Average Score in your past quizzes"}
               </Text>
             </View>
