@@ -40,13 +40,11 @@ import AllMaterialsProgressTabBar from "../../../components/AllMaterialsProgress
 import MaterialsProgressTabView from "../../../layout/MaterialsProgressTabView";
 import { getFolders } from "../../../services/foldersService";
 
-
-
 // const FirstRoute = () => {
 //   // Click Search
-  const handleClick = () => {
-    console.log("Clicked");
-  };
+const handleClick = () => {
+  console.log("Clicked");
+};
 
 const AllMaterials = () => {
   const dispatch = useDispatch();
@@ -64,7 +62,7 @@ const AllMaterials = () => {
   ]);
 
   useEffect(() => {
-//Get token
+    //Get token
     AsyncStorage.getItem("jwt").then((token) => {
       if (token) {
         dispatch(setToken(token));
@@ -77,19 +75,19 @@ const AllMaterials = () => {
         });
       }
     });
-      loadFolders();
-   
+    loadFolders();
   }, []);
-    
+
   // Get folders
   const loadFolders = () => {
-    getFolders().then((folders) => {
-      console.log("Folders loaded", folders);
-      setFolders(folders);
-      setIsFoldersLoaded(true);
-    },
+    getFolders().then(
+      (folders) => {
+        console.log("Folders loaded", folders);
+        setFolders(folders);
+        setIsFoldersLoaded(true);
+      },
       (error) => {
-      alert("Error", `Couldn't load Materials! ${error}`);
+        alert("Error", `Couldn't load Materials! ${error}`);
       }
     );
   };
@@ -108,13 +106,11 @@ const AllMaterials = () => {
   };
 
   const renderScene = ({ route }) => {
-    return MaterialsProgressTabView({ 
+    return MaterialsProgressTabView({
       selectedView: route.key,
       folders: filteredFolders(route.key),
     });
   };
-
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -150,16 +146,12 @@ const AllMaterials = () => {
       />
     </SafeAreaView>
   );
-}
+};
 
 export default AllMaterials;
 
-
-
 //   return (
 //     <>
-
-
 
 //       <MaterialCard />
 //     </>

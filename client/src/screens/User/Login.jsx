@@ -1,4 +1,10 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useContext,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
 import {
   View,
   Text,
@@ -29,11 +35,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Lumi from "../../../assets/images/characters/login_lumi.svg";
 
 const Login = (props) => {
+  const animation = useRef(null);
   const context = useContext(AuthGlobal);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showSplash, setShowSplash] = useState(true);
+
+  const onFinish = () => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  };
 
   useEffect(() => {
     if (context.stateUser.isAuthenticated === true) {
@@ -58,12 +73,21 @@ const Login = (props) => {
     <Pressable style={styles.container} onPress={() => Keyboard.dismiss()}>
       {/* Splash Screen */}
       <LottieView
-            style={{ position: "absolute", zIndex: 10, top: 0, left: 0, right: 0, bottom: 0, display: showSplash ? "flex" : "none"}}
-            source={require("../../../assets/splash/data.json")}
-            autoPlay
-            loop={false}
-            onAnimationFinish={() => setShowSplash(false)}
-          />
+        style={{
+          position: "absolute",
+          zIndex: 10,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: showSplash ? "flex" : "none",
+        }}
+        source={require("../../../assets/splash/data.json")}
+        autoPlay={true}
+        ref={animation}
+        loop={false}
+        onAnimationFinish={onFinish}
+      />
       <SafeAreaView
         style={{
           flex: 1,
@@ -140,7 +164,10 @@ const Login = (props) => {
 
             <View style={styles.buttonGroup}>
               {error ? <Error message={error} /> : null}
-              <TouchableOpacity style={styles.loginBtn} onPress={() => handleSubmit()}>
+              <TouchableOpacity
+                style={styles.loginBtn}
+                onPress={() => handleSubmit()}
+              >
                 <Text style={styles.loginTxt}>Login</Text>
               </TouchableOpacity>
             </View>

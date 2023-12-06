@@ -15,7 +15,6 @@ const AnswerCard = ({ item }) => {
   const { navigate } = useNavigation();
 
   const handleAskAI = (question, answer) => {
-    console.log("handleAskAI", question, answer);
     const askAIprops = {
       askTopic: "",
       questionAsk: question,

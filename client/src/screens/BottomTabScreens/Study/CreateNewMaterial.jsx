@@ -2,40 +2,32 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const CreateNewMaterial = () => {
+  const { navigate } = useNavigation();
 
-  
+  const handleUploadPDF = async () => {
+    try {
+      const res = await DocumentPicker.getDocumentAsync();
 
-    const { navigate } = useNavigation();
+      const formData = new FormData();
+      formData.append("pdf", {
+        uri: res.assets[0].uri,
+        name: res.assets[0].name,
+        type: res.assets[0].mimeType,
+      });
 
-    const handleUploadPDF = async () => {
-      try {
-        const res = await DocumentPicker.getDocumentAsync();
-        console.log(res);
-
-        const formData = new FormData();
-        formData.append("pdf", {
-          uri: res.assets[0].uri,
-          name: res.assets[0].name,
-          type: res.assets[0].mimeType,
-        });
-
-        const response = await axios.post(
-          "http://10.128.243.187:3000/upload-pdf",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        console.log(response.data);
-      } catch (error) {
-        console.log(error?.message);
-      }
-    };
-
-
+      const response = await axios.post(
+        "http://10.128.243.187:3000/upload-pdf",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <View style={styles.container}>

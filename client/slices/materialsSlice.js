@@ -13,15 +13,17 @@ export const fetchMaterial = createAsyncThunk(
   "fetchMaterial",
   async (folderid) => {
     const material = await getFolder(folderid);
-    console.log("material in material state", material);
     return material;
   }
 );
 
-export const fetchKeyTopics = createAsyncThunk("fetchKeyTopics", async (folderId) => {
-  const keyTopics = await getKeyTopics(folderId);
-  return keyTopics;
-});
+export const fetchKeyTopics = createAsyncThunk(
+  "fetchKeyTopics",
+  async (folderId) => {
+    const keyTopics = await getKeyTopics(folderId);
+    return keyTopics;
+  }
+);
 
 export const materialsSlice = createSlice({
   name: "material",

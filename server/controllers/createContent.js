@@ -1312,7 +1312,11 @@ const createContent = async (req, res) => {
             },
           ],
         };
-        const DBresponse = await postToDBServerSide(result, req.body.email, req.body.token);
+        const DBresponse = await postToDBServerSide(
+          result,
+          req.body.email,
+          req.body.token
+        );
         res.json(DBresponse);
       }
     });
@@ -1325,7 +1329,6 @@ const createContent = async (req, res) => {
   // const result = await chainCall();
   // res.json(result);
 };
-
 
 // ********** use text content to call openAI with primitive approach
 // : wrap everything in prompt and send**********
@@ -1452,7 +1455,6 @@ const embedInput = async (txtFileName) => {
   // return response;
 };
 
-
 // ********** sending prompt to openAI with different method
 // 1. **********
 // ====================================================================================================
@@ -1532,7 +1534,7 @@ const chainCall = async () => {
   // const formattedResponse = await parser.parse(response);
   // console.log(formattedResponse);
   // return formattedResponse;
-// 
+  //
   // ! approach 2 : RetrievalQAChain
 
   // const embeddings = new OpenAIEmbeddings({ openAIApiKey: AIKEY });
@@ -1771,7 +1773,7 @@ const postToDBServerSide = async (result, email, token) => {
       `http://localhost:3000/api/v1/folders/createcontent?email=${tokenEmail}`,
       requestOptions
     ); // Assuming your API endpoint is correct
-    console.log("URL",`${hostname}:${port}${api}/folders`);
+    console.log("URL", `${hostname}:${port}${api}/folders`);
 
     if (!folderRes.ok) {
       const error = folderRes.statusText;

@@ -46,7 +46,8 @@ import axios from "axios";
 
 // SVGs
 import { Feather } from "@expo/vector-icons";
-import LumiBanner from "../../../../assets/images/characters/quizHistoryLumi.svg";
+// import LumiBanner from "../../../../assets/images/characters/quizHistoryLumi.svg";
+import LumiBanner from "../../../../assets/images/characters/LumiNoQuiz.svg";
 
 const Material = (props) => {
   const { navigate } = useNavigation();
@@ -64,13 +65,13 @@ const Material = (props) => {
   const [completedKeyTopics, setCompletedKeyTopics] = useState(0);
 
   function formatDate() {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date().toLocaleDateString('en-US', options);
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return new Date().toLocaleDateString("en-US", options);
   }
 
   useEffect(() => {
     dispatch(fetchMaterial(keyTopic?.folderid?._id || keyTopic));
-    dispatch(fetchKeyTopics(keyTopic?.folderid?._id));
+    dispatch(fetchKeyTopics(keyTopic?.folderid?._id || keyTopic));
   }, [dispatch]);
 
   // Update completed key topics when keyTopics or keyTopic changes
@@ -94,7 +95,9 @@ const Material = (props) => {
     const fetchQuizzes = async (jwtToken) => {
       try {
         const response = await axios.get(
-          `${baseURL}historydetails?folderid=${keyTopic?.folderid?._id || keyTopic}`,
+          `${baseURL}historydetails?folderid=${
+            keyTopic?.folderid?._id || keyTopic
+          }`,
           {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
@@ -113,7 +116,9 @@ const Material = (props) => {
   }, []);
 
   // Sort key topics by progress to show lowest last
-  const sortedKeyTopics = [...keyTopics].sort((a, b) => b.progress - a.progress);
+  const sortedKeyTopics = [...keyTopics].sort(
+    (a, b) => b.progress - a.progress
+  );
 
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: 20, paddingBottom: 30 }}>
@@ -125,10 +130,12 @@ const Material = (props) => {
             <View>
               <Text style={styles.statsItemText}>Due date:</Text>
               <Text style={styles.statsItemText}>
-                {keyTopic?.dueDate ? new Date(keyTopic?.duedate).toLocaleDateString(
-                  undefined,
-                  shortDateOptions
-                ) : formatDate()}
+                {keyTopic?.dueDate
+                  ? new Date(keyTopic?.duedate).toLocaleDateString(
+                      undefined,
+                      shortDateOptions
+                    )
+                  : formatDate()}
               </Text>
             </View>
           </View>
@@ -468,7 +475,7 @@ const styles = StyleSheet.create({
     // borderTopColor: 'lightgrey',
     paddingTop: 20,
     paddingBottom: 10,
-    backgroundColor: "#f5f5f5"
+    backgroundColor: "#f5f5f5",
   },
 });
 

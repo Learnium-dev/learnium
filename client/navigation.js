@@ -4,10 +4,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 // react native nav
-import { getFocusedRouteNameFromRoute, useNavigation } from "@react-navigation/native";
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+} from "@react-navigation/native";
 
 // react native
-import {TouchableOpacity, View} from "react-native"
+import { TouchableOpacity, View } from "react-native";
 
 // redux
 import { useSelector } from "react-redux";
@@ -48,7 +51,7 @@ import Account from "./src/screens/BottomTabScreens/Account";
 import Toast from "react-native-toast-message";
 
 // react
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 import MaterialSummary from "./src/screens/BottomTabScreens/Study/MaterialSummary";
 import KeyTopicSummary from "./src/screens/BottomTabScreens/Study/KeyTopicSummary";
@@ -60,121 +63,63 @@ function TabBottomNavigator() {
   const Tab = createBottomTabNavigator();
 
   const TabArr = [
-    { route: 'StudyHome', component: StudyStackNavigator },
-    { route: 'Progress', component: ProgressStackNavigator },
-    { route: 'DailyHome', component: DailyStackNavigator },
-    { route: 'Account', component: Account },
+    { route: "StudyHome", component: StudyStackNavigator },
+    { route: "Progress", component: ProgressStackNavigator },
+    { route: "DailyHome", component: DailyStackNavigator },
+    { route: "Account", component: Account },
   ];
 
   const TabButton = (props) => {
     const { item, onPress, accessibilityState } = props;
     const focused = accessibilityState.selected;
-  
+
     return (
       <TouchableOpacity
         onPress={onPress}
         activeOpacity={1}
         style={{
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',          
+          justifyContent: "center",
+          alignItems: "center",
           // backgroundColor: "red",
-        }}>
-        <CustomIcon route={item?.route} 
-        active={focused} 
-        />
+        }}
+      >
+        <CustomIcon route={item?.route} active={focused} />
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   return (
     <Tab.Navigator
-    screenOptions={({route}) => ({
-      headerShown: false,
-      tabBarStyle: {
-        height: 80,
-        borderTopWidth: 2,
-        borderTopColor: "#CDCDCD",
-        bottom: 0,
-        right: 0,
-        left: 0,
-        paddingTop: 10,
-        display: getRouteName(route)
-      }
-    })}
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarStyle: {
+          height: 85,
+          borderTopWidth: 2,
+          borderTopColor: "#CDCDCD",
+          bottom: 0,
+          right: 0,
+          left: 0,
+          paddingTop: 10,
+          display: getRouteName(route),
+        },
+      })}
     >
       {TabArr.map((item, index) => {
         return (
-          <Tab.Screen key={index} name={item.route} component={item.component}
-              options={({ route }) => ({
-                tabBarShowLabel: false,
-                tabBarButton: (props) => <TabButton {...props} item={item} />
+          <Tab.Screen
+            key={index}
+            name={item.route}
+            component={item.component}
+            options={({ route }) => ({
+              tabBarShowLabel: false,
+              tabBarButton: (props) => <TabButton {...props} item={item} />,
             })}
           />
-        )
+        );
       })}
     </Tab.Navigator>
-  )
-
-
-  // return (
-  //   <Tab.Navigator
-  //     screenOptions={{
-  //       tabBarStyle: {
-  //         margin: 0,
-  //         marginBottom: 0,
-  //         paddingTop: 20,
-  //         paddingBottom: 40,
-  //       },
-  //     }}
-  //   >
-  //     <Tab.Screen
-  //       name="StudyHome"
-  //       component={StudyStackNavigator}
-  //       options={({ route, navigation }) => ({
-  //         tabBarButton: (props) => <TouchableOpacity onPress={() => console.log("Pressed Study")} {...props} />,
-  //         headerShown: false,
-  //         tabBarIcon: ({ focused }) => <StudyTabIcon />,
-  //         tabBarShowLabel: false,
-  //         tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
-  //       })}
-  //     />
-  //     <Tab.Screen
-  //       name="Progress"
-  //       component={ProgressStackNavigator}
-  //       options={({ route, navigation }) => ({
-  //         headerShown: false,
-  //         tabBarIcon: ({ focused }) => <ProgressTabIcon />,
-  //         tabBarShowLabel: false,
-  //         tabBarStyle: { display: getRouteName(route), paddingTop: 10 },
-
-  //       })}
-  //     />
-  //     <Tab.Screen
-  //       name="DailyHome"
-  //       component={DailyStackNavigator}
-  //       options={{
-  //         headerShown: false,
-  //         tabBarIcon: ({ focused }) => <DailyTabIcon />,
-  //         tabBarShowLabel: false,
-  //       }}
-  //     />
-  //     <Tab.Screen
-  //       name="Account"
-  //       component={Account}
-  //       options={{
-  //         headerShown: false,
-  //         tabBarIcon: ({ focused }) => <ProfileTabIcon />,
-  //         tabBarShowLabel: false,
-  //       }}
-  //     />
-  //     {/* <Tab.Screen
-  //       name="Account"
-  //       component={Account}
-  //       options={{ headerShown: false }}
-  //     /> */}
-  //   </Tab.Navigator>
-  // );
+  );
 }
 
 const getRouteName = (route) => {
@@ -192,21 +137,24 @@ function StudyStackNavigator() {
   const { uploaded, pdfName, folderId } = useSelector((state) => state.exam);
   const navigation = useNavigation();
 
-  console.log("This is the folderId: " , folderId)
+  "This is the folderId: ", folderId;
 
   useEffect(() => {
     const showToast = () => {
       Toast.show({
         autoHide: false,
-        visibilityTime: 4000,
+
+        // visibilityTime: 4000,
+
         position: "top",
         type: "contentToast",
         text1: "Explore New Content Now! 🚀 ",
         text2: `Title: ${pdfName || "Untitled"}`,
         props: {
-          navigateToMaterial: () => navigation.navigate("Material", { keyTopic: folderId}),
-          closeToast: () => Toast.hide()
-        }
+          navigateToMaterial: () =>
+            navigation.navigate("Material", { keyTopic: folderId }),
+          closeToast: () => Toast.hide(),
+        },
       });
     };
     if (uploaded) showToast();

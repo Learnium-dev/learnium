@@ -1,10 +1,8 @@
 import { View, Text } from "react-native";
-import React from "react";
-import { useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 
 // Icons Active - animated
 import LottieView from "lottie-react-native";
-import AnimatedIcon from "./AnimatedIcon";
 
 // Icons Inactive
 import StudyTabIcon from "../../../../assets/icons/study_icon.svg";
@@ -12,121 +10,8 @@ import ProgressTabIcon from "../../../../assets/icons/progress-tab.svg";
 import DailyTabIcon from "../../../../assets/icons/daily-tab.svg";
 import ProfileTabIcon from "../../../../assets/icons/profile-tab.svg";
 
-// global style
-import { globalStyles } from "../../../../assets/common/global-styles";
-
 const CustomIcon = ({ route, active }) => {
-  const [showIcon, setShowIcon] = useState();
-  useEffect(() => {
-    const renderActiveIcons = () => {
-      if (route == "StudyHome") {
-        setShowIcon(
-          <View
-            style={{
-              borderColor: globalStyles.colors.primary,
-              borderWidth: 2,
-              borderRadius: 8,
-
-              padding: 3,
-            }}
-          >
-            <LottieView
-              source={require("../../../../assets/icons/NavBar/Study/data.json")}
-              autoPlay
-              loop
-              // loop={false}
-              style={{
-                height: "100%",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          </View>
-        );
-      }
-      if (route == "Progress") {
-        setShowIcon(
-
-          <View
-            style={{
-              borderColor: globalStyles.colors.primary,
-              borderWidth: 2,
-              borderRadius: 8,
-
-              padding: 3,
-            }}
-          >
-            <LottieView
-              source={require("../../../../assets/icons/NavBar/Progress/data.json")}
-              autoPlay
-              // loop
-              loop={false}
-              style={{
-                height: "100%",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          </View>
-        );
-      }
-      if (route == "DailyHome") {
-        setShowIcon(
-          <View
-            style={{
-              borderColor: globalStyles.colors.primary,
-              borderWidth: 2,
-              borderRadius: 8,
-
-              padding: 3,
-            }}
-          >
-            <LottieView
-              source={require("../../../../assets/icons/NavBar/Daily/data.json")}
-              autoPlay
-              loop
-              // loop={false}
-              style={{
-                height: "100%",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          </View>
-        );
-      }
-      if (route == "Account") {
-        setShowIcon(
-          <View
-            style={{
-              borderColor: globalStyles.colors.primary,
-              borderWidth: 2,
-              borderRadius: 8,
-
-              padding: 3,
-            }}
-          >
-            <LottieView
-              source={require("../../../../assets/icons/NavBar/Profile/data.json")}
-              autoPlay
-              // loop
-              loop={false}
-              style={{
-                height: "100%",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          </View>
-        );
-      }
-    };
-    renderActiveIcons();
-  }, [route]);
+  const animation = useRef(null);
 
   const inactiveIcons = {
     StudyHome: <StudyTabIcon />,
@@ -134,167 +19,125 @@ const CustomIcon = ({ route, active }) => {
     DailyHome: <DailyTabIcon />,
     Account: <ProfileTabIcon />,
   };
-  const renderActiveIcons = () => {
-    if (route == "StudyHome") {
-      return (
-        <LottieView
-          source={require("../../../../assets/icons/NavBar/Study/data.json")}
-          autoPlay
-          loop
-          // loop={false}
-          style={{
-            height: "90%",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: 3.5,
-          }}
-        />
-      );
-    }
-    if (route == "Progress") {
-      return (
-        <LottieView
-          source={require("../../../../assets/icons/NavBar/Progress/data.json")}
-          autoPlay
-          loop
-          // loop={false}
-          style={{
-            height: "90%",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: 3.5,
-          }}
-        />
-      );
-    }
-    if (route == "DailyHome") {
-      return (
-        <LottieView
-          source={require("../../../../assets/icons/NavBar/Daily/data.json")}
-          autoPlay
-          loop
-          // loop={false}
-          style={{
-            height: "90%",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: 3.5,
-          }}
-        />
-      );
-    }
-    if (route == "Account") {
-      return (
-        <LottieView
-          source={require("../../../../assets/icons/NavBar/Profile/data.json")}
-          autoPlay
-          // loop
-          loop={false}
-          style={{
-            height: "90%",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: 3.5,
-          }}
-        />
-      );
-    }
-  };
 
+  useEffect(() => {
+    if (active) {
+      const timer = setTimeout(() => {
+        animation.current?.play();
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const activeIcons = {
     StudyHome: (
-      <LottieView
-        source={require("../../../../assets/icons/NavBar/Study/data.json")}
-        autoPlay
-        loop
-        // loop={false}
+      <View
         style={{
-          height: "90%",
-          width: "100%",
-          justifyContent: "center",
+          width: 30,
+          height: 30,
           alignItems: "center",
-          marginLeft: 3.5,
+          justifyContent: "center",
+          margin: 0,
+          padding: 0,
         }}
-      />
+      >
+        <LottieView
+          ref={animation}
+          source={require("../../../../assets/icons/NavBar/Study/data.json")}
+          autoPlay
+          loop={false}
+        />
+      </View>
     ),
     Progress: (
-      <LottieView
-        source={require("../../../../assets/icons/NavBar/Progress/data.json")}
-        autoPlay
-        // loop
-        loop={false}
+      <View
         style={{
-          height: "90%",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          marginLeft: 3.5,
+          width: 30,
+          height: 30,
         }}
-      />
+      >
+        <LottieView
+          ref={animation}
+          source={require("../../../../assets/icons/NavBar/Progress/data.json")}
+          autoPlay
+          loop={false}
+        />
+      </View>
     ),
     DailyHome: (
-      <LottieView
-        source={require("../../../../assets/icons/NavBar/Daily/data.json")}
-        autoPlay
-        loop
-        // loop={false}
+      <View
         style={{
-          height: "90%",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          marginLeft: 3.5,
+          width: 30,
+          height: 30,
         }}
-      />
+      >
+        <LottieView
+          ref={animation}
+          source={require("../../../../assets/icons/NavBar/Daily/data.json")}
+          autoPlay
+          loop={false}
+        />
+      </View>
     ),
     Account: (
-      <LottieView
-        source={require("../../../../assets/icons/NavBar/Profile/data.json")}
-        autoPlay
-        // loop
-        loop={false}
+      <View
         style={{
-          height: "90%",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          marginLeft: 3.5,
+          width: 30,
+          height: 30,
         }}
-      />
+      >
+        <LottieView
+          ref={animation}
+          source={require("../../../../assets/icons/NavBar/Profile/data.json")}
+          autoPlay
+          loop={false}
+        />
+      </View>
     ),
   };
 
-  return (
-    <>
-      {active ? (
-        <View
-          style={
-            {
-              // borderColor: globalStyles.colors.primary,
-              // borderWidth: 2,
-              // borderRadius: 8,
-              // width: "50%",
-              // height: "100%",
-              // backgroundColor: "red",
-              // padding:10
-            }
-          }
-        >
-          {showIcon}
-          {/* <View style={{width:10, height:10 , backgroundColor:"gold"}}></View> */}
-          {/* <AnimatedIcon route={route} /> */}
-          {/* {renderActiveIcons()} */}
-          {/* {activeIcons[route]} */}
-        </View>
-      ) : (
-        inactiveIcons[route]
-      )}
-    </>
+  useEffect(() => {
+    if (animation.current) {
+      // Start the animation when the component mounts
+      animation.current.play();
+    }
+
+    return () => {
+      // Stop the animation when the component unmounts
+      if (animation.current) {
+        animation.current.reset();
+      }
+    };
+  }, [route]);
+
+  return active ? (
+    <View
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+        width: 50,
+        height: 50,
+        borderWidth: 3,
+        borderColor: "#7000FF",
+        backgroundColor: "rgba(112,0,255, 0.1)",
+        paddingBottom: 5,
+        borderRadius: 8,
+      }}
+    >
+      {active ? activeIcons[route] : inactiveIcons[route]}
+    </View>
+  ) : (
+    <View
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+        width: 50,
+        height: 50,
+      }}
+    >
+      {active ? activeIcons[route] : inactiveIcons[route]}
+    </View>
   );
 };
 

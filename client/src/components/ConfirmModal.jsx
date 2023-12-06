@@ -16,7 +16,6 @@ function ConfirmModal({
   leftBtnText,
   rightBtnText,
 }) {
-  console.log("isOpen", isOpen);
   const [isModalVisible, setIsModalVisible] = useState(isOpen);
 
   useEffect(() => {
