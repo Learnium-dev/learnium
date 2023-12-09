@@ -46,11 +46,8 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
   const [isCorrectFeedback, setIsCorrectFeedback] = useState("");
 
   const flipCard = () => {
-    console.log("cardIndex", cardIndex);
     setIsFlipped(!isFlipped);
-    console.log("🚀 ~ file: FlashCard.jsx:56 ~ isFlipped:", isFlipped);
     handleSubmitAnswer();
-    console.log("isValidated", isValidated);
     if (!isValidated) {
       compareAnswer();
     }
@@ -64,8 +61,6 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
 
   // function to compare the answer to the correct answer and use openAI to compare whether the answer is correct, almost correct, somewhat correct, or incorrect
   const compareAnswer = async () => {
-    console.log("isFlipped", isFlipped);
-
     // only compare the answer if the card is flipped. isFlipped is false
     if (isFlipped) {
       return;
@@ -81,8 +76,6 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
       answer: answer,
       correctAnswer: termFirst ? cardQuestion : cardCorrectanswer,
     };
-
-    console.log("inputToOpenAI", inputToOpenAI);
 
     // fetch request to openAI to compare the answer to the correct answer
     // if the answer is correct, set isCorrect to "Correct" "Almost Correct" "Somewhat Correct" "Incorrect"
@@ -100,7 +93,6 @@ const FlashCard = ({ card, termFirst, markDifficult }) => {
       );
 
       const data = await response.json();
-      console.log("data", data);
 
       setIsCorrect(data.response);
       // setIsCorrectFeedback(data.feedback);

@@ -11,7 +11,6 @@ const Daily = () => {
       const { data } = await axios.get(
         `${process.env.EXPO_PUBLIC_HOSTNAME}/api/v1/details/dailyQuestion/${quizId}`
       );
-      console.log("this is the daily question data", data);
       setDailyQuestion({
         question: data.question[0],
         answer: data.answer[0],

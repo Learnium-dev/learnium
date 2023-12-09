@@ -61,8 +61,6 @@ const QuizContainer = ({ closeSheet, keyTopic, isSubmit }) => {
           alert(data.error);
           return;
         }
-
-        console.log(data);
       } catch (error) {
         console.error(
           "Error occurred while making the request: ⚠️⚠️⚠️⚠️",

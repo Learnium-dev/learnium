@@ -76,7 +76,6 @@ const DailyQuestion = () => {
 
       try {
         const response = await axios(options);
-        console.log("This is the daily quesion: ", response.data);
         setDailyQuestion(response.data);
         return response.data;
       } catch (error) {

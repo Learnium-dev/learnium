@@ -16,7 +16,6 @@ const NavHeader = ({
   showMenu,
 }) => {
   const navigation = useNavigation();
-  // console.log("NavHeader title", title, subtitle);
 
   const handleBack = () => {
     navigation.goBack();
@@ -29,11 +28,9 @@ const NavHeader = ({
     },
     {
       text: "Edit Key Topic",
-      onSelect: () => console.log("Edit Key Topic"),
     },
     {
       text: "Delete Key Topic",
-      onSelect: () => console.log("Delete Key Topic"),
     },
   ];
 

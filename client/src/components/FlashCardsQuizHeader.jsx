@@ -83,17 +83,14 @@ const FlashCardsQuizHeader = ({
   const flashCardsMenuOptions = [
     {
       text: "Edit card",
-      onSelect: () => console.log("Edit"),
       disabled: true,
     },
     {
       text: "Add a card",
-      onSelect: () => console.log("Add"),
       disabled: true,
     },
     {
       text: "Delete card",
-      onSelect: () => console.log("Delete"),
       disabled: true,
     },
   ];

@@ -46,9 +46,6 @@ const { ConversationChain } = require("langchain/chains");
 // ********** get PDF from client and generate .txt file and text content **********
 // ====================================================================================================
 const createContent = async (req, res) => {
-  // console.log("req", req.body)
-  // console.log("req.body.email", req.body.email)
-  // console.log("req.token", req.body.token)
   const buffer = req.file.buffer;
   const pdfFileName = req.file.originalname;
 
@@ -1321,107 +1318,7 @@ const createContent = async (req, res) => {
       }
     });
   });
-
-  // ?bypass the pdf file and use txt file for testing
-  // const result = await embedInput(txtFileName);
-  // res.json(result);
-  // ?bypass the embedInput and use chainCall for testing
-  // const result = await chainCall();
-  // res.json(result);
 };
-
-// ********** use text content to call openAI with primitive approach
-// : wrap everything in prompt and send**********
-// ====================================================================================================
-// const uploadContent = async (text) => {
-//   try {
-//     // postToDB();
-//     const AIKEY = process.env.OPENAIKEY;
-//     const openai = new OpenAI({
-//       apiKey: AIKEY,
-//     });
-
-//     const completion = await openai.chat.completions.create({
-//       model: "gpt-4",
-//       messages: [
-//         { role: "system", content: "You are a college instructor." },
-//         {
-//           role: "user",
-//           content: `please summarize this content from ${text}
-//           and return me in JSON format with the following information:
-//           1.title of the material
-//           2.key topic that important for taking the exam. Key topic can be as many as necessary.
-//           3.For each key topic, create a summary at roughly 20 words.
-//           4.For each key topic, Create a flashcard for me to study at 7-10 flashcards depend on how large the key topic is.
-//           5.For each key topic, create a quiz with total of 30 questions. 10 questions with 4 choices and 10 questions with true or false and 10 questions with written test.
-//           Plese format JSON object as follow:
-//           {
-//             material:title,
-//             content:[{
-//             keyTopic: title,
-//             summary: "summary",
-//             flashcard: [
-//               {question: "question", correctAnswer: "answer"},
-//             ],
-//             quizMultiChoices: [
-//               {question: "question", choices: ["choice1", "choice2", "choice3", "choice4"], correctAnswer: "answer"},
-//             ],
-//             quizTrueFalse: [
-//               {question: "question", correctAnswer: "answer"},
-//             ],
-//             quizWritten: [
-//               {question: "question", correctAnswer: "answer"},
-//             ]
-//           }]
-//         }
-//           `,
-//         },
-//       ],
-//     });
-//     console.log(completion.choices[0]);
-
-//     const result = completion.choices[0].message.content;
-//     return result;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// ====================================================================================================
-// ********** post response to DB with previous version of API********
-// !no longer use
-// ====================================================================================================
-// ****make a nested API to POST to DB 'router.post('/folders', createFolder);' in server/routes/folders.js
-// const postToDB = async (result) => {
-//   try {
-//     const newFolderData = {
-//       name: "test", // Replace with the actual folder name you want to create
-//       userid: "651c6b5cf7a8d6f181bdf41d", // Replace with the actual user ID
-//     };
-
-//     const requestOptions = {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(newFolderData),
-//     };
-
-//     const folderRes = await fetch(
-//       `${hostname}:${port}${api}/folders`,
-//       requestOptions
-//     ); // Assuming your API endpoint is correct
-//     console.log(`${hostname}:${port}${api}/folders`);
-
-//     if (!folderRes.ok) {
-//       const error = folderRes.statusText;
-//       throw new Error(`Network response was not ok ${error}`);
-//     }
-//     console.log("folderRes");
-//     console.log(folderRes);
-//     return folderRes.json();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 // !new approach use langchain to create chain of response
 
